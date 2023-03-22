@@ -1,0 +1,1 @@
+export const masaiImage: string = 'https://masaischool.com/img/navbar/logo.svg';
