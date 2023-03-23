@@ -23,7 +23,7 @@ const DatePopUp = ({ isOpen, setIsOpen }: any) => {
         <ModalContent>
           <ModalBody  >
            <Box h="300px" >
-           <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+           <DatePicker selected={startDate} onChange={(date :any) => setStartDate(date)} />
           </Box> 
           </ModalBody>
           <ModalFooter>
