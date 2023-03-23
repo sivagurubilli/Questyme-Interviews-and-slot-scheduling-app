@@ -1,0 +1,68 @@
+import React from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+import { Box, Text, Divider, Flex } from "@chakra-ui/react";
+
+// this component is for when clicking on user name in navbar this component will display
+interface ProfilecomponentProps {
+  setshow1: (show: boolean) => void;
+}
+
+const AdminProfileComponent = ({ setshow1 }: ProfilecomponentProps) => {
+  const navigate = useNavigate();
+
+  const Logout = () => {
+
+    localStorage.clear();
+     sessionStorage.clear()
+    setshow1(false);
+    navigate("/login");
+  };
+
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="flex-start"
+      position="absolute"
+      width="200px"
+      height="auto"
+      marginTop="-10px"
+      marginLeft="82%"
+      border="1px solid #778087"
+      borderRadius="5px"
+      boxShadow="0 5px 15px rgba(0,0,0,0.06)"
+      backgroundColor="white"
+      p={3}
+      zIndex="1"
+    >
+        <Flex>
+<i className="fa-solid fa-user" style={{marginTop:"5px"}}></i>
+      <Text color="#778087" fontSize="sm" padding="5px">
+       Settings
+      </Text>
+      </Flex>
+      <Text color="#778087" padding="5px">
+        <Link to="" onClick={() => setshow1(false)}>
+          Admin Management
+        </Link>
+      </Text>
+      <Text color="#778087" padding="5px">
+        <Link to="" onClick={() => setshow1(false)}>
+         Share Your Link
+        </Link>
+      </Text>
+      <Divider borderColor="gray.300" />
+      <Text
+       color="#778087"
+        padding="10px"
+        _hover={{ cursor: "pointer" }}
+        onClick={Logout}
+      >
+        Logout
+      </Text>
+    </Box>
+  );
+};
+
+export default AdminProfileComponent;
