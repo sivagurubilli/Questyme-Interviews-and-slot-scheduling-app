@@ -4,10 +4,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import {
-  Button,
   Modal,
   ModalContent,
   ModalBody,
+  Button,
   ModalFooter,
   useMediaQuery
 } from "@chakra-ui/react";
