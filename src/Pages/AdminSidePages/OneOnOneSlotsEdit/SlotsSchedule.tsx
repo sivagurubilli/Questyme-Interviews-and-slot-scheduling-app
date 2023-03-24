@@ -13,7 +13,7 @@ import DayAvailability from "./DayAvailability";
 
 
 
-
+//this component is for scheduling slots based on day and date 
 const SlotsSchedule = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
