@@ -16,6 +16,14 @@
 
         "@emotion/styled": "^11.10.5",
 
+        "@fullcalendar/common": "^5.11.4",
+
+        "@fullcalendar/daygrid": "^6.1.5",
+
+        "@fullcalendar/interaction": "^6.1.5",
+
+        "@fullcalendar/react": "^6.1.5",
+
         "@testing-library/jest-dom": "^5.16.5",
 
         "@testing-library/react": "^13.4.0",
