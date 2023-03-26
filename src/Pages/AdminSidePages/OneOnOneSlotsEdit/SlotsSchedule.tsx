@@ -6,6 +6,8 @@ import {
   FormLabel,
   Select,
   Text,
+  useBreakpointValue,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React,{useState} from "react";
 import DatePopUp from "./DatePopUp";
@@ -17,8 +19,10 @@ import DayAvailability from "./DayAvailability";
 const SlotsSchedule = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
-
-
+    const isWide = useMediaQuery("(min-width: 600px)");
+    const boxWidthDateOverride = useBreakpointValue({ base: "100%", md: "40%" });
+    const boxWidth = useBreakpointValue({ base: "100%", md: "60%" });
+  
   return (
     <div>
       <Box w="100%" h="auto" border="1px solid grey">
@@ -32,9 +36,9 @@ const SlotsSchedule = () => {
         </Box>
 
         <Divider mt="20px" />
-
-        <Flex>
-          <Box w="60%" h="auto" borderRight="1px solid grey">
+   
+        <Box   h="auto"  display={isWide[0] ? "flex" : "block"}>
+          <Box w={boxWidth} h="auto" borderRight="1px solid grey">
             <Box w="90%" ml="5%" mt="10px" h="auto">
               <FormLabel mt="10px" color="rgb(75 85 99)">
                 Set your weekly hours
@@ -45,7 +49,7 @@ const SlotsSchedule = () => {
               </Flex>
             </Box>
           </Box>
-          <Box w="40%">
+          <Box w={boxWidthDateOverride} >
             <FormLabel p="10px" color="rgb(75 85 99)">
               {" "}
               Add date overrides{" "}
@@ -69,7 +73,7 @@ const SlotsSchedule = () => {
               Add a date overRide
             </Button>
           </Box>
-        </Flex>
+        </Box>
 
       
       </Box>
