@@ -4,7 +4,9 @@ import OneonOneEventsCreate from './Pages/AdminSidePages/AdminOneOnOneCreate'
 import OneonOneSlotsCreate from './Pages/AdminSidePages/OneOnOneSlotsEdit/OneOnOneSlotsCreate'
 import OneonOneEvents from './Pages/AdminSidePages/AdminOneOnOneInterviews'
 import Login from './Pages/Login/Login'
-import UserDashboard from './Components/UserDashboard/UserDashboard'
+import UserDashboard from './Pages/UserDashboard/UserDashboard'
+import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
+import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 
 const AllRoutes = () => {
   return (
@@ -16,6 +18,8 @@ const AllRoutes = () => {
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/edit/:id" element={<OneonOneSlotsCreate />}/>
             <Route path='/user/me' element={<UserDashboard />} />
+            <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
+            <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />
             </Routes>
     </div>
   )
