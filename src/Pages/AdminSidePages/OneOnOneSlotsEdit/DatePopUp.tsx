@@ -34,29 +34,43 @@ const DatePopUp = ({
     setStartDate(date);
   };
 
-  const timeslotsExistInDateOverrides = () => {
-    for (let i = 0; i < dateOverRides.length; i++) {
-      const dateOverride = dateOverRides[i];
-      for (let j = 0; j < dateOverride.timeslots.length; j++) {
-        const dateOverrideTimeslot = dateOverride.timeslots[j];
-        for (let k = 0; k < timeSlots.length; k++) {
-          const timeSlot = timeSlots[k].inputs;
-          if (
-            dateOverrideTimeslot.start === timeSlot.start &&
-            dateOverrideTimeslot.end === timeSlot.end
-          ) {
-            return true; // Current timeslots exist in date overrides
-          }
-        }
-      }
-    }
-    return false; // Current timeslots do not exist in date overrides
+  const timeslotsExistInDateOverrides = (): boolean => {
+    return dateOverRides.some((dateOverride:any) =>
+      dateOverrideTimeslotsExistInDateOverride(dateOverride)
+    );
   };
+  
+  const dateOverrideTimeslotsExistInDateOverride = (
+    dateOverride: any
+  ): boolean => {
+    return dateOverride.timeslots.some((dateOverrideTimeslot:any) =>
+    timeslotExistsInOverrideTimeslot(dateOverrideTimeslot)
+    );
+  };
+  
+  const timeslotExistsInOverrideTimeslot = (dateOverrideTimeslot: any): boolean => {
+    return timeSlots.some((timeSlot) =>
+      timeSlotInputsEqualDateOverrideTimeslot(dateOverrideTimeslot, timeSlot.inputs)
+    );
+  };
+  
+  const timeSlotInputsEqualDateOverrideTimeslot = (
+    dateOverrideTimeslot: any,
+    timeSlotInputs: any
+  ): boolean => {
+    return (
+      dateOverrideTimeslot.start === timeSlotInputs.start &&
+      dateOverrideTimeslot.end === timeSlotInputs.end
+    );
+  };
+  
 
   const SetDateSlots = () => {
-    const errorsExist = timeSlots.some((timeSlot) => {
+    const errorsExist = timeSlots.some((timeSlot) => hasErrorsInTimeSlot(timeSlot));
+
+    const hasErrorsInTimeSlot = (timeSlot:any): boolean => {
       return timeSlot.errors.start !== "" || timeSlot.errors.end !== "";
-    });
+    }
     const dateOverrideExists = dateOverRides.find(
       (el: any) => el.date.toString() === startDate?.toString()
     );
@@ -90,7 +104,7 @@ const DatePopUp = ({
     }
   };
 
-  function convertTo24Hour(time: string) {
+  const convertTo24Hour =(time: string) =>{
     const [hour, minute] = time.split(":");
     const period = time.slice(-2);
 
@@ -126,14 +140,12 @@ const DatePopUp = ({
   // handle input from start time and time for slots creation
   const handleInputChange = (
     index: number,
-
     field: "start" | "end",
     value: string
   ) => {
     const updatedTimeSlots = [...timeSlots];
     updatedTimeSlots[index].inputs[field] = value;
     setTimeSlots(updatedTimeSlots);
-
     const currentInput = updatedTimeSlots[index].inputs;
     const currentStart = convertTo24Hour(currentInput.start);
     const currentEnd = convertTo24Hour(currentInput.end);
@@ -148,7 +160,6 @@ const DatePopUp = ({
       dateOverrideExists.timeslots.map((el: any) => {
         let elStart = convertTo24Hour(el.start);
         let elEnd = convertTo24Hour(el.end);
-        console.log(elStart, elEnd, currentEnd, currentStart);
         if (elStart <= currentStart && currentStart <= elEnd) {
           errorFeild["start"] = "Time Scheduling Mismatch";
           errorFeild["end"] = "";

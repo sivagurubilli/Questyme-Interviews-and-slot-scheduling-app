@@ -93,11 +93,10 @@ const DayAvailability = () => {
     field: "start" | "end",
     value: string
   ) => {
-    //const updatedDays = [...days];
+   
     const updatedDays = [...days];
     updatedDays[dayIndex].inputs[inputIndex][field] = value;
     setDays(updatedDays);
-
     const currentInput = updatedDays[dayIndex].inputs[inputIndex];
     const currentStart = convertTo24Hour(currentInput.start);
     const currentEnd = convertTo24Hour(currentInput.end);
@@ -114,7 +113,6 @@ const DayAvailability = () => {
     if (inputIndex > 0) {
       var previousInput = updatedDays[dayIndex].inputs[inputIndex - 1];
       var previusEnd = convertTo24Hour(previousInput?.end);
-
       currentInput[field] = value;
 
       if (

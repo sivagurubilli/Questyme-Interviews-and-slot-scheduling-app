@@ -31,18 +31,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
               </Flex>
             </Box>
 
-            <Box>
-              <Button variant="link" mr="10px">
-                Cancel
-              </Button>
-              <Button
-                size={["sm", "md"]}
-                borderRadius="16px"
-                colorScheme="blue"
-              >
-                Save & Close
-              </Button>
-            </Box>
+          
           </Flex>
         </Box>
 
@@ -54,6 +43,20 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
         <SlotsSchedule />
 
         <Divider mt="20px" mb="20px" h="2px" />
+        <Flex justifyContent={"flex-end"}>
+        <Box>
+              <Button variant="link" mr="10px"  onClick={() => setSlotsEdit(!isSlotsEdit)}>
+                Cancel
+              </Button>
+              <Button
+                size={["sm", "md"]}
+                borderRadius="16px"
+                colorScheme="blue"
+              >
+                Save 
+              </Button>
+            </Box>
+            </Flex>
       </Box>
     </div>
   );
