@@ -14,6 +14,9 @@ import "./index.css";
 //this component is for schedule slots based on availability setting of days
 const DayAvailability = () => {
   // setting state for slots availability  for particular day
+
+
+
   const [days, setDays] = useState([
     {
       name: "Sun",
@@ -59,7 +62,7 @@ const DayAvailability = () => {
     },
   ]);
 
-  const DayboxWidth = useBreakpointValue({ base: "20px", md: "70px" });
+  const DayboxWidth = useBreakpointValue({ base: "70px", md: "70px" });
 
   // handle checkbox value change on checked
   const handleCheckboxChange = (index: number) => {
@@ -98,12 +101,15 @@ const DayAvailability = () => {
     const currentInput = updatedDays[dayIndex].inputs[inputIndex];
     const currentStart = convertTo24Hour(currentInput.start);
     const currentEnd = convertTo24Hour(currentInput.end);
-    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9][ap]m$/i;
+    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9](am|pm)$/i
 
     const errorFeild = updatedDays[dayIndex].errors[inputIndex];
 
-    if (!timePattern.test(currentStart) || !timePattern.test(currentEnd)) {
+    if (!timePattern.test(currentInput.start)) {
       errorFeild["start"] = "Please Enter Correct Input ";
+    }
+    if(!timePattern.test(currentInput.end)){
+      errorFeild["end"] = "Please Enter Correct Input ";
     }
     if (inputIndex > 0) {
       var previousInput = updatedDays[dayIndex].inputs[inputIndex - 1];
@@ -117,9 +123,11 @@ const DayAvailability = () => {
         (currentStart < previusEnd || currentStart >= currentEnd)
       ) {
         errorFeild[field] = "Time Scheduling Mismatch";
+        errorFeild["end"]=""
       } else if (field === "end" && currentEnd <= currentStart) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch";
+        errorFeild["start"]=""
       } else {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "";
@@ -130,9 +138,11 @@ const DayAvailability = () => {
       if (field === "start" && currentStart >= currentEnd) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch ";
+        errorFeild["end"]=""
       } else if (field === "end" && currentEnd <= currentStart) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch";
+        errorFeild["start"]=""
       } else {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "";
@@ -161,11 +171,13 @@ const DayAvailability = () => {
     setDays(updatedDays);
   };
 
+  const displayMode = useBreakpointValue({ base: "block", md: "flex" });
+
   return (
     <div>
       {days.map((day, dayIndex) => (
         <Box key={day.name}>
-          <Flex justifyContent="space-between" w="100%">
+          <Box display={displayMode}  justifyContent="space-between" w="100%">
             <Flex w="60%">
               <Box mt="12px">
                 <Checkbox
@@ -263,7 +275,7 @@ const DayAvailability = () => {
                 onClick={() => handleAddInput(dayIndex)}
               ></i>
             </Button>
-          </Flex>
+          </Box>
 
           <Divider mt="10px" mb="10px" />
         </Box>

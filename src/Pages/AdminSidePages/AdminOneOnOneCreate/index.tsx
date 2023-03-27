@@ -21,9 +21,6 @@ const OneonOneEventsCreate = () => {
   });
 
 
-  console.log(EventValues)
-
-
   return (
     <div className="container">
       <Navbar />

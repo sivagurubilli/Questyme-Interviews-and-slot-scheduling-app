@@ -13,7 +13,12 @@ import {
 } from "@chakra-ui/react";
 
 // this popup is for adding time slots for particular date
-const DatePopUp = ({ isOpen, setIsOpen }: any) => {
+const DatePopUp = ({
+  dateOverRides,
+  setDateOverRides,
+  isOpen,
+  setIsOpen,
+}: any) => {
   const handleClose = () => setIsOpen(false);
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -27,8 +32,78 @@ const DatePopUp = ({ isOpen, setIsOpen }: any) => {
   // onchange set date
   const setDate = (date: any) => {
     setStartDate(date);
-    handleAddTimeSlot(1);
   };
+
+  const timeslotsExistInDateOverrides = () => {
+    for (let i = 0; i < dateOverRides.length; i++) {
+      const dateOverride = dateOverRides[i];
+      for (let j = 0; j < dateOverride.timeslots.length; j++) {
+        const dateOverrideTimeslot = dateOverride.timeslots[j];
+        for (let k = 0; k < timeSlots.length; k++) {
+          const timeSlot = timeSlots[k].inputs;
+          if (
+            dateOverrideTimeslot.start === timeSlot.start &&
+            dateOverrideTimeslot.end === timeSlot.end
+          ) {
+            return true; // Current timeslots exist in date overrides
+          }
+        }
+      }
+    }
+    return false; // Current timeslots do not exist in date overrides
+  };
+
+  const SetDateSlots = () => {
+    const errorsExist = timeSlots.some((timeSlot) => {
+      return timeSlot.errors.start !== "" || timeSlot.errors.end !== "";
+    });
+    const dateOverrideExists = dateOverRides.find(
+      (el: any) => el.date.toString() === startDate?.toString()
+    );
+
+    if (dateOverrideExists) {
+      if (errorsExist || timeslotsExistInDateOverrides()) {
+        handleClose();
+      } else {
+        setDateOverRides((prevState: any) => {
+          // Create a new date override object with empty values
+          const newDateOverride = {
+            date: startDate,
+            timeslots: timeSlots.map((el) => el.inputs),
+          };
+          // Return the previous state with the new date override appended to it
+          return [...prevState, newDateOverride];
+        });
+        handleClose();
+      }
+    } else {
+      setDateOverRides((prevState: any) => {
+        // Create a new date override object with empty values
+        const newDateOverride = {
+          date: startDate,
+          timeslots: timeSlots.map((el) => el.inputs),
+        };
+        // Return the previous state with the new date override appended to it
+        return [...prevState, newDateOverride];
+      });
+      handleClose();
+    }
+  };
+
+  function convertTo24Hour(time: string) {
+    const [hour, minute] = time.split(":");
+    const period = time.slice(-2);
+
+    let hour24 = parseInt(hour);
+    if (hour24 === 12) {
+      hour24 = 0;
+    }
+    if (period === "pm") {
+      hour24 += 12;
+    }
+
+    return `${hour24.toString().padStart(2, "0")}:${minute}`;
+  }
 
   // adding input for time slots
   const handleAddTimeSlot = (index: number) => {
@@ -62,62 +137,78 @@ const DatePopUp = ({ isOpen, setIsOpen }: any) => {
     const currentInput = updatedTimeSlots[index].inputs;
     const currentStart = convertTo24Hour(currentInput.start);
     const currentEnd = convertTo24Hour(currentInput.end);
-    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9][ap]m$/i;
+    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9](am|pm)$/i;
 
     const errorFeild = updatedTimeSlots[index].errors;
+    const dateOverrideExists = dateOverRides.find(
+      (el: any) => el.date.toString() === startDate?.toString()
+    );
 
-    if (!timePattern.test(currentStart) || !timePattern.test(currentEnd)) {
-      errorFeild["start"] = "Please Enter Correct Input ";
-    } else if (index > 0) {
-      var previousInput = updatedTimeSlots[index - 1].inputs;
-      var previusEnd = convertTo24Hour(previousInput?.end);
-
-      currentInput[field] = value;
-
-      if (
-        field === "start" &&
-        previusEnd &&
-        (currentStart < previusEnd || currentStart >= currentEnd)
-      ) {
-        errorFeild[field] = "Time Scheduling Mismatch";
-      } else if (field === "end" && currentEnd <= currentStart) {
-        const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "Time Scheduling Mismatch";
-      } else {
-        const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "";
-      }
+    if (dateOverrideExists) {
+      dateOverrideExists.timeslots.map((el: any) => {
+        let elStart = convertTo24Hour(el.start);
+        let elEnd = convertTo24Hour(el.end);
+        console.log(elStart, elEnd, currentEnd, currentStart);
+        if (elStart <= currentStart && currentStart <= elEnd) {
+          errorFeild["start"] = "Time Scheduling Mismatch";
+          errorFeild["end"] = "";
+          return "";
+        } else if (elEnd >= currentEnd || currentEnd <= currentStart) {
+          errorFeild["end"] = "Time Scheduling Mismatch";
+          errorFeild["start"] = "";
+          return "";
+        } else {
+          errorFeild[field] = "";
+        }
+        return ""
+      });
     } else {
-      currentInput[field] = value;
-
-      if (field === "start" && currentStart >= currentEnd) {
-        const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "Time Scheduling Mismatch ";
-      } else if (field === "end" && currentEnd <= currentStart) {
-        const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "Time Scheduling Mismatch";
-      } else {
-        const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "";
+      if (!timePattern.test(currentInput.start)) {
+        errorFeild["start"] = "Please Enter Correct Input ";
       }
+      if (!timePattern.test(currentInput.end)) {
+        errorFeild["end"] = "Please Enter Correct Input ";
+      }
+      if (index > 0) {
+        var previousInput = updatedTimeSlots[index - 1].inputs;
+        var previusEnd = convertTo24Hour(previousInput?.end);
+
+        currentInput[field] = value;
+
+        if (
+          field === "start" &&
+          previusEnd &&
+          (currentStart < previusEnd || currentStart >= currentEnd)
+        ) {
+          errorFeild[field] = "Time Scheduling Mismatch";
+          errorFeild["end"] = "";
+        } else if (field === "end" && currentEnd <= currentStart) {
+          const errorFeild = updatedTimeSlots[index].errors;
+          errorFeild[field] = "Time Scheduling Mismatch";
+          errorFeild["start"] = "";
+        } else {
+          const errorFeild = updatedTimeSlots[index].errors;
+          errorFeild[field] = "";
+        }
+      } else {
+        currentInput[field] = value;
+
+        if (field === "start" && currentStart >= currentEnd) {
+          const errorFeild = updatedTimeSlots[index].errors;
+          errorFeild[field] = "Time Scheduling Mismatch ";
+          errorFeild["end"] = "";
+        } else if (field === "end" && currentEnd <= currentStart) {
+          const errorFeild = updatedTimeSlots[index].errors;
+          errorFeild[field] = "Time Scheduling Mismatch";
+          errorFeild["start"] = "";
+        } else {
+          const errorFeild = updatedTimeSlots[index].errors;
+          errorFeild[field] = "";
+        }
+      }
+      setTimeSlots(updatedTimeSlots);
     }
-    setTimeSlots(updatedTimeSlots);
   };
-
-  function convertTo24Hour(time: string) {
-    const [hour, minute] = time.split(":");
-    const period = time.slice(-2);
-
-    let hour24 = parseInt(hour);
-    if (hour24 === 12) {
-      hour24 = 0;
-    }
-    if (period === "pm") {
-      hour24 += 12;
-    }
-
-    return `${hour24.toString().padStart(2, "0")}:${minute}`;
-  }
 
   return (
     <div>
@@ -129,96 +220,115 @@ const DatePopUp = ({ isOpen, setIsOpen }: any) => {
                 selected={startDate}
                 onChange={(date: any) => setDate(date)}
               />
-              <Box w="400px">
-                {timeSlots.map((timeSlot, index) => (
-                  <Box key={index}>
-                    <Flex justifyContent="space-between" w="100%">
-                      <Box>
-                        <Flex key={index}>
-                          <Box>
-                            <Input
-                              mt="5px"
-                              w="100%"
-                              value={timeSlot.inputs.start}
-                              onChange={(e) =>
-                                handleInputChange(
-                                  index,
-                                  "start",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            <Text
-                              ml="10px"
-                              mt="5px"
-                              fontSize="12px"
-                              display={"block"}
-                              color={"red"}
-                            >
-                              {timeSlot.errors.start}
-                            </Text>
-                          </Box>
-                          <Box mt="7px" ml="10px" mr="10px">
-                            -
-                          </Box>
-                          <Box>
-                            <Input
-                              mt="5px"
-                              w="100%"
-                              value={timeSlot.inputs.end}
-                              onChange={(e) =>
-                                handleInputChange(index, "end", e.target.value)
-                              }
-                            />
-                            <Text
-                              ml="10px"
-                              mt="5px"
-                              fontSize="12px"
-                              display={"block"}
-                              color={"red"}
-                            >
-                              {timeSlot.errors.end}
-                            </Text>
-                          </Box>
+              {startDate ? (
+                <Box w="400px">
+                  {timeSlots.map((timeSlot, index) => (
+                    <Box key={index}>
+                      <Flex justifyContent="space-between" w="100%">
+                        <Box>
+                          <Flex key={index}>
+                            <Box>
+                              <Input
+                                mt="5px"
+                                w="100%"
+                                value={timeSlot.inputs.start}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    index,
+                                    "start",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <Text
+                                ml="10px"
+                                mt="5px"
+                                fontSize="12px"
+                                display={"block"}
+                                color={"red"}
+                              >
+                                {timeSlot.errors.start}
+                              </Text>
+                            </Box>
+                            <Box mt="7px" ml="10px" mr="10px">
+                              -
+                            </Box>
+                            <Box>
+                              <Input
+                                mt="5px"
+                                w="100%"
+                                value={timeSlot.inputs.end}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    index,
+                                    "end",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <Text
+                                ml="10px"
+                                mt="5px"
+                                fontSize="12px"
+                                display={"block"}
+                                color={"red"}
+                              >
+                                {timeSlot.errors.end}
+                              </Text>
+                            </Box>
 
-                          <Box mt="10px" ml="10px">
-                            {" "}
-                            <Button
-                              isDisabled={index === 0}
-                              onClick={() => handleRemoveTimeSlot(index)}
-                              variant="unstyled"
-                            >
-                              <i className="fa-solid fa-trash-can"></i>{" "}
-                            </Button>
-                          </Box>
-                        </Flex>
-                      </Box>
+                            <Box mt="10px" ml="10px">
+                              {" "}
+                              <Button
+                                isDisabled={index === 0}
+                                onClick={() => handleRemoveTimeSlot(index)}
+                                variant="unstyled"
+                              >
+                                <i className="fa-solid fa-trash-can"></i>{" "}
+                              </Button>
+                            </Box>
+                          </Flex>
+                        </Box>
 
-                      <Button variant="unstyled">
-                        <i
-                          className="fa-solid fa-plus"
-                          onClick={() => handleAddTimeSlot(index)}
-                        ></i>
-                      </Button>
-                    </Flex>
-                    <Divider mt="10px" mb="10px" />
-                  </Box>
-                ))}
-              </Box>
+                        <Button variant="unstyled">
+                          <i
+                            className="fa-solid fa-plus"
+                            onClick={() => handleAddTimeSlot(index)}
+                          ></i>
+                        </Button>
+                      </Flex>
+                      <Divider mt="10px" mb="10px" />
+                    </Box>
+                  ))}
+                </Box>
+              ) : null}
             </Box>
           </ModalBody>
           <ModalFooter>
-            <Button
-              h={isLargerThan900 ? "35px" : "auto"}
-              color="white"
-              bg="rgb(31 41 55)"
-              minH="30px"
-              ml="20px"
-              _hover={{ bg: "rgb(76, 84, 95)" }}
-              onClick={handleClose}
-            >
-              Close
-            </Button>
+            <Flex>
+              <Button
+                h={isLargerThan900 ? "35px" : "auto"}
+                color="white"
+                bg="rgb(31 41 55)"
+                minH="30px"
+                ml="20px"
+                _hover={{ bg: "rgb(76, 84, 95)" }}
+                onClick={SetDateSlots}
+              >
+                Set Slots
+              </Button>
+              <Button
+                h={isLargerThan900 ? "35px" : "auto"}
+                color="white"
+                bg="rgb(31 41 55)"
+                minH="30px"
+                ml="20px"
+                _hover={{ bg: "rgb(76, 84, 95)" }}
+                onClick={handleClose}
+              >
+                Close
+              </Button>
+            </Flex>
           </ModalFooter>
         </ModalContent>
       </Modal>
