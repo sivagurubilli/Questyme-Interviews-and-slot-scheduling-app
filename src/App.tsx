@@ -1,15 +1,17 @@
 import './App.css';
-import Allroutes from './AllRoutes';
+import AllRoutes from "./AllRoutes"
 import React from 'react';
-
-
 
 function App(){
   return (
     <div className="App">
-      <Allroutes />
+      <AllRoutes />
     </div>
   );
 }
 
 export default App;
+
+
+
+

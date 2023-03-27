@@ -1,14 +1,15 @@
 import React from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import OneonOneEventComponent from "../../../Components/OneonOneEventComponent";
-import { Box, Flex, Grid, Input } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import OneOnOneEventsNav from "./OneOnOneEventsNav";
+import SearchComponent from "../../../Components/SearchComponent";
 
 const OneonOneEvents = () => {
   return (
     <div className="container">
       <Navbar />
-  <OneOnOneEventsNav/>
+      <OneOnOneEventsNav />
 
       <Box
         w="80%"
@@ -21,19 +22,7 @@ const OneonOneEvents = () => {
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <Box>
-          <Flex mb="10px">
-            <i
-              style={{ padding: "10px", color: "#778087" }}
-              className="fa-solid fa-magnifying-glass"
-            ></i>
-            <Input
-              variant="unstyled"
-              w="300px"
-              placeholder="Filter Events By Title"
-            ></Input>
-          </Flex>
-        </Box>
+        <SearchComponent />
 
         <Grid
           mt={4}

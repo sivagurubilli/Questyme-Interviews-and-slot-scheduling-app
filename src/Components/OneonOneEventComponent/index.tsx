@@ -13,7 +13,7 @@ const OneonOneEventComponent = () => {
   return (
     <div >
       <Box
-        w="300px"
+        w="100%"
         h="auto"
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         border="1px solid grey"

@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 
 import "./index.css";
 import { EventTypesNavbarArray } from "../../../Assets/Assets";
+import CreateButtonDropDown from "../../../Components/OneonOneEventComponent/CreateButtonDropDown";
 
 const OneOnOneEventsNav = () => {
-  const navigate = useNavigate();
-  const GotoCreateEvent = () => {
-    navigate("/admin/one-on-one-interviews/create");
-  };
+
+  const [show,setShow] = useState<Boolean>(false)
+ 
   return (
     <div>
       <Box
@@ -48,14 +48,18 @@ const OneOnOneEventsNav = () => {
               {" "}
               <Button
                 leftIcon={<FaPlus />}
-                onClick={GotoCreateEvent}
+                onClick={()=>setShow(!show)}
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
               >
                 Create
               </Button>
+           
             </Box>
+          
           </Flex>
+          {show &&   <CreateButtonDropDown   show={show} 
+                setShow={setShow}/> }
         </Box>
       </Box>
     </div>
