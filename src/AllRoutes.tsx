@@ -5,6 +5,7 @@ import OneonOneSlotsCreate from './Pages/AdminSidePages/OneOnOneSlotsEdit/OneOnO
 import OneonOneEvents from './Pages/AdminSidePages/AdminOneOnOneInterviews'
 import Login from './Pages/Login/Login'
 import StudentBooking from './Pages/StudentSidePages/StudentOneOnOneInterview/index';
+import StudentBookingMail from './Pages/StudentSidePages/StudentOneOnOneInterview/StudentBookingMail';
 
 const AllRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AllRoutes = () => {
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/edit/:id" element={<OneonOneSlotsCreate />}/>
             <Route path ="/student/booking" element={<StudentBooking />}/>
+            <Route path ="/student/booking/details" element={<StudentBookingMail />}/>
             </Routes>
     </div>
   )
