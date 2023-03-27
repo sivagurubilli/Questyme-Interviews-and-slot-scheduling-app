@@ -11,55 +11,47 @@ const Calendar = () => {
   const [bookSlot, setBookSlot] =useState<any>([
     {
       title: 'Book',
-      start: '2023-03-25',
+      start: '2023-03-28',
        allDay: true,
       backgroundColor: 'blue',
     },
     {
       title: 'Book',
-      start: '2023-03-26',
+      start: '2023-03-29',
        allDay: true,
       backgroundColor: 'blue',
     },
     {
       title: 'Book',
-      start: '2023-03-27',
+      start: '2023-03-30',
        allDay: true,
       backgroundColor: 'blue',
     },
   ])
 
   const handleDateClick = (arg: any) => {
-    if (lastEvent) {
-      lastEvent.remove(); // remove previous event
+    const today = new Date();
+    const clickedDate = new Date(arg.date);
+  
+    if (clickedDate <= today) {
+      return; // do nothing if clicked date is in the past
+    }else{
+      console.log(arg.dateStr)
     }
     
-    const newEvent = {
-      title: 'Clicked',
-      start: arg.date,
-      allDay: true,
-      backgroundColor: 'blue',
-    };
-    
-    arg.view.calendar.addEvent(newEvent);
-    setLastEvent(arg.event);
   };
 
-  const eventDidMount = (info: any) => {
-    if (info.event.backgroundColor === 'blue') {
-      info.el.style.backgroundColor = 'blue';
-    }
-  };
+ 
 
   return (
-    <FullCalendar
-    plugins={[dayGridPlugin, interactionPlugin]}
-    initialView="dayGridMonth"
-    dateClick={handleDateClick}
-    eventDidMount={eventDidMount}
-    initialEvents={bookSlot}
-    height={height}
-  />
+ 
+  <FullCalendar
+  plugins={[dayGridPlugin, interactionPlugin]}
+  initialView="dayGridMonth"
+  initialEvents={bookSlot}
+  height={height}
+  dateClick={handleDateClick}
+/>
   );
 };
 
