@@ -7,13 +7,14 @@ import { BsFillCameraVideoFill } from 'react-icons/bs'
 const StudentBooking = () => {
   const Navigate = useNavigate()
   const [isDivided, setIsDivided] = useState(false);
-  const [isName, setIsName] = useState("9:00 AM");
+  const [isName, setIsName] = useState(["1:00 AM","1:15 AM","1:30 AM","1:45 AM"]);
   const handleClick = () => {
     setIsDivided(true);
+    Navigate('/student/booking/details')
   };
   const handleClick2 = () => {
     setIsDivided(false);
-    Navigate('/student/booking/details')
+   
 
   }
   return (
@@ -34,7 +35,7 @@ const StudentBooking = () => {
               <Box fontSize={['sm', 'md']}>Web conferencing details provided upon confirmation.</Box>
             </Flex>
           </Box>
-          <Box flexGrow={1} mb={['4', '0']} mr={['0', '20px']}>
+          <Box flexGrow={2} mb={['4', '0']} mr={['0', '20px']}>
             <Heading as='h4' size='md'>
               Select a Date & Time
             </Heading>
@@ -42,12 +43,12 @@ const StudentBooking = () => {
           </Box>
           <Box flexGrow={1}>
             <Box
-              h={{ base: "15px", md: "40px" }}
+              h={{ base: "30px", md: "40px" }}
               borderRadius="10px"
               borderWidth="2px"
               borderColor="blue"
               bg="blue"
-              p={{ base: "7px", md: "7px" }}
+              p={{ base: "2px", md: "7px" }}
               textAlign="center"
               maxW="500px"
               w="85%"
@@ -55,22 +56,35 @@ const StudentBooking = () => {
               mb='5'
               mt='5'
             >Book slots</Box>
-            {isDivided ? (
-              <Stack direction={['column', 'row']} spacing='2'>
+            <Box> {isName.map((e,i)=>{return(<Box key={i}>
+              <Box> <Button
+                w={["100%", "180px"]}
+                size={["sm", "md"]}
+                borderColor="blue.500"
+                color="blue"
+                _hover={{ bg: "blue", color: "white" }}
+                onClick={handleClick}
+                mt='5'
+              >
+                {e}
+              </Button></Box>
 
+              {/* {isDivided ? (
+              <Stack direction={['column', 'row']} spacing='2'>
+                
                 <Button
                   size={["sm", "md"]}
                   bg="black"
                   color="white"
                   _hover={{ bg: "gray.700" }}
                 >
-                  9:00 AM
-                </Button>
+                  {isName}
+                </Button> 
                 <Button
                   size={["sm", "md"]}
                   borderColor="blue"
                   color="blue"
-                  _hover={{ bg: "blue", color: "white" }}
+                  _hover={{ bg: "blue", color: "white" }} 
                   onClick={handleClick2}
                 >confirm</Button>
               </Stack>
@@ -85,7 +99,10 @@ const StudentBooking = () => {
               >
                 {isName}
               </Button>
-            )}
+            )} */}
+                  
+                  </Box>)})}</Box>
+           
           </Box>
         </Flex>
       </Box>
