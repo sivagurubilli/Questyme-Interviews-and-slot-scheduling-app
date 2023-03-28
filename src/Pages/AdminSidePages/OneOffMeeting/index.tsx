@@ -13,9 +13,14 @@ const GotoOneOffMeet = () => {
           <Text fontSize="20px" mt="10px">
             New One-Off Meeting
           </Text>{" "}
+             <Flex>
           <Button colorScheme="blue" mt="10px" onClick={() => navigate(-1)}>
             Back
           </Button>
+          <Button colorScheme="blue" mt="10px" ml='20px'>
+              Next
+            </Button>
+            </Flex>
         </Flex>
       </Box>
 
