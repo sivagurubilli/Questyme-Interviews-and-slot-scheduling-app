@@ -10,9 +10,12 @@ import {
 import OneOnOneEdit from "./OneOnOneEdit";
 import OneOnOneSlots from "./OneOnOneSlots";
 
+//this component is for creating events  slots 
 const OneonOneSlotsCreate = () => {
   const [isNameEdit, setNameEdit] = useState(false);
   const [isSlotsEdit, setSlotsEdit] = useState(false);
+
+
   return (
     <div className="container">
       <Navbar />

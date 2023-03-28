@@ -21,3 +21,15 @@
     bottom: -20px;
     left: 0px;
   }
+  @media (max-width: 600px) {
+    .li a.active::after {
+      content: "";
+      width: 50%;
+      height: 2px;
+      background: blue;
+      position: absolute;
+      bottom: -10px;
+      left: 0px;
+    }
+  }
+  
