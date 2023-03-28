@@ -9,5 +9,4 @@ const skeleton = () => {
 </Box>
   )
 }
-
 export default skeleton

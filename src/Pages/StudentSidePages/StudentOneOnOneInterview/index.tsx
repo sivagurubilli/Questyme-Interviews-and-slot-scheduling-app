@@ -1,22 +1,17 @@
 import React, { useState } from 'react'
-import { Box, Flex, Heading, Text, Button, Stack } from '@chakra-ui/react'
+import { Box, Flex, Heading, Text, Button } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Calendar from './Calendar';
 import { BsClockFill } from 'react-icons/bs'
 import { BsFillCameraVideoFill } from 'react-icons/bs'
 const StudentBooking = () => {
   const Navigate = useNavigate()
-  const [isDivided, setIsDivided] = useState(false);
-  const [isName, setIsName] = useState(["1:00 AM","1:15 AM","1:30 AM","1:45 AM"]);
+
+  const [isName] = useState(["1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM"]);
   const handleClick = () => {
-    setIsDivided(true);
     Navigate('/student/booking/details')
   };
-  const handleClick2 = () => {
-    setIsDivided(false);
-   
 
-  }
   return (
     <Box bg='#f3f4f6'>
       <Box boxShadow='base' p={['4', '6']} rounded='md' bg='white' mx={['4', '100px']} my='4'>
@@ -56,53 +51,21 @@ const StudentBooking = () => {
               mb='5'
               mt='5'
             >Book slots</Box>
-            <Box> {isName.map((e,i)=>{return(<Box key={i}>
-              <Box> <Button
-                w={["100%", "180px"]}
-                size={["sm", "md"]}
-                borderColor="blue.500"
-                color="blue"
-                _hover={{ bg: "blue", color: "white" }}
-                onClick={handleClick}
-                mt='5'
-              >
-                {e}
-              </Button></Box>
-
-              {/* {isDivided ? (
-              <Stack direction={['column', 'row']} spacing='2'>
-                
-                <Button
+            <Box> {isName.map((e, i) => {
+              return (<Box key={i}>
+                <Box> <Button
+                  w={["100%", "180px"]}
                   size={["sm", "md"]}
-                  bg="black"
-                  color="white"
-                  _hover={{ bg: "gray.700" }}
-                >
-                  {isName}
-                </Button> 
-                <Button
-                  size={["sm", "md"]}
-                  borderColor="blue"
+                  borderColor="blue.500"
                   color="blue"
-                  _hover={{ bg: "blue", color: "white" }} 
-                  onClick={handleClick2}
-                >confirm</Button>
-              </Stack>
-            ) : (
-              <Button
-                w={["100%", "180px"]}
-                size={["sm", "md"]}
-                borderColor="blue.500"
-                color="blue"
-                _hover={{ bg: "blue", color: "white" }}
-                onClick={handleClick}
-              >
-                {isName}
-              </Button>
-            )} */}
-                  
-                  </Box>)})}</Box>
-           
+                  _hover={{ bg: "blue", color: "white" }}
+                  onClick={handleClick}
+                  mt='5'
+                >
+                  {e}
+                </Button></Box>
+              </Box>)
+            })}</Box>
           </Box>
         </Flex>
       </Box>
