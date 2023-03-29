@@ -9,13 +9,13 @@ const BulkEventNav = () => {
             <Box position="relative" h="auto" marginTop="2px" bg="whiteAlpha.900" w="100%">
                 <Box boxShadow="sm">
                     <Flex position={"relative"} w={"97%"} align="center" m="auto" h={"60px"} justifyContent={"space-around"} color={"gray.600"}>
-                        <Button borderRadius="15px" colorScheme="blue" onClick={() => navigate(-1)}>
+                        <Button colorScheme="blue" onClick={() => navigate(-1)}>
                             Back
                         </Button>
-                        <Text fontWeight="bold" fontSize="medium">
-                            {" "}
-                            Create Bulk Events{" "}
+                        <Text fontWeight="bold" position={"relative"} fontSize="medium">
+                            Create Bulk Interviews
                         </Text>
+                        <Button colorScheme="blue">Share</Button>
                     </Flex>
                 </Box>
             </Box>
