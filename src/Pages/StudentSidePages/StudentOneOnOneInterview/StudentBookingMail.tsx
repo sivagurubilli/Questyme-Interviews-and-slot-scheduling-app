@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from 'react-icons/bi'
+import axios from 'axios'
 import {
   Box,
   Flex,
@@ -12,6 +13,7 @@ import {
   VStack,
   Heading,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
@@ -30,6 +32,7 @@ const initialFormValues: FormValues = {
 };
 
 const StudentBookingMail = () => {
+  const toast = useToast();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
 
@@ -47,6 +50,31 @@ const StudentBookingMail = () => {
     e.preventDefault();
     console.log(formValues);
     setFormValues(initialFormValues);
+    axios.post('http://localhost:8080/schedules',{formValues})
+    .then(response => {
+      console.log(response, "okre");
+      toast({
+        title: "Event scheduled",
+        description: "Your event has been scheduled successfully!",
+        status: "success",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+      
+    })
+    .catch(error => {
+      console.error(error)
+      toast({
+        title: "Something Went Wrong",
+        description: "Your event hasn't been scheduled successfully!",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    });
+    
   };
   return (
     <Box bg='#f3f4f6'>

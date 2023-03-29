@@ -1,16 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Box, Flex, Heading, Text, Button } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Calendar from './Calendar';
 import { BsClockFill } from 'react-icons/bs'
 import { BsFillCameraVideoFill } from 'react-icons/bs'
+import axios from 'axios'
 const StudentBooking = () => {
   const Navigate = useNavigate()
+  const [loading, setLoading]=useState(false)
 
-  const [isName] = useState(["1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM"]);
+  const [isName,setIsName] = useState([]);
+  useEffect(() => {
+    setLoading(true)
+    axios.get('http://localhost:8080/slots')
+      .then(response => {
+          setIsName(response.data)
+          setLoading(false)
+        console.log(response, "okre");
+        
+      })
+      .catch(error => {
+        console.error(error);
+        setLoading(false)
+      });
+  }, []);
   const handleClick = () => {
     Navigate('/student/booking/details')
   };
+
+  console.log(isName,"nai re")
 
   return (
     <Box bg='#f3f4f6'>
@@ -51,7 +69,8 @@ const StudentBooking = () => {
               mb='5'
               mt='5'
             >Book slots</Box>
-            <Box> {isName.map((e, i) => {
+            {loading ? <Box>...Loading</Box>:
+             <Box> {isName && isName.map((e, i) => {
               return (<Box key={i}>
                 <Box> <Button
                   w={["100%", "180px"]}
@@ -65,7 +84,8 @@ const StudentBooking = () => {
                   {e}
                 </Button></Box>
               </Box>)
-            })}</Box>
+            })}</Box> 
+          }
           </Box>
         </Flex>
       </Box>
