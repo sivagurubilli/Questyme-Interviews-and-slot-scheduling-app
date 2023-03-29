@@ -11,6 +11,8 @@ import GotoOneOffMeet from './Pages/AdminSidePages/OneOffMeeting'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
 import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
+import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'
+import { CreateSingleInterview } from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminInterviewCreate'
 
 
 const AllRoutes = () => {
@@ -29,6 +31,8 @@ const AllRoutes = () => {
             <Route path='/user/me' element={<UserDashboard />} />
             <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
             <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />
+            <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
+            <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
             </Routes>
     </div>
   )
