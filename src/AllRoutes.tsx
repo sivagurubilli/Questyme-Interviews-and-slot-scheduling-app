@@ -1,11 +1,10 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import OneonOneEventsCreate from './Pages/AdminSidePages/AdminOneOnOneCreate'
-import OneonOneSlotsCreate from './Pages/AdminSidePages/OneOnOneSlotsEdit/OneOnOneSlotsCreate'
+import OneonOneSlotsCreate from './Pages/AdminSidePages/OneOnOneSlotsEdit'
 import OneonOneEvents from './Pages/AdminSidePages/AdminOneOnOneInterviews'
 import Login from './Pages/Login/Login'
 import GotoOneOffMeet from './Pages/AdminSidePages/OneOffMeeting'
-
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
 import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'

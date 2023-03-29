@@ -1,6 +1,6 @@
 import { Box, Divider, Flex, FormLabel, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
+import OneOnOneEventsCreateInput from "../OneOnOneEventsCreateInput";
 
 interface IEventValues {
   eventName: string;

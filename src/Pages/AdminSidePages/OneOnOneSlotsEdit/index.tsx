@@ -7,8 +7,8 @@ import {
   FormLabel,
   Text,
 } from "@chakra-ui/react";
-import OneOnOneEdit from "./OneOnOneEdit";
-import OneOnOneSlots from "./OneOnOneSlots";
+import OneOnOneEdit from "../../../Components/OneOnOneEdit/OneOnOneEdit";
+import OneOnOneSlots from "../../../Components/OneOnOneEdit/OneOnOneSlots";
 
 //this component is for creating events  slots 
 const OneonOneSlotsCreate = () => {
