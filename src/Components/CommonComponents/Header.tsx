@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box,Text,Button } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const Header = ({title,buttonName}:any) => {
   return (
@@ -22,9 +23,9 @@ const Header = ({title,buttonName}:any) => {
                             >
                             {title}
                             </Text>
-                            <Button colorScheme="blue">{buttonName}</Button>
+                            <Link to={buttonName=="+ Book 1-1"?"/user/me/book-one-on-One":"#"}><Button colorScheme="blue">{buttonName}</Button></Link>
                         </Box>
-                        {/* <Box border={"1px solid indigo"} w={"100%"} h={"60px"} m={"auto"}></Box> */}
+                      
                     </Box>
                 </Box>
             </header>

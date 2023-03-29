@@ -7,7 +7,7 @@ import Login from './Pages/Login/Login'
 import GotoOneOffMeet from './Pages/AdminSidePages/OneOffMeeting'
 
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
-import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
+import BookOneOnOne from './Pages/BookInterviews/BookOneOnOne'
 import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 
 
