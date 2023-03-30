@@ -60,8 +60,7 @@ const StudentBookingMail = () => {
         position: "top",
         duration: 2000,
         isClosable: true,
-      });
-      
+      }); 
     })
     .catch(error => {
       console.error(error)
@@ -73,8 +72,7 @@ const StudentBookingMail = () => {
         duration: 2000,
         isClosable: true,
       });
-    });
-    
+    }); 
   };
   return (
     <Box bg='#f3f4f6'>
@@ -176,7 +174,6 @@ const StudentBookingMail = () => {
         </Box>
       </Flex>
     </Box>
-
   );
 };
 
