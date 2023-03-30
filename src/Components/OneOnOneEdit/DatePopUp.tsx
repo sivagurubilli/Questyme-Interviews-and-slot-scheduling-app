@@ -67,7 +67,6 @@ const DatePopUp = ({
 
   const SetDateSlots = () => {
     const errorsExist = timeSlots.some((timeSlot) => hasErrorsInTimeSlot(timeSlot));
-
     const hasErrorsInTimeSlot = (timeSlot:any): boolean => {
       return timeSlot.errors.start !== "" || timeSlot.errors.end !== "";
     }

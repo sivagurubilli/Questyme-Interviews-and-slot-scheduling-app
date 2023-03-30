@@ -13,6 +13,8 @@ import {
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { RootState } from "../../Redux/store";
+import { useSelector } from "react-redux";
 
 //yup validation schema
 const validationSchema = yup.object().shape({
@@ -25,26 +27,31 @@ const validationSchema = yup.object().shape({
   duration: yup.string().required("This feild is required"),
 });
 
-const OneOnOneEventsCreateInput = ({
+const OneOnOneEventsEditInput = ({
   EventValues,
   setEventValues,
-  addEvent,
+  setNameEdit,
+  SaveEvent,
 }: any) => {
   //setting initial values for formik and yup
+
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
+  const state = useSelector((state: RootState) => state);
+  const AllData = state.SingleEventReducer;
 
   const initialValues = {
-    title: EventValues.title,
-    instruction: EventValues.instruction,
-    meetingLink: EventValues.meetingLink,
-    duration: EventValues.duration,
-    category: EventValues.category,
-    startTime: EventValues.startTime,
-    endTime: EventValues.endTime,
+    title: AllData.AllData.title,
+    instruction: AllData.AllData.instruction,
+    meetingLink: AllData.AllData.meetingLink,
+    duration: AllData.AllData.duration,
+    category: AllData.AllData.category,
+    startTime:EventValues.startTime,
+    endTime:EventValues.endTime
   };
 
+
   const onSubmit = async () => {
-    addEvent();
+    SaveEvent();
   };
 
   //using formik we can set values onSubmit and onChange
@@ -56,20 +63,19 @@ const OneOnOneEventsCreateInput = ({
     });
 
   const setCancel = () => {
-    setEventValues("");
+    setNameEdit(false);
   };
+  useEffect(()=>{
+    setEventValues({...values})
+    },[values,setEventValues])
+  
 
-  useEffect(() => {
-    setEventValues({ ...values });
-  }, [values, setEventValues]);
-
-  console.log(EventValues);
   return (
     <div>
-      <Flex justifyContent="space-between">
-        <FormLabel>Create Event With Following Values </FormLabel>
-      </Flex>
-      <Divider mt="10px" h="2px" />
+       <Flex justifyContent="space-between">
+            <FormLabel>Edit Values For This Event </FormLabel>
+          </Flex>
+          <Divider mt="10px" h="2px" />
       <form onSubmit={handleSubmit}>
         <Box>
           <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -183,7 +189,6 @@ const OneOnOneEventsCreateInput = ({
             {JSON.stringify(errors.category).replace(/"/g, "")}
           </Text>
         )}
-
         <Flex mt="20px">
           <Box>
             <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -195,6 +200,7 @@ const OneOnOneEventsCreateInput = ({
               name="startTime"
               value={values.startTime}
               onChange={handleChange}
+              
             />
           </Box>
 
@@ -211,6 +217,7 @@ const OneOnOneEventsCreateInput = ({
             />
           </Box>
         </Flex>
+
         <Flex mt="20px" justifyContent="flex-end">
           <Box>
             <Button variant="link" onClick={setCancel}>
@@ -222,7 +229,7 @@ const OneOnOneEventsCreateInput = ({
               ml="20px"
               type="submit"
             >
-              Next
+              Save
             </Button>
           </Box>
         </Flex>
@@ -231,4 +238,4 @@ const OneOnOneEventsCreateInput = ({
   );
 };
 
-export default OneOnOneEventsCreateInput;
+export default OneOnOneEventsEditInput;
