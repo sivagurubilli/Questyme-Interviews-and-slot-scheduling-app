@@ -1,17 +1,30 @@
 import { Box, Divider, Flex, Button, Text, Checkbox } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SettingsComponent from "./SettingsComponent";
 
-const OneonOneEventComponent = ({event}:any) => {
+const OneonOneEventComponent = ({ event }: any) => {
   const [openDrop, setOpenDrop] = useState(false);
   const [isCopied, setCopied] = useState(false);
+  const [uniquelink, setuniqueLink] = useState<string | null>("");
+
+  useEffect(() => {
+    var hashId = localStorage.getItem("eventId");
+    setuniqueLink(`localhost:3001/slot/${hashId}`);
+  }, []);
+
+  //for copying link when click on copylink
+  const handleCopyLink = () => {
+    if (uniquelink != null) {
+      navigator.clipboard.writeText(uniquelink);
+    }
+  };
 
   const username = "siva@123";
   const type = "15min";
   const month = "2023-03";
   return (
-    <div >
+    <div>
       <Box
         w="100%"
         h="auto"
@@ -30,14 +43,14 @@ const OneonOneEventComponent = ({event}:any) => {
             ></i>{" "}
           </Flex>
         </Flex>
-        {openDrop && <SettingsComponent  event={event} setshow1={setOpenDrop}  />}
+        {openDrop && <SettingsComponent event={event} setshow1={setOpenDrop} />}
 
         <Box p="30px">
           <Text color="#474747">{event.title}</Text>
           <Flex>
-            <Text color="#778087">{event.duration}</Text>{" "}
+            <Text color="#778087">{event.duration} Mins</Text>{" "}
             <Text color="#778087" ml="20px">
-             {event.category}
+              {event.category}
             </Text>
           </Flex>
           <Link to={"/" + username + type + month}>
@@ -51,7 +64,7 @@ const OneonOneEventComponent = ({event}:any) => {
             <Flex cursor="pointer" onClick={() => setCopied(!isCopied)}>
               {" "}
               <i
-                style={{ padding: "5px",color:"grren" }}
+                style={{ padding: "5px", color: "grren" }}
                 className="fa-solid fa-check"
               ></i>{" "}
               <Text>Copied</Text>
@@ -66,7 +79,9 @@ const OneonOneEventComponent = ({event}:any) => {
                   color: "#778087",
                 }}
               ></i>{" "}
-              <Text color="#778087">Copy Link</Text>
+              <Text color="#778087" onClick={handleCopyLink}>
+                Copy Link
+              </Text>
             </Flex>
           )}
           <Button

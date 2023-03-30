@@ -24,7 +24,7 @@ interface IDateOverride {
 }
 
 //this component is for scheduling slots based on day and date
-const SlotsSchedule = ({days,setDays}:any) => {
+const SlotsSchedule = ({ days, setDays }: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isWide = useMediaQuery("(min-width: 600px)");
   const boxWidthDateOverride = useBreakpointValue({ base: "100%", md: "40%" });

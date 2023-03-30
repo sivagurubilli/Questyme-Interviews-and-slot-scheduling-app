@@ -1,5 +1,12 @@
 import { EditEventsService } from "../../Services/AdminSideServices/GetEventsService";
-import { Box, Divider, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Flex,
+  FormLabel,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import React from "react";
 import { useParams } from "react-router-dom";
 import OneOnOneEventsEditInput from "./EventEditInput";
@@ -10,9 +17,8 @@ const OneOnOneEdit = ({
   isNameEdit,
   setNameEdit,
 }: any) => {
-
   const { id } = useParams();
-  const toast = useToast()
+  const toast = useToast();
 
   const SaveEvent = async () => {
     try {
@@ -41,7 +47,6 @@ const OneOnOneEdit = ({
   return (
     <div>
       <Box p="20px" h="auto" border="1px solid grey" mt="5px">
-      
         <Box onClick={() => setNameEdit(!isNameEdit)} h="auto" cursor="pointer">
           <Flex justifyContent="space-between">
             <Box>

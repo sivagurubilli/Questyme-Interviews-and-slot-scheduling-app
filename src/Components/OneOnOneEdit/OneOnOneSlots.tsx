@@ -1,17 +1,28 @@
-import React, {  useEffect, useState } from "react";
-import { Box, Button, Divider, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  FormLabel,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import SlotsSchedule from "./SlotsSchedule";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
-import { AddRecurringSlotsService, GetSingleEventsService } from "../../Services/AdminSideServices/GetEventsService";
+import {
+  AddRecurringSlotsService,
+  GetSingleEventsService,
+} from "../../Services/AdminSideServices/GetEventsService";
 import { useNavigate } from "react-router-dom";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const state = useSelector((state: RootState) => state);
   const AllData = state.SingleEventReducer;
-  const toast = useToast()
+  const toast = useToast();
   const id = AllData.AllData.id;
-  const navigate  = useNavigate()
+  const navigate = useNavigate();
 
   const [days, setDays] = useState([
     {
@@ -58,9 +69,6 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
     },
   ]);
 
-
-
-
   const AddSlots = async () => {
     try {
       const response = await AddRecurringSlotsService(id, days);
@@ -72,10 +80,10 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
           duration: 2000,
           isClosable: true,
         });
-        
-        setTimeout(()=>{
-          navigate("/admin/one-on-one-interviews/event-types")
-        },2000)
+
+        setTimeout(() => {
+          navigate("/admin/one-on-one-interviews/event-types");
+        }, 2000);
       }
     } catch (err) {
       toast({
@@ -89,7 +97,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   };
 
   //GetEventById function
-  const GetEventById =async () => {
+  const GetEventById = async () => {
     try {
       const response = await GetSingleEventsService(id);
       if (response.days) {
@@ -106,11 +114,9 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
     }
   };
 
-
   useEffect(() => {
     GetEventById();
   }, []);
-
 
   return (
     <div>

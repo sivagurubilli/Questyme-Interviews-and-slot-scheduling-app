@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   Flex,
   FormLabel,
   Input,
@@ -44,9 +45,11 @@ const OneOnOneEventsEditInput = ({
     meetingLink: AllData.AllData.meetingLink,
     duration: AllData.AllData.duration,
     category: AllData.AllData.category,
+    startTime:EventValues.startTime,
+    endTime:EventValues.endTime
   };
 
-  const userName = "gurubillisiva22@gmail.com";
+
   const onSubmit = async () => {
     SaveEvent();
   };
@@ -62,20 +65,17 @@ const OneOnOneEventsEditInput = ({
   const setCancel = () => {
     setNameEdit(false);
   };
-
-  //setting unique hashed link
-  useEffect(() => {
-    setEventValues({
-      ...values,
-      adminId: "5",
-      eventLink: `http://localhost:3000/${userName}/${
-        values.title
-      }/${Math.floor(Math.random() * 1000)}`,
-    });
-  }, [setEventValues, values]);
+  useEffect(()=>{
+    setEventValues({...values})
+    },[values,setEventValues])
+  
 
   return (
     <div>
+       <Flex justifyContent="space-between">
+            <FormLabel>Edit Values For This Event </FormLabel>
+          </Flex>
+          <Divider mt="10px" h="2px" />
       <form onSubmit={handleSubmit}>
         <Box>
           <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -143,16 +143,16 @@ const OneOnOneEventsEditInput = ({
           name="duration"
           placeholder="Duration"
         >
-          <option key={"15mins"} value={"15 mins"}>
+          <option key={"15mins"} value="15">
             15 mins
           </option>
-          <option key={"30mins"} value={"30 mins"}>
+          <option key={"30mins"} value="30">
             30 mins
           </option>
-          <option key={"45mins"} value={"45 mins"}>
+          <option key={"45mins"} value="45">
             45 mins
           </option>
-          <option key={"60mins"} value={"60 mins"}>
+          <option key={"60mins"} value="60">
             60 mins
           </option>
         </Select>
@@ -189,20 +189,34 @@ const OneOnOneEventsEditInput = ({
             {JSON.stringify(errors.category).replace(/"/g, "")}
           </Text>
         )}
-        <FormLabel mt="20px" color="rgb(75 85 99)">
-          Event link{" "}
-        </FormLabel>
+        <Flex mt="20px">
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              StartTime
+            </FormLabel>
+            <Input
+              mt="5px"
+              w="60%"
+              name="startTime"
+              value={values.startTime}
+              onChange={handleChange}
+              
+            />
+          </Box>
 
-        <FormLabel mt="10px" color="rgb(75 85 99)">
-          domainName/userName/{" "}
-        </FormLabel>
-        <Input
-          width={isSmallerThan600 ? "80%" : "40%"}
-          name="eventLink"
-          placeholder="Event Link"
-          value={values.title}
-          onChange={handleChange}
-        />
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              EndTime
+            </FormLabel>
+            <Input
+              mt="5px"
+              w="60%"
+              name="endTime"
+              value={values.endTime}
+              onChange={handleChange}
+            />
+          </Box>
+        </Flex>
 
         <Flex mt="20px" justifyContent="flex-end">
           <Box>

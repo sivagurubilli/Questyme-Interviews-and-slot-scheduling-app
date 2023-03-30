@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   Flex,
   FormLabel,
   Input,
@@ -27,7 +28,6 @@ const validationSchema = yup.object().shape({
 const OneOnOneEventsCreateInput = ({
   EventValues,
   setEventValues,
-  setNameEdit,
   addEvent,
 }: any) => {
   //setting initial values for formik and yup
@@ -39,8 +39,9 @@ const OneOnOneEventsCreateInput = ({
     meetingLink: EventValues.meetingLink,
     duration: EventValues.duration,
     category: EventValues.category,
+    startTime: EventValues.startTime,
+    endTime: EventValues.endTime,
   };
-
 
   const onSubmit = async () => {
     addEvent();
@@ -55,22 +56,20 @@ const OneOnOneEventsCreateInput = ({
     });
 
   const setCancel = () => {
-    setNameEdit(false);
+    setEventValues("");
   };
 
-  const userName = "gurubillisiva22@gmail.com";
   useEffect(() => {
-    setEventValues({
-      ...values,
-      adminId: "5",
-      eventLink: `http://localhost:3000/${userName}/${
-        values.title
-      }/${Math.floor(Math.random() * 1000)}`,
-    });
-  }, [setEventValues, values]);
+    setEventValues({ ...values });
+  }, [values, setEventValues]);
 
+  console.log(EventValues);
   return (
     <div>
+      <Flex justifyContent="space-between">
+        <FormLabel>Create Event With Following Values </FormLabel>
+      </Flex>
+      <Divider mt="10px" h="2px" />
       <form onSubmit={handleSubmit}>
         <Box>
           <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -138,16 +137,16 @@ const OneOnOneEventsCreateInput = ({
           name="duration"
           placeholder="Duration"
         >
-          <option key={"15mins"} value={"15 mins"}>
+          <option key={"15mins"} value="15">
             15 mins
           </option>
-          <option key={"30mins"} value={"30 mins"}>
+          <option key={"30mins"} value="30">
             30 mins
           </option>
-          <option key={"45mins"} value={"45 mins"}>
+          <option key={"45mins"} value="45">
             45 mins
           </option>
-          <option key={"60mins"} value={"60 mins"}>
+          <option key={"60mins"} value="60">
             60 mins
           </option>
         </Select>
@@ -184,21 +183,34 @@ const OneOnOneEventsCreateInput = ({
             {JSON.stringify(errors.category).replace(/"/g, "")}
           </Text>
         )}
-        <FormLabel mt="20px" color="rgb(75 85 99)">
-          Event link{" "}
-        </FormLabel>
 
-        <FormLabel mt="10px" color="rgb(75 85 99)">
-          domainName/userName/{" "}
-        </FormLabel>
-        <Input
-          width={isSmallerThan600 ? "80%" : "40%"}
-          name="eventLink"
-          placeholder="Event Link"
-          value={values.title}
-          onChange={handleChange}
-        />
+        <Flex mt="20px">
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              StartTime
+            </FormLabel>
+            <Input
+              mt="5px"
+              w="60%"
+              name="startTime"
+              value={values.startTime}
+              onChange={handleChange}
+            />
+          </Box>
 
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              EndTime
+            </FormLabel>
+            <Input
+              mt="5px"
+              w="60%"
+              name="endTime"
+              value={values.endTime}
+              onChange={handleChange}
+            />
+          </Box>
+        </Flex>
         <Flex mt="20px" justifyContent="flex-end">
           <Box>
             <Button variant="link" onClick={setCancel}>

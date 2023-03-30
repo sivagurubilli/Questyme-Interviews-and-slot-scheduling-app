@@ -1,6 +1,6 @@
 import axios from "axios"
 
-
+//Get All Events service
 export async function GetAllEventsService() {
     try {
        const response = await axios.get("/one-on-one-events");
@@ -11,6 +11,7 @@ export async function GetAllEventsService() {
     }
   }
 
+  //post Event service
   export async function PostEventsService(data:any) {
    const { title,
    instruction,
@@ -18,6 +19,8 @@ export async function GetAllEventsService() {
    adminId,
     duration,
     category,
+    startTime,
+    endTime
     } = data
 
     try {
@@ -28,6 +31,8 @@ export async function GetAllEventsService() {
         meetingLink,
          duration,
          category,
+         startTime,
+    endTime
        });
       return response.data;
     } catch (error: any) {
@@ -36,7 +41,7 @@ export async function GetAllEventsService() {
   }
 
   
-
+//getting single event by id
   export async function GetSingleEventsService(id:any) {
      try {
         const response = await axios.get(`/one-on-one-events/${id}`);
@@ -46,6 +51,7 @@ export async function GetAllEventsService() {
      }
    }
 
+   //edit Event service
    export async function EditEventsService(data:any,id:any) {
     const { title,
         instruction,
@@ -53,6 +59,7 @@ export async function GetAllEventsService() {
         adminId,
          duration,
          category,
+         startTime,endTime
          } = data
       
     try {
@@ -62,7 +69,8 @@ export async function GetAllEventsService() {
         meetingLink,
         adminId,
          duration,
-         category
+         category,
+         startTime,endTime
        });
        
       return response.data;
@@ -71,7 +79,7 @@ export async function GetAllEventsService() {
     }
   }
  
-   
+   // Add slots for recurring events
   export async function AddRecurringSlotsService(id:any,days:any) {
     try {
        const response = await axios.patch(`/one-on-one-events/${id}`
@@ -83,6 +91,7 @@ export async function GetAllEventsService() {
   }
 
 
+  //Delete Event service 
   export async function DeleteEventSevice(id:any) {
     try {
        const response = await axios.delete(`/one-on-one-events/${id}`);
@@ -91,3 +100,18 @@ export async function GetAllEventsService() {
       return error.response;
     }
   }
+
+   //Delete Event service 
+   export async function setDateForEventSchedule(date:any) {
+    const eventId  = localStorage.getItem("eventId")
+console.log(date)
+    try {
+       const response = await axios.delete(`/one-on-one-events/${eventId}/${date}`);
+      return response.data;
+    } catch (error: any) {
+      return error.response;
+    }
+  }
+
+
+  

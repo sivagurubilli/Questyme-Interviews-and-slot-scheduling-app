@@ -14,8 +14,6 @@ import "../../Pages/AdminSidePages/OneOnOneSlotsEdit/index.css";
 
 //this component is for schedule slots based on availability setting of days
 const DayAvailability = ({ days, setDays }: any) => {
-
-
   const DayboxWidth = useBreakpointValue({ base: "70px", md: "70px" });
 
   // handle checkbox value change on checked
@@ -104,7 +102,7 @@ const DayAvailability = ({ days, setDays }: any) => {
   // when click on plus symbol handle add inputs
   const handleAddInput = (dayIndex: number) => {
     const updatedDays = [...days];
-    updatedDays[dayIndex].inputs.push({ start: "9:00am", end: "5:00pm" });
+    updatedDays[dayIndex].inputs.push({ start: "", end: "" });
     updatedDays[dayIndex].errors.push({ start: "", end: "" });
     setDays(updatedDays);
   };
