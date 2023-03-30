@@ -190,7 +190,6 @@ export const CreateSingleInterview = () => {
                                 </div>
                             </Form>
                         )}
-
                     </Formik>
                 </Box>
             </Box>
