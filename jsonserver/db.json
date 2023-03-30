@@ -1,0 +1,145 @@
+{
+  "one-on-one-events": [
+    {
+      "title": "interview with varun in dsa",
+      "instruction": "you have to share your screen and camera on and mic on",
+      "meetingLink": "https://www.google.com/search?q=zoom+link&rlz=1C1JJTC_enIN1023IN1023&oq=zoom+link&aqs=chrome..69i57j0i512l9.3558j0j7&sourceid=chrome&ie=UTF-8",
+      "adminId": "5",
+      "duration": 30,
+      "category": "DSA",
+      "id": 2,
+      "days": [
+        {
+          "name": "Sun",
+          "isChecked": false,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        },
+        {
+          "name": "Mon",
+          "isChecked": true,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        },
+        {
+          "name": "Tue",
+          "isChecked": true,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        },
+        {
+          "name": "Wed",
+          "isChecked": true,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        },
+        {
+          "name": "Thu",
+          "isChecked": true,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        },
+        {
+          "name": "Fri",
+          "isChecked": true,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        },
+        {
+          "name": "Sat",
+          "isChecked": true,
+          "inputs": [
+            {
+              "start": "9:00am",
+              "end": "5:00pm"
+            }
+          ],
+          "errors": [
+            {
+              "start": "",
+              "end": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "interview with ram in dsa",
+      "instruction": "you have to share your screen and camera on and mic on",
+      "meetingLink": "https://www.google.com/search?q=zoom+link&rlz=1C1JJTC_enIN1023IN1023&oq=zoom+link&aqs=chrome..69i57j0i512l9.3558j0j7&sourceid=chrome&ie=UTF-8",
+      "adminId": "5",
+      "duration": 60,
+      "category": "DSA",
+      "id": 3
+    },
+    {
+      "title": "interview with ram",
+      "instruction": "please go through instrucions",
+      "adminId": "5",
+      "meetingLink": "22222222222222",
+      "duration": "30 mins",
+      "category": "Coding",
+      "id": 4
+    }
+  ]
+}

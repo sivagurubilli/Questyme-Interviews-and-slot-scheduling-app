@@ -3,8 +3,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
-import { Box, Button, filter, Flex, FormLabel, Select } from "@chakra-ui/react";
-
+import { Box, Button, Flex, FormLabel, Select } from "@chakra-ui/react";
 import { eventsBydate } from "../../Assets/Assets";
 import OneOffModal from "../Modals/OneOffModal";
 
@@ -32,18 +31,6 @@ const Calendar = () => {
    setEvents(filteredEvents);
   };
 
-  // const AddEvent =()=>{
-
-  //      const newEvent = {
-  //       title,
-  //       start: arg.start,
-  //       end: arg.end,
-  //     };
-  //     setEvents([...events, newEvent]);
-  // }
-
-
-  
   const AddSlots = () => {
   let eventExists = false
     // Check if event already exists with the same start and end time 
@@ -58,8 +45,7 @@ const Calendar = () => {
       filterInEvents(newEvent) 
     });
 
-    if (eventExists) {
-      
+    if (eventExists) { 
       setModalBody("Already times slots added");
       setTimeout(() => {
         setModalBody("")

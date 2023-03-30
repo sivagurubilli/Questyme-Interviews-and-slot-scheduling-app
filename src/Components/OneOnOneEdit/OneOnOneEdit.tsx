@@ -1,25 +1,47 @@
-import { Box, Divider, Flex, FormLabel, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
-import OneOnOneEventsCreateInput from "../OneOnOneEventsCreateInput";
+import { EditEventsService } from "../../Services/AdminSideServices/GetEventsService";
+import { Box, Divider, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import React from "react";
+import { useParams } from "react-router-dom";
+import OneOnOneEventsEditInput from "./EventEditInput";
 
-interface IEventValues {
-  eventName: string;
-  location: string;
-  duration: string;
-  eventLink: string;
-}
+const OneOnOneEdit = ({
+  setEventValues,
+  EventValues,
+  isNameEdit,
+  setNameEdit,
+}: any) => {
 
-const OneOnOneEdit = ({ isNameEdit, setNameEdit }: any) => {
-  const [EventValues, setEventValues] = useState<IEventValues>({
-    eventName: "",
-    location: "",
-    duration: "",
-    eventLink: "",
-  });
+  const { id } = useParams();
+  const toast = useToast()
+
+  const SaveEvent = async () => {
+    try {
+      const response = await EditEventsService(EventValues, id);
+      if (response.id) {
+        toast({
+          title: "Event updated Successfully",
+          status: "success",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+        setNameEdit(false);
+      }
+    } catch (error) {
+      toast({
+        title: "Something Went Wrong",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <div>
       <Box p="20px" h="auto" border="1px solid grey" mt="5px">
+      
         <Box onClick={() => setNameEdit(!isNameEdit)} h="auto" cursor="pointer">
           <Flex justifyContent="space-between">
             <Box>
@@ -39,19 +61,19 @@ const OneOnOneEdit = ({ isNameEdit, setNameEdit }: any) => {
 
               <Flex>
                 {" "}
-                <Text>Title of event</Text>{" "}
-                <Text ml="20px">Location of event</Text>
+                <Text>{EventValues.title}</Text>{" "}
+                <Text ml="20px">{EventValues.category}</Text>
               </Flex>
             </Box>
           </Flex>
         </Box>
         <Divider mt="20px" mb="20px" h="2px" />
 
-        <OneOnOneEventsCreateInput
+        <OneOnOneEventsEditInput
           EventValues={EventValues}
           setEventValues={setEventValues}
-          SubmitVal={"Save"}
-          setNameEdit ={setNameEdit}
+          setNameEdit={setNameEdit}
+          SaveEvent={SaveEvent}
         />
       </Box>
     </div>

@@ -1,18 +1,49 @@
 import React from "react";
-import { Box, Text, Divider, Flex, Switch } from "@chakra-ui/react";
+import { Box, Text, Divider, Flex, Switch, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import { DeleteEventSevice } from "../../Services/AdminSideServices/GetEventsService";
 
 interface ProfilecomponentProps {
   setshow1: (show: boolean) => void;
 }
 
-const SettingsComponent = ({ setshow1 }: ProfilecomponentProps) => {
-
-const navigate= useNavigate()
-const id =1
-  const GotoEdit =()=>{
-    navigate(`/admin/one-on-one-interviews/edit/${id}`)
+const SettingsComponent = (
+ 
+  { event }: any,
+  { setshow1 }: ProfilecomponentProps
+) => {
+  const navigate = useNavigate();
+  const toast = useToast()
+  console.log(event);
+  const GotoEdit = () => {
+    navigate(`/admin/one-on-one-interviews/${event.id}/edit`);
+  };
+const DeleteEvent=async(id:any)=>{
+  try{
+ const response = await DeleteEventSevice(id)
+   
+   if(response.id){
+    toast({
+      title: "Event Deleted Successfully",
+      status: "success",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
+  
+    setshow1(false)
+   }
+  }catch(error){
+    toast({
+      title: "Something Went Wrong",
+      status: "error",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
   }
+}
+  
   return (
     <div>
       <Box
@@ -34,9 +65,7 @@ const id =1
         <Flex pt="5px" onClick={GotoEdit}>
           <i className="fa-solid fa-pen" style={{ marginTop: "5px" }}></i>
           <Text color="#778087" fontSize="sm" pl="15px">
-            <Link to="" >
-              Edit
-            </Link>
+            <Link to="">Edit</Link>
           </Text>
         </Flex>
         <Flex pt="5px">
@@ -56,7 +85,7 @@ const id =1
             style={{ marginTop: "5px" }}
           ></i>
           <Text color="#778087" pl="15px">
-            <Link to="" onClick={() => setshow1(false)}>
+            <Link to="" onClick={() => DeleteEvent(event.id)}>
               Delete
             </Link>
           </Text>

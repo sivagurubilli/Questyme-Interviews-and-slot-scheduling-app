@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SettingsComponent from "./SettingsComponent";
 
-const OneonOneEventComponent = () => {
+const OneonOneEventComponent = ({event}:any) => {
   const [openDrop, setOpenDrop] = useState(false);
   const [isCopied, setCopied] = useState(false);
 
@@ -30,14 +30,14 @@ const OneonOneEventComponent = () => {
             ></i>{" "}
           </Flex>
         </Flex>
-        {openDrop && <SettingsComponent setshow1={setOpenDrop} />}
+        {openDrop && <SettingsComponent  event={event} setshow1={setOpenDrop}  />}
 
         <Box p="30px">
-          <Text color="#474747">title of event</Text>
+          <Text color="#474747">{event.title}</Text>
           <Flex>
-            <Text color="#778087">duration of event,</Text>{" "}
+            <Text color="#778087">{event.duration}</Text>{" "}
             <Text color="#778087" ml="20px">
-              type of event
+             {event.category}
             </Text>
           </Flex>
           <Link to={"/" + username + type + month}>

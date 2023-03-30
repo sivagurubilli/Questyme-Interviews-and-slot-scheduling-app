@@ -12,6 +12,8 @@ import {
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { RootState } from "../../Redux/store";
+import { useSelector } from "react-redux";
 
 //yup validation schema
 const validationSchema = yup.object().shape({
@@ -24,26 +26,29 @@ const validationSchema = yup.object().shape({
   duration: yup.string().required("This feild is required"),
 });
 
-const OneOnOneEventsCreateInput = ({
+const OneOnOneEventsEditInput = ({
   EventValues,
   setEventValues,
   setNameEdit,
-  addEvent,
+  SaveEvent,
 }: any) => {
   //setting initial values for formik and yup
+
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
+  const state = useSelector((state: RootState) => state);
+  const AllData = state.SingleEventReducer;
 
   const initialValues = {
-    title: EventValues.title,
-    instruction: EventValues.instruction,
-    meetingLink: EventValues.meetingLink,
-    duration: EventValues.duration,
-    category: EventValues.category,
+    title: AllData.AllData.title,
+    instruction: AllData.AllData.instruction,
+    meetingLink: AllData.AllData.meetingLink,
+    duration: AllData.AllData.duration,
+    category: AllData.AllData.category,
   };
 
-
+  const userName = "gurubillisiva22@gmail.com";
   const onSubmit = async () => {
-    addEvent();
+    SaveEvent();
   };
 
   //using formik we can set values onSubmit and onChange
@@ -58,7 +63,7 @@ const OneOnOneEventsCreateInput = ({
     setNameEdit(false);
   };
 
-  const userName = "gurubillisiva22@gmail.com";
+  //setting unique hashed link
   useEffect(() => {
     setEventValues({
       ...values,
@@ -210,7 +215,7 @@ const OneOnOneEventsCreateInput = ({
               ml="20px"
               type="submit"
             >
-              Next
+              Save
             </Button>
           </Box>
         </Flex>
@@ -219,4 +224,4 @@ const OneOnOneEventsCreateInput = ({
   );
 };
 
-export default OneOnOneEventsCreateInput;
+export default OneOnOneEventsEditInput;

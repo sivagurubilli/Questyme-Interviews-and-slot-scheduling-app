@@ -17,10 +17,8 @@ const AllRoutes = () => {
             <Route path ="/login" element ={<Login/>} />
             <Route path ="/admin/one-on-one-interviews/event-types" element={<OneonOneEvents/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
-            <Route path ="/admin/one-on-one-interviews/edit/:id" element={<OneonOneSlotsCreate />}/>
-
+            <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
-
             <Route path='/user/me' element={<UserDashboard />} />
             <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
             <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />

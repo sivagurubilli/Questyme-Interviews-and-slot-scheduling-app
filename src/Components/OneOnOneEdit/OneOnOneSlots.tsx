@@ -1,8 +1,117 @@
-import React from "react";
-import { Box, Button, Divider, Flex, FormLabel, Text } from "@chakra-ui/react";
+import React, {  useEffect, useState } from "react";
+import { Box, Button, Divider, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
 import SlotsSchedule from "./SlotsSchedule";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
+import { AddRecurringSlotsService, GetSingleEventsService } from "../../Services/AdminSideServices/GetEventsService";
+import { useNavigate } from "react-router-dom";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
+  const state = useSelector((state: RootState) => state);
+  const AllData = state.SingleEventReducer;
+  const toast = useToast()
+  const id = AllData.AllData.id;
+  const navigate  = useNavigate()
+
+  const [days, setDays] = useState([
+    {
+      name: "Sun",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+    {
+      name: "Mon",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+    {
+      name: "Tue",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+    {
+      name: "Wed",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+    {
+      name: "Thu",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+    {
+      name: "Fri",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+    {
+      name: "Sat",
+      isChecked: true,
+      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      errors: [{ start: "", end: "" }],
+    },
+  ]);
+
+
+
+
+  const AddSlots = async () => {
+    try {
+      const response = await AddRecurringSlotsService(id, days);
+      if (response.id) {
+        toast({
+          title: "Slots Added Successfully",
+          status: "success",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+        
+        setTimeout(()=>{
+          navigate("/admin/one-on-one-interviews/event-types")
+        },2000)
+      }
+    } catch (err) {
+      toast({
+        title: "Something Went Wrong",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+  //GetEventById function
+  const GetEventById =async () => {
+    try {
+      const response = await GetSingleEventsService(id);
+      if (response.days) {
+        setDays(response.days);
+      }
+    } catch (err) {
+      toast({
+        title: "Something Went Wrong",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+
+  useEffect(() => {
+    GetEventById();
+  }, []);
+
+
   return (
     <div>
       <Box h="auto" p="20px" mt="5px" border="1px solid grey">
@@ -26,12 +135,10 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
               </Flex>
               <Flex>
                 {" "}
-                <Text>Event Duration</Text>{" "}
-                <Text ml="20px">When can people book this event ?</Text>
+                <Text>{AllData.AllData.title}</Text>{" "}
+                <Text ml="20px">{AllData.AllData.duration} Minutes</Text>
               </Flex>
             </Box>
-
-          
           </Flex>
         </Box>
 
@@ -40,23 +147,29 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
           {" "}
           Set availability time for this event type{" "}
         </FormLabel>
-        <SlotsSchedule />
+
+        <SlotsSchedule days={days} setDays={setDays} />
 
         <Divider mt="20px" mb="20px" h="2px" />
         <Flex justifyContent={"flex-end"}>
-        <Box>
-              <Button variant="link" mr="10px"  onClick={() => setSlotsEdit(!isSlotsEdit)}>
-                Cancel
-              </Button>
-              <Button
-                size={["sm", "md"]}
-                borderRadius="16px"
-                colorScheme="blue"
-              >
-                Save 
-              </Button>
-            </Box>
-            </Flex>
+          <Box>
+            <Button
+              variant="link"
+              mr="10px"
+              onClick={() => setSlotsEdit(!isSlotsEdit)}
+            >
+              Cancel
+            </Button>
+            <Button
+              size={["sm", "md"]}
+              borderRadius="16px"
+              colorScheme="blue"
+              onClick={AddSlots}
+            >
+              Add Slots
+            </Button>
+          </Box>
+        </Flex>
       </Box>
     </div>
   );
