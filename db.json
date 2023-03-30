@@ -1,0 +1,53 @@
+{
+  
+  "interviews":[
+    {
+        "interviewId": 23,
+        "interviewerId": 3,
+        "intervieweeId": 1,
+        "startTime": "11:30:00",
+        "endTime": "12:00:00",
+        "date": "04-04-2023",
+        "studentsNotes": null,
+        "adminFeedback": null,
+        "category": "Technical",
+        "instructions": "This interview will cover topics related to software engineering",
+        "title": "Software Engineer Interview",
+        "zoomLink": "https://zoom.us/j/1234567890",
+        "meetingStatus": "P",
+        "batch": "Batch 5"
+    },
+    {
+        "interviewId": 24,
+        "interviewerId": 3,
+        "intervieweeId": 1,
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "date": "02-04-2023",
+        "studentsNotes": null,
+        "adminFeedback": null,
+        "category": "DSA",
+        "instructions": "Join before 5 minutes",
+        "title": "Dsa interview with ankush",
+        "zoomLink": "https://us06web.zoom.us/j/81073976928#success",
+        "meetingStatus": "C",
+        "batch": "sb201"
+    },
+    {
+        "interviewId": 25,
+        "interviewerId": 3,
+        "intervieweeId": 2,
+        "startTime": "10:00:00",
+        "endTime": "11:00:00",
+        "date": "03-04-2023",
+        "studentsNotes": null,
+        "adminFeedback": null,
+        "category": "coding",
+        "instructions": "Join before 5 minutes",
+        "title": "Coding interview with nrupul",
+        "zoomLink": "https://us06web.zoom.us/j/81073976928#success",
+        "meetingStatus": "P",
+        "batch": "js201"
+    }
+]
+}

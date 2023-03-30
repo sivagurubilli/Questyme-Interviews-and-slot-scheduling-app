@@ -28,14 +28,15 @@ import {
   ChevronUpIcon
 } from "@chakra-ui/icons";
 import { MdSettings } from "react-icons/md";
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
 import { FaRegClone} from "react-icons/fa";
 import Header from "../../Components/CommonComponents/Header";
+
 const UserDashboard = () => {
-    const { onOpen, onClose, isOpen } = useDisclosure()
+    const { onOpen, onClose, isOpen } = useDisclosure();
   return (
     <div>
       <Navbar />
