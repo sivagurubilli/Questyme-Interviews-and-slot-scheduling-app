@@ -10,58 +10,10 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import "./index.css";
+import "../../Pages/AdminSidePages/OneOnOneSlotsEdit/index.css";
+
 //this component is for schedule slots based on availability setting of days
-const DayAvailability = () => {
-  // setting state for slots availability  for particular day
-
-
-
-  const [days, setDays] = useState([
-    {
-      name: "Sun",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Mon",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Tue",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Wed",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Thu",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Fri",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Sat",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-  ]);
-
+const DayAvailability = ({ days, setDays }: any) => {
   const DayboxWidth = useBreakpointValue({ base: "70px", md: "70px" });
 
   // handle checkbox value change on checked
@@ -93,21 +45,20 @@ const DayAvailability = () => {
     field: "start" | "end",
     value: string
   ) => {
-   
     const updatedDays = [...days];
     updatedDays[dayIndex].inputs[inputIndex][field] = value;
     setDays(updatedDays);
     const currentInput = updatedDays[dayIndex].inputs[inputIndex];
     const currentStart = convertTo24Hour(currentInput.start);
     const currentEnd = convertTo24Hour(currentInput.end);
-    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9](am|pm)$/i
+    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9](am|pm)$/i;
 
     const errorFeild = updatedDays[dayIndex].errors[inputIndex];
 
     if (!timePattern.test(currentInput.start)) {
       errorFeild["start"] = "Please Enter Correct Input ";
     }
-    if(!timePattern.test(currentInput.end)){
+    if (!timePattern.test(currentInput.end)) {
       errorFeild["end"] = "Please Enter Correct Input ";
     }
     if (inputIndex > 0) {
@@ -121,26 +72,25 @@ const DayAvailability = () => {
         (currentStart < previusEnd || currentStart >= currentEnd)
       ) {
         errorFeild[field] = "Time Scheduling Mismatch";
-        errorFeild["end"]=""
+        errorFeild["end"] = "";
       } else if (field === "end" && currentEnd <= currentStart) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch";
-        errorFeild["start"]=""
+        errorFeild["start"] = "";
       } else {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "";
       }
     } else {
       currentInput[field] = value;
-
       if (field === "start" && currentStart >= currentEnd) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch ";
-        errorFeild["end"]=""
+        errorFeild["end"] = "";
       } else if (field === "end" && currentEnd <= currentStart) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch";
-        errorFeild["start"]=""
+        errorFeild["start"] = "";
       } else {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "";
@@ -152,9 +102,8 @@ const DayAvailability = () => {
   // when click on plus symbol handle add inputs
   const handleAddInput = (dayIndex: number) => {
     const updatedDays = [...days];
-    updatedDays[dayIndex].inputs.push({ start: "9:00am", end: "5:00pm" });
+    updatedDays[dayIndex].inputs.push({ start: "", end: "" });
     updatedDays[dayIndex].errors.push({ start: "", end: "" });
-
     setDays(updatedDays);
   };
 
@@ -173,9 +122,9 @@ const DayAvailability = () => {
 
   return (
     <div>
-      {days.map((day, dayIndex) => (
+      {days.map((day: any, dayIndex: any) => (
         <Box key={day.name}>
-          <Box display={displayMode}  justifyContent="space-between" w="100%">
+          <Box display={displayMode} justifyContent="space-between" w="100%">
             <Flex w="60%">
               <Box mt="12px">
                 <Checkbox
@@ -191,7 +140,7 @@ const DayAvailability = () => {
             </Flex>
             {day.isChecked ? (
               <Box className="input-group">
-                {day.inputs.map((input, inputIndex) => (
+                {day.inputs.map((input: any, inputIndex: any) => (
                   <Flex key={inputIndex}>
                     <Box>
                       <Input
