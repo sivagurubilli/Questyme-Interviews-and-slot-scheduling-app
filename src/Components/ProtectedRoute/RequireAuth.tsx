@@ -13,4 +13,4 @@ const RequireAuth = ({children}:any) => {
   return children
 }
 
-export default RequireAuth
+export default RequireAuth 
