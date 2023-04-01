@@ -28,7 +28,7 @@ import {
   ChevronUpIcon
 } from "@chakra-ui/icons";
 import { MdSettings } from "react-icons/md";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
@@ -37,6 +37,8 @@ import Header from "../../Components/CommonComponents/Header";
 
 const UserDashboard = () => {
     const { onOpen, onClose, isOpen } = useDisclosure();
+    const [interviews,setInterviews] =useState([]);
+    
   return (
     <div>
       <Navbar />
