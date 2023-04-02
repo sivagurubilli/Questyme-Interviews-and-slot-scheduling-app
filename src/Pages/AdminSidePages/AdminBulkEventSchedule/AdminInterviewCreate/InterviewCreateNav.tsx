@@ -14,8 +14,7 @@ const InterviewCreateNav = () => {
                         </Button>
                         <Text fontWeight="bold" position={"relative"} fontSize="medium">
                             Create Single Interview
-                        </Text>
-                        <div><> </><> </></div>
+                        </Text>     
                     </Flex>
                 </Box>
             </Box>
