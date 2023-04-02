@@ -34,7 +34,7 @@ const SlotsViewNavbar = () => {
 
             <Text fontWeight="bold" fontSize="medium">
               {" "}
-              View All slots For This Event{" "}
+              View All slots {" "}
             </Text>
           </Flex>
         </Box>

@@ -1,7 +1,7 @@
 export const masaiImage: string = 'https://masaischool.com/img/navbar/logo.svg';
 
 
-export const EventTypesNavbarArray = ["Event-Types","Scheduled-Events"]
+export const EventTypesNavbarArray = ["Past-Interviews","Add-Students"]
 
 
 
@@ -11,20 +11,57 @@ export const eventsBydate = [
   {
     day:"Tue",
     title: 'Meeting with mahesh',
-    start: new Date('2023-03-28T10:30:00'),
-    end: new Date('2023-03-28T12:30:00')
+    date:"03-31-2023",
+    slots:[{
+      b:"n",
+      start:"9:00am",
+      end:"9:30am"
+    },
+    {
+      b:"y",
+      start:"9:30am",
+      end:"10:30am"
+    },
+  
+  ]
   },
   {
     day:"Tue",
     title: 'Meeting with rajesh',
-    start: new Date('2023-03-28T14:30:00'),
-    end: new Date('2023-03-28T15:30:00')
+    date:"03-29-2023",
+    slots:[{
+      b:"y",
+      start:"9:00am",
+      end:"9:30am"
+    },
+    {
+      b:"n",
+      start:"9:30am",
+      end:"10:00am"
+    },
+    {
+      b:"n",
+      start:"11:30am",
+      end:"12:00am"
+    },
+  ]
   },
   {
     day:"Wed",
     title: 'Lunch with ram',
-    start: new Date('2023-03-29T12:00:00'),
-    end: new Date('2023-03-29T13:00:00')
+    date:"03-27-2023",
+    slots:[{
+      b:"y",
+      start:"9:00am",
+      end:"9:30am"
+    },
+    {
+      b:"n",
+      start:"9:30am",
+      end:"10:30am"
+    },
+  
+  ]
   },
   // Add more events here
 ];

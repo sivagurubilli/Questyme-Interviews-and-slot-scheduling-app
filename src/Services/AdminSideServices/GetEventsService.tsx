@@ -4,7 +4,6 @@ import axios from "axios"
 export async function GetAllEventsService() {
     try {
        const response = await axios.get("/one-on-one-events");
-
       return response.data;
     } catch (error: any) {
       return error.response;
@@ -19,8 +18,8 @@ export async function GetAllEventsService() {
    adminId,
     duration,
     category,
-    startTime,
-    endTime
+    date,
+    slots
     } = data
 
     try {
@@ -30,9 +29,9 @@ export async function GetAllEventsService() {
         adminId,
         meetingLink,
          duration,
+         date,
          category,
-         startTime,
-    endTime
+      slots
        });
       return response.data;
     } catch (error: any) {
@@ -59,7 +58,7 @@ export async function GetAllEventsService() {
         adminId,
          duration,
          category,
-         startTime,endTime
+       slots
          } = data
       
     try {
@@ -70,7 +69,7 @@ export async function GetAllEventsService() {
         adminId,
          duration,
          category,
-         startTime,endTime
+         slots
        });
        
       return response.data;
@@ -95,6 +94,7 @@ export async function GetAllEventsService() {
   export async function DeleteEventSevice(id:any) {
     try {
        const response = await axios.delete(`/one-on-one-events/${id}`);
+       console.log(response)
       return response.data;
     } catch (error: any) {
       return error.response;
@@ -102,7 +102,7 @@ export async function GetAllEventsService() {
   }
 
    //Delete Event service 
-   export async function setDateForEventSchedule(date:any) {
+   export async function SetDateForEventSchedule(date:any) {
     const eventId  = localStorage.getItem("eventId")
 console.log(date)
     try {

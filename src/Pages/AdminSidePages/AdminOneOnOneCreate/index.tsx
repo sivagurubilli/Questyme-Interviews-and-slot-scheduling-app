@@ -1,34 +1,24 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useState } from "react";
 import OneOnOneCreateNav from "./OneOnOneCreateNav";
-import { Box, useToast } from "@chakra-ui/react";
+import { Box, Divider,  FormLabel, useToast } from "@chakra-ui/react";
 import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
 import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useNavigate } from "react-router-dom";
+import { IEventValuescreate } from "../Interfacces";
 
-interface IEventValues {
-  title: string;
-  instruction: string;
-  meetingLink: string;
-  adminId: string;
-  duration: string;
-  category: string;
-  eventLink: string;
-  startTime: string;
-  endTime: string;
-}
 
 const OneonOneEventsCreate = () => {
-  const [EventValues, setEventValues] = useState<IEventValues>({
+  const [EventValues, setEventValues] = useState<IEventValuescreate>({
     title: "",
     instruction: "",
     meetingLink: "",
     adminId: "5",
     duration: "",
     category: "",
-    eventLink: "",
-    startTime: "",
-    endTime: "",
+    date:"",
+    slots:[{start: "",
+    end: ""}]
   });
   const navigate = useNavigate();
   const toast = useToast();
@@ -38,8 +28,6 @@ const OneonOneEventsCreate = () => {
       const response = await PostEventsService(EventValues);
 
       if (response) {
-        localStorage.setItem("eventId", "222222");
-
         toast({
           title: "Event created",
           description: "Your event has been created successfully!",
@@ -80,10 +68,14 @@ const OneonOneEventsCreate = () => {
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
         <Box boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)" p="20px">
+        <FormLabel>Create Event With Following Values </FormLabel>
+    
+      <Divider mt="10px" h="2px" />
           <OneOnOneEventsCreateInput
             EventValues={EventValues}
             addEvent={addEvent}
             setEventValues={setEventValues}
+            buttonName={"Create Slots"}
           />
         </Box>
       </Box>

@@ -1,0 +1,40 @@
+{
+  "one-on-one-events": [
+    {
+      "title": "event with ranjnesh",
+      "instruction": "dummy",
+      "adminId": "5",
+      "meetingLink": "https://us06web.zoom.us/j/81073976928",
+      "duration": "30",
+      "date": "2023-04-17",
+      "category": "Csbt",
+      "id": 1,
+      "slots": [
+        {
+          "start": "9:00am",
+          "end": "11:00am"
+        }
+      ]
+    },
+    {
+      "title": "meeting with nivi",
+      "instruction": "ddddddddd",
+      "adminId": "5",
+      "meetingLink": "https://us06web.zoom.us/j/81073976928",
+      "duration": "30",
+      "date": "2023-04-15",
+      "category": "Csbt",
+      "slots": [
+        {
+          "start": "9:00am",
+          "end": "5:00pm"
+        },
+        {
+          "start": "6:00pm",
+          "end": "7:00pm"
+        }
+      ],
+      "id": 2
+    }
+  ]
+}

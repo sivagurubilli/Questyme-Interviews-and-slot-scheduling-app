@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useParams } from "react-router-dom";
-import OneOnOneEventsEditInput from "./EventEditInput";
+import OneOnOneEventsCreateInput from  "../../Components/OneOnOneEventsCreateInput"
 
 const OneOnOneEdit = ({
   setEventValues,
@@ -60,25 +60,26 @@ const OneOnOneEdit = ({
                   backgroundColor="violet"
                 />
                 <FormLabel mt="10px" color="rgb(75 85 99)">
-                  What event is this ?{" "}
+                Edit Values For This Event {" "}
                 </FormLabel>
               </Flex>
 
               <Flex>
                 {" "}
-                <Text>{EventValues.title}</Text>{" "}
-                <Text ml="20px">{EventValues.category}</Text>
+                <Text>{EventValues?.title}</Text>{" "}
+                <Text ml="20px">{EventValues?.category}</Text>
               </Flex>
             </Box>
           </Flex>
         </Box>
-        <Divider mt="20px" mb="20px" h="2px" />
-
-        <OneOnOneEventsEditInput
+     
+          <Divider mt="10px" h="2px" /> 
+        <OneOnOneEventsCreateInput
           EventValues={EventValues}
           setEventValues={setEventValues}
           setNameEdit={setNameEdit}
           SaveEvent={SaveEvent}
+          buttonName={"Save"}
         />
       </Box>
     </div>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const CreateButtonDropDown = ({ show, setShow }: any) => {
   const navigate = useNavigate();
+  
   const GotoCreateEvent = () => {
     navigate("/admin/one-on-one-interviews/create");
   };
@@ -11,6 +12,7 @@ const CreateButtonDropDown = ({ show, setShow }: any) => {
   const GotoOneOffMeet = () => {
     navigate("/admin/one-on-one-interviews/create/on-off-meet");
   };
+
   return (
     <div>
       <Box
@@ -20,7 +22,7 @@ const CreateButtonDropDown = ({ show, setShow }: any) => {
         position="absolute"
         width="300px"
         height="auto"
-        marginLeft="60%"
+        marginLeft="70%"
         border="1px solid #778087"
         borderRadius="5px"
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"

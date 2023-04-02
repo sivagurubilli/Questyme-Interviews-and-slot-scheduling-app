@@ -13,6 +13,9 @@ import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 import OneOnOneSlotsView from './Pages/AdminSidePages/OneOnOneSlotsView'
 import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'
 import { CreateSingleInterview } from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminInterviewCreate'
+import AdminDashBoard from './Pages/AdminSidePages/AdminDashBoard'
+import PastInterviews from './Components/DashBoard/PastInterviews'
+import AddStudents from './Pages/AdminSidePages/AddStudents'
 
 
 
@@ -21,13 +24,15 @@ const AllRoutes = () => {
     <div>
             <Routes>
             <Route path ="/login" element ={<Login/>} />
-            <Route path ="/admin/one-on-one-interviews/event-types" element={<OneonOneEvents/>}/>
+            <Route path ="/admin/one-on-one-interviews" element={<OneonOneEvents/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
-            <Route path ="/slot/:hashid" element ={<OneOnOneSlotsView/>} />
+            <Route path ="/slot/:id" element ={<OneOnOneSlotsView/>} />
             <Route path ="/student/booking" element={<StudentBooking />}/>
+            <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
+            <Route path ="/admin/past-interviews" element ={<PastInterviews/>} />
+            <Route path ="/admin/add-students"  element ={<AddStudents/>} />
             <Route path ="/student/booking/details" element={<StudentBookingMail />}/>
-
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
             <Route path='/user/me' element={<UserDashboard />} />
             <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
