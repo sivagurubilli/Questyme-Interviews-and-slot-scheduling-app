@@ -2,7 +2,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import "./index.css";
-
+import { Dispatch } from "redux";
 import {
   Button,
   Checkbox,
@@ -16,8 +16,10 @@ import {
 import { Box, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { masaiImage } from "../../Assets/Assets";
-import { LoginService } from "../../Services/AuthService";
-
+import {loginService} from "../../Services/AuthService"
+import { useDispatch } from "react-redux";
+import {ActionTypes} from "../../Redux/AuthReducer/ActionTypes"
+import {Action} from "../../Redux/AuthReducer/Action"
 //interface for form data
 interface IFormData {
   username: string;
@@ -53,47 +55,66 @@ export default function Login() {
     backendErrorMessage: "",
     errorFromBackend: false,
   });
+  const dispatch:Dispatch<Action> = useDispatch()
   const [isLoading, setLoading] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
+const onSubmit =(values:IFormData)=>{
 
+  if(values.username && values.password){
+    
+    const data = values;
+    loginService(data)
+    console.log("hisdshd")
+    
+  }
+}
+ 
+// const onSubmit =(values:IFormData)=>{
+//   if(values.username && values.password){
+//       dispatch(loginService(values)).then((res:string)=>{
+//           if(res == ActionTypes.LOGIN_SUCCESS){
+//               console.log("success")
+//           }
+//       })
+//   }
+// }
  
 
   //on submitting form it checks the validations using formik and use services here
-  const onSubmit = async (values: IFormData) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    try {
-      const response = await LoginService(values);
+  // const onSubmit = async (values: IFormData) => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  //   try {
+  //     const response = await LoginService(values);
 
-      if (response.token) {
-        if (response.user.roles[0].name === "STUDENT_USER") {
-          navigate("/student/dashboard");
-        }
+  //     if (response.token) {
+  //       if (response.user.roles[0].name === "ROLE_STUDENT") {
+  //         navigate("/user/me");
+  //       }
 
-        if (response.user.roles[0].name !== "STUDENT_USER") {
-          navigate("/admin/dashboard");
-        }
-      }
-      console.log(response);
-      if (!response.token) {
-        setBackendError({
-          ...BackendError,
-          errorFromBackend: true,
-          backendErrorMessage: response.data.message,
-        });
-      }
-    } catch (error: any) {
-      setBackendError({
-        ...BackendError,
-        errorFromBackend: true,
-        backendErrorMessage: error.response.date.message,
-      });
-    }
-  };
+  //       if (response.user.roles[0].name !== "ROLE_STUDENT") {
+  //         navigate("/admin/dashboard");
+  //       }
+  //     }
+  //     console.log(response);
+  //     if (!response.token) {
+  //       setBackendError({
+  //         ...BackendError,
+  //         errorFromBackend: true,
+  //         backendErrorMessage: response.data.message,
+  //       });
+  //     }
+  //   } catch (error: any) {
+  //     setBackendError({
+  //       ...BackendError,
+  //       errorFromBackend: true,
+  //       backendErrorMessage: error.response.date.message,
+  //     });
+  //   }
+  // };
   //destructuring methods from useFormik
   const { handleSubmit, handleChange, touched, values, errors } = useFormik({
     initialValues,
@@ -212,6 +233,7 @@ export default function Login() {
                     h="35px"
                     ml="10px"
                     mt="10px"
+                    // onClick={()=>{onsubmit(values)}}
                   >
                     <Text fontSize="14px">LOG IN</Text>
                   </Button>

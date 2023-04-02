@@ -1,15 +1,15 @@
-import { IisAuthstate } from "../../Redux/AuthReducer/Reducer";
+import { IsAuthstate } from "../../Redux/AuthReducer/Reducer";
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useLocation } from "react-router-dom";
-
+import { RootState } from "../../Redux/store";
 const RequireAuth = ({children}:any) => {
-    const isAuth = useSelector((state:any)=>state.AuthReducer.isAuth);
+    const state = useSelector((state:RootState)=>state);
     const location =useLocation();
-    console.log("isAuth",isAuth);
-//   if(!isAuth){
-//     return <Navigate to={"/login"} state={{from:location}} replace={true} />
-//   }
+    console.log("isAuth",state);
+  // if(!isAuth){
+  //   return <Navigate to={"/login"} state={{from:location}} replace={true} />
+  // }
   return children
 }
 

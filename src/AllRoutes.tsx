@@ -13,6 +13,8 @@ import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 import OneOnOneSlotsView from './Pages/AdminSidePages/OneOnOneSlotsView'
 import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'
 import { CreateSingleInterview } from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminInterviewCreate'
+import RequireAuth from './Components/ProtectedRoute/RequireAuth'
+import { LoginUser } from './Pages/Login/LoginUser'
 
 
 
@@ -20,7 +22,8 @@ const AllRoutes = () => {
   return (
     <div>
             <Routes>
-            <Route path ="/login" element ={<Login/>} />
+            <Route path ="/login" element ={<LoginUser/>} />
+            {/* <Route path ="/login" element ={<Login/>} /> */}
             <Route path ="/admin/one-on-one-interviews/event-types" element={<OneonOneEvents/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
@@ -30,7 +33,7 @@ const AllRoutes = () => {
 
             <Route path ="/admin/one-on-one-interviews/edit/:id" element={<OneonOneSlotsCreate />}/>
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
-            <Route path='/user/me' element={<UserDashboard />} />
+            <Route path='/user/me' element={<RequireAuth><UserDashboard /></RequireAuth>} />
             <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
             <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
