@@ -8,7 +8,7 @@ import StudentBooking from './Pages/StudentSidePages/StudentOneOnOneInterview/in
 import StudentBookingMail from './Pages/StudentSidePages/StudentOneOnOneInterview/StudentBookingMail';
 import GotoOneOffMeet from './Pages/AdminSidePages/OneOffMeeting'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
-import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
+import BookOneOnOne from './Pages/BookInterviews/BookOneOnOne'
 import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 import OneOnOneSlotsView from './Pages/AdminSidePages/OneOnOneSlotsView'
 import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'

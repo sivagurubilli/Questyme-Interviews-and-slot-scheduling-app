@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import {store} from "./Redux/store"
 
 
-const rootElement = document.getElementById("root")as Element;;
+const rootElement = document.getElementById("root")as Element;
 ReactDOM.createRoot(rootElement).render(
   <BrowserRouter>
     <ChakraProvider>    

@@ -28,40 +28,21 @@ import {
   ChevronUpIcon
 } from "@chakra-ui/icons";
 import { MdSettings } from "react-icons/md";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
 import { FaRegClone} from "react-icons/fa";
+import Header from "../../Components/CommonComponents/Header";
+
 const UserDashboard = () => {
-    const { onOpen, onClose, isOpen } = useDisclosure()
+    const { onOpen, onClose, isOpen } = useDisclosure();
+    const [interviews,setInterviews] =useState([]);
+    
   return (
     <div>
       <Navbar />
-      <header>
-        <Box bg={"white"}>
-          <Box w={"75%"} h={"auto"} m={"auto"}>
-            <Box
-              w={"100%"}
-              h={"70px"}
-              m={"auto"}
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <Text
-                fontSize={"1.7rem"}
-                fontWeight={"500"}
-                fontFamily={"sans-serif"}
-              >
-                My Interviews
-              </Text>
-              <Button colorScheme="blue">+ Book Interview</Button>
-            </Box>
-            {/* <Box border={"1px solid indigo"} w={"100%"} h={"60px"} m={"auto"}></Box> */}
-          </Box>
-        </Box>
-      </header>
+     <Header title={"today's Bookings"} buttonName={"+ Book 1-1"}/>
       <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
@@ -208,31 +189,14 @@ const UserDashboard = () => {
                         </Flex>
                       </Box>
                       <Box>
-                        <Button variant={"link"} float={"right"} mt={"10px"}>
+                        <Link to={"/user/me/interview-details"}><Button variant={"link"} float={"right"} mt={"10px"}>
                           Details &gt;
-                        </Button>
+                        </Button></Link>
                       </Box>
                     </Flex>
                   </Box>
                 </GridItem>
-                <GridItem
-                  w={"100%"}
-                  h={"200px"}
-                  border={"1px solid indigo"}
-                  borderRadius={"10px"}
-                  cursor={"pointer"}
-                  bg={"white"}
-                  boxShadow={"rgba(0, 0, 0, 0.24) 0px 3px 8px"}
-                />
-                <GridItem
-                  w={"100%"}
-                  h={"200px"}
-                  border={"1px solid indigo"}
-                  borderRadius={"10px"}
-                  cursor={"pointer"}
-                  bg={"white"}
-                  boxShadow={"rgba(0, 0, 0, 0.24) 0px 3px 8px"}
-                />
+                
               </Grid>
             </Box>
           </Box>
