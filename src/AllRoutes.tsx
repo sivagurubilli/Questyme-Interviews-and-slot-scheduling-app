@@ -13,6 +13,7 @@ import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
 import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'
 import { CreateSingleInterview } from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminInterviewCreate'
+import { BookSlot } from './Pages/StudentSidePages/StudentOneOnOneInterview/BookSlot';
 
 
 const AllRoutes = () => {
@@ -25,14 +26,13 @@ const AllRoutes = () => {
             <Route path ="/admin/one-on-one-interviews/edit/:id" element={<OneonOneSlotsCreate />}/>
             <Route path ="/student/booking" element={<StudentBooking />}/>
             <Route path ="/student/booking/details" element={<StudentBookingMail />}/>
-
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
-
             <Route path='/user/me' element={<UserDashboard />} />
             <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
             <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
+            <Route path='/user/book-slot' element={<BookSlot />} />
             </Routes>
     </div>
   )

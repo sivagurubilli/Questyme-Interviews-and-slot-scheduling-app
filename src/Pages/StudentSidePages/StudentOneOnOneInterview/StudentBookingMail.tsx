@@ -7,7 +7,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   Textarea,
   Button,
   VStack,
@@ -52,7 +51,6 @@ const StudentBookingMail = () => {
     setFormValues(initialFormValues);
     axios.post('http://localhost:8080/schedules',{formValues})
     .then(response => {
-      console.log(response, "okre");
       toast({
         title: "Event scheduled",
         description: "Your event has been scheduled successfully!",
@@ -130,7 +128,7 @@ const StudentBookingMail = () => {
           </Heading>
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
-              <FormControl id="name">
+              {/* <FormControl id="name">
                 <FormLabel>Name</FormLabel>
                 <Input
                   type="text"
@@ -139,8 +137,8 @@ const StudentBookingMail = () => {
                   onChange={handleInputChange}
                   required
                 />
-              </FormControl>
-              <FormControl id="email">
+              </FormControl> */}
+              {/* <FormControl id="email">
                 <FormLabel>Email</FormLabel>
                 <Input
                   type="email"
@@ -149,7 +147,7 @@ const StudentBookingMail = () => {
                   onChange={handleInputChange}
                   required
                 />
-              </FormControl>
+              </FormControl> */}
               <FormControl id="description">
                 <FormLabel>
                   Please share anything that will help prepare for our meeting.
