@@ -48,7 +48,7 @@ export interface interview{
   category:string,
   instructions: string,
   title: string,
-  zoomLink: string,
+  meetingLink: string,
   meetingStatus: string,
   batch: string
 }
@@ -193,8 +193,8 @@ const UserDashboard = () => {
                               justifyContent={"space-between"}
                               alignItems={"center"}
                             >
-                              {copyText && copyText==item.zoomLink?"":<CopyIcon w={"20px"} h={"20px"} />}
-                              {copyText && copyText==item.zoomLink?<Text>Copied !</Text>:<Text ml={"10px"}  onClick={()=>copyContent(item.zoomLink)}>Copy Link</Text>}
+                              {copyText && copyText==item.meetingLink?"":<CopyIcon w={"20px"} h={"20px"} />}
+                              {copyText && copyText==item.meetingLink?<Text>Copied !</Text>:<Text ml={"10px"}  onClick={()=>copyContent(item.meetingLink)}>Copy Link</Text>}
                               
                             </Flex>
                           </Box>
