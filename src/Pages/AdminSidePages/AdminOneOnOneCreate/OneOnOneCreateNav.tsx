@@ -38,7 +38,6 @@ const OneOnOneCreateNav = () => {
               Add One-On-One Event Type{" "}
             </Text>
 
-            <Button>Share</Button>
           </Flex>
         </Box>
       </Box>

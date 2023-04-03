@@ -67,7 +67,7 @@ const SlotsSchedule = ({ days, setDays }: any) => {
             {dateOverRides?.map((el, index) => (
               <Flex border=".2px solid gray" justifyContent="space-between">
                 <Box p="10px">
-                  <Text>{new Date(el.date).toLocaleDateString("en-US")}</Text>
+                  <Text>{new Date(el?.date).toLocaleDateString("en-US")}</Text>
                   <Box>
                     {el.timeslots?.map((item) => (
                       <Text>

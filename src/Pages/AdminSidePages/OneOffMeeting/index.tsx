@@ -24,7 +24,7 @@ const GotoOneOffMeet = () => {
         </Flex>
       </Box>
 
-      <Calendar />
+      {/* <Calendar /> */}
     </div>
   );
 };

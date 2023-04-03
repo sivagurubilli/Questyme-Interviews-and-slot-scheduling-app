@@ -9,26 +9,12 @@ import OneOnOneEdit from "../../../Components/OneOnOneEdit/OneOnOneEdit";
 import OneOnOneSlots from "../../../Components/OneOnOneEdit/OneOnOneSlots";
 import { useParams } from "react-router-dom";
 import { GetSingleEventsService } from "../../../Services/AdminSideServices/GetEventsService";
-import AddDateToEvent from "../../../Components/OneOnOneEdit/AddDateToEvent";
-
-interface IEventValues {
-  title: string;
-  instruction: string;
-  meetingLink: string;
-  adminId: string;
-  id: number;
-  duration: string;
-  category: string;
-  eventLink: string;
-  startTime: string;
-  endTime: string;
-}
+import { IEventValues } from "../Interfacces";
 
 //this component is for creating events  slots
 const OneonOneSlotsCreate = () => {
   const [isNameEdit, setNameEdit] = useState(false);
   const [isSlotsEdit, setSlotsEdit] = useState(false);
-  const [isDateAdd, setDateAdd] = useState(false);
   const dispatch = useDispatch();
   const { GetSingleData } = bindActionCreators(actionCreators, dispatch);
   const [EventValues, setEventValues] = useState<IEventValues>({
@@ -39,19 +25,20 @@ const OneonOneSlotsCreate = () => {
     duration: "",
     id: 0,
     category: "",
-    eventLink: "",
-    startTime: "",
-    endTime: "",
+    date: "",
+    slots: [{ start: "", end: "" }],
   });
+
   const { id } = useParams();
   const toast = useToast();
 
   const GetEventById = async () => {
     try {
       const response = await GetSingleEventsService(id);
-      GetSingleData(response);
+      console.log(response);
       if (response.id) {
         setEventValues(response);
+        GetSingleData(response);
       }
     } catch (err) {
       toast({
@@ -83,43 +70,6 @@ const OneonOneSlotsCreate = () => {
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        {isDateAdd ? (
-          <AddDateToEvent
-            setEventValues={setEventValues}
-            EventValues={EventValues}
-            isDateAdd={isDateAdd}
-            setDateAdd={setDateAdd}
-          />
-        ) : (
-          <Box
-            onClick={() => setDateAdd(!isDateAdd)}
-            cursor="pointer"
-            boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
-            p="20px"
-            border="1px solid grey"
-          >
-            <Flex>
-              <Box
-                mt="12px"
-                mr="10px"
-                w="20px"
-                h="20px"
-                borderRadius="50%"
-                backgroundColor="violet"
-              />
-              <FormLabel mt="10px" color="rgb(75 85 99)">
-                Add Date For Creating Slots{" "}
-              </FormLabel>
-            </Flex>
-
-            <Flex>
-              {" "}
-              <Text>Title of event</Text>{" "}
-              <Text ml="20px">Location of event</Text>
-            </Flex>
-          </Box>
-        )}
-
         {isNameEdit ? (
           <OneOnOneEdit
             setEventValues={setEventValues}

@@ -1,17 +1,28 @@
-import { Box, Divider, Flex, Button, Text, Checkbox } from "@chakra-ui/react";
+import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
+import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import SettingsComponent from "./SettingsComponent";
 
-const OneonOneEventComponent = ({ event }: any) => {
+interface ProfilecomponentProps {
+  event: IEventValues;
+  GetEvents: any;
+}
+
+const OneonOneEventComponent = ({
+  event,
+  GetEvents,
+}: ProfilecomponentProps) => {
   const [openDrop, setOpenDrop] = useState(false);
   const [isCopied, setCopied] = useState(false);
   const [uniquelink, setuniqueLink] = useState<string | null>("");
 
+
+  
+
   useEffect(() => {
-    var hashId = localStorage.getItem("eventId");
-    setuniqueLink(`localhost:3001/slot/${hashId}`);
-  }, []);
+    setuniqueLink(`localhost:3001/slot/${event.id}`);
+  }, [event.id]);
 
   //for copying link when click on copylink
   const handleCopyLink = () => {
@@ -20,9 +31,6 @@ const OneonOneEventComponent = ({ event }: any) => {
     }
   };
 
-  const username = "siva@123";
-  const type = "15min";
-  const month = "2023-03";
   return (
     <div>
       <Box
@@ -32,9 +40,7 @@ const OneonOneEventComponent = ({ event }: any) => {
         border="1px solid grey"
         borderRadius="10px"
       >
-        <Flex pt="20px" pl="20px" pr="20px" justifyContent="space-between">
-          <Checkbox cursor="pointer" />
-
+        <Flex pt="20px" pl="20px" pr="20px" justifyContent="flex-end">
           <Flex onClick={() => setOpenDrop(!openDrop)} cursor="pointer">
             <i className="fa-solid fa-gear" style={{ color: "#778087" }}></i>{" "}
             <i
@@ -43,19 +49,22 @@ const OneonOneEventComponent = ({ event }: any) => {
             ></i>{" "}
           </Flex>
         </Flex>
-        {openDrop && <SettingsComponent event={event} setshow1={setOpenDrop} />}
+        {openDrop && (
+          <SettingsComponent
+            event={event}
+            setshow1={setOpenDrop}
+            GetEvents={GetEvents}
+          />
+        )}
 
-        <Box p="30px">
+        <Box p="20px">
           <Text color="#474747">{event.title}</Text>
-          <Flex>
+          <Flex mt="10px" justifyContent="space-between">
             <Text color="#778087">{event.duration} Mins</Text>{" "}
             <Text color="#778087" ml="20px">
               {event.category}
             </Text>
           </Flex>
-          <Link to={"/" + username + type + month}>
-            <Text color="#5269FF">view booking page </Text>
-          </Link>
         </Box>
         <Divider mb="10px" />
 
@@ -84,16 +93,6 @@ const OneonOneEventComponent = ({ event }: any) => {
               </Text>
             </Flex>
           )}
-          <Button
-            color="#474747"
-            variant="outline"
-            h="30px"
-            p="10px"
-            w="70px"
-            borderRadius="20px"
-          >
-            Turn On
-          </Button>
         </Flex>
       </Box>
     </div>
