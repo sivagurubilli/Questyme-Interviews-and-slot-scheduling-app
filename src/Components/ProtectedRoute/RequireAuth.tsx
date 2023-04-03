@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import { Navigate, useLocation } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 const RequireAuth = ({children}:any) => {
-    const state = useSelector((state:RootState)=>state);
+    const isAuth = useSelector((state:RootState)=>state.AuthReducer.isAuth);
     const location =useLocation();
-    console.log("isAuth",state);
+    console.log("isAuth",isAuth);
   if(!isAuth){
     return <Navigate to={"/login"} state={{from:location}} replace={true} />
   }
