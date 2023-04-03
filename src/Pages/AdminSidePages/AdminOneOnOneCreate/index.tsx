@@ -75,7 +75,7 @@ const OneonOneEventsCreate = () => {
             EventValues={EventValues}
             addEvent={addEvent}
             setEventValues={setEventValues}
-            buttonName={"Create Slots"}
+            buttonName={"Create Event"}
           />
         </Box>
       </Box>

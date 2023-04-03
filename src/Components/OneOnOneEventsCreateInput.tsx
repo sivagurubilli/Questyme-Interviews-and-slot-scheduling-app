@@ -13,7 +13,7 @@ import {
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import TimeslotsInput from "./OneOnOneEdit/TimeslotsInput";
+
 
 //yup validation schema
 const validationSchema = yup.object().shape({
@@ -23,8 +23,7 @@ const validationSchema = yup.object().shape({
     .min(3, "Name must be 3 character"),
   category: yup.string().required("This feild is required"),
   meetingLink: yup.string().required("This feild is required"),
-  duration: yup.string().required("This feild is required"),
-  date: yup.string().required("This feild is required"),
+  duration: yup.string().required("This feild is required")
 });
 
 const OneOnOneEventsCreateInput = ({
@@ -35,7 +34,7 @@ const OneOnOneEventsCreateInput = ({
   buttonName,
 }: any) => {
   //setting initial values for formik and yup
-  const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
+
 
   const initialValues = {
     title: EventValues.title,
@@ -50,7 +49,7 @@ const OneOnOneEventsCreateInput = ({
   };
 
   const onSubmit = async () => {
-    if (buttonName === "Create Slots") {
+    if (buttonName === "Create Event") {
       addEvent();
     } else {
       SaveEvent();
@@ -76,14 +75,13 @@ const OneOnOneEventsCreateInput = ({
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
           <Box>
             <FormLabel mt="10px" color="rgb(75 85 99)">
               Event name{" "}
             </FormLabel>
 
             <Input
-              width={isSmallerThan600 ? "80%" : "100%"}
               name="title"
               value={values.title}
               onChange={handleChange}
@@ -104,7 +102,6 @@ const OneOnOneEventsCreateInput = ({
             </FormLabel>
 
             <Input
-              width={isSmallerThan600 ? "80%" : "100%"}
               name="meetingLink"
               value={values.meetingLink}
               onChange={handleChange}
@@ -123,7 +120,6 @@ const OneOnOneEventsCreateInput = ({
               Duration
             </FormLabel>
             <Select
-              width={isSmallerThan600 ? "80%" : "100%"}
               value={values.duration}
               onChange={handleChange}
               name="duration"
@@ -148,57 +144,13 @@ const OneOnOneEventsCreateInput = ({
               </Text>
             )}
           </Box>
-          <Box>
-            <FormLabel mt="10px" color="rgb(75 85 99)">
-              Category
-            </FormLabel>
-            <Select
-              width={isSmallerThan600 ? "80%" : "100%"}
-              value={values.category}
-              onChange={handleChange}
-              name="category"
-              placeholder="Category"
-            >
-              <option key={"Dsa"} value={"Dsa"}>
-                Dsa
-              </option>
-              <option key={"coding"} value={"Coding"}>
-                Coding
-              </option>
-              <option key={"Csbt"} value={"Csbt"}>
-                C.S.B.T
-              </option>
-              <option key={"Revision"} value={"Revision"}>
-                Revision
-              </option>
-            </Select>
-            {touched.category && errors.category && (
-              <Text color="red">
-                {JSON.stringify(errors.category).replace(/"/g, "")}
-              </Text>
-            )}
-          </Box>
-          <Box>
-            <FormLabel mt="10px" color="rgb(75 85 99)">
-              Select Date{" "}
-            </FormLabel>
-
-            <Input
-              width={isSmallerThan600 ? "80%" : "100%"}
-              name="date"
-              type="date"
-              value={values.date}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="date"
-            />
-          </Box>
+         
+         
           <Box>
             <FormLabel mt="10px" color="rgb(75 85 99)">
               Instructions
             </FormLabel>
             <Textarea
-              width={isSmallerThan600 ? "80%" : "100%"}
               name="instruction"
               value={values.instruction}
               onChange={handleChange}
@@ -210,14 +162,6 @@ const OneOnOneEventsCreateInput = ({
                 {JSON.stringify(errors.instruction).replace(/"/g, "")}
               </Text>
             )}
-          </Box>
-
-          <Box>
-            <TimeslotsInput
-              values={values}
-              EventValues={EventValues}
-              setEventValues={setEventValues}
-            />
           </Box>
         </Grid>
         <Flex mt="20px" justifyContent="flex-end">

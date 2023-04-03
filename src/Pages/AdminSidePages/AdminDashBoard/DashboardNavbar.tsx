@@ -7,7 +7,7 @@ import "./index.css";
 const DashboardNavbar = () => {
   const url = window.location.pathname;
   const segments = url.split("/");
-  const route = segments[segments.length - 1]; // "add-students"
+  const route = segments[segments.length - 1];
   const navigate = useNavigate();
 
   return (
@@ -22,16 +22,24 @@ const DashboardNavbar = () => {
         <Box boxShadow="sm">
           <Flex
             position={"relative"}
-            w={"97%"}
+            w={["100%", "100%", "97%"]}
             align="center"
             m="auto"
-            h={"60px"}
-            justifyContent="space-around"
+          
+           minH={"60px"}
+            justifyContent={["center", "center", "space-around"]}
             color={"gray.600"}
+            flexDirection={["column", "column", "row"]}
           >
-            <Flex justifyContent={"space-around"} align="center">
+            <Flex
+              justifyContent={["center", "center", "flex-start"]}
+              align="center"
+              w={["100%", "100%", "50%"]}
+              mt={[2, 2, 0]}
+              mb={[2, 2, 0]}
+            >
               {EventTypesNavbarArray.map((el) => (
-                <Box ml="10px" key={el} className="li">
+                <Box ml={["0px", "0px", "10px"]} key={el} className="li">
                   <NavLink key={el} to={"/admin/" + el.toLowerCase()}>
                     {el.split("-").join(" ")}
                   </NavLink>
@@ -39,11 +47,21 @@ const DashboardNavbar = () => {
               ))}
             </Flex>
 
-            <Flex>
+            <Flex
+              w={["100%", "100%", "50%"]}
+              justifyContent={["center", "center", "flex-end"]}
+              align="center"
+              mb={[2, 2, 0]}
+             
+            >
               <Button
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
-                mr="30px"
+                mr={[0, 0, "30px"]}
+                mb={["10px", "10px", 0]}
+                fontSize={["sm", "sm", "md"]}
+                px={["2", "2", "4"]}
+                py={["1", "1", "2"]}
                 onClick={() => navigate("/admin/single-interview/create")}
               >
                 Create Interviews
@@ -51,7 +69,11 @@ const DashboardNavbar = () => {
               <Button
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
-                mr="30px"
+                mr={[0, 0, "30px"]}
+                mb={["10px", "10px", 0]}
+                fontSize={["sm", "sm", "md"]}
+                px={["2", "2", "4"]}
+                py={["1", "1", "2"]}
                 onClick={() => navigate("/admin/bulk-interview/create")}
               >
                 Create Bulk Interviews
@@ -59,7 +81,11 @@ const DashboardNavbar = () => {
               <Button
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
-                mr="30px"
+                mr={[0, 0, "30px"]}
+                mb={["10px", "10px", 0]}
+                fontSize={["sm", "sm", "md"]}
+                px={["2", "2", "4"]}
+                py={["1", "1", "2"]}
                 onClick={() => navigate("/admin/one-on-one-interviews")}
               >
                 One-On-One Events
@@ -70,7 +96,11 @@ const DashboardNavbar = () => {
                 <Button
                   colorScheme="blue"
                   _hover={{ cursor: "pointer" }}
-                  mr="30px"
+                  mr={[0, 0, "30px"]}
+                  mb={["10px", "10px", 0]}
+                  fontSize={["sm", "sm", "md"]}
+                  px={["2", "2", "4"]}
+                  py={["1", "1", "2"]}
                   onClick={() => navigate(-1)}
                 >
                   Back

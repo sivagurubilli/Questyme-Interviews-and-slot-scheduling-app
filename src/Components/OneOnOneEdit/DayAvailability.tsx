@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { convertTo24Hour } from "../Utils/AddToAm";
 import {
   Box,
   Button,
@@ -23,20 +24,7 @@ const DayAvailability = ({ days, setDays }: any) => {
     setDays(updatedDays);
   };
 
-  function convertTo24Hour(time: string) {
-    const [hour, minute] = time.split(":");
-    const period = time.slice(-2);
 
-    let hour24 = parseInt(hour);
-    if (hour24 === 12) {
-      hour24 = 0;
-    }
-    if (period === "pm") {
-      hour24 += 12;
-    }
-
-    return `${hour24.toString().padStart(2, "0")}:${minute}`;
-  }
 
   // handle input from start time and time for slots creation
   const handleInputChange = (
@@ -112,6 +100,8 @@ const DayAvailability = ({ days, setDays }: any) => {
     if (inputIndex === 0) {
       handleCheckboxChange(dayIndex);
     }
+
+    
     const updatedDays = [...days];
     updatedDays[dayIndex].inputs.splice(inputIndex, 1);
     updatedDays[dayIndex].errors.splice(inputIndex, 1);

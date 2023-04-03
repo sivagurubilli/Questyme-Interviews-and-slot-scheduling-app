@@ -1,10 +1,12 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React from "react";
 import DashboardNavbar from "../AdminDashBoard/DashboardNavbar";
-import { Box, Button, Flex, FormLabel, Input, useMediaQuery } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, FormLabel, Input, Select, Stack, Text, useMediaQuery } from "@chakra-ui/react";
+import BulkStudentsUpload from "./BulkStudentsUpload";
 
 const AddStudents = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
+
 
   return (
     <div className="container">
@@ -21,8 +23,10 @@ const AddStudents = () => {
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <Flex>
-          <Box w="80%">
+        <Stack direction={isSmallerThan600 ? "column" : "row"} spacing={8}>
+          <Box w="50%" p="20px">
+            <FormLabel>Add Student</FormLabel>
+            <Divider />
             <Box>
               <FormLabel mt="10px" color="rgb(75 85 99)">
                 Student Name{" "}
@@ -37,14 +41,19 @@ const AddStudents = () => {
 
             <Box>
               <FormLabel mt="10px" color="rgb(75 85 99)">
-                Student ID{" "}
+               Batch{" "}
               </FormLabel>
 
-              <Input
+              <Select
                 width={isSmallerThan600 ? "80%" : "100%"}
                 name="meetingLink"
-                placeholder="Student ID"
-              />
+                placeholder="Batch"
+              >
+               <option></option>
+               <option></option>
+               <option></option>
+               <option></option>
+              </Select>
             </Box>
             <Box>
               <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -58,15 +67,14 @@ const AddStudents = () => {
               />
             </Box>
 
-            <Flex mt="20px" justifyContent="flex-end" ><Button   colorScheme="blue"
-                  _hover={{ cursor: "pointer" }} 
-                  >Add Student</Button></Flex>
+            <Flex mt="20px" justifyContent="flex-end">
+              <Button colorScheme="blue" _hover={{ cursor: "pointer" }}>
+                Add Student
+              </Button>
+            </Flex>
           </Box>
-
-          <Box w="100%">
-             
-          </Box>
-        </Flex>
+            <BulkStudentsUpload/>
+        </Stack>
       </Box>
     </div>
   );

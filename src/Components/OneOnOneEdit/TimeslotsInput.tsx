@@ -4,7 +4,7 @@ import {
 } from "../../Pages/AdminSidePages/Interfacces";
 import { Box, Button, Divider, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-
+import { convertTo24Hour } from "../Utils/AddToAm";
 interface ITimeslotsIput {
   values: any;
   EventValues: IEventValues;
@@ -36,19 +36,7 @@ const TimeslotsInput = ({
     setEventValues({ ...values, slots: slots });
   }, [setEventValues, values, slots]);
 
-  const convertTo24Hour = (time: string) => {
-    const [hour, minute] = time.split(":");
-    const period = time.slice(-2);
-    let hour24 = parseInt(hour);
-    if (hour24 === 12) {
-      hour24 = 0;
-    }
-    if (period === "pm") {
-      hour24 += 12;
-    }
-    return `${hour24.toString().padStart(2, "0")}:${minute}`;
-  };
-
+ 
   // adding input for time slots
   const handleAddTimeSlot = (index: number) => {
     const updatedTimeSlots = [...timeSlots];
