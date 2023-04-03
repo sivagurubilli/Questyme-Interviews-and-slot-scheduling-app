@@ -11,7 +11,7 @@ import {
 } from "../../Redux/AuthReducer/Action";
 import { Box, Flex, Image, Text, Button } from "@chakra-ui/react";
 import { ActionTypes } from "../../Redux/AuthReducer/ActionTypes";
-
+// commented code i will use latter
 const SignupSchema = Yup.object().shape({
   username: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().required("Password is required"),
@@ -24,6 +24,7 @@ const SignupSchema = Yup.object().shape({
   //    .matches(/[A-Z]/, "Password requires a uppercase letter")
   //    .matches(/[a-z]/, "Password requires a lowercase letter")
   //    .matches(/[^\w]/, "Password requires a symbol"),
+  
 });
 export interface LoginData {
   username: string;

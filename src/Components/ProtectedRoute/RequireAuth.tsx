@@ -7,9 +7,9 @@ const RequireAuth = ({children}:any) => {
     const state = useSelector((state:RootState)=>state);
     const location =useLocation();
     console.log("isAuth",state);
-  // if(!isAuth){
-  //   return <Navigate to={"/login"} state={{from:location}} replace={true} />
-  // }
+  if(!isAuth){
+    return <Navigate to={"/login"} state={{from:location}} replace={true} />
+  }
   return children
 }
 
