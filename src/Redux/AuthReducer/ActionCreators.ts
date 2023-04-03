@@ -1,9 +1,9 @@
 import { Dispatch } from "redux";
 import {Action} from "./Action";
 import { ActionTypes } from "./ActionTypes";
-import { IisAuthstate } from "./Reducer";
+import { IsAuthstate } from "./Reducer";
 
-export const isAuthenticated =(payload:IisAuthstate)=>{
+export const isAuthenticated =(payload:IsAuthstate)=>{
     return (dispatch:Dispatch<Action>)=>{
         dispatch({
             type:ActionTypes.LOGIN_SUCCESS,
