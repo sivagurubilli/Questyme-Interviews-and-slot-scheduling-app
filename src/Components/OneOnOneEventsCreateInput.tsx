@@ -1,9 +1,9 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   FormLabel,
+  Grid,
   Input,
   Select,
   Text,
@@ -13,6 +13,7 @@ import {
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import TimeslotsInput from "./OneOnOneEdit/TimeslotsInput";
 
 //yup validation schema
 const validationSchema = yup.object().shape({
@@ -23,12 +24,15 @@ const validationSchema = yup.object().shape({
   category: yup.string().required("This feild is required"),
   meetingLink: yup.string().required("This feild is required"),
   duration: yup.string().required("This feild is required"),
+  date: yup.string().required("This feild is required"),
 });
 
 const OneOnOneEventsCreateInput = ({
   EventValues,
   setEventValues,
   addEvent,
+  SaveEvent,
+  buttonName,
 }: any) => {
   //setting initial values for formik and yup
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
@@ -39,12 +43,18 @@ const OneOnOneEventsCreateInput = ({
     meetingLink: EventValues.meetingLink,
     duration: EventValues.duration,
     category: EventValues.category,
+    date: EventValues.date,
+    adminId: EventValues.adminId,
     startTime: EventValues.startTime,
     endTime: EventValues.endTime,
   };
 
   const onSubmit = async () => {
-    addEvent();
+    if (buttonName === "Create Slots") {
+      addEvent();
+    } else {
+      SaveEvent();
+    }
   };
 
   //using formik we can set values onSubmit and onChange
@@ -63,154 +73,153 @@ const OneOnOneEventsCreateInput = ({
     setEventValues({ ...values });
   }, [values, setEventValues]);
 
-  console.log(EventValues);
   return (
     <div>
-      <Flex justifyContent="space-between">
-        <FormLabel>Create Event With Following Values </FormLabel>
-      </Flex>
-      <Divider mt="10px" h="2px" />
       <form onSubmit={handleSubmit}>
-        <Box>
-          <FormLabel mt="10px" color="rgb(75 85 99)">
-            Event name{" "}
-          </FormLabel>
-
-          <Input
-            width={isSmallerThan600 ? "80%" : "40%"}
-            name="title"
-            value={values.title}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Event Name"
-          />
-
-          {touched.title && errors.title && (
-            <Text color="red">
-              {JSON.stringify(errors.title).replace(/"/g, "")}
-            </Text>
-          )}
-        </Box>
-
-        <FormLabel mt="10px" color="rgb(75 85 99)">
-          Instructions
-        </FormLabel>
-        <Textarea
-          width={isSmallerThan600 ? "80%" : "40%"}
-          name="instruction"
-          value={values.instruction}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          placeholder="Instructions"
-        />
-        {touched.instruction && errors.instruction && (
-          <Text color="red">
-            {JSON.stringify(errors.instruction).replace(/"/g, "")}
-          </Text>
-        )}
-
-        <FormLabel mt="10px" color="rgb(75 85 99)">
-          MeetingLink{" "}
-        </FormLabel>
-
-        <Input
-          width={isSmallerThan600 ? "80%" : "40%"}
-          name="meetingLink"
-          value={values.meetingLink}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          placeholder="meetingLink"
-        />
-
-        {touched.meetingLink && errors.meetingLink && (
-          <Text color="red">
-            {JSON.stringify(errors.meetingLink).replace(/"/g, "")}
-          </Text>
-        )}
-        <FormLabel mt="10px" color="rgb(75 85 99)">
-          Duration
-        </FormLabel>
-        <Select
-          width={isSmallerThan600 ? "80%" : "40%"}
-          value={values.duration}
-          onChange={handleChange}
-          name="duration"
-          placeholder="Duration"
-        >
-          <option key={"15mins"} value="15">
-            15 mins
-          </option>
-          <option key={"30mins"} value="30">
-            30 mins
-          </option>
-          <option key={"45mins"} value="45">
-            45 mins
-          </option>
-          <option key={"60mins"} value="60">
-            60 mins
-          </option>
-        </Select>
-        {touched.duration && errors.duration && (
-          <Text color="red">
-            {JSON.stringify(errors.duration).replace(/"/g, "")}
-          </Text>
-        )}
-        <FormLabel mt="10px" color="rgb(75 85 99)">
-          Category
-        </FormLabel>
-        <Select
-          width={isSmallerThan600 ? "80%" : "40%"}
-          value={values.category}
-          onChange={handleChange}
-          name="category"
-          placeholder="Category"
-        >
-          <option key={"Dsa"} value={"Dsa"}>
-            Dsa
-          </option>
-          <option key={"coding"} value={"Coding"}>
-            Coding
-          </option>
-          <option key={"Csbt"} value={"Csbt"}>
-            C.S.B.T
-          </option>
-          <option key={"Revision"} value={"Revision"}>
-            Revision
-          </option>
-        </Select>
-        {touched.category && errors.category && (
-          <Text color="red">
-            {JSON.stringify(errors.category).replace(/"/g, "")}
-          </Text>
-        )}
-
-        <Flex mt="20px">
+        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
           <Box>
             <FormLabel mt="10px" color="rgb(75 85 99)">
-              StartTime
+              Event name{" "}
             </FormLabel>
+
             <Input
-              mt="5px"
-              w="60%"
-              name="startTime"
-              value={values.startTime}
+              width={isSmallerThan600 ? "80%" : "100%"}
+              name="title"
+              value={values.title}
               onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Event Name"
             />
+
+            {touched.title && errors.title && (
+              <Text color="red">
+                {JSON.stringify(errors.title).replace(/"/g, "")}
+              </Text>
+            )}
           </Box>
 
           <Box>
             <FormLabel mt="10px" color="rgb(75 85 99)">
-              EndTime
+              MeetingLink{" "}
             </FormLabel>
+
             <Input
-              mt="5px"
-              w="60%"
-              name="endTime"
-              value={values.endTime}
+              width={isSmallerThan600 ? "80%" : "100%"}
+              name="meetingLink"
+              value={values.meetingLink}
               onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="meetingLink"
+            />
+
+            {touched.meetingLink && errors.meetingLink && (
+              <Text color="red">
+                {JSON.stringify(errors.meetingLink).replace(/"/g, "")}
+              </Text>
+            )}
+          </Box>
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              Duration
+            </FormLabel>
+            <Select
+              width={isSmallerThan600 ? "80%" : "100%"}
+              value={values.duration}
+              onChange={handleChange}
+              name="duration"
+              placeholder="Duration"
+            >
+              <option key={"15mins"} value="15">
+                15 mins
+              </option>
+              <option key={"30mins"} value="30">
+                30 mins
+              </option>
+              <option key={"45mins"} value="45">
+                45 mins
+              </option>
+              <option key={"60mins"} value="60">
+                60 mins
+              </option>
+            </Select>
+            {touched.duration && errors.duration && (
+              <Text color="red">
+                {JSON.stringify(errors.duration).replace(/"/g, "")}
+              </Text>
+            )}
+          </Box>
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              Category
+            </FormLabel>
+            <Select
+              width={isSmallerThan600 ? "80%" : "100%"}
+              value={values.category}
+              onChange={handleChange}
+              name="category"
+              placeholder="Category"
+            >
+              <option key={"Dsa"} value={"Dsa"}>
+                Dsa
+              </option>
+              <option key={"coding"} value={"Coding"}>
+                Coding
+              </option>
+              <option key={"Csbt"} value={"Csbt"}>
+                C.S.B.T
+              </option>
+              <option key={"Revision"} value={"Revision"}>
+                Revision
+              </option>
+            </Select>
+            {touched.category && errors.category && (
+              <Text color="red">
+                {JSON.stringify(errors.category).replace(/"/g, "")}
+              </Text>
+            )}
+          </Box>
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              Select Date{" "}
+            </FormLabel>
+
+            <Input
+              width={isSmallerThan600 ? "80%" : "100%"}
+              name="date"
+              type="date"
+              value={values.date}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="date"
             />
           </Box>
-        </Flex>
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              Instructions
+            </FormLabel>
+            <Textarea
+              width={isSmallerThan600 ? "80%" : "100%"}
+              name="instruction"
+              value={values.instruction}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Instructions"
+            />
+            {touched.instruction && errors.instruction && (
+              <Text color="red">
+                {JSON.stringify(errors.instruction).replace(/"/g, "")}
+              </Text>
+            )}
+          </Box>
+
+          <Box>
+            <TimeslotsInput
+              values={values}
+              EventValues={EventValues}
+              setEventValues={setEventValues}
+            />
+          </Box>
+        </Grid>
         <Flex mt="20px" justifyContent="flex-end">
           <Box>
             <Button variant="link" onClick={setCancel}>
@@ -222,7 +231,7 @@ const OneOnOneEventsCreateInput = ({
               ml="20px"
               type="submit"
             >
-              Next
+              {buttonName}
             </Button>
           </Box>
         </Flex>

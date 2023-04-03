@@ -15,13 +15,13 @@ import {
   AddRecurringSlotsService,
   GetSingleEventsService,
 } from "../../Services/AdminSideServices/GetEventsService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const state = useSelector((state: RootState) => state);
   const AllData = state.SingleEventReducer;
   const toast = useToast();
-  const id = AllData.AllData.id;
+  const id = useParams();
   const navigate = useNavigate();
 
   const [days, setDays] = useState([
@@ -72,7 +72,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const AddSlots = async () => {
     try {
       const response = await AddRecurringSlotsService(id, days);
-      if (response.id) {
+      if (response) {
         toast({
           title: "Slots Added Successfully",
           status: "success",
@@ -141,8 +141,8 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
               </Flex>
               <Flex>
                 {" "}
-                <Text>{AllData.AllData.title}</Text>{" "}
-                <Text ml="20px">{AllData.AllData.duration} Minutes</Text>
+                <Text>{AllData?.AllData?.title}</Text>{" "}
+                <Text ml="20px">{AllData?.AllData?.duration} Minutes</Text>
               </Flex>
             </Box>
           </Flex>

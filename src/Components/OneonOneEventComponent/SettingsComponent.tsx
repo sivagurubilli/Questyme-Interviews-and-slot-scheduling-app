@@ -1,16 +1,16 @@
 import React from "react";
-import { Box, Text, Divider, Flex, Switch, useToast } from "@chakra-ui/react";
+import { Box, Text, Flex,  useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteEventSevice } from "../../Services/AdminSideServices/GetEventsService";
+import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
 
 interface ProfilecomponentProps {
+  event: IEventValues;
+  GetEvents:any;
   setshow1: (show: boolean) => void;
 }
 
-const SettingsComponent = (
-  { event }: any,
-  { setshow1 }: ProfilecomponentProps
-) => {
+const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps) => {
   const navigate = useNavigate();
   const toast = useToast();
   const GotoEdit = () => {
@@ -20,7 +20,7 @@ const SettingsComponent = (
     try {
       const response = await DeleteEventSevice(id);
 
-      if (response.id) {
+      if (response) {
         toast({
           title: "Event Deleted Successfully",
           status: "success",
@@ -28,6 +28,7 @@ const SettingsComponent = (
           duration: 2000,
           isClosable: true,
         });
+        GetEvents()
 
         setshow1(false);
       }
@@ -41,10 +42,7 @@ const SettingsComponent = (
       });
     }
   };
-  const GotoSlotsViewPage = () => {
-    var hashId = localStorage.getItem("eventId");
-    navigate(`/slot/${hashId}`);
-  };
+ 
 
   return (
     <div>
@@ -75,7 +73,7 @@ const SettingsComponent = (
             className="fa-regular fa-note-sticky"
             style={{ marginTop: "5px" }}
           ></i>
-          <Text onClick={() => GotoSlotsViewPage()} color="#778087" pl="15px">
+          <Text color="#778087" pl="15px">
             <Link to="">View Slots For This Event</Link>
           </Text>
         </Flex>
@@ -85,18 +83,10 @@ const SettingsComponent = (
             style={{ marginTop: "5px" }}
           ></i>
           <Text color="#778087" pl="15px">
-            <Link to="" onClick={() => DeleteEvent(event.id)}>
+            <Link to="" onClick={() => DeleteEvent(event?.id)}>
               Delete
             </Link>
           </Text>
-        </Flex>
-        <Divider mt="10px" borderColor="gray.300" />
-        <Flex justifyContent="space-between">
-          <Text color="#778087" padding="10px" _hover={{ cursor: "pointer" }}>
-            On/Off
-          </Text>
-
-          <Switch ml="50px" mt="13px" />
         </Flex>
       </Box>
     </div>

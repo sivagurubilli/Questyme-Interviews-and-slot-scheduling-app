@@ -12,13 +12,28 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
+interface Islots {
+  start: "";
+  end: "";
+}
+interface IDateOverride {
+  date: string;
+  timeslots: Islots[];
+}
+interface IdatePopup {
+  dateOverRides:IDateOverride[];
+  setDateOverRides: any;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+
+}
 // this popup is for adding time slots for particular date
 const DatePopUp = ({
   dateOverRides,
   setDateOverRides,
   isOpen,
   setIsOpen,
-}: any) => {
+}: IdatePopup) => {
   const handleClose = () => setIsOpen(false);
   const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
   const [startDate, setStartDate] = useState<Date | null>(null);

@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import { NavLink} from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-
-import "./index.css";
-import { EventTypesNavbarArray } from "../../../Assets/Assets";
 import CreateButtonDropDown from "../../../Components/OneonOneEventComponent/CreateButtonDropDown";
+import { useNavigate } from "react-router-dom";
+import { FaEye } from "react-icons/fa";
 
 const OneOnOneEventsNav = () => {
 
   const [show,setShow] = useState<Boolean>(false)
- 
+const navigate = useNavigate()
+
+  const GotoSlotsViewPage = () => {
+    navigate(`/slot/${1}`);
+  };
+
+
   return (
     <div>
       <Box
@@ -27,36 +31,38 @@ const OneOnOneEventsNav = () => {
             align="center"
             m="auto"
             h={"60px"}
-            justifyContent={"space-around"}
+            justifyContent={"flex-end"}
             color={"gray.600"}
           >
-            <Box>
-              <Flex justifyContent={"space-around"} align="center">
-                {EventTypesNavbarArray.map((el) => (
-                  <Box ml="10px" key={el} className="li">
-                    <NavLink
-                      key={el}
-                      to={"/admin/one-on-one-interviews/" + el.toLowerCase()}
-                    >
-                      {el.split("-").join(" ")}
-                    </NavLink>
-                  </Box>
-                ))}
-              </Flex>
-            </Box>
-            <Box ml={"50px"}>
-              {" "}
+               <Button
+                 onClick={()=>navigate(-1)}
+                colorScheme="blue"
+                _hover={{ cursor: "pointer" }}
+                mr="30px"
+              >
+               Back
+              </Button>
+             <Button
+                leftIcon={<FaEye />}
+                onClick={()=>GotoSlotsViewPage()}
+                colorScheme="blue"
+                _hover={{ cursor: "pointer" }}
+                mr="30px"
+              >
+                View Slots
+              </Button>
+           
               <Button
                 leftIcon={<FaPlus />}
                 onClick={()=>setShow(!show)}
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
+                mr="110px"
               >
                 Create
               </Button>
+
            
-            </Box>
-          
           </Flex>
           {show &&   <CreateButtonDropDown   show={show} 
                 setShow={setShow}/> }

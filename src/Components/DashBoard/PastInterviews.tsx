@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../../Components/Navbar/Navbar";
-import OneonOneEventComponent from "../../../Components/OneonOneEventComponent";
+import OneonOneEventComponent from "../OneonOneEventComponent";
 import { Box, Grid, useToast } from "@chakra-ui/react";
-import OneOnOneEventsNav from "./OneOnOneEventsNav";
-import SearchComponent from "../../../Components/SearchComponent";
-import { GetAllEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import SearchComponent from "../SearchComponent";
+import { GetAllEventsService } from "../../Services/AdminSideServices/GetEventsService";
+import Navbar from "../Navbar/Navbar";
+import DashboardNavbar from "../../Pages/AdminSidePages/AdminDashBoard/DashboardNavbar";
 
-const OneonOneEvents = () => {
+const PastInterviews = () => {
   const [oneOnOneEvents, setOneOnOneEvents] = useState([]);
   const toast = useToast();
 
@@ -33,8 +33,8 @@ const OneonOneEvents = () => {
 
   return (
     <div className="container">
-      <Navbar />
-      <OneOnOneEventsNav />
+<Navbar />
+<DashboardNavbar />
       <Box
         w="80%"
         ml="10%"
@@ -68,4 +68,4 @@ const OneonOneEvents = () => {
   );
 };
 
-export default OneonOneEvents;
+export default PastInterviews;
