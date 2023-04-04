@@ -1,7 +1,6 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BiArrowBack } from 'react-icons/bi'
-import axios from 'axios'
+import { BiArrowBack } from "react-icons/bi";
 import {
   Box,
   Flex,
@@ -17,30 +16,26 @@ import {
 import { BsClockFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
 import { useLocation } from "react-router-dom";
-import {BsGlobeCentralSouthAsia} from 'react-icons/bs'
-interface FormValues {
-  name: string;
-  email: string;
-  description: string;
-}
+import { BsGlobeCentralSouthAsia } from "react-icons/bs";
+import { FormValues } from './../../../Services/UserSideServices/SlotBookingInterface';
+import { BookSlot } from "../../../Services/UserSideServices/SlotBookingServices";
 
 const initialFormValues: FormValues = {
-  name: "",
-  email: "",
   description: "",
 };
 
 const StudentBookingMail = () => {
   const location = useLocation();
-  const [slotName, setSlotName] = useState("");
+  const [slotName2, setSlotName2] = useState<string | null>("");
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const slotNameParam = searchParams.get("slotName");
     if (slotNameParam) {
-      setSlotName(slotNameParam);
+      setSlotName2(slotNameParam);
     }
   }, [location.search]);
+
   const toast = useToast();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
@@ -55,12 +50,11 @@ const StudentBookingMail = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formValues);
     setFormValues(initialFormValues);
-    axios.post('http://localhost:8080/schedules',{formValues})
-    .then(response => {
+    try {
+      await BookSlot(formValues);
       toast({
         title: "Event scheduled",
         description: "Your event has been scheduled successfully!",
@@ -68,10 +62,9 @@ const StudentBookingMail = () => {
         position: "top",
         duration: 2000,
         isClosable: true,
-      }); 
-    })
-    .catch(error => {
-      console.error(error)
+      });
+    } catch (error) {
+      console.error(error);
       toast({
         title: "Something Went Wrong",
         description: "Your event hasn't been scheduled successfully!",
@@ -80,22 +73,23 @@ const StudentBookingMail = () => {
         duration: 2000,
         isClosable: true,
       });
-    }); 
+    }
   };
+  
   return (
-    <Box bg='#f3f4f6'>
+    <Box bg="#f3f4f6">
       <Flex
-        direction={['column', 'row']}
+        direction={["column", "row"]}
         justifyContent="center"
-        bg='white'
-        m={['20px', '100px']}
-        p={['10px', '20px']}
-        flexWrap={['wrap', 'nowrap']}
+        bg="white"
+        m={["20px", "100px"]}
+        p={["10px", "20px"]}
+        flexWrap={["wrap", "nowrap"]}
       >
-        <Box width={['100%', '50%']} >
+        <Box width={["100%", "50%"]}>
           <Button
-            w='25px'
-            h='40px'
+            w="25px"
+            h="40px"
             borderRadius="50%"
             colorScheme="blue"
             onClick={() => navigate(-1)}
@@ -105,12 +99,12 @@ const StudentBookingMail = () => {
             _hover={{
               bg: "blue.100",
               color: "white",
-              border: "1px solid blue.600"
+              border: "1px solid blue.600",
             }}
             _active={{
               bg: "blue.100",
               color: "white",
-              border: "1px solid blue.700"
+              border: "1px solid blue.700",
             }}
           />
           <Text>Pintu Gouda</Text>
@@ -121,15 +115,13 @@ const StudentBookingMail = () => {
             <Box mt="5px" mr="5px">
               {<BsClockFill />}{" "}
             </Box>
-            <Box>{slotName}</Box>
+            {slotName2 ? <Box>{slotName2}</Box>:<Box>empty</Box> } 
           </Flex>
           <Flex>
             <Box mt="5px" mr="5px">
               {<BsFillCameraVideoFill />}{" "}
             </Box>
-            <Box>
-              Web conferencing details provided upon confirmation.
-            </Box>
+            <Box>Web conferencing details provided upon confirmation.</Box>
           </Flex>
           <Flex>
             <Box mt="5px" mr="5px">
@@ -138,7 +130,7 @@ const StudentBookingMail = () => {
             <Box>Indian Standard Time</Box>
           </Flex>
         </Box>
-        <Box width={['100%', '50%', '50%']}>
+        <Box width={["100%", "50%", "50%"]}>
           <Heading as="h4" size="md">
             Enter Details
           </Heading>
@@ -159,7 +151,7 @@ const StudentBookingMail = () => {
                 type="submit"
                 colorScheme="blue"
                 borderRadius="15px"
-                alignSelf={['center', 'flex-start']}
+                alignSelf={["center", "flex-start"]}
               >
                 Schedule Event
               </Button>

@@ -3,43 +3,42 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useBreakpointValue } from "@chakra-ui/react";
-import axios from "axios";
 import "./calendar.css";
+import { getSlots } from "../../../Services/UserSideServices/SlotBookingServices";
 const Calendar = () => {
   const [loading, setLoading] = useState(false);
   const height = useBreakpointValue({ base: "auto", sm: "800px", md: "500px" });
   const [bookSlot, setBookSlot] = useState<any>();
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get("http://localhost:8080/slotstesting")
-      .then((response) => {
+    async function fetchSlots() {
+      try {
+        setLoading(true);
+        const response = await getSlots();
         setLoading(false);
-        const events = response.data[1].map((date:string)=> {
+        const events = response.map((date: string) => {
           return {
             title: "Book",
             start: date,
             allDay: true,
-            backgroundColor: "#28a746"
+            backgroundColor: "#28a746",
           };
         });
         setBookSlot(events);
-      })
-      .catch((error) => {
+      } catch (error) {
         setLoading(false);
-        console.error(error);
-      });
+        console.log(error);
+      }
+    }
+    fetchSlots();
   }, []);
+  
 
   const handleDateClick = (arg: any) => {
     const today = new Date();
     const clickedDate = new Date(arg.date);
-
     if (clickedDate <= today) {
       return;
-    } else {
-      console.log(arg.dateStr);
-    }
+    } 
   };
   return (
     <div>

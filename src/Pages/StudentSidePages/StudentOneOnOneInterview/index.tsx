@@ -4,24 +4,27 @@ import { useNavigate } from "react-router-dom";
 import Calendar from "./Calendar";
 import { BsClockFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
-import axios from "axios";
+import { getSlotDays } from "../../../Services/UserSideServices/SlotBookingServices";
+
 const StudentBooking = () => {
   const Navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isName, setIsName] = useState([]);
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get("http://localhost:8080/slots")
-      .then((response) => {
-        setIsName(response.data);
+    async function fetchSlotDays() {
+      try {
+        setLoading(true);
+        const response = await getSlotDays();
+        setIsName(response);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
+      } catch (error) {
+        console.log(error);
         setLoading(false);
-      });
+      }
+    }
+    fetchSlotDays();
   }, []);
+
   const handleClick = (e:string) => {
     Navigate(`/student/booking/details?slotName=${e}`);
   };
@@ -74,7 +77,7 @@ const StudentBooking = () => {
             <Calendar />
           </Box>
           <Box flexGrow={1}>
-            <Button
+            {isName && <Button
               w={["100%", "180px"]}
               size={["sm", "md"]}
               borderColor="blue.500"
@@ -83,7 +86,7 @@ const StudentBooking = () => {
               mt="5"
             >
               Book Slot
-            </Button>
+            </Button>}
             {loading ? (
               <Box>...Loading</Box>
             ) : (
