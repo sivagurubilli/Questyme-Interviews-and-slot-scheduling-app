@@ -7,13 +7,11 @@ import Login from './Pages/Login/Login'
 import StudentBooking from './Pages/StudentSidePages/StudentOneOnOneInterview/index';
 import StudentBookingMail from './Pages/StudentSidePages/StudentOneOnOneInterview/StudentBookingMail';
 import GotoOneOffMeet from './Pages/AdminSidePages/OneOffMeeting'
-
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import BookOneOnOne from './Pages/BookInterviws/BookOneOnOne'
 import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'
 import { CreateSingleInterview } from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminInterviewCreate'
-import { BookSlot } from './Pages/StudentSidePages/StudentOneOnOneInterview/BookSlot';
 
 
 const AllRoutes = () => {
@@ -32,7 +30,6 @@ const AllRoutes = () => {
             <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
-            <Route path='/user/book-slot' element={<BookSlot />} />
             </Routes>
     </div>
   )

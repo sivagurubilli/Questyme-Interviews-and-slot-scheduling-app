@@ -22,9 +22,10 @@ const StudentBooking = () => {
         setLoading(false);
       });
   }, []);
-  const handleClick = () => {
-    Navigate("/student/booking/details");
+  const handleClick = (e:string) => {
+    Navigate(`/student/booking/details?slotName=${e}`);
   };
+ 
   return (
     <Box bg="#f3f4f6">
       <Box
@@ -100,7 +101,7 @@ const StudentBooking = () => {
                             borderColor="blue.500"
                             color="blue"
                             _hover={{ bg: "blue", color: "white" }}
-                            onClick={handleClick}
+                            onClick={()=>handleClick(e)}
                             mt="5"
                           >
                             {e}

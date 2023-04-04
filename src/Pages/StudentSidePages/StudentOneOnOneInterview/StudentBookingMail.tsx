@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from 'react-icons/bi'
 import axios from 'axios'
@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
-
-
+import { useLocation } from "react-router-dom";
+import {BsGlobeCentralSouthAsia} from 'react-icons/bs'
 interface FormValues {
   name: string;
   email: string;
@@ -31,6 +31,16 @@ const initialFormValues: FormValues = {
 };
 
 const StudentBookingMail = () => {
+  const location = useLocation();
+  const [slotName, setSlotName] = useState("");
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const slotNameParam = searchParams.get("slotName");
+    if (slotNameParam) {
+      setSlotName(slotNameParam);
+    }
+  }, [location.search]);
   const toast = useToast();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
@@ -82,7 +92,7 @@ const StudentBookingMail = () => {
         p={['10px', '20px']}
         flexWrap={['wrap', 'nowrap']}
       >
-        <Box width={['100%', '50%']}>
+        <Box width={['100%', '50%']} >
           <Button
             w='25px'
             h='40px'
@@ -111,7 +121,7 @@ const StudentBookingMail = () => {
             <Box mt="5px" mr="5px">
               {<BsClockFill />}{" "}
             </Box>
-            <Box>15 mins</Box>
+            <Box>{slotName}</Box>
           </Flex>
           <Flex>
             <Box mt="5px" mr="5px">
@@ -121,6 +131,12 @@ const StudentBookingMail = () => {
               Web conferencing details provided upon confirmation.
             </Box>
           </Flex>
+          <Flex>
+            <Box mt="5px" mr="5px">
+              {<BsGlobeCentralSouthAsia />}{" "}
+            </Box>
+            <Box>Indian Standard Time</Box>
+          </Flex>
         </Box>
         <Box width={['100%', '50%', '50%']}>
           <Heading as="h4" size="md">
@@ -128,26 +144,6 @@ const StudentBookingMail = () => {
           </Heading>
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
-              {/* <FormControl id="name">
-                <FormLabel>Name</FormLabel>
-                <Input
-                  type="text"
-                  name="name"
-                  value={formValues.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FormControl> */}
-              {/* <FormControl id="email">
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type="email"
-                  name="email"
-                  value={formValues.email}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FormControl> */}
               <FormControl id="description">
                 <FormLabel>
                   Please share anything that will help prepare for our meeting.
