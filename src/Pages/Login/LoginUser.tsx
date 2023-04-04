@@ -11,6 +11,7 @@ import {
 } from "../../Redux/AuthReducer/Action";
 import { Box, Flex, Image, Text, Button, Checkbox } from "@chakra-ui/react";
 import { ActionTypes } from "../../Redux/AuthReducer/ActionTypes";
+import { useLocation, useNavigate } from "react-router-dom";
 // commented code i will use latter
 const SignupSchema = Yup.object().shape({
   username: Yup.string().email("Invalid email").required("Required"),
@@ -31,6 +32,9 @@ export interface LoginData {
 }
 export const LoginUser = () => {
   const dispatch: Dispatch<isLoginSuccess | isLoginFailure> = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate()
+  const commingFrom = location?.state?.from?.pathname || "/dashboard";
   return (
     <Box bg={"#fafafa"} w={"full"} h={"100vh"} mt={"-50px"} p={"100px"}>
       <Formik
@@ -52,7 +56,15 @@ export const LoginUser = () => {
           loginService(payload)(dispatch)
             .then((res) => {
               if (res == ActionTypes.LOGIN_SUCCESS) {
-                console.log("success");
+                const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+                if(userDetails.user.roles[0].name =="ROLE_STUDENT"){
+                  navigate(commingFrom,{replace:true})
+                }
+                else if(userDetails.user.roles[0].name =="ROLE_ADMIN"){
+                    navigate("/admin/dashboard")
+                }
+                
+                
               }
             })
             .catch((err) => {
