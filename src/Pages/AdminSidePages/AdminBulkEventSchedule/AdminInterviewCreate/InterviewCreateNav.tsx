@@ -8,14 +8,13 @@ const InterviewCreateNav = () => {
         <div>
             <Box position="relative" h="auto" marginTop="2px" bg="whiteAlpha.900" w="100%">
                 <Box boxShadow="sm">
-                    <Flex position={"relative"} w={"97%"} align="center" m="auto" h={"60px"} justifyContent={"space-around"} color={"gray.600"}>
+                    <Flex position={"relative"} w={"100%"} align="center" m="auto" h={"60px"} justifyContent={"space-around"} color={"gray.600"}>
                         <Button colorScheme="blue" onClick={() => navigate(-1)}>
                             Back
                         </Button>
                         <Text fontWeight="bold" position={"relative"} fontSize="medium">
                             Create Single Interview
-                        </Text>
-                        <Button colorScheme="blue">Share</Button>
+                        </Text>     
                     </Flex>
                 </Box>
             </Box>

@@ -1,58 +1,20 @@
 import axios from "axios";
-import { IAuthlogin } from "./AuthInterface";
+import { IsAuthlogin } from "./AuthInterface";
+import { Dispatch } from "redux";
+import {Action, isLoginFailure, isLoginSuccess} from "../Redux/AuthReducer/Action"
+import {ActionTypes} from "../Redux/AuthReducer/ActionTypes"
+import { LoginData } from "../Pages/Login/LoginUser";
 
-export async function LoginService(data: IAuthlogin) {
-  const { username, password, rememberMe } = data;
+export const loginService =(payload:LoginData)=>(dispatch:Dispatch<isLoginSuccess|isLoginFailure>):Promise<void | ActionTypes>=>{
 
-  try {
-    const response = await axios.post("/api/login", {
-      username: username,
-      password: password,
-    });
-    console.log(response);
-    if (response.data.token) {
-      //setting for remember me in
+ return axios.post("https://3ad5-2405-201-9009-9180-b522-accc-2250-2559.in.ngrok.io/auth/login",payload).then((res)=>{
+  console.log("res.data");
+  dispatch({type:ActionTypes.LOGIN_SUCCESS,payload:res.data})
+  return ActionTypes.LOGIN_SUCCESS
+ })
+ .catch((err)=>{
+  console.log("err",err);
+  dispatch({type:ActionTypes.LOGIN_ERROR,payload:err})
+ })
 
-      if (rememberMe) {
-        if (response.data.user.roles[0].name === "STUDENT_USER") {
-          localStorage.setItem("username", response.data.user.name);
-          localStorage.setItem("userId", response.data.user.id);
-          localStorage.setItem("userType", response.data.user.roles[0].name);
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("batchId", response.data.user.batch.batchId);
-          localStorage.setItem(
-            "sectionId",
-            response.data.user.section.sectionId
-          );
-        } else {
-          localStorage.setItem("username", response.data.user.name);
-          localStorage.setItem("userId", response.data.user.id);
-          localStorage.setItem("userType", response.data.user.roles[0].name);
-          localStorage.setItem("token", response.data.token);
-        }
-      }
-      if (!rememberMe) {
-        if (response.data.user.roles[0].name === "STUDENT_USER") {
-          sessionStorage.setItem("username", response.data.user.name);
-          sessionStorage.setItem("userId", response.data.user.id);
-          sessionStorage.setItem("userType", response.data.user.roles[0].name);
-          sessionStorage.setItem("token", response.data.token);
-          sessionStorage.setItem("batchId", response.data.user.batch.batchId);
-          sessionStorage.setItem(
-            "sectionId",
-            response.data.user.section.sectionId
-          );
-        } else {
-          sessionStorage.setItem("username", response.data.user.name);
-          sessionStorage.setItem("userId", response.data.user.id);
-          sessionStorage.setItem("userType", response.data.user.roles[0].name);
-          sessionStorage.setItem("token", response.data.token);
-        }
-      }
-    }
-    return response.data;
-  } catch (error: any) {
-    console.log(error);
-    return error.response;
-  }
 }

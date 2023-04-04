@@ -15,7 +15,6 @@ const BulkEventNav = () => {
                         <Text fontWeight="bold" position={"relative"} fontSize="medium">
                             Create Bulk Interviews
                         </Text>
-                        <Button colorScheme="blue">Share</Button>
                     </Flex>
                 </Box>
             </Box>

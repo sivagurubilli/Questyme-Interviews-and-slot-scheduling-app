@@ -1,26 +1,64 @@
 import Navbar from "../../../Components/Navbar/Navbar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OneOnOneCreateNav from "../AdminOneOnOneCreate/OneOnOneCreateNav";
-import {
-  Box,
-  Flex,
-  FormLabel,
-  Text,
-} from "@chakra-ui/react";
-import OneOnOneEdit from "./OneOnOneEdit";
-import OneOnOneSlots from "./OneOnOneSlots";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../Redux/eventById";
+import { Box, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import OneOnOneEdit from "../../../Components/OneOnOneEdit/OneOnOneEdit";
+import OneOnOneSlots from "../../../Components/OneOnOneEdit/OneOnOneSlots";
+import { useParams } from "react-router-dom";
+import { GetSingleEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import { IEventValues } from "../Interfacces";
 
-//this component is for creating events  slots 
+//this component is for creating events  slots
 const OneonOneSlotsCreate = () => {
   const [isNameEdit, setNameEdit] = useState(false);
   const [isSlotsEdit, setSlotsEdit] = useState(false);
+  const dispatch = useDispatch();
+  const { GetSingleData } = bindActionCreators(actionCreators, dispatch);
+  const [EventValues, setEventValues] = useState<IEventValues>({
+    title: "",
+    instruction: "",
+    meetingLink: "",
+    adminId: "5",
+    duration: "",
+    id: 0,
+    category: "",
+    date: "",
+    slots: [{ start: "", end: "" }],
+  });
 
+  const { id } = useParams();
+  const toast = useToast();
+
+  const GetEventById = async () => {
+    try {
+      const response = await GetSingleEventsService(id);
+      console.log(response);
+      if (response.id) {
+        setEventValues(response);
+        GetSingleData(response);
+      }
+    } catch (err) {
+      toast({
+        title: "Something Went Wrong",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    GetEventById();
+  }, []);
 
   return (
     <div className="container">
       <Navbar />
       <OneOnOneCreateNav />
-
       <Box
         w="80%"
         ml="10%"
@@ -33,13 +71,19 @@ const OneonOneSlotsCreate = () => {
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
         {isNameEdit ? (
-          <OneOnOneEdit isNameEdit={isNameEdit} setNameEdit={setNameEdit} />
+          <OneOnOneEdit
+            setEventValues={setEventValues}
+            EventValues={EventValues}
+            isNameEdit={isNameEdit}
+            setNameEdit={setNameEdit}
+          />
         ) : (
           <Box
             onClick={() => setNameEdit(!isNameEdit)}
             cursor="pointer"
             boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
             p="20px"
+            mt="5px"
             border="1px solid grey"
           >
             <Flex>
@@ -84,7 +128,7 @@ const OneonOneSlotsCreate = () => {
                 className="fa-regular fa-calendar-days"
               ></i>
               <FormLabel ml="10px" color="rgb(75 85 99)">
-                When can people book this event ?
+                Add Schedule For Creating Slots For This Event ?
               </FormLabel>
             </Flex>
             <Flex>
