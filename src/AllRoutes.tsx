@@ -23,7 +23,6 @@ const AllRoutes = () => {
     <div>
             <Routes>
             <Route path ="/login" element ={<LoginUser/>} />
-            {/* <Route path ="/login" element ={<Login/>} /> */}
             <Route path ="/admin/one-on-one-interviews/event-types" element={<OneonOneEvents/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
