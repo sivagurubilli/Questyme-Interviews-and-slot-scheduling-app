@@ -22,7 +22,7 @@ const Navbar = () => {
           color={"gray.600"}
         >
           <Flex align="center" flex={"2"}>
-            <Link to="/admin/interviews">
+            <Link to="/admin/dashboard">
               {" "}
               <Image objectFit="contain" src={masaiImage} alt="Masai logo" />
             </Link>

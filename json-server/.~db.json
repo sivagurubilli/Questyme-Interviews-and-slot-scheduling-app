@@ -14,22 +14,7 @@
       " instruction": "on camera while in meet",
       "meetingLink": "dddddddddddddddddddd",
       " adminId": "5",
-      "id": 2,
-      "availability":[
-        {
-            "day":"Mon",
-            "isChecked":true,
-            "inputs":[{
-                "start":"",
-                "end":""
-            }],
-            "errors":[{
-                "start":"",
-                "end":""
-            }]
-        
-        }
-      ]
+      "id": 2
     },
     {
       "title": "interview with rama",
@@ -38,6 +23,14 @@
       "meetingLink": "https://us06web.zoom.us/j/81073976928",
       "duration": "30",
       "id": 3
+    },
+    {
+      "title": "interview with nrupul",
+      "instruction": "dummmy",
+      "adminId": "5",
+      "meetingLink": "https://us06web.zoom.us/j/81073976928",
+      "duration": "15",
+      "id": 4
     }
   ],
   "interviews": [

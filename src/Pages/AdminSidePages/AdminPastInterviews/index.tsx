@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import OneonOneEventComponent from "../OneonOneEventComponent";
 import { Box, Grid, useToast } from "@chakra-ui/react";
-import SearchComponent from "../SearchComponent";
-import { GetAllEventsService } from "../../Services/AdminSideServices/GetEventsService";
-import Navbar from "../Navbar/Navbar";
-import DashboardNavbar from "../../Pages/AdminSidePages/AdminDashBoard/DashboardNavbar";
+import SearchComponent from "../../../Components/SearchComponent";
+import Navbar from "../../../Components/Navbar/Navbar";
+import DashboardNavbar from "../AdminDashBoard/DashboardNavbar";
+import AdminInterviewBox from "../../../Components/AdminInterviews/InterviewsComponent";
+import { GetPastInterviewService } from "../../../Services/UserSideServices/GetInterviewsServices";
 
 const PastInterviews = () => {
-  const [oneOnOneEvents, setOneOnOneEvents] = useState([]);
+  const [pastInterviews, setpastInterviews] = useState([]);
   const toast = useToast();
 
   useEffect(() => {
@@ -16,9 +16,9 @@ const PastInterviews = () => {
 
   const GetEvents = async () => {
     try {
-      const response = await GetAllEventsService();
+      const response = await GetPastInterviewService("5");
       if (response) {
-        setOneOnOneEvents(response);
+        setpastInterviews(response);
       }
     } catch (error) {
       toast({
@@ -57,11 +57,14 @@ const PastInterviews = () => {
           }}
           gap={4}
         >
-          {oneOnOneEvents?.map((el) => (
+          {pastInterviews.length && pastInterviews?.map((el) => (
             <Box key={el}>
-              <OneonOneEventComponent event={el} GetEvents={GetEvents} />
+             
+              <AdminInterviewBox  event={el} GetEvents={GetEvents} />
             </Box>
           ))}
+
+         
         </Grid>
       </Box>
     </div>

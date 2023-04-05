@@ -9,25 +9,22 @@ import OneOnOneEdit from "../../../Components/OneOnOneEdit/OneOnOneEdit";
 import OneOnOneSlots from "../../../Components/OneOnOneEdit/OneOnOneSlots";
 import { useParams } from "react-router-dom";
 import { GetSingleEventsService } from "../../../Services/AdminSideServices/GetEventsService";
-import { IEventValues } from "../Interfacces";
+import {  IOneOnEventValues } from "../Interfacces";
 
 //this component is for creating events  slots
-const OneonOneSlotsCreate = () => {
+const OneonOneSlotsEdit = () => {
   const [isNameEdit, setNameEdit] = useState(false);
   const [isSlotsEdit, setSlotsEdit] = useState(false);
   const dispatch = useDispatch();
   const { GetSingleData } = bindActionCreators(actionCreators, dispatch);
-  const [EventValues, setEventValues] = useState<IEventValues>({
+  const [EventValues, setEventValues] = useState<IOneOnEventValues>({
     title: "",
     instruction: "",
     meetingLink: "",
     adminId: "5",
     duration: "",
-    id: 0,
-    category: "",
-    date: "",
-    slots: [{ start: "", end: "" }],
   });
+
 
   const { id } = useParams();
   const toast = useToast();
@@ -35,7 +32,7 @@ const OneonOneSlotsCreate = () => {
   const GetEventById = async () => {
     try {
       const response = await GetSingleEventsService(id);
-      console.log(response);
+    
       if (response.id) {
         setEventValues(response);
         GetSingleData(response);
@@ -143,4 +140,4 @@ const OneonOneSlotsCreate = () => {
   );
 };
 
-export default OneonOneSlotsCreate;
+export default OneonOneSlotsEdit;

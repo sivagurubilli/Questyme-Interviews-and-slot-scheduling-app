@@ -4,7 +4,7 @@ import {
 } from "../../Pages/AdminSidePages/Interfacces";
 import { Box, Button, Divider, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { convertTo24Hour } from "../Utils/AddToAm";
+import { convertTo24Hour } from "../../utils/AddToAm";
 interface ITimeslotsIput {
   values: any;
   EventValues: IEventValues;
@@ -18,12 +18,14 @@ const TimeslotsInput = ({
 }: ITimeslotsIput) => {
   const [timeSlots, setTimeSlots] = useState([
     {
-      inputs: { start: "9:00am", end: "5:00pm" },
-      errors: { start: "", end: "" },
+      inputs:{ startTime: "09:00", endTime: "17:00" },
+      errors: { startTime: "", endTime: "" },
     },
   ]);
 
-  const [slots, setSlots] = useState([{ start: "9:00am", end: "5:00pm" }]);
+  const [slots, setSlots] = useState([{ startTime: "09:00", endTime: "17:00" }]);
+
+ 
 
   useEffect(() => {
     const newSlots = timeSlots.map((el) => el.inputs);
@@ -33,16 +35,16 @@ const TimeslotsInput = ({
   }, [timeSlots]);
 
   useEffect(() => {
-    setEventValues({ ...values, slots: slots });
+    setEventValues({ ...values, slotTime: slots });
   }, [setEventValues, values, slots]);
 
- 
+
   // adding input for time slots
   const handleAddTimeSlot = (index: number) => {
     const updatedTimeSlots = [...timeSlots];
     updatedTimeSlots.push({
-      inputs: { start: "", end: "" },
-      errors: { start: "", end: "" },
+      inputs: { startTime: "", endTime: "" },
+      errors: { startTime: "", endTime: "" },
     });
     setTimeSlots(updatedTimeSlots);
   };
@@ -54,45 +56,43 @@ const TimeslotsInput = ({
     setTimeSlots(updatedTimeSlots);
   };
 
-  // handle input from start time and time for slots creation
+
+  // handle input from startTime time and time for slots creation
   const handleInputChange = (
     index: number,
-    field: "start" | "end",
+    field: "startTime" | "endTime",
     value: string
   ) => {
     const updatedTimeSlots = [...timeSlots];
+    
     updatedTimeSlots[index].inputs[field] = value;
     setTimeSlots(updatedTimeSlots);
     const currentInput = updatedTimeSlots[index].inputs;
-    const currentStart = convertTo24Hour(currentInput.start);
-    const currentEnd = convertTo24Hour(currentInput.end);
-    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9](am|pm)$/i;
-
+    const currentStartTime = convertTo24Hour(currentInput.startTime);
+    const currentEndTime = convertTo24Hour(currentInput.endTime);
     const errorFeild = updatedTimeSlots[index].errors;
+    const timePattern = /^([1-9]|1[0-2]|0?[1-9]|2[0-3]):[0-5][0-9]$/;
 
-    if (!timePattern.test(currentInput.start)) {
-      errorFeild["start"] = "Please Enter Correct Input ";
+    if (!timePattern.test(currentInput.startTime)) {
+      errorFeild[field] = "Please Enter Correct Input ";
     }
-    if (!timePattern.test(currentInput.end)) {
-      errorFeild["end"] = "Please Enter Correct Input ";
+   else if (!timePattern.test(currentInput.endTime)) {
+      errorFeild[field] = "Please Enter Correct Input ";
     }
     if (index > 0) {
       var previousInput = updatedTimeSlots[index - 1].inputs;
-      var previusEnd = convertTo24Hour(previousInput?.end);
-
+      var previusEndTime = convertTo24Hour(previousInput?.endTime);
       currentInput[field] = value;
-
+    
       if (
-        field === "start" &&
-        previusEnd &&
-        (currentStart < previusEnd || currentStart >= currentEnd)
+        field === "startTime" &&
+        previusEndTime &&
+        (currentStartTime < previusEndTime || currentStartTime >= currentEndTime)
       ) {
-        errorFeild[field] = "Time Scheduling Mismatch";
-        errorFeild["end"] = "";
-      } else if (field === "end" && currentEnd <= currentStart) {
+        errorFeild["startTime"] = "Time Scheduling Mismatch"; 
+      } else if (field === "endTime" && currentEndTime <= currentStartTime) {
         const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "Time Scheduling Mismatch";
-        errorFeild["start"] = "";
+        errorFeild["endTime"] = "Time Scheduling Mismatch";
       } else {
         const errorFeild = updatedTimeSlots[index].errors;
         errorFeild[field] = "";
@@ -100,14 +100,12 @@ const TimeslotsInput = ({
     } else {
       currentInput[field] = value;
 
-      if (field === "start" && currentStart >= currentEnd) {
+      if (field === "startTime" && currentStartTime >= currentEndTime) {
         const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "Time Scheduling Mismatch ";
-        errorFeild["end"] = "";
-      } else if (field === "end" && currentEnd <= currentStart) {
+        errorFeild["startTime"] = "Time Scheduling Mismatch ";
+      } else if (field === "endTime" && currentEndTime <= currentStartTime) {
         const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild[field] = "Time Scheduling Mismatch";
-        errorFeild["start"] = "";
+        errorFeild["endTime"] = "Time Scheduling Mismatch";
       } else {
         const errorFeild = updatedTimeSlots[index].errors;
         errorFeild[field] = "";
@@ -129,9 +127,9 @@ const TimeslotsInput = ({
                   <Input
                     mt="5px"
                     w="100%"
-                    value={timeSlot.inputs.start}
+                    value={timeSlot.inputs.startTime}
                     onChange={(e) =>
-                      handleInputChange(index, "start", e.target.value)
+                      handleInputChange(index, "startTime", e.target.value)
                     }
                   />
                   <Text
@@ -141,7 +139,7 @@ const TimeslotsInput = ({
                     display={"block"}
                     color={"red"}
                   >
-                    {timeSlot.errors.start}
+                    {timeSlot.errors.startTime}
                   </Text>
                 </Box>
                 <Box mt="7px" ml="10px" mr="10px">
@@ -151,9 +149,9 @@ const TimeslotsInput = ({
                   <Input
                     mt="5px"
                     w="100%"
-                    value={timeSlot.inputs.end}
+                    value={timeSlot.inputs.endTime}
                     onChange={(e) =>
-                      handleInputChange(index, "end", e.target.value)
+                      handleInputChange(index, "endTime", e.target.value)
                     }
                   />
                   <Text
@@ -163,7 +161,7 @@ const TimeslotsInput = ({
                     display={"block"}
                     color={"red"}
                   >
-                    {timeSlot.errors.end}
+                    {timeSlot.errors.endTime}
                   </Text>
                 </Box>
 
@@ -187,7 +185,7 @@ const TimeslotsInput = ({
               ></i>
             </Button>
           </Flex>
-          <Divider mt="10px" mb="10px" />
+          <Divider mt="20px" mb="10px" />
         </Box>
       ))}
     </div>

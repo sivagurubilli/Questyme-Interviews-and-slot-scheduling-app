@@ -13,7 +13,7 @@ import {
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
+import { Duration } from "../Assets/Assets";
 
 //yup validation schema
 const validationSchema = yup.object().shape({
@@ -21,7 +21,6 @@ const validationSchema = yup.object().shape({
     .string()
     .required("This feild is required")
     .min(3, "Name must be 3 character"),
-  category: yup.string().required("This feild is required"),
   meetingLink: yup.string().required("This feild is required"),
   duration: yup.string().required("This feild is required")
 });
@@ -49,7 +48,7 @@ const OneOnOneEventsCreateInput = ({
   };
 
   const onSubmit = async () => {
-    if (buttonName === "Create Event") {
+    if (buttonName === "Next") {
       addEvent();
     } else {
       SaveEvent();
@@ -125,18 +124,11 @@ const OneOnOneEventsCreateInput = ({
               name="duration"
               placeholder="Duration"
             >
-              <option key={"15mins"} value="15">
-                15 mins
-              </option>
-              <option key={"30mins"} value="30">
-                30 mins
-              </option>
-              <option key={"45mins"} value="45">
-                45 mins
-              </option>
-              <option key={"60mins"} value="60">
-                60 mins
-              </option>
+              {Duration.map((e)=>(
+              <option key={e} value={e}>
+                {e} mins
+              </option>))}
+              
             </Select>
             {touched.duration && errors.duration && (
               <Text color="red">

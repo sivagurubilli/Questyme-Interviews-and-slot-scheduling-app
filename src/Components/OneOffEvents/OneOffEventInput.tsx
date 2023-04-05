@@ -14,7 +14,7 @@ import {
   import { useFormik } from "formik";
   import * as yup from "yup";
 import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
-
+import { Duration } from "../../Assets/Assets";
   
   //yup validation schema
   const validationSchema = yup.object().shape({
@@ -22,7 +22,6 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
       .string()
       .required("This feild is required")
       .min(3, "Name must be 3 character"),
-    category: yup.string().required("This feild is required"),
     meetingLink: yup.string().required("This feild is required"),
     duration: yup.string().required("This feild is required"),
     date: yup.string().required("This feild is required"),
@@ -43,11 +42,8 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
       instruction: EventValues.instruction,
       meetingLink: EventValues.meetingLink,
       duration: EventValues.duration,
-      category: EventValues.category,
       date: EventValues.date,
       adminId: EventValues.adminId,
-      startTime: EventValues.startTime,
-      endTime: EventValues.endTime,
     };
   
     const onSubmit = async () => {
@@ -70,9 +66,7 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
       setEventValues("");
     };
   
-    useEffect(() => {
-      setEventValues({ ...values });
-    }, [values, setEventValues]);
+  
   
     return (
       <div>
@@ -130,18 +124,11 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 name="duration"
                 placeholder="Duration"
               >
-                <option key={"15mins"} value="15">
-                  15 mins
-                </option>
-                <option key={"30mins"} value="30">
-                  30 mins
-                </option>
-                <option key={"45mins"} value="45">
-                  45 mins
-                </option>
-                <option key={"60mins"} value="60">
-                  60 mins
-                </option>
+               {Duration.map((e)=>(
+              <option key={e} value={e}>
+                {e} 
+              </option>))}
+              
               </Select>
               {touched.duration && errors.duration && (
                 <Text color="red">
@@ -149,36 +136,7 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 </Text>
               )}
             </Box>
-            <Box>
-              <FormLabel mt="10px" color="rgb(75 85 99)">
-                Category
-              </FormLabel>
-              <Select
-                width={isSmallerThan600 ? "80%" : "100%"}
-                value={values.category}
-                onChange={handleChange}
-                name="category"
-                placeholder="Category"
-              >
-                <option key={"Dsa"} value={"Dsa"}>
-                  Dsa
-                </option>
-                <option key={"coding"} value={"Coding"}>
-                  Coding
-                </option>
-                <option key={"Csbt"} value={"Csbt"}>
-                  C.S.B.T
-                </option>
-                <option key={"Revision"} value={"Revision"}>
-                  Revision
-                </option>
-              </Select>
-              {touched.category && errors.category && (
-                <Text color="red">
-                  {JSON.stringify(errors.category).replace(/"/g, "")}
-                </Text>
-              )}
-            </Box>
+            
             <Box>
               <FormLabel mt="10px" color="rgb(75 85 99)">
                 Select Date{" "}
@@ -212,8 +170,11 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 </Text>
               )}
             </Box>
-  
+          
             <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              Add Availability  {" "}
+              </FormLabel>
               <TimeslotsInput
                 values={values}
                 EventValues={EventValues}

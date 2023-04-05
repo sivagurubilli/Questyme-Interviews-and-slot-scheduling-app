@@ -3,9 +3,9 @@ export const masaiImage: string = 'https://masaischool.com/img/navbar/logo.svg';
 
 export const EventTypesNavbarArray = ["Past-Interviews","Add-Students"]
 
+export const Duration =["15","30","45","60"]
 
-
-
+export const Batch =["FW15","FW16","FW17","FW18","FW19","FW20"]
   
 export const eventsBydate = [
   {
@@ -65,3 +65,5 @@ export const eventsBydate = [
   },
   // Add more events here
 ];
+
+

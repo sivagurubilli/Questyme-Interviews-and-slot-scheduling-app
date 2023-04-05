@@ -20,6 +20,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const state = useSelector((state: RootState) => state);
   const AllData = state.SingleEventReducer;
+
   const toast = useToast();
   const id = useParams();
   const navigate = useNavigate();
@@ -28,43 +29,43 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
     {
       name: "Sun",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
     {
       name: "Mon",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
     {
       name: "Tue",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
     {
       name: "Wed",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
     {
       name: "Thu",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
     {
       name: "Fri",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
     {
       name: "Sat",
       isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
+      inputs: [{ start: "09:00", end: "17:00" }],
       errors: [{ start: "", end: "" }],
     },
   ]);
@@ -82,7 +83,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
         });
 
         setTimeout(() => {
-          navigate("/admin/one-on-one-interviews/event-types");
+          navigate("/admin/one-on-one-interviews");
         }, 2000);
       }
     } catch (err) {

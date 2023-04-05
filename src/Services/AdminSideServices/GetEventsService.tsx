@@ -1,4 +1,5 @@
 import axios from "axios"
+import { IAddStdents } from "./GetEventsInterface";
 
 //Get All Events service
 export async function GetAllEventsService() {
@@ -17,9 +18,7 @@ export async function GetAllEventsService() {
    meetingLink,
    adminId,
     duration,
-    category,
-    date,
-    slots
+
     } = data
 
     try {
@@ -29,9 +28,7 @@ export async function GetAllEventsService() {
         adminId,
         meetingLink,
          duration,
-         date,
-         category,
-      slots
+      
        });
       return response.data;
     } catch (error: any) {
@@ -39,6 +36,40 @@ export async function GetAllEventsService() {
     }
   }
 
+
+  
+  //post Event service
+  export async function PostOneOffService(data:any) {
+    const {
+      title,
+      instruction,
+      meetingLink,
+      date,
+      slotTime,
+      duration,
+      adminId,
+  
+  } = data
+
+     try {
+        const response = await axios.post("/slot/create-slots",{
+         title,
+         instruction,
+         adminId,
+         date,
+         slotTime,
+         meetingLink,
+          duration,
+       
+        });
+        console.log(response.data)
+       return response.data;
+       
+     } catch (error: any) {
+       return error.response;
+     }
+   }
+ 
   
 //getting single event by id
   export async function GetSingleEventsService(id:any) {
@@ -56,10 +87,9 @@ export async function GetAllEventsService() {
         instruction,
         meetingLink,
         adminId,
-         duration,
-         category,
-       slots
-         } = data
+         duration
+    } = data
+         
       
     try {
        const response = await axios.put(`/one-on-one-events/${id}`,{
@@ -67,9 +97,8 @@ export async function GetAllEventsService() {
         instruction,
         meetingLink,
         adminId,
-         duration,
-         category,
-         slots
+         duration
+        
        });
        
       return response.data;
@@ -101,17 +130,36 @@ export async function GetAllEventsService() {
     }
   }
 
-   //Delete Event service 
-   export async function SetDateForEventSchedule(date:any) {
-    const eventId  = localStorage.getItem("eventId")
-console.log(date)
-    try {
-       const response = await axios.delete(`/one-on-one-events/${eventId}/${date}`);
-      return response.data;
-    } catch (error: any) {
-      return error.response;
-    }
+
+
+
+  export async function AddStudentService(data:IAddStdents,token:string){
+const {name,email,password,batch} = data
+try {
+  const response = await axios.post("https://18dd-202-142-81-195.in.ngrok.io/auth/add/student",{
+    name,email,password,batch
+  },{
+  headers: {
+    Authorization: `Bearer ${token}`,
+}
+  });
+ return response.data;
+} catch (error: any) {
+ return error.response;
+}
   }
 
-
-  
+  export async function AddBulkStudentService(formData:any,token:string){
+   
+    try {
+      const response = await axios.post("https://18dd-202-142-81-195.in.ngrok.io/createInterviews/csv",formData,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+      },
+      });
+     return response.data;
+    } catch (error: any) {
+     return error.response;
+    }
+      }

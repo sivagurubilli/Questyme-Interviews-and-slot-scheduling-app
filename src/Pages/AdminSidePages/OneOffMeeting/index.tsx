@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Box, Button, Divider, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { IEventValuescreate } from "../Interfacces";
-import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import {  PostOneOffService } from "../../../Services/AdminSideServices/GetEventsService";
 import OneOffEventInput from "../../../Components/OneOffEvents/OneOffEventInput";
 import Navbar from "../../../Components/Navbar/Navbar";
 
@@ -14,18 +14,20 @@ const GotoOneOffMeet = () => {
     meetingLink: "",
     adminId: "5",
     duration: "",
-    category: "",
     date:"",
-    slots:[{start: "",
-    end: ""}]
+    slotTime:[{startTime: "",
+    endTime: ""}]
   });
+
+
   const navigate = useNavigate();
   const toast = useToast();
 
   const addEvent = async () => {
     try {
-      const response = await PostEventsService(EventValues);
+      const response = await PostOneOffService(EventValues);
 
+   
       if (response) {
         toast({
           title: "Event created",

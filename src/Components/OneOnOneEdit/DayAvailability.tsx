@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { convertTo24Hour } from "../Utils/AddToAm";
+import { convertTo24Hour } from "../../utils/AddToAm";
 import {
   Box,
   Button,
@@ -34,19 +34,18 @@ const DayAvailability = ({ days, setDays }: any) => {
     value: string
   ) => {
     const updatedDays = [...days];
-    updatedDays[dayIndex].inputs[inputIndex][field] = value;
+    updatedDays[dayIndex].inputs[inputIndex][field] = convertTo24Hour(value);
     setDays(updatedDays);
     const currentInput = updatedDays[dayIndex].inputs[inputIndex];
     const currentStart = convertTo24Hour(currentInput.start);
     const currentEnd = convertTo24Hour(currentInput.end);
-    const timePattern = /^([1-9]|1[0-2]):[0-5][0-9](am|pm)$/i;
-
+    const timePattern = /^([1-9]|1[0-2]|0?[1-9]|2[0-3]):[0-5][0-9]$/;
+    
     const errorFeild = updatedDays[dayIndex].errors[inputIndex];
-
-    if (!timePattern.test(currentInput.start)) {
+    if (!timePattern.test(currentInput.start.trim())) {
       errorFeild["start"] = "Please Enter Correct Input ";
     }
-    if (!timePattern.test(currentInput.end)) {
+    else if (!timePattern.test(currentInput.end.trim())) {
       errorFeild["end"] = "Please Enter Correct Input ";
     }
     if (inputIndex > 0) {
