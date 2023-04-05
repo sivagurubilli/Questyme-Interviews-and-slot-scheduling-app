@@ -47,6 +47,22 @@
       "zoomLink": "https://us06web.zoom.us/j/810976928#success",
       "meetingStatus": "P",
       "batch": "js201"
+    },
+    {
+        "interviewId": 30,
+        "interviewerName": "bobsmith",
+        "intervieweeName": "johndoe",
+        "startTime": "04:59:00",
+        "endTime": "05:00:00",
+        "date": "05-04-2023",
+        "category": "Technical",
+        "instructions": "This interview will cover topics related to software engineering",
+        "title": "Software Engineer Interview",
+        "meetingLink": "https://zoom.us/j/1234567890",
+        "batch": "Batch 5",
+        "meetingStatus": "P",
+        "studentNote": null,
+        "adminFeedback": null
     }
   ],
   "ScheduleInterview": [
@@ -63,8 +79,5 @@
       "batch": "dsa 111",
       "id": 1
     },
-    {
-      "id": 2
-    }
   ]
 }

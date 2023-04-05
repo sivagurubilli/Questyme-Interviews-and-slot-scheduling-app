@@ -21,6 +21,7 @@ export interface IsAuthstate {
     const {payload} =action;
     switch(action.type){
         case ActionTypes.LOGIN_SUCCESS:
+          localStorage.setItem("userDetails",JSON.stringify(payload))
             return{
                 ...state,
                 isAuth:true,
