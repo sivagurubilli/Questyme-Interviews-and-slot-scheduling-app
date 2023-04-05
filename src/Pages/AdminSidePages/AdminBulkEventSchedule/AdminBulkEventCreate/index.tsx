@@ -60,7 +60,7 @@ const CreateBulkEvent = () => {
       IntervieweeEmail:"tridip@gmail.com",
       startTime:"12:00:00",
       endTime:"14:00:00",
-      date:"02/04/2023",
+      date:"02-07-2023",
       category:"DSA",
       instructions:"Join before 5 minutes",
       title:"Dsa interview with Tridip Rong",
