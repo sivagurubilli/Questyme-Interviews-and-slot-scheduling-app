@@ -6,8 +6,9 @@ import AdminProfileComponent from './AdminProfileComponent'
 import { masaiImage } from '../../Assets/Assets'
 
 const Navbar = () => {
-
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
   const [show1, setshow1] = useState(false);
+  
   return (
     <div>
        <Box position="relative" h="auto" top="0" bg="whiteAlpha.900" w="100%">
@@ -31,7 +32,7 @@ const Navbar = () => {
       <Box ml={"50px"} onClick={() => setshow1(!show1)}>
                 {" "}
                 <Button variant={"link"} _hover={{ cursor: "pointer" }}>
-                  Gurubilli Siva
+                  {userDetails.user.name}
                 </Button>
                 <i
                   style={{ marginLeft: "10px" }}
