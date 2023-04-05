@@ -23,6 +23,54 @@ const CreateBulkEvent = () => {
     createBulkInterview(formData)(dispatch);
   }
 
+  // Down load csv file
+  const downloadCsv = (csvData: string) => {
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "interview.csv");
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // creating csv file
+  const createCsvData = (interview: any): string => {
+    const headers = ["Interviewer's email", "Interviewee's email", "startTime", "endTime", "date", "category", "instructions", "title", "zoomLink", "MeetingStatus", "batch"];
+    const rows = interview.map(({ interviewerEmail, IntervieweeEmail, startTime, endTime, date, category, instructions, title, zoomLink, MeetingStatus, batch }: any) => [
+      interviewerEmail,
+      IntervieweeEmail,
+      startTime,
+      endTime,
+      date,
+      category,
+      instructions,
+      title,
+      zoomLink,
+      MeetingStatus,
+      batch
+    ]);
+    return [headers, ...rows].map((row) => row.join(",")).join("\n");
+  };
+  const interview = [
+    {
+      interviewerEmail:"rtridip2@gmail.com",
+      IntervieweeEmail:"tridip@gmail.com",
+      startTime:"12:00:00",
+      endTime:"14:00:00",
+      date:"02/04/2023",
+      category:"DSA",
+      instructions:"Join before 5 minutes",
+      title:"Dsa interview with Tridip Rong",
+      zoomLink:"https://us06web.zoom.us/j/81073976928#success",
+      MeetingStatus:"P",
+      batch:"sb201"
+    },
+  ];
+
+
   return (
     <div className="container">
       <Navbar />
@@ -38,7 +86,7 @@ const CreateBulkEvent = () => {
           />
           <div style={{ "display": "Flex", "justifyContent": "space-between" }}>
             <Button colorScheme="blue" onClick={handleCreateSchedule}>Schedule Interview</Button>
-            <Button colorScheme="blue">Download Template</Button>
+            <Button colorScheme="blue" onClick={() => downloadCsv(createCsvData(interview))}>Download Template</Button>
           </div>
         </Box>
       </Box>

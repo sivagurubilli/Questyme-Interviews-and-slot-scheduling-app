@@ -10,7 +10,7 @@ export const createBulkInterview = (data: any) => {
             type: ActionTypes.CREATE_BULK_INTERVIEW_REQUEST,
             payload: true
         })
-        axios.post<any>("http://localhost:8080/ScheduleInterview", data, {
+        axios.post<any>("https://18dd-202-142-81-195.in.ngrok.io/api/interview/createInterviews/csv", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
