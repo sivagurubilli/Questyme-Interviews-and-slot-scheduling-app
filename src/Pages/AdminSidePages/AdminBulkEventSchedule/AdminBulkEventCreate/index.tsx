@@ -56,20 +56,19 @@ const CreateBulkEvent = () => {
   };
   const interview = [
     {
-      interviewerEmail:"rtridip2@gmail.com",
-      IntervieweeEmail:"tridip@gmail.com",
-      startTime:"12:00:00",
-      endTime:"14:00:00",
-      date:"02-07-2023",
-      category:"DSA",
-      instructions:"Join before 5 minutes",
-      title:"Dsa interview with Tridip Rong",
-      zoomLink:"https://us06web.zoom.us/j/81073976928#success",
-      MeetingStatus:"P",
-      batch:"sb201"
+      interviewerEmail: "rtridip2@gmail.com",
+      IntervieweeEmail: "tridip@gmail.com",
+      startTime: "12:00:00",
+      endTime: "14:00:00",
+      date: "02-07-2023",
+      category: "DSA",
+      instructions: "Join before 5 minutes",
+      title: "Dsa interview with Tridip Rong",
+      zoomLink: "https://us06web.zoom.us/j/81073976928#success",
+      MeetingStatus: "P",
+      batch: "sb201"
     },
   ];
-
 
   return (
     <div className="container">
