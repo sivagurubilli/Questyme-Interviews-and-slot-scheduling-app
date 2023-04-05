@@ -199,7 +199,7 @@ const UserDashboard = () => {
                             </Flex>
                           </Box>
                           <Box>
-                            <Link to={"/user/me/interview-details"}><Button variant={"link"} float={"right"} mt={"1px"}>
+                            <Link to={"/dashboard/interview-details"}><Button variant={"link"} float={"right"} mt={"1px"}>
                               Details &gt;
                             </Button></Link>
                           </Box>
