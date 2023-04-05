@@ -5,8 +5,10 @@ import { Box, Button, FormErrorMessage, FormLabel, Grid, Input, Select, Textarea
 import { useFormik } from 'formik'
 import * as yup from "yup";
 import './index.css'
+import { useDispatch } from 'react-redux'
+import { createSingleInterview } from '../../../../Redux/ScheduleInterviewAdmin/ActionCreators'
 
-const formSchema = yup.object().shape({
+const validationSchema = yup.object().shape({
     interviewer: yup
         .string()
         .required("Interviewer e-mail address is required")
@@ -41,7 +43,7 @@ const formSchema = yup.object().shape({
         .required("Batch is required")
 })
 
-interface MyFormValues {
+export interface MyFormValues {
     "interviewer": string,
     "interviewee": string,
     "start": string,
@@ -69,6 +71,7 @@ const initialValues: MyFormValues = {
 
 export const CreateSingleInterview = () => {
     const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
+    const dispatch = useDispatch();
 
     // -------------takinc current date and time for validation --------------
     let currDateTime = new Date();
@@ -83,16 +86,37 @@ export const CreateSingleInterview = () => {
         }
     }
 
+    const onSubmit = (values: MyFormValues) => {
+        const startTime = values.start + ":00";
+        const endTime = values.end + ":00";
+        // Accessing the date to change the date formate
+
+        const initialDate = values.date.split("-");
+        const [year,month,date]=initialDate;
+        const data = {
+            "interviewerEmail": values.interviewer,
+            "intervieweeEmail": values.interviewee,
+            "startTime": startTime,
+            "endTime": endTime,
+            "date": `${date}-${month}-${year}`,
+            "category": values.category,
+            "instructions": values.instruction,
+            "title": values.title,
+            "meetingLink": values.zoomlink,
+            "batch": values.batch
+        }
+        console.log(data);
+        createSingleInterview(data)(dispatch)
+    };
+
     let month = setDateTime(dateArray[0]);
     let date = setDateTime(dateArray[1]);
     let year = setDateTime(dateArray[2]);
 
-    const formik = useFormik({
-        initialValues: initialValues,
-        validationSchema: formSchema,
-        onSubmit: (values) => {
-            console.log("form values", values);
-        }
+    const { handleSubmit, handleBlur, touched, handleChange, values, errors } = useFormik({
+        onSubmit,
+        initialValues,
+        validationSchema,
     })
 
     return (
@@ -101,7 +125,7 @@ export const CreateSingleInterview = () => {
             <InterviewCreateNav />
             <Box w="80%" ml="10%" mt="60px" minH="200px" h="auto" p="5%" bg="white" borderRadius="10px" boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)">
                 <Box borderRadius={"10px"} justifyContent={'center'} boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" width={"100%"} p="20px">
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <div className='formMainDiv'>
                             <div className='title'>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -109,60 +133,78 @@ export const CreateSingleInterview = () => {
                                 </FormLabel>
                                 <Input
                                     name="title"
-                                    placeholder="Enter Title "
+                                    placeholder="Enter Title"
+                                    value={values.title}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                 />
-                                {formik.errors.title && <p style={{ "color": "red" }}>{formik.errors.title}</p>}
+                                {errors.title && <p style={{ "color": "red" }}>{errors.title}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">Interviewer Email</FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     type='email'
                                     name="interviewer"
                                     placeholder="Enter Interviewer e-mail address"
+                                    value={values.interviewer}
                                 />
-                                {formik.errors.interviewer && <p style={{ "color": "red" }}>{formik.errors.interviewer}</p>}
+                                {errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
                                     Interviewee Email
                                 </FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     type='email'
                                     name="interviewee"
                                     placeholder="Enter Interviewer e-mail address"
+                                    value={values.interviewee}
                                 />
-                                {formik.errors.interviewee && <p style={{ "color": "red" }}>{formik.errors.interviewee}</p>}
+                                {errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
                                     Start Time
                                 </FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     name="start"
                                     type='time'
+                                    value={values.start}
                                 />
-                                {formik.errors.start && <p style={{ "color": "red" }}>{formik.errors.start}</p>}
+                                {errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
                                     End Time
                                 </FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     name="end"
                                     type='time'
+                                    value={values.end}
                                 />
-                                {formik.errors.end && <p style={{ "color": "red" }}>{formik.errors.end}</p>}
+                                {errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
                                     Date
                                 </FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     name="date"
                                     type='date'
                                     min={`${year}-${month}-${date}`}
+                                    value={values.date}
                                 />
-                                {formik.errors.date && <p style={{ "color": "red" }}>{formik.errors.date}</p>}
+                                {errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -170,33 +212,42 @@ export const CreateSingleInterview = () => {
                                 </FormLabel>
                                 <Select
                                     name='category'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.category}
                                 >
                                     <option value={"category"}>Technical Round</option>
                                     <option value={"category"}>DSA Round</option>
                                     <option value={"category"}>Manegerial round</option>
                                     <option value={"category"}>HR Round</option>
                                 </Select>
-                                {formik.errors.category && <p style={{ "color": "red" }}>{formik.errors.category}</p>}
+                                {errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
                                     Batch
                                 </FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     name='batch'
                                     type='text'
+                                    value={values.batch}
                                 />
-                                {formik.errors.batch && <p style={{ "color": "red" }}>{formik.errors.batch}</p>}
+                                {errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
                                     Zoom Link
                                 </FormLabel>
                                 <Input
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
                                     name="zoomlink"
                                     placeholder="Enter Zoomlink "
+                                    value={values.zoomlink}
                                 />
-                                {formik.errors.zoomlink && <p style={{ "color": "red" }}>{formik.errors.zoomlink}</p>}
+                                {errors.zoomlink && <p style={{ "color": "red" }}>{errors.zoomlink}</p>}
                             </div>
                             <div className='instruction'>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -204,8 +255,11 @@ export const CreateSingleInterview = () => {
                                 </FormLabel>
                                 <Textarea
                                     name="instruction"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.instruction}
                                 />
-                                {formik.errors.instruction && <p style={{ "color": "red" }}>{formik.errors.instruction}</p>}
+                                {errors.instruction && <p style={{ "color": "red" }}>{errors.instruction}</p>}
                             </div>
                         </div>
                         <div className='submitButton'>
@@ -214,6 +268,6 @@ export const CreateSingleInterview = () => {
                     </form>
                 </Box>
             </Box>
-        </div>
+        </div >
     )
 }

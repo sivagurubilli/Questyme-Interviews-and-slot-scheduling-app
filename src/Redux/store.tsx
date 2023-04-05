@@ -8,13 +8,15 @@ import {
 import {reducer as SingleEventReducer} from "./eventById/Reducer"
  import {reducer as AuthReducer}  from "./AuthReducer/Reducer"
  import {reducer as ScheduledInterviewReducer} from "./ScheduledInterviewUser/Reducer"
+ import {reducer as CreateSingleInterviewReducer} from './ScheduleInterviewAdmin/Reducer' 
+ import {reducer as ScheduleBulkInterviewReducer} from './ScheduleBulkInterviewAdmin/Reducer'
   declare global {
     interface Window {
       __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     }
   }
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const rootreducer = combineReducers({ SingleEventReducer,AuthReducer,ScheduledInterviewReducer });
+  const rootreducer = combineReducers({ SingleEventReducer,AuthReducer,ScheduledInterviewReducer,CreateSingleInterviewReducer,ScheduleBulkInterviewReducer});
   export const store = legacy_createStore(
     rootreducer,
     composeEnhancers(applyMiddleware(thunk))
