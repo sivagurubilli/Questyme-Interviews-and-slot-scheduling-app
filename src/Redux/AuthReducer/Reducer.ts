@@ -1,20 +1,23 @@
 import {Action} from "./Action";
 import { ActionTypes } from "./ActionTypes";
 
+const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
 export interface IsAuthstate {
     isAuth: boolean;
     token:string,
     user:any,
     isLoading:boolean,
-    isError:boolean
+    isError:boolean,
+    adminId:number | string
   }
 
   const initialState ={
-    isAuth:false,
-    token:"",
-    user:{},
+    isAuth:userDetails.token ? true : false,
+    token:userDetails.token || "",
+    user:userDetails.user || {},
     isLoading:false,
-    isError:false
+    isError:false,
+    adminId:userDetails.user.id || ""
   };
 
   export const reducer =(state:IsAuthstate=initialState,action:Action):IsAuthstate=>{
