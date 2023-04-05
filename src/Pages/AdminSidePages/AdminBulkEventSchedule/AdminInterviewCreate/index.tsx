@@ -89,12 +89,16 @@ export const CreateSingleInterview = () => {
     const onSubmit = (values: MyFormValues) => {
         const startTime = values.start + ":00";
         const endTime = values.end + ":00";
+        // Accessing the date to change the date formate
+
+        const initialDate = values.date.split("-");
+        const [year,month,date]=initialDate;
         const data = {
             "interviewerEmail": values.interviewer,
-            "intervieweeEmail": values.interviewer,
+            "intervieweeEmail": values.interviewee,
             "startTime": startTime,
             "endTime": endTime,
-            "date": values.date,
+            "date": `${date}-${month}-${year}`,
             "category": values.category,
             "instructions": values.instruction,
             "title": values.title,
