@@ -23,7 +23,8 @@ const Header = ({title,buttonName}:any) => {
                             >
                             {title}
                             </Text>
-                            <Link to={buttonName=="+ Book 1-1"?"/user/me/book-one-on-One":"#"}><Button colorScheme="blue">{buttonName}</Button></Link>
+                            {title=="today's Bookings"? <Link to={buttonName=="+ Book 1-1"?"/dashboard/past-events":"#"}><Button colorScheme="blue">Old Events</Button></Link>:""}
+                            <Link to={buttonName=="+ Book 1-1"?"/dashboard/book-one-on-One":"#"}><Button colorScheme="blue">{buttonName}</Button></Link>
                         </Box>
                       
                     </Box>

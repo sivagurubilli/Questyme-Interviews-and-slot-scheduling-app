@@ -37,20 +37,20 @@ import Header from "../../Components/CommonComponents/Header";
 import { GetAllInterviewService } from "../../Services/UserSideServices/GetInterviewsServices";
 import {convertTimeFormat} from "../../utils/index"
 export interface interview{
-  interviewId: number,
-  interviewerId: number,
-  intervieweeId: number,
-  startTime: string,
-  endTime: string,
-  date: string,
-  studentsNotes: null,
-  adminFeedback: null,
-  category:string,
-  instructions: string,
-  title: string,
-  meetingLink: string,
-  meetingStatus: string,
-  batch: string
+  "interviewId": number,
+        "interviewerName": string,
+        "intervieweeName": string,
+        "startTime": string,
+        "endTime": string,
+        "date": string,
+        "category": string,
+        "instructions": string,
+        "title": string,
+        "meetingLink": string,
+        "batch": string,
+        "meetingStatus": string,
+        "studentNote": string,
+        "adminFeedback": string
 }
 const UserDashboard = () => {
     const { onOpen, onClose, isOpen } = useDisclosure();
@@ -176,8 +176,8 @@ const UserDashboard = () => {
                             pr={"15px"}
                             pl={"15px"}
                           >
-                            <Text>InterViewer</Text>
-                            <Text>Type</Text>
+                            <Text>{item.interviewerName}</Text>
+                            <Text>{item.category}</Text>
                           </Flex>
                         </Stack>
                         <Flex
