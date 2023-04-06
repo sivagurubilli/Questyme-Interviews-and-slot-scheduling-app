@@ -1,4 +1,17 @@
+export  async function copyContent(text:string):Promise<void> {
+  try {
+    await navigator.clipboard.writeText(text);
+    const res = navigator.clipboard.readText().then((response)=>{
+       return response
+    })
 
+    
+    /* Resolved - text copied to clipboard successfully */
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+    /* Rejected - text failed to copy to the clipboard */
+  }
+}
 
 
 export const convertTimeFormat = (scheduledTime:any) => {
