@@ -2,9 +2,9 @@ import {
   IEventValues,
   IEventValuescreate,
 } from "../../Pages/AdminSidePages/Interfacces";
-import { Box, Button, Divider, Flex, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Input, Text, useMediaQuery } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { convertTo24Hour } from "../../utils/AddToAm";
+
 interface ITimeslotsIput {
   values: any;
   EventValues: IEventValues;
@@ -18,14 +18,12 @@ const TimeslotsInput = ({
 }: ITimeslotsIput) => {
   const [timeSlots, setTimeSlots] = useState([
     {
-      inputs:{ startTime: "09:00", endTime: "17:00" },
+      inputs: { startTime: "09:00", endTime: "17:00" },
       errors: { startTime: "", endTime: "" },
     },
   ]);
-
-  const [slots, setSlots] = useState([{ startTime: "09:00", endTime: "17:00" }]);
-
- 
+  const [isSmallerThan800] = useMediaQuery("(max-width: 800px)");
+  const [slots, setSlots] = useState([{ startTime: "", endTime: "" }]);
 
   useEffect(() => {
     const newSlots = timeSlots.map((el) => el.inputs);
@@ -37,6 +35,7 @@ const TimeslotsInput = ({
   useEffect(() => {
     setEventValues({ ...values, slotTime: slots });
   }, [setEventValues, values, slots]);
+
 
 
   // adding input for time slots
@@ -56,7 +55,6 @@ const TimeslotsInput = ({
     setTimeSlots(updatedTimeSlots);
   };
 
-
   // handle input from startTime time and time for slots creation
   const handleInputChange = (
     index: number,
@@ -64,48 +62,45 @@ const TimeslotsInput = ({
     value: string
   ) => {
     const updatedTimeSlots = [...timeSlots];
-    
     updatedTimeSlots[index].inputs[field] = value;
     setTimeSlots(updatedTimeSlots);
     const currentInput = updatedTimeSlots[index].inputs;
-    const currentStartTime = convertTo24Hour(currentInput.startTime);
-    const currentEndTime = convertTo24Hour(currentInput.endTime);
-    const errorFeild = updatedTimeSlots[index].errors;
-    const timePattern = /^([1-9]|1[0-2]|0?[1-9]|2[0-3]):[0-5][0-9]$/;
+    const currentStart = currentInput.startTime
+    const currentEnd = currentInput.endTime
 
-    if (!timePattern.test(currentInput.startTime)) {
-      errorFeild[field] = "Please Enter Correct Input ";
-    }
-   else if (!timePattern.test(currentInput.endTime)) {
-      errorFeild[field] = "Please Enter Correct Input ";
-    }
+    const errorFeild = updatedTimeSlots[index].errors;
+
     if (index > 0) {
       var previousInput = updatedTimeSlots[index - 1].inputs;
-      var previusEndTime = convertTo24Hour(previousInput?.endTime);
-      currentInput[field] = value;
-    
+      var previusEnd = previousInput?.endTime
+      currentInput[field] = value
       if (
         field === "startTime" &&
-        previusEndTime &&
-        (currentStartTime < previusEndTime || currentStartTime >= currentEndTime)
+        previusEnd && 
+        ((currentStart < previusEnd )|| ( (currentEnd!=="") &&  (currentStart >= currentEnd)))
       ) {
-        errorFeild["startTime"] = "Time Scheduling Mismatch"; 
-      } else if (field === "endTime" && currentEndTime <= currentStartTime) {
+        errorFeild[field] = "Time Scheduling Mismatch";
+        errorFeild["endTime"] = "";
+      } else if (field === "endTime" && currentEnd <= currentStart) {
         const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild["endTime"] = "Time Scheduling Mismatch";
+        errorFeild[field] = "Time Scheduling Mismatch";
+        errorFeild["startTime"] = "";
       } else {
         const errorFeild = updatedTimeSlots[index].errors;
         errorFeild[field] = "";
       }
     } else {
       currentInput[field] = value;
-
-      if (field === "startTime" && currentStartTime >= currentEndTime) {
+      if (field === "startTime" && ((currentEnd !== "") && currentStart >= currentEnd)) {
         const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild["startTime"] = "Time Scheduling Mismatch ";
-      } else if (field === "endTime" && currentEndTime <= currentStartTime) {
+        errorFeild[field] = "Time Scheduling Mismatch ";
+        errorFeild["endTime"] = "";
+       
+      } else if (field === "endTime" && currentEnd <= currentStart) {
+   
         const errorFeild = updatedTimeSlots[index].errors;
-        errorFeild["endTime"] = "Time Scheduling Mismatch";
+        errorFeild[field] = "Time Scheduling Mismatch";
+        errorFeild["startTime"] = "";
       } else {
         const errorFeild = updatedTimeSlots[index].errors;
         errorFeild[field] = "";
@@ -120,13 +115,13 @@ const TimeslotsInput = ({
     <div>
       {timeSlots.map((timeSlot, index) => (
         <Box key={index}>
-          <Flex justifyContent="space-between" w="100%">
-            <Box>
-              <Flex key={index}>
+          <Flex flexWrap="wrap" flexDirection={isSmallerThan800 ? "column":"row"}  justifyContent="space-between" w="100%">
+
                 <Box>
                   <Input
                     mt="5px"
                     w="100%"
+                    type="time"
                     value={timeSlot.inputs.startTime}
                     onChange={(e) =>
                       handleInputChange(index, "startTime", e.target.value)
@@ -149,6 +144,7 @@ const TimeslotsInput = ({
                   <Input
                     mt="5px"
                     w="100%"
+                    type="time"
                     value={timeSlot.inputs.endTime}
                     onChange={(e) =>
                       handleInputChange(index, "endTime", e.target.value)
@@ -175,17 +171,17 @@ const TimeslotsInput = ({
                     <i className="fa-solid fa-trash-can"></i>{" "}
                   </Button>
                 </Box>
-              </Flex>
-            </Box>
-
-            <Button variant="unstyled">
+            <Box>            
+              <Button variant="unstyled">
               <i
                 className="fa-solid fa-plus"
                 onClick={() => handleAddTimeSlot(index)}
               ></i>
             </Button>
+            </Box>
+
           </Flex>
-          <Divider mt="20px" mb="10px" />
+          <Divider mt="10px" mb="10px" />
         </Box>
       ))}
     </div>

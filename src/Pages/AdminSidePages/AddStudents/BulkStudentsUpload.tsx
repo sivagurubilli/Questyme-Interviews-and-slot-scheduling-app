@@ -1,47 +1,55 @@
 
-import { RootState } from "../../../Redux/store";
-import { AddBulkStudentService } from "../../../Services/AdminSideServices/GetEventsService";
 import {
   Box,
   Button,
   Divider,
   Flex,
   FormLabel,
-  Input,
   Stack,
   Text,
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import Papa from 'papaparse';
+import { AddBulkStudentService } from "../../../Services/AdminSideServices/GetEventsService";
+
 
 const BulkStudentsUpload = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
-  const [file, setFile] = useState<File | undefined>(undefined);
-  const state = useSelector((state:RootState)=>state.AuthReducer)
-  const token = state.token
-const toast = useToast()
+  const [file, setFile] = useState<File>();
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+  const id =userDetails?.user?.id
+  const token = userDetails?.token
+  const toast = useToast();
 
-  const handleCreateBulkLecture = async() => {
-    const formData = new FormData();
-    
-    if(file){
-      formData.append("file", file);
 
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
     }
-    try{
-     const response = await AddBulkStudentService(formData,token)
-     if(response){
-      toast({
-        title: "Students details added successfully",
-        status: "success",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-     }
-    }catch(error){
+  };
+  
+
+
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const response = await AddBulkStudentService(formData, token);
+      if (response.message) {
+        toast({
+          title: "Students details added successfully",
+          status: "success",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
       toast({
         title: "Something Went Wrong",
         status: "error",
@@ -50,8 +58,8 @@ const toast = useToast()
         isClosable: true,
       });
     }
-   
-}
+  };
+
   // Down load csv file
   const downloadCsv = (csvData: string) => {
     const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
@@ -66,27 +74,26 @@ const toast = useToast()
   };
 
   // creating csv file
-  const createCsvData = (students:any): string => {
-    const headers = ["name", "email","password", "Batch"];
-    const rows = students.map(({ name, email, batch,password }: any) => [
-     name,
+  const createCsvData = (students: any): string => {
+    const headers = ["id", "name", "email", "password"];
+    const rows = students.map(({ id, name, email, password }: any) => [
+      id,
+      name,
       email,
-      batch,
-      password
+      password,
     ]);
     return [headers, ...rows].map((row) => row.join(",")).join("\n");
   };
   const students = [
-    { name: "ravi", email: "john.doe@example.com", batch: "fw15",password:"1222222222222" },
-
+    {
+      id: "1",
+      name: "ravi",
+      email: "john.doe@example.com",
+      password: "1453673",
+    },
   ];
-  function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
-    const uploadedFile = event.target.files?.[0]; // get the first file from the selected files
-    if (uploadedFile) {
-      setFile(uploadedFile); // set the state to the uploaded file
-    }
-  }
-  
+
+ 
 
   return (
     <div>
@@ -97,16 +104,21 @@ const toast = useToast()
           <Text>Download Template For Adding Students In Bulk</Text>
           <Button
             colorScheme="blue"
+            fontSize={isSmallerThan600 ? "12px" : "auto"}
             ml="20px"
             onClick={() => downloadCsv(createCsvData(students))}
           >
             Download
           </Button>
         </Stack>
+        
+        <form onSubmit={handleFormSubmit}>
         <Flex justifyContent="space-between" w="90%" mt="30%">
-          <Input type="file" w="50%" accept={".csv"} onChange={handleFileUpload}/>
-          <Button colorScheme="blue"  onClick={handleCreateBulkLecture}  >Add Students</Button>
+        <input type="file" accept=".csv" onChange={handleFileInputChange} />
+        <Button colorScheme="blue" type="submit">Upload</Button>
         </Flex>
+      </form>
+       
       </Box>
     </div>
   );

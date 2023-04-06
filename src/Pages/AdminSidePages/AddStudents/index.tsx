@@ -8,8 +8,7 @@ import * as yup from "yup";
 import { Batch } from "../../../Assets/Assets";
 import { IAddStdents } from "../../../Services/AdminSideServices/GetEventsInterface";
 import { AddStudentService } from "../../../Services/AdminSideServices/GetEventsService";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Redux/store";
+
 
 const validationSchema = yup.object().shape({
  name: yup
@@ -26,8 +25,9 @@ const validationSchema = yup.object().shape({
 const AddStudents = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
   const toast  = useToast()
-  const state = useSelector((state:RootState)=>state.AuthReducer)
- const token = state.token
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+  const id =userDetails?.user?.id
+  const token = userDetails?.token
 const [studentDetails,setStudentDetails] =useState<IAddStdents>({
   name:"",
   password:"",
@@ -47,6 +47,7 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
     const onSubmit = async () => {
      try{
       const  response = await AddStudentService(studentDetails,token)
+    
       if(response){
         toast({
           title: "Student details added successfully",
@@ -76,7 +77,6 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
       });
   
   
-  
     useEffect(() => {
       setStudentDetails({ ...values });
     }, [values,setStudentDetails ]);
@@ -98,7 +98,7 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
       >
         <Stack direction={isSmallerThan600 ? "column" : "row"} spacing={8}>
 
-          <Box w="50%" p="20px" borderRight={isSmallerThan600 ? "" : "1px solid"} >
+          <Box w={isSmallerThan600 ?"100%":"70%" }  p="20px" borderRight={isSmallerThan600 ? "" : "1px solid"} >
             <FormLabel>Add Student</FormLabel>
             <Divider />
 
@@ -109,7 +109,7 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
               </FormLabel>
 
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="80%"
                 name="name"
                 placeholder="Student Name"
                 value={values.name}
@@ -125,7 +125,7 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
               </FormLabel>
 
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                width="80%"
                 name="email"
                 placeholder="Email"
                 value={values.email}
@@ -140,8 +140,8 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
               </FormLabel>
 
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
-                name="meetingLink"
+                width="80%"
+                name="password"
                 placeholder="password"
                 value={values.password}
                 onChange={handleChange}
@@ -152,18 +152,13 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
             <FormLabel mt="10px" color="rgb(75 85 99)">
              Batch
             </FormLabel>
-            <Select
+            <Input
+             width="80%"
               value={values.batch}
               onChange={handleChange}
               name="batch"
               placeholder="Batch"
-            >
-              {Batch.map((e)=>(
-              <option key={e} value={e}>
-                {e} 
-              </option>))}
-              
-            </Select>
+            />   
             {touched.batch && errors.batch && (
               <Text color="red">
                 {JSON.stringify(errors.batch).replace(/"/g, "")}
@@ -172,7 +167,7 @@ const [studentDetails,setStudentDetails] =useState<IAddStdents>({
           </Box>
                
             <Flex mt="20px" justifyContent="flex-end">
-              <Button colorScheme="blue" _hover={{ cursor: "pointer" }}>
+              <Button type="submit" colorScheme="blue" _hover={{ cursor: "pointer" }}>
                 Add Student
               </Button>
             </Flex>

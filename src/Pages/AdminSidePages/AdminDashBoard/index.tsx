@@ -1,25 +1,29 @@
 import Navbar from "../../../Components/Navbar/Navbar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
 import {
   Box,
-  CircularProgress,
   Grid,
-  Skeleton,
   Spinner,
   useToast,
 } from "@chakra-ui/react";
 import AdminInterviewBox from "../../../Components/AdminInterviews/InterviewsComponent";
 import { GetFutureInterviewService } from "../../../Services/UserSideServices/GetInterviewsServices";
-import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SearchComponent from "../../../Components/SearchComponent";
+import { useSearch } from "../../../utils/SetParams";
 
-interface SearchQuery {
-  [key: string]: string;
-}
 const AdminDashBoard = () => {
   const [futureInerviews, setfutureInerviews] = useState([]);
+  const [search, updateSearch] = useSearch();
   const toast = useToast();
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+const id =userDetails?.user?.id
+const token = userDetails?.token
+const location = useLocation();
+const params = new URLSearchParams(location.search);
+const name = params.get('name');
+
 
   useEffect(() => {
     GetEvents();
@@ -27,8 +31,7 @@ const AdminDashBoard = () => {
 
   const GetEvents = async () => {
     try {
-      const response = await GetFutureInterviewService("5");
-console.log(response)
+      const response = await GetFutureInterviewService(id,token);
       if (response.length) {
         setfutureInerviews(response.data);
       }
@@ -43,43 +46,8 @@ console.log(response)
     }
   };
 
-  const useSearch = (): [SearchQuery, (newSearch: SearchQuery) => void] => {
-    const [searchParams, setSearchParams] = useSearchParams();
 
-    const prevSearchParamsRef = useRef(searchParams.toString());
 
-    useEffect(() => {
-      const currentSearchParams = searchParams.toString();
-      if (prevSearchParamsRef.current !== currentSearchParams) {
-        prevSearchParamsRef.current = currentSearchParams;
-      }
-    }, [searchParams]);
-
-    const updateSearch = (newSearch: SearchQuery): void => {
-      const params = new URLSearchParams(prevSearchParamsRef.current);
-
-      Object.entries(newSearch).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value);
-        } else {
-          params.delete(key);
-        }
-      });
-
-      setSearchParams(params.toString());
-    };
-
-    const currentSearch = Array.from(searchParams.entries()).reduce(
-      (acc, [key, value]) => ({
-        ...acc,
-        [key]: value,
-      }),
-      {}
-    );
-
-    return [currentSearch, updateSearch];
-  };
-  const [search, updateSearch] = useSearch();
 
   return (
     <div className="container">
@@ -114,7 +82,7 @@ console.log(response)
               </Box>
             ))
           ) : (
-            <Spinner m="50px" p="20px" size="xl" color="blue.500" />
+          <Spinner ml="400px" mt="50px" p="20px" size="xl" color="blue.500" />
           )}
         </Grid>
       </Box>

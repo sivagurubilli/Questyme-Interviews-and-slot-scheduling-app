@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import OneOffModal from "../../../Components/Modals/OneOffModal";
-import { GetAllEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import { GetAllEventsService, GetDateOneOffService } from "../../../Services/AdminSideServices/GetEventsService";
 import { IEventValues } from "../Interfacces";
 import { useLocation } from "react-router-dom";
 
@@ -27,13 +27,15 @@ const OneOnOneSlotsView = () => {
   const [modalBody, setModalBody] = useState<string>("");
   const [selectedDay, setSelectedDay] = useState<string | Date>("");
   const location = useLocation();
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+  const id =userDetails.user.id
+  const token = userDetails.token
 
   const toast = useToast();
   const GetEvents = async () => {
     try {
-      const response = await GetAllEventsService();
-
-      if (response) {
+      const response = await GetDateOneOffService(id);
+      if (response.length) {
         setEvents(response);
       }
     } catch (err) {

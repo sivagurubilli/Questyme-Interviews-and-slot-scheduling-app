@@ -11,14 +11,12 @@ const SearchComponent = ({  search,updateSearch}:any) => {
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-   
-   
+  
     updateSearch({
       ...search,
       "name":event.target.value
     });
    
-    
   };
 
  

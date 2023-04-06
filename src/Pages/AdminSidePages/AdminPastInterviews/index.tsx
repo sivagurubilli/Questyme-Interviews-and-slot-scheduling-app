@@ -9,6 +9,9 @@ import { GetPastInterviewService } from "../../../Services/UserSideServices/GetI
 const PastInterviews = () => {
   const [pastInterviews, setpastInterviews] = useState([]);
   const toast = useToast();
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+const id =userDetails.user.id
+const token = userDetails.token
 
   useEffect(() => {
     GetEvents();
@@ -16,7 +19,7 @@ const PastInterviews = () => {
 
   const GetEvents = async () => {
     try {
-      const response = await GetPastInterviewService("5");
+      const response = await GetPastInterviewService(id,token);
       if (response) {
         setpastInterviews(response);
       }
@@ -59,7 +62,8 @@ const PastInterviews = () => {
         >
           {pastInterviews.length && pastInterviews?.map((el) => (
             <Box key={el}>
-             
+
+
               <AdminInterviewBox  event={el} GetEvents={GetEvents} />
             </Box>
           ))}

@@ -10,22 +10,13 @@ import {
     Textarea,
     useMediaQuery,
   } from "@chakra-ui/react";
-  import React, { useEffect } from "react";
+  import React, { useEffect, useState } from "react";
   import { useFormik } from "formik";
-  import * as yup from "yup";
-import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
 import { Duration } from "../../Assets/Assets";
-  
+import { validationSchema } from "../OneOnOneEdit/ValidationSchema";
+import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
   //yup validation schema
-  const validationSchema = yup.object().shape({
-    title: yup
-      .string()
-      .required("This feild is required")
-      .min(3, "Name must be 3 character"),
-    meetingLink: yup.string().required("This feild is required"),
-    duration: yup.string().required("This feild is required"),
-    date: yup.string().required("This feild is required"),
-  });
+
   
   const OneOffEventInput = ({
     EventValues,
@@ -36,6 +27,7 @@ import { Duration } from "../../Assets/Assets";
   }: any) => {
     //setting initial values for formik and yup
     const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
+
   
     const initialValues = {
       title: EventValues.title,
@@ -43,7 +35,7 @@ import { Duration } from "../../Assets/Assets";
       meetingLink: EventValues.meetingLink,
       duration: EventValues.duration,
       date: EventValues.date,
-      adminId: EventValues.adminId,
+      adminId: EventValues.adminId
     };
   
     const onSubmit = async () => {
@@ -53,6 +45,8 @@ import { Duration } from "../../Assets/Assets";
         SaveEvent();
       }
     };
+
+  
   
     //using formik we can set values onSubmit and onChange
     const { handleSubmit, handleBlur, touched, handleChange, values, errors } =
@@ -61,12 +55,11 @@ import { Duration } from "../../Assets/Assets";
         initialValues,
         validationSchema,
       });
+      
   
     const setCancel = () => {
       setEventValues("");
     };
-  
-  
   
     return (
       <div>
@@ -78,7 +71,8 @@ import { Duration } from "../../Assets/Assets";
               </FormLabel>
   
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                width="100%"
+                minW="40%"
                 name="title"
                 value={values.title}
                 onChange={handleChange}
@@ -99,7 +93,8 @@ import { Duration } from "../../Assets/Assets";
               </FormLabel>
   
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                width="100%"
+                minW="40%"
                 name="meetingLink"
                 value={values.meetingLink}
                 onChange={handleChange}
@@ -118,7 +113,8 @@ import { Duration } from "../../Assets/Assets";
                 Duration
               </FormLabel>
               <Select
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="100%"
+                 minW="40%"
                 value={values.duration}
                 onChange={handleChange}
                 name="duration"
@@ -143,7 +139,8 @@ import { Duration } from "../../Assets/Assets";
               </FormLabel>
   
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="100%"
+                 minW="40%"
                 name="date"
                 type="date"
                 value={values.date}
@@ -157,7 +154,8 @@ import { Duration } from "../../Assets/Assets";
                 Instructions
               </FormLabel>
               <Textarea
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="100%"
+                 minW="40%"
                 name="instruction"
                 value={values.instruction}
                 onChange={handleChange}
@@ -171,15 +169,19 @@ import { Duration } from "../../Assets/Assets";
               )}
             </Box>
           
-            <Box>
+            <Box  minW="40%"  width="100%">
             <FormLabel mt="10px" color="rgb(75 85 99)">
               Add Availability  {" "}
               </FormLabel>
+
+             
               <TimeslotsInput
                 values={values}
                 EventValues={EventValues}
                 setEventValues={setEventValues}
               />
+            
+              
             </Box>
           </Grid>
           <Flex mt="20px" justifyContent="flex-end">
