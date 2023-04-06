@@ -20,6 +20,7 @@ const CreateBulkEvent = () => {
   const handleCreateSchedule = () => {
     const formData = new FormData();
     formData.append("file", file);
+    console.log("formdata",formData);
     createBulkInterview(formData)(dispatch);
   }
 
