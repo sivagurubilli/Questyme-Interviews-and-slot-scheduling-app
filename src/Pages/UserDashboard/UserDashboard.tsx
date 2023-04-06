@@ -34,29 +34,42 @@ import { Link } from "react-router-dom";
 import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
 import { FaRegClone} from "react-icons/fa";
 import Header from "../../Components/CommonComponents/Header";
-import { GetAllInterviewService } from "../../Services/UserSideServices/GetInterviewsServices";
+import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetInterviewsServices";
 import {convertTimeFormat} from "../../utils/index"
-import { interview } from "../../Redux/ScheduledInterviewUser/Reducer";
 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
+import { Dispatch } from "redux";
+import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
+
+export interface interview{
+  interviewId: number,
+        interviewerName: string,
+        intervieweeName: string,
+        startTime: string,
+        endTime: string,
+        date: string,
+        category: string,
+        instructions: string,
+        title: string,
+        meetingLink: string,
+        batch: string,
+        meetingStatus: string,
+        studentNote: string,
+        adminFeedback: string
+}
 const UserDashboard = () => {
     const { onOpen, onClose, isOpen } = useDisclosure();
-    const [interviews,setInterviews] =useState([]);
-    const [copyText,setCopyText] =useState("")
+    const interviews = useSelector((state:RootState)=>state.ScheduledInterviewReducer.interviews)
+    const [copyText,setCopyText] =useState("");
+    const dispatch:Dispatch<scheduledInterviewSuccess|scheduledInterviewLoading|scheduledInterviewFailure> = useDispatch();
+
     useEffect(()=>{
-        getInterviews();
-    },[])
-
-    const getInterviews = async()=>{
-      try{
-          const res = await GetAllInterviewService();
-         if(res.length){
-          setInterviews(res)
-         }
-      }catch(err){
-          console.log(err)
-      }
-    }
-
+   if(interviews?.length===0){
+    GetAllScheduledInterView()(dispatch)
+   }
+    },[dispatch,interviews?.length])
+    
     async function copyContent(text:string) {
       try {
         await navigator.clipboard.writeText(text);
@@ -69,9 +82,7 @@ const UserDashboard = () => {
         /* Rejected - text failed to copy to the clipboard */
       }
     }
-   
-    console.log("interviews",interviews)
-    console.log("interviews",copyText)
+
   return (
     <div>
       <Navbar />
@@ -199,7 +210,7 @@ const UserDashboard = () => {
                               </Flex>
                             </Box>
                             <Box>
-                              <Link to={"/dashboard/interview-details"}>
+                              <Link to={`/dashboard/interview/${item.interviewId}`}>
                                 <Button
                                   variant={"link"}
                                   float={"right"}

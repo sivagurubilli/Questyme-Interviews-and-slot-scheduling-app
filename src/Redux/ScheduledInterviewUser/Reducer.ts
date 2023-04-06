@@ -1,25 +1,10 @@
 import { Action } from "./Action";
 import { ActionTypes } from "./ActionTypes";
-export interface interview{
-    "interviewId": number,
-          "interviewerName": string,
-          "intervieweeName": string,
-          "startTime": string,
-          "endTime": string,
-          "date": string,
-          "category": string,
-          "instructions": string,
-          "title": string,
-          "meetingLink": string,
-          "batch": string,
-          "meetingStatus": string,
-          "studentNote": string,
-          "adminFeedback": string
-  }
+import { interview } from "../../Pages/UserDashboard/UserDashboard";
 export interface SchecduledInterviewState {
     isLoading:boolean,
     isError:boolean,
-    interviews:interview[]
+    interviews:any
 }
 const initialState:SchecduledInterviewState ={
     isLoading:false,
@@ -27,7 +12,7 @@ const initialState:SchecduledInterviewState ={
     interviews:[]
 }
 
-export const reducer =(state:SchecduledInterviewState=initialState,action:Action):any=>{
+export const reducer =(state:SchecduledInterviewState=initialState,action:Action):SchecduledInterviewState=>{
     const {payload} = action;
     switch(action.type){
         case ActionTypes.GET_EVENTS_DATA_SUCCESS:
@@ -41,13 +26,13 @@ export const reducer =(state:SchecduledInterviewState=initialState,action:Action
                 return {
                     ...state,
                     isLoading:true,
-                    IsError:false,
+                    isError:false,
                 } 
         case ActionTypes.GET_EVENTS_DATA_FAILURE:
                     return {
                         ...state,
                         isLoading:false,
-                    IsError:true,
+                        isError:true,
                     }               
             default:
                 return state
