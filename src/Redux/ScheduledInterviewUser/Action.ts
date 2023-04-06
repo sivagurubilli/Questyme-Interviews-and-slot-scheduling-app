@@ -1,16 +1,16 @@
 import { ActionTypes } from "./ActionTypes";
-
-interface scheduledInterviewSuccess {
+import { SchecduledInterviewState } from "./Reducer";
+export interface scheduledInterviewSuccess {
     type:ActionTypes.GET_EVENTS_DATA_SUCCESS,
-    payload:any
+    payload:SchecduledInterviewState
 }
 
-interface scheduledInterviewFailure {
+export interface scheduledInterviewFailure {
     type:ActionTypes.GET_EVENTS_DATA_FAILURE,
-    payload:any
+    payload:true
 }
-interface scheduledInterviewLoading {
+export interface scheduledInterviewLoading {
     type:ActionTypes.GET_EVENTS_DATA_REQUEST,
-    payload:any
+    payload:true
 }
 export type Action = scheduledInterviewSuccess | scheduledInterviewFailure | scheduledInterviewLoading;

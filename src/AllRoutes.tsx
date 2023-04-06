@@ -35,7 +35,7 @@ const AllRoutes = () => {
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
             <Route path='dashboard' element={<RequireAuth><UserDashboard /></RequireAuth>} />
             <Route path={"/dashboard/book-one-on-One"}  element={<BookOneOnOne />} />
-            <Route path={"/dashboard/interview-details"}  element={<InterviewDetails />} />
+            <Route path={"/dashboard/interview/:id"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
             </Routes>

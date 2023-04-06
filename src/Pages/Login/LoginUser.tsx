@@ -35,6 +35,7 @@ export const LoginUser = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const commingFrom = location?.state?.from?.pathname || "/dashboard";
+  
   return (
     <Box bg={"#fafafa"} w={"full"} h={"100vh"} mt={"-50px"} p={"100px"}>
       <Formik
