@@ -1,7 +1,5 @@
-import Navbar from "../../../Components/Navbar/Navbar";
+
 import React, { useCallback, useEffect, useState } from "react";
-import SlotsViewNavbar from "./SlotsViewNavbar";
-import Calendar from "../../../Components/Calender/Calendar";
 import {
   Box,
   Divider,
@@ -11,9 +9,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import OneOffModal from "../../../Components/Modals/OneOffModal";
-import { GetAllEventsService, GetDateOneOffService } from "../../../Services/AdminSideServices/GetEventsService";
+import Navbar from "../../../Components/Navbar/Navbar";
+import Calendar from "../../../Components/Calender/Calendar";
+import { GetDateOneOffService, GetSlotsService } from "../../../Services/AdminSideServices/GetEventsService";
 import { IEventValues } from "../Interfacces";
 import { useLocation } from "react-router-dom";
+import OneOnOneCreateNav from "../AdminOneOnOneCreate/OneOnOneCreateNav";
 
 interface Islot {
   start: "";
@@ -23,16 +24,18 @@ interface Islot {
 const OneOnOneSlotsView = () => {
   const [events, setEvents] = useState<IEventValues[]>();
   const [event, setEvent] = useState<IEventValues>();
+  const [dates,setDates] = useState(["2023-04-05","2023-04-06"])
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modalBody, setModalBody] = useState<string>("");
   const [selectedDay, setSelectedDay] = useState<string | Date>("");
   const location = useLocation();
   const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
-  const id =userDetails.user.id
-  const token = userDetails.token
-
+  const id =userDetails?.user?.id
+  const token = userDetails?.token
   const toast = useToast();
-  const GetEvents = async () => {
+const [name,setName] = useState("")
+
+  const GetEvents = useCallback(async () => {
     try {
       const response = await GetDateOneOffService(id);
       if (response.length) {
@@ -47,11 +50,30 @@ const OneOnOneSlotsView = () => {
         isClosable: true,
       });
     }
-  };
+  },[id,toast]);
 
   useEffect(() => {
     GetEvents();
-  }, []);
+  }, [GetEvents]);
+
+  const GetEventByDate = useCallback(async (date:string)=>{
+    try {
+      const response = await GetSlotsService(date);
+           setName(response)
+         
+      if (response.length) {
+        //setEvents(response);
+      }
+    } catch (err) {
+      toast({
+        title: "Something Went Wrong",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  },[toast])
 
   //when click on date it should add date to url and set event
   const handleSelect = (arg: { start: Date; end: Date; startStr: string }) => {
@@ -59,25 +81,17 @@ const OneOnOneSlotsView = () => {
     searchParams.set("date", arg.startStr);
     const newUrl = window.location.pathname + "?" + searchParams.toString();
     window.history.pushState({ path: newUrl }, "", newUrl);
-    const event = events?.find((el) => el.date === arg.startStr);
-    if (event) {
-      setEvent(event);
-    } else {
-      setEvent({});
-    }
+    GetEventByDate(arg.startStr)
   };
 
   //when component render set event based on date get by urlparams
   const setEventByDate = useCallback(() => {
     const searchParams = new URLSearchParams(location.search);
     const dateStr = searchParams.get("date");
-    if (dateStr) {
-      const event = events?.find((el) => el.date === dateStr);
-      setEvent(event);
-    } else {
-      setEvent({});
+    if(dateStr){
+    GetEventByDate(dateStr)
     }
-  }, [location.search, events]);
+  }, [location.search,GetEventByDate]);
 
   useEffect(() => {
     setEventByDate();
@@ -86,7 +100,7 @@ const OneOnOneSlotsView = () => {
   return (
     <div className="container">
       <Navbar />
-      <SlotsViewNavbar />
+      <OneOnOneCreateNav  NavText = "View All Slots"/>
       <Box
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         h="auto"
@@ -105,7 +119,7 @@ const OneOnOneSlotsView = () => {
             h="auto"
             p="20px"
           >
-            <Calendar events={events} handleSelect={handleSelect} />
+            <Calendar events={events} handleSelect={handleSelect} dates={dates} />
           </Box>
           <Box
             boxShadow="0 5px 15px rgba(0,0,0,0.06)"
@@ -118,6 +132,7 @@ const OneOnOneSlotsView = () => {
             <FormLabel>All Slots On Particular Date</FormLabel>
 
             <Divider />
+            {name}
             {event?.id && (
               <Box
                 boxShadow="0 5px 15px rgba(0,0,0,0.06)"
@@ -133,6 +148,7 @@ const OneOnOneSlotsView = () => {
                 {event?.slots?.map((slot: any, index: number) => (
                   <Box>
                     <Flex mt="10px" justifyContent="space-between" key={index}>
+                    
                       <Text>Start - {slot?.start}</Text>
                       <Text>End - {slot?.end}</Text>
                       <Text color="green"> Booked</Text>

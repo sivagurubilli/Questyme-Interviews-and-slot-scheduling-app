@@ -11,33 +11,33 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Papa from 'papaparse';
 import { AddBulkStudentService } from "../../../Services/AdminSideServices/GetEventsService";
 
 
 const BulkStudentsUpload = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
-  const [file, setFile] = useState<File>();
+  const [csvFile, setCsvFile] = useState<File | null>(null);
   const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
   const id =userDetails?.user?.id
   const token = userDetails?.token
   const toast = useToast();
 
-
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0]);
-    }
-  };
   
-
+  function handleFileInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file && file.type === 'text/csv') {
+      setCsvFile(file);
+    } else {
+      setCsvFile(null);
+    }
+  }
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!file) return;
-
+    if (!csvFile) return;
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', csvFile);
+    
     try {
       const response = await AddBulkStudentService(formData, token);
       if (response.message) {
@@ -75,21 +75,21 @@ const BulkStudentsUpload = () => {
 
   // creating csv file
   const createCsvData = (students: any): string => {
-    const headers = ["id", "name", "email", "password"];
-    const rows = students.map(({ id, name, email, password }: any) => [
-      id,
+    const headers = [ "name", "email", "password","batch"];
+    const rows = students.map(({ name, email, password,batch }: any) => [
       name,
       email,
       password,
+      batch
     ]);
     return [headers, ...rows].map((row) => row.join(",")).join("\n");
   };
   const students = [
     {
-      id: "1",
       name: "ravi",
       email: "john.doe@example.com",
       password: "1453673",
+      batch:"rct201"
     },
   ];
 

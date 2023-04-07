@@ -13,8 +13,8 @@ import {
   import React, { useEffect, useState } from "react";
   import { useFormik } from "formik";
 import { Duration } from "../../Assets/Assets";
-import { validationSchema } from "../OneOnOneEdit/ValidationSchema";
-import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
+import { validationSchema } from "./ValidationSchema";
+import TimeslotsInput from "./TimeslotsInput";
   //yup validation schema
 
   
@@ -27,8 +27,6 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
   }: any) => {
     //setting initial values for formik and yup
     const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
-
-  
     const initialValues = {
       title: EventValues.title,
       instruction: EventValues.instruction,
@@ -46,8 +44,7 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
       }
     };
 
-  
-  
+
     //using formik we can set values onSubmit and onChange
     const { handleSubmit, handleBlur, touched, handleChange, values, errors } =
       useFormik({

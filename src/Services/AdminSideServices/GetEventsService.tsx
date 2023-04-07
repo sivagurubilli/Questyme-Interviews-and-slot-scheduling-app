@@ -160,3 +160,39 @@ export async function AddBulkStudentService(data: any, token: string) {
     return error.response;
   }
 }
+
+//service for getting slots for particular date
+export async function GetSlotsService(date:string) {
+  try {
+    
+    const response = await axios.post(
+      "https://e617-2405-201-9009-9180-c96a-473e-c9a9-e6db.in.ngrok.io/auth/users/bulk-createbyCSV",
+      date,
+      {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    }
+    );
+    return date
+    return response.data;
+  } catch (error: any) {
+    return date
+    return error.response;
+  }
+}
+
+
+export async  function CountByMeetingStatus(id:string,token:string){
+  try {
+    
+    const response = await axios.get(
+      "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status"
+    );
+  
+    return response.data;
+  } catch (error: any) {
+
+    return error.response;
+  }
+}

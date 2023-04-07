@@ -18,16 +18,12 @@ const GotoOneOffMeet = () => {
     slotTime:[{startTime: "",
     endTime: ""}]
   });
-
-
   const navigate = useNavigate();
   const toast = useToast();
 
   const addEvent = async () => {
     try {
       const response = await PostOneOffService(EventValues);
-
-   
       if (response) {
         toast({
           title: "Event created",

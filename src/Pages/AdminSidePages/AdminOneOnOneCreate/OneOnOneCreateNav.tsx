@@ -3,7 +3,7 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
-const OneOnOneCreateNav = () => {
+const OneOnOneCreateNav = ({NavText}:any) => {
   const navigate = useNavigate();
 
   return (
@@ -35,7 +35,7 @@ const OneOnOneCreateNav = () => {
 
             <Text fontWeight="bold" fontSize="medium">
               {" "}
-              Add One-On-One Event Type{" "}
+             {NavText}{" "}
             </Text>
 
           </Flex>

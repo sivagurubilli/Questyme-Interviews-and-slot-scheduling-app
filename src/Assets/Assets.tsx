@@ -1,7 +1,7 @@
 export const masaiImage: string = 'https://masaischool.com/img/navbar/logo.svg';
 
 
-export const EventTypesNavbarArray = ["Past-Interviews","Add-Students"]
+export const EventTypesNavbarArray = ["DashBoard","Past-Interviews","Future-Interviews","Add-Students"]
 
 export const Duration =["15","30","45","60"]
 

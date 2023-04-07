@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import {
   AddRecurringSlotsService,
-  GetSingleEventsService,
 } from "../../Services/AdminSideServices/GetEventsService";
 import { useNavigate, useParams } from "react-router-dom";
 import { DaysForRecurring, DaysForRecurringEvents } from "../../Assets/Assets";
@@ -69,27 +68,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
     }
   };
 
-  //GetEventById function
-  const GetEventById = async () => {
-    try {
-      const response = await GetSingleEventsService(id);
-      if (response.days) {
-        setDays(response.days);
-      }
-    } catch (err) {
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  };
 
-  useEffect(() => {
-    GetEventById();
-  }, []);
 
   return (
     <div>

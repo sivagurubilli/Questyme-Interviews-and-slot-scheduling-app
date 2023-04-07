@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Grid, useToast } from "@chakra-ui/react";
 import SearchComponent from "../../../Components/SearchComponent";
 import Navbar from "../../../Components/Navbar/Navbar";
@@ -10,14 +10,11 @@ const PastInterviews = () => {
   const [pastInterviews, setpastInterviews] = useState([]);
   const toast = useToast();
   const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
-const id =userDetails.user.id
-const token = userDetails.token
+const id = userDetails?.user?.id
+const token = userDetails?.token
 
-  useEffect(() => {
-    GetEvents();
-  }, []);
 
-  const GetEvents = async () => {
+  const GetEvents = useCallback(async () => {
     try {
       const response = await GetPastInterviewService(id,token);
       if (response) {
@@ -32,7 +29,12 @@ const token = userDetails.token
         isClosable: true,
       });
     }
-  };
+  },[id,token,toast]);
+
+  useEffect(() => {
+    GetEvents();
+  }, [GetEvents]);
+
 
   return (
     <div className="container">
@@ -60,15 +62,11 @@ const token = userDetails.token
           }}
           gap={4}
         >
-          {pastInterviews.length && pastInterviews?.map((el) => (
+          {pastInterviews.length >0 && pastInterviews?.map((el) => (
             <Box key={el}>
-
-
               <AdminInterviewBox  event={el} GetEvents={GetEvents} />
             </Box>
           ))}
-
-         
         </Grid>
       </Box>
     </div>

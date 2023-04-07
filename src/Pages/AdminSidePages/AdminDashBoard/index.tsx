@@ -1,51 +1,62 @@
 import Navbar from "../../../Components/Navbar/Navbar";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
 import {
   Box,
-  Grid,
-  Spinner,
+  Divider,
+  Flex,
+  FormLabel,
+  SkeletonCircle,
+  SkeletonText,
+  Text,
+  Toast,
   useToast,
 } from "@chakra-ui/react";
-import AdminInterviewBox from "../../../Components/AdminInterviews/InterviewsComponent";
-import { GetFutureInterviewService } from "../../../Services/UserSideServices/GetInterviewsServices";
-import { useLocation } from "react-router-dom";
-import SearchComponent from "../../../Components/SearchComponent";
-import { useSearch } from "../../../utils/SetParams";
+import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
+import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
+import { CountByMeetingStatus } from "../../../Services/AdminSideServices/GetEventsService";
+const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+const id = userDetails?.user?.id;
+const token = userDetails?.token;
+
 
 const AdminDashBoard = () => {
-  const [futureInerviews, setfutureInerviews] = useState([]);
-  const [search, updateSearch] = useSearch();
-  const toast = useToast();
-  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
-const id =userDetails?.user?.id
-const token = userDetails?.token
-const location = useLocation();
-const params = new URLSearchParams(location.search);
-const name = params.get('name');
-
-
-  useEffect(() => {
-    GetEvents();
-  }, []);
-
-  const GetEvents = async () => {
-    try {
-      const response = await GetFutureInterviewService(id,token);
-      if (response.length) {
-        setfutureInerviews(response.data);
-      }
-    } catch (error) {
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
+const [totalIntervies,setTotalInterviews] = useState({
+  totalIntervies:"",
+  results:[
+    {
+      meetingStatus:"",
+      count:0
+    },
+    {
+      meetingStatus:"",
+      count:0
     }
-  };
+  ]
+})
+const toast = useToast()
 
+
+const GetEvents = useCallback(async () => {
+  try {
+    const response = await CountByMeetingStatus(id, token);
+    if (response.length) {
+      setTotalInterviews(response.data);
+    }
+  } catch (error) {
+    toast({
+      title: "Something Went Wrong",
+      status: "error",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
+  }
+}, [id, token, toast]);
+
+useEffect(() => {
+  GetEvents();
+}, [GetEvents]);
 
 
 
@@ -56,36 +67,31 @@ const name = params.get('name');
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
-        minH="200px"
+        mt="30px"
+        minH="120px"
         h="auto"
-        p="5%"
+        p="3%"
         bg="white"
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <SearchComponent search={search} updateSearch={updateSearch} />
-
-        <Grid
-          mt={4}
-          templateColumns={{
-            base: "1fr",
-            md: "1fr 1fr 1fr",
-            lg: "1fr 1fr 1fr",
-          }}
-          gap={4}
-        >
-          {futureInerviews?.length > 0 ? (
-            futureInerviews?.map((el) => (
-              <Box key={el}>
-                <AdminInterviewBox event={el} GetEvents={GetEvents} />
-              </Box>
-            ))
-          ) : (
-          <Spinner ml="400px" mt="50px" p="20px" size="xl" color="blue.500" />
-          )}
-        </Grid>
+       <Box w="60%" ml="20%" >
+        <Flex justifyContent="space-between">
+       <Text>Total Interviews </Text> <Text>17</Text>
+       </Flex>
+       <Flex justifyContent="space-between"> 
+       <Text>Interviews Completed </Text> <Text>7</Text>
+       </Flex>
+       <Flex justifyContent="space-between">
+       <Text>Interviews Pending </Text> <Text>10</Text>
+       </Flex>
+       </Box>
       </Box>
+  {/* search by batch name component */}
+            <SearchByBatch/>
+  {/* search by batch name and  pendingstaus component */}
+            <SearchByPendingStauts />
+       
     </div>
   );
 };
