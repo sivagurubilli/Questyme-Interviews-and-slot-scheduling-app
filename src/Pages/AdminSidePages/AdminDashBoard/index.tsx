@@ -33,6 +33,7 @@ const AdminDashBoard = () => {
       },
     ],
   });
+  
   const toast = useToast();
 
   const GetEvents = useCallback(async () => {

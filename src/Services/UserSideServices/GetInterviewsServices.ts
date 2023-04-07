@@ -90,6 +90,8 @@ export async function GetAllSlotsService(id:string){
         return error.response
     }
 }
+
+
 export const GetAllScheduledInterView =
   () =>
   (

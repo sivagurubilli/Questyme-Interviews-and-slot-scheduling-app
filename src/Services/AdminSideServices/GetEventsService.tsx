@@ -174,10 +174,9 @@ export async function GetSlotsService(date:string) {
         },
     }
     );
-    return date
     return response.data;
   } catch (error: any) {
-    return date
+
     return error.response;
   }
 }
@@ -187,7 +186,12 @@ export async  function CountByMeetingStatus(id:string,token:string){
   try {
     
     const response = await axios.get(
-      "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status"
+      "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status",
+      {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    }
     );
   
     return response.data;
