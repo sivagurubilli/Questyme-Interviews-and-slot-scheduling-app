@@ -1,34 +1,22 @@
 import axios from "axios"
-import { FormValues } from "./SlotBookingInterface";
 
 export const getSlotDays = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/slots");
-      if(response.data){
-        return response.data
+      const response = await axios.get("https://48c6-103-200-85-189.in.ngrok.io/slot/get-slot-dates/1");
+      if( response.data.dates){
+        return  response.data.dates
+        
       }
     } catch (error) {
-      console.log(error)
+      console.log("error",error)
     }
   }
 
-  export const getSlots = async () => {
+  export const getSlots = async (time:string) => {
     try {
-      const response = await axios.get("http://localhost:8080/slotstesting");
-      if(response.data){
-        return response.data[1]
-      }
+      const response = await axios.get(`https://48c6-103-200-85-189.in.ngrok.io/slot/get-unbooked-slot/1/${time}`);
+      return response.data
     } catch (error) {
       console.log(error)
     }
   }
-
-  export const BookSlot = async (formValues:FormValues) => {
-    try {
-      const response = await axios.post("http://localhost:8080/schedules", { formValues });
-      return response
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  

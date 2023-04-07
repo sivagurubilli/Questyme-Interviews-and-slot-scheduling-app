@@ -1,32 +1,102 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Text, Button } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import Calendar from "./Calendar";
+import { Box, Flex, Heading, Text, Button,useToast } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
-import { getSlotDays } from "../../../Services/UserSideServices/SlotBookingServices";
+import { getSlotDays,getSlots } from "../../../Services/UserSideServices/SlotBookingServices";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { useBreakpointValue } from "@chakra-ui/react";
+import "./calendar.css";
+import axios from 'axios'
+
 
 const StudentBooking = () => {
-  const Navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [isName, setIsName] = useState([]);
+  const toast = useToast();
+  const [loading2, setLoading2] = useState(false);
+  const height = useBreakpointValue({ base: "auto", sm: "800px", md: "500px" });
+  const [bookSlot, setBookSlot] = useState<any>();
   useEffect(() => {
-    async function fetchSlotDays() {
+    async function fetchSlotsDays() {
+      try {
+        setLoading2(true);
+        const response = await getSlotDays();
+        setLoading2(false);
+        
+        if(response.length){
+          const events = response.map((date: string) => {
+            return {
+              title: "Book",
+              start: date,
+              allDay: true,
+              backgroundColor: "#28a746",
+            };
+          })
+          setBookSlot(events);
+        }else{
+          setBookSlot([]);
+        }
+       
+      } catch (error) {
+        setLoading2(false);
+        console.log(error);
+      }
+    }
+    fetchSlotsDays()
+  }, []);
+  async function fetchSlot(clickedDate:string) {
       try {
         setLoading(true);
-        const response = await getSlotDays();
-        setIsName(response);
+        const response = await  getSlots(clickedDate);
+        console.log(response,"pintex")
+            setIsName(response);
         setLoading(false);
       } catch (error) {
         console.log(error);
         setLoading(false);
       }
     }
-    fetchSlotDays();
-  }, []);
+ 
 
-  const handleClick = (e:string) => {
-    Navigate(`/student/booking/details?slotName=${e}`);
+    const handleClick = async (e: any) => {
+      try {
+        const userId = 30195;
+        const response = await axios.post(`https://48c6-103-200-85-189.in.ngrok.io/slot/bookslot/${e.slotId}/user/${userId}`);
+        console.log(response.data);
+        toast({
+          title: "Event scheduled",
+          description: "Your event has been scheduled successfully!",
+          status: "success",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Something Went Wrong",
+          description: "Your event hasn't been scheduled successfully!",
+          status: "error",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    };
+
+  const handleDateClick = (arg: any) => {
+    const todayStr = new Date();
+    const  clickedDateStr= new Date(arg.date);
+    const clickedDate = clickedDateStr.toISOString().substr(0, 10);
+  const  today= todayStr.toISOString().substr(0, 10);
+    // if (clickedDate <= today) {
+    //   return;
+    // } else {
+    //    fetchSlot()
+    // }
+    fetchSlot(clickedDate)
   };
  
   return (
@@ -74,10 +144,23 @@ const StudentBooking = () => {
             <Heading as="h4" size="md">
               Select a Date & Time
             </Heading>
-            <Calendar />
+            {/* <Calendar /> */}
+            <div>
+      {loading2 ? (
+        <div>...Loading</div>
+      ) : (
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          initialEvents={bookSlot}
+          height={height}
+          dateClick={handleDateClick}
+        />
+      )}
+    </div>
           </Box>
           <Box flexGrow={1}>
-            {isName && <Button
+            { isName ?<Button
               w={["100%", "180px"]}
               size={["sm", "md"]}
               borderColor="blue.500"
@@ -85,15 +168,14 @@ const StudentBooking = () => {
               bg="blue"
               mt="5"
             >
-              Book Slot
-            </Button>}
+              Book Slot 
+            </Button>:<Box></Box>}
             {loading ? (
               <Box>...Loading</Box>
             ) : (
               <Box>
                 {" "}
-                {isName &&
-                  isName.map((e, i) => {
+                { isName?.map((e:any, i:number) => {
                     return (
                       <Box key={i}>
                         <Box>
@@ -107,7 +189,7 @@ const StudentBooking = () => {
                             onClick={()=>handleClick(e)}
                             mt="5"
                           >
-                            {e}
+                            {e.startTime}
                           </Button>
                         </Box>
                       </Box>
