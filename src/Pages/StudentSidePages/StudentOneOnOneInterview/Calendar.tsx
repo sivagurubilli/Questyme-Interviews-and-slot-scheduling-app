@@ -9,6 +9,7 @@ const Calendar = () => {
   const [loading, setLoading] = useState(false);
   const height = useBreakpointValue({ base: "auto", sm: "800px", md: "500px" });
   const [bookSlot, setBookSlot] = useState<any>();
+  
   useEffect(() => {
     setLoading(true);
     axios

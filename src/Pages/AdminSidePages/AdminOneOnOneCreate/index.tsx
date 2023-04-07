@@ -1,7 +1,7 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useState } from "react";
 import OneOnOneCreateNav from "./OneOnOneCreateNav";
-import { Box, Divider,  FormLabel, useAnimationState, useToast } from "@chakra-ui/react";
+import { Box, Divider,  FormLabel,  useToast } from "@chakra-ui/react";
 import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
 import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,9 @@ const OneonOneEventsCreate = () => {
     try {
       SetOneOnOneData(EventValues)
       const response = await PostEventsService(EventValues);
-
+      setTimeout(() => {
+        navigate(`/admin/add-avialability`);
+      }, 2000);
       if (response) {
         toast({
           title: "Event created",
@@ -39,9 +41,7 @@ const OneonOneEventsCreate = () => {
           duration: 2000,
           isClosable: true,
         });
-        setTimeout(() => {
-          navigate(`/admin/one-on-one-interviews/${response.id}/edit`);
-        }, 2000);
+       
       }
     } catch (error) {
       toast({
@@ -57,7 +57,7 @@ const OneonOneEventsCreate = () => {
   return (
     <div className="container">
       <Navbar />
-      <OneOnOneCreateNav />
+      <OneOnOneCreateNav  NavText ="Add One-On-One Event Type"/>
 
       <Box
         w="80%"

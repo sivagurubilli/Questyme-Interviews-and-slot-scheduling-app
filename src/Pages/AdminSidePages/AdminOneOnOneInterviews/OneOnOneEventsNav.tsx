@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
-import CreateButtonDropDown from "../../../Components/OneonOneEventComponent/CreateButtonDropDown";
 import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
+import { Popover, PopoverTrigger, PopoverContent, PopoverBody } from '@chakra-ui/react';
 
 const OneOnOneEventsNav = () => {
 
-  const [show,setShow] = useState<Boolean>(false)
 const navigate = useNavigate()
 
   const GotoSlotsViewPage = () => {
     navigate(`/slot/${1}`);
   };
+  const GotoCreateEvent = () => {
+    navigate("/admin/one-on-one-interviews/create");
+  };
 
+  const GotoOneOffMeet = () => {
+    navigate("/admin/one-on-one-interviews/create/on-off-meet");
+  };
 
   return (
     <div>
@@ -54,18 +59,42 @@ const navigate = useNavigate()
            
               <Button
                 leftIcon={<FaPlus />}
-                onClick={()=>setShow(!show)}
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="110px"
               >
-                Create
+               <Popover>
+      <PopoverTrigger>
+        <button>Create</button>
+      </PopoverTrigger>
+      <PopoverContent mt="10px">
+        <PopoverBody>
+        <Box cursor="pointer" onClick={GotoCreateEvent}>
+          <Text color="black" fontSize="18px">
+            Event Type
+          </Text>
+          <Text color="#778087">
+            Create new template for  events
+          </Text>
+        </Box>
+        <Divider mt="5px" />
+        <Box cursor="pointer" onClick={GotoOneOffMeet}>
+          <Text color="black" fontSize="18px">
+            One-off meeting
+          </Text>
+          <Text color="#778087">
+           Create a One-Off-Meeting
+          </Text>
+        </Box>
+    
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
               </Button>
 
            
           </Flex>
-          {show &&   <CreateButtonDropDown   show={show} 
-                setShow={setShow}/> }
+          
         </Box>
       </Box>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,66 +13,37 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import {
   AddRecurringSlotsService,
-  GetSingleEventsService,
 } from "../../Services/AdminSideServices/GetEventsService";
 import { useNavigate, useParams } from "react-router-dom";
+import { DaysForRecurring, DaysForRecurringEvents } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
+  const [days, setDays] = useState(DaysForRecurring);
+  const [availability,setAvailability] = useState(DaysForRecurringEvents)
   const state = useSelector((state: RootState) => state);
   const AllData = state.SingleEventReducer;
-
   const toast = useToast();
   const id = useParams();
   const navigate = useNavigate();
 
-  const [days, setDays] = useState([
-    {
-      name: "Sun",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Mon",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Tue",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Wed",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Thu",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Fri",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Sat",
-      isChecked: true,
-      inputs: [{ start: "09:00", end: "17:00" }],
-      errors: [{ start: "", end: "" }],
-    },
-  ]);
+
+  useEffect(() => {
+    const transformedDays = days.map(day => ({
+      name: day.name,
+      isChecked: day.isChecked,
+      TimeSlot: day.inputs.map(input => ({
+        startTime: input.start,
+        endTime: input.end
+      }))
+    }));
+    setAvailability(transformedDays);
+  }, [days]);
+
+
 
   const AddSlots = async () => {
     try {
-      const response = await AddRecurringSlotsService(id, days);
+      const response = await AddRecurringSlotsService(id, availability);
       if (response) {
         toast({
           title: "Slots Added Successfully",
@@ -97,27 +68,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
     }
   };
 
-  //GetEventById function
-  const GetEventById = async () => {
-    try {
-      const response = await GetSingleEventsService(id);
-      if (response.days) {
-        setDays(response.days);
-      }
-    } catch (err) {
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  };
 
-  useEffect(() => {
-    GetEventById();
-  }, []);
 
   return (
     <div>
