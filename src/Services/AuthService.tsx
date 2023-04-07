@@ -7,8 +7,8 @@ import { LoginData } from "../Pages/Login/LoginUser";
 
 export const loginService =(payload:LoginData)=>(dispatch:Dispatch<isLoginSuccess|isLoginFailure>):Promise<void | ActionTypes>=>{
 
- return axios.post("https://3ad5-2405-201-9009-9180-b522-accc-2250-2559.in.ngrok.io/auth/login",payload).then((res)=>{
-  console.log("res.data");
+ return axios.post("https://fc11-2405-201-9009-9180-d5cf-7326-b382-f7da.in.ngrok.io/auth/login",payload).then((res)=>{
+  console.log("res.data",res.data);
   dispatch({type:ActionTypes.LOGIN_SUCCESS,payload:res.data})
   return ActionTypes.LOGIN_SUCCESS
  })

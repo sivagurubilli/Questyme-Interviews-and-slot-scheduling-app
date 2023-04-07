@@ -22,7 +22,6 @@ const AllRoutes = () => {
     <div>
             <Routes>
             <Route path ="/login" element ={<LoginUser/>} />
-            {/* <Route path ="/login" element ={<Login/>} /> */}
             <Route path ="/admin/one-on-one-interviews/event-types" element={<OneonOneEvents/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
@@ -32,9 +31,9 @@ const AllRoutes = () => {
             <Route path ="/admin/past-interviews" element ={<PastInterviews/>} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
-            <Route path='/user/me' element={<RequireAuth><UserDashboard /></RequireAuth>} />
-            <Route path={"/user/me/book-one-on-One"}  element={<BookOneOnOne />} />
-            <Route path={"/user/me/interview-details"}  element={<InterviewDetails />} />
+            <Route path='dashboard' element={<RequireAuth><UserDashboard /></RequireAuth>} />
+            <Route path={"/dashboard/book-one-on-One"}  element={<BookOneOnOne />} />
+            <Route path={"/dashboard/interview/:id"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
             </Routes>

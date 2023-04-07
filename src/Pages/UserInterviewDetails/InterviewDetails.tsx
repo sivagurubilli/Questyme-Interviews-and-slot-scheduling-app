@@ -1,9 +1,35 @@
 import Navbar from "../../Components/Navbar/Navbar";
 import Header from "../../Components/CommonComponents/Header";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Flex, Switch, Text, Textarea } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { SchecduledInterviewState } from "../../Redux/ScheduledInterviewUser/Reducer";
+import { RootState } from "../../Redux/store";
+import { Dispatch } from "redux";
+import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
+import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetInterviewsServices";
+import { useParams } from "react-router-dom";
+import { interview } from "../UserDashboard/UserDashboard";
 
 const InterviewDetails = () => {
+  const [currentInterview,setCurrentInterview] =useState<interview>();
+  const {id} =useParams()
+  const interviews = useSelector((state:RootState)=>state.ScheduledInterviewReducer.interviews);
+  const dispatch:Dispatch<scheduledInterviewSuccess | scheduledInterviewLoading |scheduledInterviewFailure>= useDispatch();
+  useEffect(()=>{
+    
+        GetAllScheduledInterView()(dispatch)
+    
+  },[dispatch])
+  
+  useEffect(()=>{
+      if(id){
+        const tempInterview = interviews.length>0 && interviews.find((item:interview)=> item.interviewId == Number(id))
+       tempInterview && setCurrentInterview(tempInterview)
+      }
+  },[id,interviews,setCurrentInterview])
+
+  console.log("current",currentInterview)
   return (
     <div>
       <Navbar />
@@ -11,7 +37,7 @@ const InterviewDetails = () => {
       <main>
         <Box bgColor={"#fafafa"} p={"20px"}>
           <Box  w={"75%"} m={"auto"} bg={"white"} mt={"20px"}>
-            <Flex justifyContent={"space-between"} alignItems={"center"}>
+            {currentInterview && (<Flex justifyContent={"space-between"} alignItems={"center"}>
               <Box h={"auto"} w={"45%"}  >
                 <Box  w={"80%"} m={"auto"} h={"100%"}>
                   <Box
@@ -28,7 +54,7 @@ const InterviewDetails = () => {
                       fontWeight={"500"}
                       color={"indigo"}
                     >
-                      Title
+                     Title
                     </Text>
                   </Box>
                   <Box
@@ -171,7 +197,7 @@ const InterviewDetails = () => {
                       fontWeight={"500"}
                       color={"indigo"}
                     >
-                      Title
+                     {Object.keys(currentInterview).length===0?"":currentInterview.title}
                     </Text>
                   </Box>
                   <Box
@@ -188,7 +214,7 @@ const InterviewDetails = () => {
                       fontWeight={"500"}
                       color={"indigo"}
                     >
-                      Interview Schedule Time
+                      {Object.keys(currentInterview).length===0?"":currentInterview.startTime}
                     </Text>
                   </Box>
                   <Box
@@ -205,7 +231,7 @@ const InterviewDetails = () => {
                       fontWeight={"500"}
                       color={"indigo"}
                     >
-                      Duration of Interview
+                      Duration of interview
                     </Text>
                   </Box>
                   <Box
@@ -222,7 +248,7 @@ const InterviewDetails = () => {
                       fontFamily={"sans-serif"}
                       fontWeight={"500"}
                     >
-                      Name of Interviewer
+                     {Object.keys(currentInterview).length===0?"":currentInterview.interviewerName}
                     </Text>
                   </Box>
                   <Box
@@ -269,12 +295,12 @@ const InterviewDetails = () => {
                       fontWeight={"500"}
                       color={"indigo"}
                     >
-                      Link of Interview
+                      {Object.keys(currentInterview).length===0?"":currentInterview.meetingLink}
                     </Text>
                   </Box>
                 </Box>
               </Box>
-            </Flex>
+            </Flex>)}
           </Box>
         </Box>
       </main>

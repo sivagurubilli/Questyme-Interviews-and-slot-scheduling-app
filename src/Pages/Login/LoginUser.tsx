@@ -9,8 +9,9 @@ import {
   isLoginFailure,
   isLoginSuccess,
 } from "../../Redux/AuthReducer/Action";
-import { Box, Flex, Image, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, Button, Checkbox } from "@chakra-ui/react";
 import { ActionTypes } from "../../Redux/AuthReducer/ActionTypes";
+import { useLocation, useNavigate } from "react-router-dom";
 // commented code i will use latter
 const SignupSchema = Yup.object().shape({
   username: Yup.string().email("Invalid email").required("Required"),
@@ -24,7 +25,6 @@ const SignupSchema = Yup.object().shape({
   //    .matches(/[A-Z]/, "Password requires a uppercase letter")
   //    .matches(/[a-z]/, "Password requires a lowercase letter")
   //    .matches(/[^\w]/, "Password requires a symbol"),
-  
 });
 export interface LoginData {
   username: string;
@@ -32,8 +32,12 @@ export interface LoginData {
 }
 export const LoginUser = () => {
   const dispatch: Dispatch<isLoginSuccess | isLoginFailure> = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate()
+  const commingFrom = location?.state?.from?.pathname || "/dashboard";
+  
   return (
-    <div>
+    <Box bg={"#fafafa"} w={"full"} h={"100vh"} mt={"-50px"} p={"100px"}>
       <Formik
         initialValues={{
           username: "",
@@ -53,7 +57,15 @@ export const LoginUser = () => {
           loginService(payload)(dispatch)
             .then((res) => {
               if (res == ActionTypes.LOGIN_SUCCESS) {
-                console.log("success");
+                const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+                if(userDetails.user.roles[0].name =="ROLE_STUDENT"){
+                  navigate(commingFrom,{replace:true})
+                }
+                else if(userDetails.user.roles[0].name =="ROLE_ADMIN"){
+                    navigate("/admin/dashboard")
+                }
+                
+                
               }
             })
             .catch((err) => {
@@ -68,77 +80,115 @@ export const LoginUser = () => {
               justifyContent={"space-between"}
               flexDirection={"column"}
               m={"auto"}
-              
-              w={"400px"}
+              w={"450px"}
               h={"300px"}
               mt={"50px"}
             >
               <Box m={"auto"} mt={"-1px"} mb={"-1px"}>
                 <Image
                   w={"250px"}
-                  
                   src="https://masaischool.com/img/navbar/logo.svg"
                   alt="masai logo"
                 />
               </Box>
 
-              <Box>
-                <Text fontSize={"16px"} color={"gray.700"} fontFamily={"sans-serif"}>Email</Text>
               <Box
-                border={"1px solid black"}
+                h={"300px"}
+                display={"flex"}
+                flexDirection={"column"}
+                bg={"white"}
+                gap={"15px"}
                 borderRadius={"10px"}
-                w={"100%"}
-                h={"40px"}
-               
+                p={"20px"}
+                boxShadow={"rgba(0, 0, 0, 0.24) 0px 3px 8px"}
               >
-                
-                <Field
-                  name="username"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "10px",
-                    color: "gray",
-                    paddingLeft: "10px",
-                    fontSize: "18px",
-                  }}
-                />
-                {errors.username && touched.username ? (
-                  <div>{errors.username}</div>
-                ) : null}
+                <Box>
+                  <Text
+                    fontSize={"16px"}
+                    color={"gray.700"}
+                    fontFamily={"sans-serif"}
+                  >
+                    Email
+                  </Text>
+                  <Box
+                    border={"1px solid black"}
+                    borderRadius={"10px"}
+                    w={"100%"}
+                    h={"40px"}
+                  >
+                    <Field
+                      name="username"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "10px",
+                        color: "gray",
+                        paddingLeft: "10px",
+                        fontSize: "18px",
+                      }}
+                    />
+                    {errors.username && touched.username ? (
+                      <div>{errors.username}</div>
+                    ) : null}
+                  </Box>
+                </Box>
+                <Box>
+                  <Text
+                    fontSize={"16px"}
+                    fontFamily={"sans-serif"}
+                    color={"gray.700"}
+                  >
+                    Password
+                  </Text>
+                  <Box
+                    border={"1px solid black"}
+                    borderRadius={"10px"}
+                    w={"100%"}
+                    h={"40px"}
+                  >
+                    <Field
+                      name="password"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "10px",
+                        color: "gray",
+                        paddingLeft: "10px",
+                        fontSize: "18px",
+                      }}
+                    />
+                    {errors.password && touched.password ? (
+                      <div>{errors.password}</div>
+                    ) : null}
+                    
+                  </Box>
+                  <Flex mt={"10px"}>
+                      <Checkbox
+                        w={"25px"}
+                        h={"25px"}
+                        color={"black"}
+                        colorScheme="green"
+                      />
+                      <Text>Remember me</Text>
+                    </Flex>
+                </Box>
+                <Box>
+                  <Button
+                    type="submit"
+                    size={"md"}
+                    float={"right"}
+                    variant={"solid"}
+                    bg={"black"}
+                    color={"white"}
+                  >
+                    Login
+                  </Button>
+                </Box>
               </Box>
-              </Box>
-             <Box>
-                <Text fontSize={"16px"} fontFamily={"sans-serif"} color={"gray.700"}>Password</Text>
-             <Box
-                border={"1px solid black"}
-                borderRadius={"10px"}
-                w={"100%"}
-                h={"40px"}
-               
-              >
-                <Field
-                  name="password"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "10px",
-                    color: "gray",
-                    paddingLeft: "10px",
-                    fontSize: "18px",
-                  }}
-                />
-                {errors.password && touched.password ? (
-                  <div>{errors.password}</div>
-                ) : null}
-              </Box>
-
-             </Box>
-              <Box><Button type="submit" size={"md"} float={"right"} variant={"solid"} bg={"black"} color={"white"}>Login</Button></Box>
             </Box>
           </Form>
         )}
       </Formik>
-    </div>
+    </Box>
   );
 };
