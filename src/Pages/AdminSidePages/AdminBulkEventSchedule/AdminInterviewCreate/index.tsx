@@ -1,12 +1,13 @@
 import Navbar from '../../../../Components/Navbar/Navbar'
 import React from 'react'
 import InterviewCreateNav from './InterviewCreateNav'
-import { Box, Button, FormErrorMessage, FormLabel, Grid, Input, Select, Textarea, useMediaQuery } from '@chakra-ui/react'
+import { Box, Button, FormErrorMessage, FormLabel, Grid, Input, Select, Textarea, useMediaQuery, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import * as yup from "yup";
 import './index.css'
 import { useDispatch } from 'react-redux'
 import { createSingleInterview } from '../../../../Redux/ScheduleInterviewAdmin/ActionCreators'
+import { useNavigate } from 'react-router-dom'
 
 const validationSchema = yup.object().shape({
     interviewer: yup
@@ -72,6 +73,8 @@ const initialValues: MyFormValues = {
 export const CreateSingleInterview = () => {
     const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
     const dispatch = useDispatch();
+    const toast=useToast();
+    const navigate=useNavigate();
 
     // -------------takinc current date and time for validation --------------
     let currDateTime = new Date();
@@ -106,7 +109,26 @@ export const CreateSingleInterview = () => {
             "batch": values.batch
         }
         console.log(data);
-        createSingleInterview(data)(dispatch)
+        createSingleInterview(data)(dispatch).then((res:any)=>{
+            if(res.status==201){
+                toast({
+                    title: "Interview Schduled success",
+                    status: "success",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                  });
+                  navigate("/admin/dashboard");
+            }else{
+                toast({
+                    title: "Something Went Wrong",
+                    status: "error",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                  });
+            }
+        })
     };
 
     let month = setDateTime(dateArray[0]);
