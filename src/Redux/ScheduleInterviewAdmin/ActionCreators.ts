@@ -2,6 +2,8 @@ import { Dispatch } from "redux";
 import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
+import { Alert, useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export const createSingleInterview = (data: any) => {
     return (dispatch: Dispatch<Action>) => {
@@ -10,13 +12,14 @@ export const createSingleInterview = (data: any) => {
             type: ActionTypes.CREATE_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
-        axios.post<any>("https://18dd-202-142-81-195.in.ngrok.io/api/interview/create", data)
+        return axios.post<any>("https://6786-202-142-81-182.in.ngrok.io/api/interview/create", data)
             .then((res) => {
                 console.log(res);
                 dispatch({
                     type: ActionTypes.CREATE_SINGLE_INTERVIEW_SUCCESS,
                     payload: res.data
                 })
+                return res;
             })
             .catch((err) => {
                 console.log(err);
