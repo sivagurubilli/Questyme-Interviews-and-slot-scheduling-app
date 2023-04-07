@@ -10,21 +10,21 @@ import {
   Input,
   Text,
   useBreakpointValue,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import "../../Pages/AdminSidePages/OneOnOneSlotsEdit/index.css";
 
 //this component is for schedule slots based on availability setting of days
 const DayAvailability = ({ days, setDays }: any) => {
   const DayboxWidth = useBreakpointValue({ base: "70px", md: "70px" });
-
+  const [isSmallerThan1100] = useMediaQuery("(max-width: 1100px)");
+  
   // handle checkbox value change on checked
   const handleCheckboxChange = (index: number) => {
     const updatedDays = [...days];
     updatedDays[index].isChecked = !updatedDays[index].isChecked;
     setDays(updatedDays);
   };
-
-
 
   // handle input from start time and time for slots creation
   const handleInputChange = (
@@ -34,20 +34,14 @@ const DayAvailability = ({ days, setDays }: any) => {
     value: string
   ) => {
     const updatedDays = [...days];
-    updatedDays[dayIndex].inputs[inputIndex][field] = convertTo24Hour(value);
+    updatedDays[dayIndex].inputs[inputIndex][field] = value;
     setDays(updatedDays);
     const currentInput = updatedDays[dayIndex].inputs[inputIndex];
-    const currentStart = convertTo24Hour(currentInput.start);
-    const currentEnd = convertTo24Hour(currentInput.end);
-    const timePattern = /^([1-9]|1[0-2]|0?[1-9]|2[0-3]):[0-5][0-9]$/;
-    
+    const currentStart = currentInput.start;
+    const currentEnd = currentInput.end;
+
     const errorFeild = updatedDays[dayIndex].errors[inputIndex];
-    if (!timePattern.test(currentInput.start.trim())) {
-      errorFeild["start"] = "Please Enter Correct Input ";
-    }
-    else if (!timePattern.test(currentInput.end.trim())) {
-      errorFeild["end"] = "Please Enter Correct Input ";
-    }
+
     if (inputIndex > 0) {
       var previousInput = updatedDays[dayIndex].inputs[inputIndex - 1];
       var previusEnd = convertTo24Hour(previousInput?.end);
@@ -56,7 +50,8 @@ const DayAvailability = ({ days, setDays }: any) => {
       if (
         field === "start" &&
         previusEnd &&
-        (currentStart < previusEnd || currentStart >= currentEnd)
+        (currentStart < previusEnd ||
+          (currentEnd !== "" && currentStart >= currentEnd))
       ) {
         errorFeild[field] = "Time Scheduling Mismatch";
         errorFeild["end"] = "";
@@ -70,7 +65,11 @@ const DayAvailability = ({ days, setDays }: any) => {
       }
     } else {
       currentInput[field] = value;
-      if (field === "start" && currentStart >= currentEnd) {
+      if (
+        field === "start" &&
+        currentEnd !== "" &&
+        currentStart >= currentEnd
+      ) {
         const errorFeild = updatedDays[dayIndex].errors[inputIndex];
         errorFeild[field] = "Time Scheduling Mismatch ";
         errorFeild["end"] = "";
@@ -100,7 +99,6 @@ const DayAvailability = ({ days, setDays }: any) => {
       handleCheckboxChange(dayIndex);
     }
 
-    
     const updatedDays = [...days];
     updatedDays[dayIndex].inputs.splice(inputIndex, 1);
     updatedDays[dayIndex].errors.splice(inputIndex, 1);
@@ -114,7 +112,7 @@ const DayAvailability = ({ days, setDays }: any) => {
       {days.map((day: any, dayIndex: any) => (
         <Box key={day.name}>
           <Box display={displayMode} justifyContent="space-between" w="100%">
-            <Flex w="60%">
+            <Flex w="60%" flexDirection="row" flexWrap="wrap">
               <Box mt="12px">
                 <Checkbox
                   isChecked={day.isChecked}
@@ -130,11 +128,15 @@ const DayAvailability = ({ days, setDays }: any) => {
             {day.isChecked ? (
               <Box className="input-group">
                 {day.inputs.map((input: any, inputIndex: any) => (
-                  <Flex key={inputIndex}>
+                  <Flex
+                    key={inputIndex}
+                    flexDirection={isSmallerThan1100 ? "column" : "row"}
+                  >
                     <Box>
                       <Input
                         mt="5px"
-                        w={["100%", "100%"]}
+                        w="100%"
+                        type="time"
                         value={input.start}
                         onChange={(e) =>
                           handleInputChange(
@@ -161,7 +163,8 @@ const DayAvailability = ({ days, setDays }: any) => {
                     <Box>
                       <Input
                         mt="5px"
-                        w={["100%", "100%"]}
+                        w="100%"
+                        type="time"
                         value={input.end}
                         onChange={(e) =>
                           handleInputChange(

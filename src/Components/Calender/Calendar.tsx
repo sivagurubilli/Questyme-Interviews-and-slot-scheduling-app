@@ -9,15 +9,18 @@ import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
 interface ICalender {
   events: IEventValues[] | undefined;
   handleSelect: (arg:any) => void;
+  dates:string[]
 }
 
 
-const Calendar = ({events,handleSelect}:ICalender)  => {
-const eventList = events?.map(({ title, date }) => ({
-  title,
-  date,
-  allDay:true
-}));
+const Calendar = ({events,handleSelect,dates}:ICalender)  => {
+
+
+const dateList = dates.map((date)=>({
+      title:"slots available",
+      date,
+      allDay:true
+}))
 const isMonday = (date: Date) => date.getDay() === 1; // 0=Sun, 1=Mon, etc.
 
 const dayCellContent = (arg:any) => {
@@ -41,7 +44,7 @@ const dayCellContent = (arg:any) => {
             initialView={"dayGridMonth"}
             selectable={true}
             select={handleSelect}
-            events={eventList}
+            events={dateList}
             contentHeight="600px"
             headerToolbar={{
               start: "today prev,next",

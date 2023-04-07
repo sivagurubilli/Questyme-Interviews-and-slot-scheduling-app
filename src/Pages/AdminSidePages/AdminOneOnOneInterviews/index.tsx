@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Navbar from "../../../Components/Navbar/Navbar";
 import OneonOneEventComponent from "../../../Components/OneonOneEventComponent";
 import { Box, Grid, useToast } from "@chakra-ui/react";
@@ -10,11 +10,8 @@ const OneonOneEvents = () => {
   const [oneOnOneEvents, setOneOnOneEvents] = useState([]);
   const toast = useToast();
 
-  useEffect(() => {
-    GetEvents();
-  }, []);
-
-  const GetEvents = async () => {
+  
+  const GetEvents = useCallback(async () => {
     try {
       const response = await GetAllEventsService();
       if (response) {
@@ -29,7 +26,11 @@ const OneonOneEvents = () => {
         isClosable: true,
       });
     }
-  };
+  },[toast]);
+
+  useEffect(() => {
+    GetEvents();
+  }, [GetEvents]);
 
   return (
     <div className="container">
