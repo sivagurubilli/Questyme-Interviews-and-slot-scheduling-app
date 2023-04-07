@@ -1,0 +1,53 @@
+{
+  
+  "interviews":[
+    {
+        "interviewId": 23,
+        "interviewerName": "bobsmith",
+        "intervieweeName": "johndoe",
+        "startTime": "11:30:00",
+        "endTime": "12:00:00",
+        "date": "04-04-2023",
+        "category": "Technical",
+        "instructions": "This interview will cover topics related to software engineering",
+        "title": "Software Engineer Interview",
+        "meetingLink": "https://zoom.us/j/1234567890",
+        "batch": "Batch 5",
+        "meetingStatus": "P",
+        "studentNote": null,
+        "adminFeedback": null
+    },
+    {
+        "interviewId": 24,
+        "interviewerName": "bobsmith",
+        "intervieweeName": "johndoe",
+        "startTime": "12:00:00",
+        "endTime": "14:00:00",
+        "date": "02-04-2023",
+        "category": "DSA",
+        "instructions": "Join before 5 minutes",
+        "title": "Dsa interview with ankush",
+        "meetingLink": null,
+        "batch": "sb201",
+        "meetingStatus": "C",
+        "studentNote": "",
+        "adminFeedback": ""
+    },
+    {
+        "interviewId": 30,
+        "interviewerName": "bobsmith",
+        "intervieweeName": "johndoe",
+        "startTime": "04:59:00",
+        "endTime": "05:00:00",
+        "date": "05-04-2023",
+        "category": "Technical",
+        "instructions": "This interview will cover topics related to software engineering",
+        "title": "Software Engineer Interview",
+        "meetingLink": "https://zoom.us/j/1234567890",
+        "batch": "Batch 5",
+        "meetingStatus": "P",
+        "studentNote": null,
+        "adminFeedback": null
+    }
+]
+}
