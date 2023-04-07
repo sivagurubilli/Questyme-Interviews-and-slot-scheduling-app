@@ -12,7 +12,7 @@ export const createSingleInterview = (data: any) => {
             type: ActionTypes.CREATE_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
-        axios.post<any>("https://00fc-202-142-81-182.in.ngrok.io/api/interview/create", data)
+        return axios.post<any>("https://6786-202-142-81-182.in.ngrok.io/api/interview/create", data)
             .then((res) => {
                 console.log(res);
                 dispatch({

@@ -10,7 +10,7 @@ export const createBulkInterview = (data: any) => {
             type: ActionTypes.CREATE_BULK_INTERVIEW_REQUEST,
             payload: true
         })
-        axios.post<any>("https://00fc-202-142-81-182.in.ngrok.io/api/interview/csv/create", data, {
+        return axios.post<any>("https://6786-202-142-81-182.in.ngrok.io/api/interview/csv/create", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -21,11 +21,7 @@ export const createBulkInterview = (data: any) => {
                     type: ActionTypes.CREATE_BULK_INTERVIEW_SUCCESS,
                     payload: res
                 })
-                if(res.status==201){
-                    alert("interview schedule success");
-                }
                 return res;
-
             })
             .catch((err) => {
                 console.log(err);
