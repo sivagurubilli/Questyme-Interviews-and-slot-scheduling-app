@@ -35,15 +35,18 @@ export async function PostOneOffService(data: any) {
     data;
 
   try {
-    const response = await axios.post("https://ffd2-27-116-40-219.in.ngrok.io/slot/create-slots", {
-      title,
-      instruction,
-      adminId,
-      date,
-      slotTime,
-      meetingLink,
-      duration,
-    });
+    const response = await axios.post(
+      "https://ffd2-27-116-40-219.in.ngrok.io/slot/create-slots",
+      {
+        title,
+        instruction,
+        adminId,
+        date,
+        slotTime,
+        meetingLink,
+        duration,
+      }
+    );
     console.log(response.data);
     return response.data;
   } catch (error: any) {
@@ -51,14 +54,12 @@ export async function PostOneOffService(data: any) {
   }
 }
 
-
-
 //post Event service
 export async function GetDateOneOffService(id: any) {
-  
-
   try {
-    const response = await axios.get(`https://ffd2-27-116-40-219.in.ngrok.io/slot/get-slot-dates/${id}`);
+    const response = await axios.get(
+      `https://ffd2-27-116-40-219.in.ngrok.io/slot/get-slot-dates/${id}`
+    );
     console.log(response.data);
     return response.data;
   } catch (error: any) {
@@ -144,16 +145,15 @@ export async function AddStudentService(data: IAddStdents, token: string) {
 //adding students in bulk servive
 export async function AddBulkStudentService(data: any, token: string) {
   try {
-    
-    console.log(data)
+    console.log(data);
     const response = await axios.post(
       "https://e617-2405-201-9009-9180-c96a-473e-c9a9-e6db.in.ngrok.io/auth/users/bulk-createbyCSV",
       data,
       {
         headers: {
-            "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
-    }
+      }
     );
     return response.data;
   } catch (error: any) {
@@ -162,37 +162,45 @@ export async function AddBulkStudentService(data: any, token: string) {
 }
 
 //service for getting slots for particular date
-export async function GetSlotsService(date:string) {
+export async function GetSlotsService(date: string) {
   try {
-    
     const response = await axios.post(
       "https://e617-2405-201-9009-9180-c96a-473e-c9a9-e6db.in.ngrok.io/auth/users/bulk-createbyCSV",
       date,
       {
         headers: {
-            "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
-    }
+      }
     );
     return date
     return response.data;
   } catch (error: any) {
+<<<<<<< Updated upstream
     return date
+=======
+>>>>>>> Stashed changes
     return error.response;
   }
 }
 
-
-export async  function CountByMeetingStatus(id:string,token:string){
+export async function CountByMeetingStatus(id: string, token: string) {
   try {
-    
     const response = await axios.get(
+<<<<<<< Updated upstream
       "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status"
+=======
+      "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status",
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+>>>>>>> Stashed changes
     );
-  
+
     return response.data;
   } catch (error: any) {
-
     return error.response;
   }
 }
