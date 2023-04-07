@@ -1,306 +1,516 @@
 import Navbar from "../../Components/Navbar/Navbar";
 import Header from "../../Components/CommonComponents/Header";
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Switch, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Switch, Text, Textarea } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { SchecduledInterviewState } from "../../Redux/ScheduledInterviewUser/Reducer";
 import { RootState } from "../../Redux/store";
 import { Dispatch } from "redux";
-import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
-import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetInterviewsServices";
+import { Link } from "react-router-dom";
+import {
+  scheduledInterviewFailure,
+  scheduledInterviewLoading,
+  scheduledInterviewSuccess,
+} from "@/Redux/ScheduledInterviewUser/Action";
+import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetAllScheduledInterviewServices/GetInterviewsServices";
 import { useParams } from "react-router-dom";
 import { interview } from "../UserDashboard/UserDashboard";
 
 const InterviewDetails = () => {
-  const [currentInterview,setCurrentInterview] =useState<interview>();
-  const {id} =useParams()
-  const interviews = useSelector((state:RootState)=>state.ScheduledInterviewReducer.interviews);
-  const dispatch:Dispatch<scheduledInterviewSuccess | scheduledInterviewLoading |scheduledInterviewFailure>= useDispatch();
-  useEffect(()=>{
-    
-        GetAllScheduledInterView()(dispatch)
-    
-  },[dispatch])
-  
-  useEffect(()=>{
-      if(id){
-        const tempInterview = interviews.length>0 && interviews.find((item:interview)=> item.interviewId == Number(id))
-       tempInterview && setCurrentInterview(tempInterview)
-      }
-  },[id,interviews,setCurrentInterview])
+  const [currentInterview, setCurrentInterview] = useState<interview>();
+  const { id } = useParams();
+  const interviews = useSelector(
+    (state: RootState) => state.ScheduledInterviewReducer.interviews
+  );
+  const dispatch: Dispatch<
+    | scheduledInterviewSuccess
+    | scheduledInterviewLoading
+    | scheduledInterviewFailure
+  > = useDispatch();
+  useEffect(() => {
+    GetAllScheduledInterView()(dispatch);
+  }, [dispatch]);
 
-  console.log("current",currentInterview)
+  useEffect(() => {
+    if (id) {
+      const tempInterview =
+        interviews.length > 0 &&
+        interviews.find((item: interview) => item.interviewId == Number(id));
+      tempInterview && setCurrentInterview(tempInterview);
+    }
+  }, [id, interviews, setCurrentInterview]);
+
+  console.log("current", currentInterview);
   return (
     <div>
       <Navbar />
       <Header title={"Details"} buttonName={"Back"} />
       <main>
         <Box bgColor={"#fafafa"} p={"20px"}>
-          <Box  w={"75%"} m={"auto"} bg={"white"} mt={"20px"}>
-            {currentInterview && (<Flex justifyContent={"space-between"} alignItems={"center"}>
-              <Box h={"auto"} w={"45%"}  >
-                <Box  w={"80%"} m={"auto"} h={"100%"}>
+          <Box
+            w={"75%"}
+            m={"auto"}
+            bg={"white"}
+            mt={"20px"}
+            p={"50px"}
+            borderRadius={"10px"}
+            bgColor={"white"}
+            border={"1px solid black"}
+          >
+            {currentInterview && (
+              <Flex
+                flexDirection={"column"}
+                gap={"5px"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+              >
+                <Flex
+                  
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"60px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
                   <Box
-                    
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
+                   
+                    w={"30%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"6px"}
+                      color={"black"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
                     >
-                     Title
+                      Title
                     </Text>
                   </Box>
                   <Box
                     
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
+                      color={"red"}
                     >
-                      Interview Schedule Time
+                      {Object.keys(currentInterview).length===0?"":currentInterview.title}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                    
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      Start Time
                     </Text>
                   </Box>
                   <Box
                     
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
+                      color={"red"}
                     >
-                      Duration of Interview
+                      {Object.keys(currentInterview).length===0?"":currentInterview.startTime}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                  
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                    
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      End Time
                     </Text>
                   </Box>
                   <Box
                     
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      color={"indigo"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                      color={"red"}
+                    >
+                      {Object.keys(currentInterview).length===0?"":currentInterview.endTime}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                 
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                   
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
                     >
-                      Name of Interviewer
+                      Category
+                    </Text>
+                  </Box>
+                  <Box
+                  
+                    w={"60%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                      color={"red"}
+                    >
+                      {Object.keys(currentInterview).length===0?"":currentInterview.category}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                  
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                    
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      Interviewee Name
                     </Text>
                   </Box>
                   <Box
                    
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
+                      color={"red"}
                     >
-                      Is Interview Started
+                     {Object.keys(currentInterview).length===0?"":currentInterview.intervieweeName}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                  
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                    
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      Interviewer Name
                     </Text>
                   </Box>
                   <Box
                     
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
+                      color={"red"}
                     >
-                      Is InterView Ended
+                      {Object.keys(currentInterview).length===0?"":currentInterview.interviewerName}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                  
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                  
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      Is Started
                     </Text>
                   </Box>
                   <Box
-                   
-                    m={"auto"}
-                    h={"17%"}
-                    p={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
-                   
+                
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
-                      mt={"10px"}
+                      color={"red"}
+                    >
+                      <Switch />
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                
+                borderRadius={"10px"}
+                w={"100%"}
+                h={"65px"}
+                p={"10px"}
+                justifyContent={"space-between"}
+              >
+                <Box
+                  
+                  w={"30%"}
+                  textAlign={"center"}
+                >
+                  <Text
+                    mt={"8px"}
+                    color={"black"}
+                    fontSize={"18px"}
+                    fontWeight={"500"}
+                  >
+                   is Ended
+                  </Text>
+                </Box>
+                <Box
+                  
+                  w={"60%"}
+                  textAlign={"center"}
+                >
+                  <Text
+                    mt={"8px"}
+                    fontSize={"18px"}
+                    fontWeight={"500"}
+                    color={"red"}
+                  >
+                    <Switch/>
+                  </Text>
+                </Box>
+              </Flex>
+                <Flex
+                  
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                  
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      Meeting Status
+                    </Text>
+                  </Box>
+                  <Box
+                 
+                    w={"60%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                      color={"red"}
+                    >
+                      <Switch />
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                 
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+                  
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                    >
+                      Student Batch
+                    </Text>
+                  </Box>
+                  <Box
+                    
+                    w={"60%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
+                      color={"red"}
+                    >
+                      {Object.keys(currentInterview).length===0?"":currentInterview.batch}
+                    </Text>
+                  </Box>
+                </Flex>
+                <Flex
+                 
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
+                  <Box
+           
+                    w={"30%"}
+                    textAlign={"center"}
+                  >
+                    <Text
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
+                      fontWeight={"500"}
                     >
                       Notes
                     </Text>
                   </Box>
                   <Box
-                  
-                    m={"auto"}
-                    h={"10%"}
-                    pt={"10px"}
-                    textAlign={"left"}
-                    pl={"20px"}
-                    mt={"20px"}
+              
+                    w={"60%"}
+                    textAlign={"center"}
                   >
                     <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
+                      color={"red"}
                     >
-                      Link of Interview
+                      notes
                     </Text>
                   </Box>
-                </Box>
-              </Box>
-              <Box h={"auto"} w={"45%"}  >
-              <Box w={"80%"} m={"auto"} h={"100%"}>
+                </Flex>
+                <Flex
+                
+                  borderRadius={"10px"}
+                  w={"100%"}
+                  h={"65px"}
+                  p={"10px"}
+                  justifyContent={"space-between"}
+                >
                   <Box
-                   
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
+                    
+                    w={"30%"}
                     textAlign={"center"}
-                    pl={"20px"}
                   >
                     <Text
-                      fontSize={"17px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      color={"black"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
                     >
-                     {Object.keys(currentInterview).length===0?"":currentInterview.title}
+                     Join Meeting
                     </Text>
                   </Box>
                   <Box
                     
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
+                    w={"60%"}
                     textAlign={"center"}
-                    pl={"20px"}
                   >
+                   <Link to={`${Object.keys(currentInterview).length===0?"":currentInterview.meetingLink}`}><Button colorScheme="blue" >Join Meet</Button></Link>
                     <Text
-                      fontSize={"15px"}
-                      fontFamily={"sans-serif"}
+                      mt={"8px"}
+                      fontSize={"18px"}
                       fontWeight={"500"}
-                      color={"indigo"}
+                      color={"red"}
                     >
-                      {Object.keys(currentInterview).length===0?"":currentInterview.startTime}
+                      
                     </Text>
                   </Box>
-                  <Box
-                   
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"center"}
-                    pl={"20px"}
-                  >
-                    <Text
-                      fontSize={"15px"}
-                      fontFamily={"sans-serif"}
-                      fontWeight={"500"}
-                      color={"indigo"}
-                    >
-                      Duration of interview
-                    </Text>
-                  </Box>
-                  <Box
-                   
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"center"}
-                    pl={"20px"}
-                  >
-                    <Text
-                      fontSize={"15px"}
-                      color={"indigo"}
-                      fontFamily={"sans-serif"}
-                      fontWeight={"500"}
-                    >
-                     {Object.keys(currentInterview).length===0?"":currentInterview.interviewerName}
-                    </Text>
-                  </Box>
-                  <Box
-                   
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"center"}
-                    pl={"20px"}
-                  >
-                    <Switch colorScheme="blue" size={"md"} />
-                  </Box>
-                  <Box
-                   
-                    m={"auto"}
-                    h={"12%"}
-                    p={"10px"}
-                    textAlign={"center"}
-                    pl={"20px"}
-                  >
-                    <Switch colorScheme="blue" size={"md"} />
-                  </Box>
-                  <Box
-                   
-                    m={"auto"}
-                    h={"17%"}
-                    textAlign={"center"}
-                    
-                  >
-                    <Textarea size={"xs"} />
-                  </Box>
-                  <Box
-                    
-                    m={"auto"}
-                    h={"10%"}
-                    textAlign={"center"}
-                    pl={"20px"}
-                    pt="10px"
-                    
-                  >
-                    <Text
-                      fontSize={"16px"}
-                      fontFamily={"sans-serif"}
-                      fontWeight={"500"}
-                      color={"indigo"}
-                    >
-                      {Object.keys(currentInterview).length===0?"":currentInterview.meetingLink}
-                    </Text>
-                  </Box>
-                </Box>
-              </Box>
-            </Flex>)}
+                </Flex>
+              </Flex>
+            )}
           </Box>
         </Box>
       </main>

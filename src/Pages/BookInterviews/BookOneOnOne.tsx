@@ -1,101 +1,163 @@
-import React from 'react'
-import Navbar from '../../Components/Navbar/Navbar'
-import Header from '../../Components/CommonComponents/Header'
-import { Box, List, ListItem, ListIcon, TableContainer, Table, Thead, Tr, Th, Tbody, Td, Button,Text } from '@chakra-ui/react';
-import { MdCheckCircle } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Navbar from "../../Components/Navbar/Navbar";
+import Header from "../../Components/CommonComponents/Header";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
+
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../Redux/store";
+import { Dispatch } from "redux";
+import {
+  categoryDataFailure,
+  categoryDataLoading,
+  categoryDataSuccess,
+} from "../../Redux/CategoryReducer/Action";
+import { getAllCategoryDataService } from "../../Services/UserSideServices/GetCategoryServices/GetCategoryService";
+import {
+  adminLIstByCategoryFailure,
+  adminLIstByCategoryLoading,
+  adminLIstByCategorySuccess,
+} from "@/Redux/AdminListByCategoryReducer/Action";
+import { getAlladminListByCategoryService } from "../../Services/UserSideServices/GetAllAdminListByCategoryReducer/GetAdminListByCategoryReducer";
 let title: string;
 let buttonName: string;
 const BookOneOnOne = () => {
-    return (
-        <div>
-            <Navbar />
-            <Header title={"Availabilities"} buttonName={"Back"} />
-            <main>
+  const [categoryType, setCategoryType] = useState("");
+  const categories = useSelector(
+    (state: RootState) => state.CategoryReducer.categories
+  );
+  const admins = useSelector(
+    (state: RootState) => state.AdminListByCategoryReducer.admins
+  );
+  const categoryDispatch: Dispatch<
+    categoryDataSuccess | categoryDataLoading | categoryDataFailure
+  > = useDispatch();
+  const adminListDispatch: Dispatch<
+    | adminLIstByCategorySuccess
+    | adminLIstByCategoryFailure
+    | adminLIstByCategoryLoading
+  > = useDispatch();
+  useEffect(() => {
+    getAllCategoryDataService()(categoryDispatch);
+  }, []);
+  console.log("cate", categoryType);
+  useEffect(() => {
+    if (categoryType && admins?.length === 0) {
+      getAlladminListByCategoryService(categoryType)(adminListDispatch);
+      setCategoryType("");
+      console.log("cate", categoryType);
+    }
+  }, [categoryType]);
+
+  console.log("categories", categories);
+  console.log("admins", admins);
+  return (
+    <div>
+      <Navbar />
+      <Header title={"Availabilities"} buttonName={"Back"} />
+      <main>
+        <Box
+          w={"100%"}
+          h={"100vh"}
+          bg={"#f1f1f1"}
+          border={"1px solid #f1f1f1 "}
+        >
+          <Box
+            w={"75%"}
+            h={"auto"}
+            m={"auto"}
+           
+            mt={"50px"}
+            bg={"white"}
+            p={"100px"}
+            borderRadius={"10px"}
+          >
+            <Flex justifyContent={"space-between"}>
+              <Box>
                 <Box
-                    w={"100%"}
-                    h={"100vh"}
-                    bg={"#fafafa"}
+                  w={"45%"}
+                  
+                  borderRadius={"10px"}
+                  bgColor={"#e71515cd"}
+                  textAlign={"center"}
                 >
-                    <Box
-                        w={"75%"}
-                        h={"100%"}
-                        m={"auto"}
-
-                    >
-                        <Box
-                            p={"10px"}
-                        >
-                            <Box>
-                                <List spacing={1}>
-                                    <ListItem>
-                                        <ListIcon as={MdCheckCircle} color='green.500' />
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListIcon as={MdCheckCircle} color='green.500' />
-                                        Assumenda, quia temporibus eveniet a libero incidunt suscipit
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListIcon as={MdCheckCircle} color='green.500' />
-                                        Quidem, ipsam illum quis sed voluptatum quae eum fugit earum
-                                    </ListItem>
-                                    {/* You can also use custom icons from react-icons */}
-                                    <ListItem>
-                                        <ListIcon as={MdCheckCircle} color='green.500' />
-                                        Quidem, ipsam illum quis sed voluptatum quae eum fugit earum
-                                    </ListItem>
-                                </List>
-                            </Box>
-
-                            <Box
-                                mt={"20px"}
-                                borderTop={"1px solid gray"}
-                            >
-
-
-                                <TableContainer>
-                                    <Table>
-                                        <Thead>
-                                            <Tr bgColor={"rgb(101, 99, 99)"} width={"100%"}>
-                                                <Th color={"white"} textAlign={"center"}>Name of Instructor</Th>
-                                                <Th color={"white"} textAlign={"center"}>Type</Th>
-                                                <Th color={"white"} textAlign={"center"}>Topics</Th>
-                                                <Th color={"white"} textAlign={"center"}>Booking Links</Th>
-                                               
-                                            </Tr>
-                                        </Thead>
-                                        <Tbody textAlign={"center"}>
-                                            <Tr fontSize={"15px"} alignContent={"center"} bgColor={"rgba(12, 135, 172, 0.318)"}>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"/student/booking"}><Button colorScheme="blue">Book</Button></Link></Td>
-                                               
-                                            </Tr>
-                                            <Tr fontSize={"15px"} alignContent={"center"} bgColor={"rgba(37, 124, 151, 0.637)"}>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"/student/booking"}><Button colorScheme="blue">Book</Button></Link></Td>
-                                               
-                                            </Tr>
-                                            <Tr fontSize={"15px"} alignContent={"center"} bgColor={"rgba(37, 124, 151, 0.637)"}>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
-                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"/student/booking"}><Button colorScheme="blue">Book</Button></Link></Td>
-                                            </Tr>
-                                        </Tbody>
-                                    </Table>
-                                </TableContainer>
-                            </Box>
-                        </Box>
-                    </Box>
+                  <Text
+                    p={"5px"}
+                    fontSize={"20px"}
+                    fontFamily={"sans-serif"}
+                    fontWeight={"500"}
+                    color={"white"}
+                  >
+                    Category List
+                  </Text>
                 </Box>
-            </main>
-        </div>
-    )
-}
+                <Flex
+                  padding={"20px"}
+                 
+                  flexWrap={"wrap"}
+                  w={"45%"}
+                  justifyContent={"space-between"}
+                  gap={3}
+                  alignItems={"center"}
+                >
+                  {categories &&
+                    categories.map((item: string, index: number) => {
+                      return (
+                        <Box key={index}>
+                          <Button
+                            colorScheme="blue"
+                            onClick={() => setCategoryType(item)}
+                          >
+                            {item}
+                          </Button>
+                        </Box>
+                      );
+                    })}
+                </Flex>
+              </Box>
+              <Box>
+                <Box
+                  w={"100%"}
+                  border={"1px solid red"}
+                  borderRadius={"10px"}
+                  bgColor={"#e71515cd"}
+                  textAlign={"center"}
+                >
+                  <Text
+                    p={"5px"}
+                    fontSize={"20px"}
+                    fontFamily={"sans-serif"}
+                    fontWeight={"500"}
+                    color={"white"}
+                  >
+                    Admin List
+                  </Text>
+                </Box>
+                <Flex
+                    
+                  w={"50%"}
+                  padding={"20px"}
+                  gap={2}
+                  flexWrap={"wrap"}
+                >
+                  {admins.length > 0 &&
+                    admins.map((item: any, index: number) => {
+                      return (
+                        <Box key={index}>
+                          <Link to={`/book-one-on-one/admin/${item.id}`}>
+                            <Button colorScheme="blue">{item.name}</Button>
+                          </Link>
+                        </Box>
+                      );
+                    })}
+                </Flex>
+              </Box>
+            </Flex>
+          </Box>
+        </Box>
+      </main>
+    </div>
+  );
+};
 
-export default BookOneOnOne
+export default BookOneOnOne;

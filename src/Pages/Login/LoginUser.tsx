@@ -148,6 +148,7 @@ export const LoginUser = () => {
                   >
                     <Field
                       name="password"
+                      type={"password"}
                       style={{
                         width: "100%",
                         height: "100%",
