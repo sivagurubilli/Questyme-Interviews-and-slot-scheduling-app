@@ -176,10 +176,8 @@ export async function GetSlotsService(date: string) {
     return date
     return response.data;
   } catch (error: any) {
-<<<<<<< Updated upstream
-    return date
-=======
->>>>>>> Stashed changes
+
+
     return error.response;
   }
 }
@@ -187,16 +185,12 @@ export async function GetSlotsService(date: string) {
 export async function CountByMeetingStatus(id: string, token: string) {
   try {
     const response = await axios.get(
-<<<<<<< Updated upstream
-      "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status"
-=======
       "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status",
       {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       }
->>>>>>> Stashed changes
     );
 
     return response.data;
