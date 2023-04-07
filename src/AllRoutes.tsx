@@ -26,7 +26,7 @@ const AllRoutes = () => {
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
             <Route path ="/slot/:id" element ={<OneOnOneSlotsView/>} />
-            <Route path ="/student/booking" element={<StudentBooking />}/>
+            <Route path ="/student/booking/:id" element={<StudentBooking />}/>
             <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
             <Route path ="/admin/past-interviews" element ={<PastInterviews/>} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />

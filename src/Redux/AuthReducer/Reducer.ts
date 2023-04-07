@@ -8,7 +8,7 @@ export interface IsAuthstate {
     user:any,
     isLoading:boolean,
     isError:boolean,
-    adminId:number | string
+    // adminId:number | string
   }
 
   const initialState ={
@@ -17,7 +17,7 @@ export interface IsAuthstate {
     user:userDetails.user || {},
     isLoading:false,
     isError:false,
-    adminId:userDetails.user.id || ""
+    // adminId:userDetails.user.id || ""
   };
 
   export const reducer =(state:IsAuthstate=initialState,action:Action):IsAuthstate=>{

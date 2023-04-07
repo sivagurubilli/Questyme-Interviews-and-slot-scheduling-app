@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const getSlotDays = async () => {
+export const getSlotDays = async (id:any) => {
     try {
-      const response = await axios.get("https://48c6-103-200-85-189.in.ngrok.io/slot/get-slot-dates/1");
+      const response = await axios.get(`https://88ca-27-116-40-89.in.ngrok.io/slot/get-slot-dates/${id}`);
       if( response.data.dates){
         return  response.data.dates
         
@@ -14,7 +14,7 @@ export const getSlotDays = async () => {
 
   export const getSlots = async (time:string) => {
     try {
-      const response = await axios.get(`https://48c6-103-200-85-189.in.ngrok.io/slot/get-unbooked-slot/1/${time}`);
+      const response = await axios.get(`https://88ca-27-116-40-89.in.ngrok.io/slot/get-unbooked-slot/1/${time}`);
       return response.data
     } catch (error) {
       console.log(error)
