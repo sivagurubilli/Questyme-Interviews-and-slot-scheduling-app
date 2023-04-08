@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../../Components/Navbar/Navbar'
 import Header from '../../Components/CommonComponents/Header'
-import { Box, List, ListItem, ListIcon, TableContainer, Table, Thead, Tr, Th, Tbody, Td } from '@chakra-ui/react';
+import { Box, List, ListItem, ListIcon, TableContainer, Table, Thead, Tr, Th, Tbody, Td, Button,Text } from '@chakra-ui/react';
 import { MdCheckCircle } from "react-icons/md";
 import { Link } from 'react-router-dom';
 let title: string;
@@ -62,30 +62,29 @@ const BookOneOnOne = () => {
                                                 <Th color={"white"} textAlign={"center"}>Type</Th>
                                                 <Th color={"white"} textAlign={"center"}>Topics</Th>
                                                 <Th color={"white"} textAlign={"center"}>Booking Links</Th>
-                                                <Th color={"white"} textAlign={"center"}>Availabilities</Th>
+                                               
                                             </Tr>
                                         </Thead>
                                         <Tbody textAlign={"center"}>
                                             <Tr fontSize={"15px"} alignContent={"center"} bgColor={"rgba(12, 135, 172, 0.318)"}>
-                                                <Td  textAlign={"center"}>Ankush</Td>
-                                                <Td  textAlign={"center"}>interview</Td>
-                                                <Td  textAlign={"center"}>DSA dfdg fgh</Td>
-                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"#"}>www.googleffhgfhfghghghfgd.com</Link></Td>
-                                                <Td  textAlign={"center"}>9.30 to 10.30</Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"/student/booking"}><Button colorScheme="blue">Book</Button></Link></Td>
+                                               
                                             </Tr>
                                             <Tr fontSize={"15px"} alignContent={"center"} bgColor={"rgba(37, 124, 151, 0.637)"}>
-                                                <Td  textAlign={"center"}>Ankush</Td>
-                                                <Td  textAlign={"center"}>interview</Td>
-                                                <Td textAlign={"center"}>DSA dfdg fgh</Td>
-                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"#"}>www.googleffhgfhfghghghfgd.com</Link></Td>
-                                                <Td  textAlign={"center"}>9.30 to 10.30</Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"/student/booking"}><Button colorScheme="blue">Book</Button></Link></Td>
+                                               
                                             </Tr>
                                             <Tr fontSize={"15px"} alignContent={"center"} bgColor={"rgba(37, 124, 151, 0.637)"}>
-                                                <Td  textAlign={"center"}>Ankush</Td>
-                                                <Td  textAlign={"center"}>interview</Td>
-                                                <Td  textAlign={"center"}>DSA dfdg fgh</Td>
-                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"#"}>www.googleffhgfhfghghghfgd.com</Link></Td>
-                                                <Td  textAlign={"center"}>9.30 to 10.30</Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"}><Text fontSize={"17px"} color={"black"}  >Ankush</Text></Td>
+                                                <Td  textAlign={"center"} color={"blue"} textDecoration={"underline"}><Link to={"/student/booking"}><Button colorScheme="blue">Book</Button></Link></Td>
                                             </Tr>
                                         </Tbody>
                                     </Table>

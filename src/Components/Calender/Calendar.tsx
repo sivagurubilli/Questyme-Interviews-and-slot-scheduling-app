@@ -52,9 +52,7 @@ const dayCellContent = (arg:any) => {
               end: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
             dayCellContent={dayCellContent}
-
           />
-      
     </div>
   );
 };
