@@ -4,7 +4,6 @@ import OneonOneEventsCreate from './Pages/AdminSidePages/AdminOneOnOneCreate'
 import OneonOneSlotsCreate from './Pages/AdminSidePages/OneOnOneSlotsEdit'
 import OneonOneEvents from './Pages/AdminSidePages/AdminOneOnOneInterviews'
 import StudentBooking from './Pages/StudentSidePages/StudentOneOnOneInterview/index';
-import StudentBookingMail from './Pages/StudentSidePages/StudentOneOnOneInterview/StudentBookingMail';
 import GotoOneOffMeet from './Pages/AdminSidePages/OneOffMeeting'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import BookOneOnOne from './Pages/BookInterviews/BookOneOnOne'
@@ -27,11 +26,10 @@ const AllRoutes = () => {
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsCreate />}/>
             <Route path ="/slot/:id" element ={<OneOnOneSlotsView/>} />
-            <Route path ="/student/booking" element={<StudentBooking />}/>
+            <Route path ="/student/booking/:id" element={<StudentBooking />}/>
             <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
             <Route path ="/admin/past-interviews" element ={<PastInterviews/>} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
-            <Route path ="/student/booking/details" element={<StudentBookingMail />}/>
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
             <Route path='dashboard' element={<RequireAuth><UserDashboard /></RequireAuth>} />
             <Route path={"/dashboard/book-one-on-One"}  element={<BookOneOnOne />} />
