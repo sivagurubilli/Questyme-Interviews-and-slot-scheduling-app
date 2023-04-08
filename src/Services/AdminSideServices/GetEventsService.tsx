@@ -35,20 +35,17 @@ export async function PostOneOffService(data: any) {
     data;
 
   try {
-    const response = await axios.post(
-      "https://ffd2-27-116-40-219.in.ngrok.io/slot/create-slots",
-      {
-        title,
-        instruction,
-        adminId,
-        date,
-        slotTime,
-        meetingLink,
-        duration,
-      }
+    const response = await fetch(
+      "https://b952-27-116-40-42.in.ngrok.io/slot/create-slots",{
+      method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+}
     );
-    console.log(response.data);
-    return response.data;
+    console.log(response);
+    return response;
   } catch (error: any) {
     return error.response;
   }
@@ -98,6 +95,7 @@ export async function EditEventsService(data: any, id: any) {
 
 // Add slots for recurring events
 export async function AddRecurringSlotsService(id: any, days: any) {
+  console.log(days)
   try {
     const response = await axios.patch(`/one-on-one-events/${id}`, { days });
     return response.data;
@@ -147,7 +145,7 @@ export async function AddBulkStudentService(data: any, token: string) {
   try {
     console.log(data);
     const response = await axios.post(
-      "https://e617-2405-201-9009-9180-c96a-473e-c9a9-e6db.in.ngrok.io/auth/users/bulk-createbyCSV",
+      "csv",
       data,
       {
         headers: {
@@ -173,7 +171,6 @@ export async function GetSlotsService(date: string) {
         },
       }
     );
-    return date
     return response.data;
   } catch (error: any) {
 
@@ -193,6 +190,20 @@ export async function CountByMeetingStatus(id: string, token: string) {
       }
     );
 
+    return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+
+
+export async function CountByBatchStatus(url:any) {
+  try {
+    const response = await axios.get(
+    `/${url}`,
+      
+    );
     return response.data;
   } catch (error: any) {
     return error.response;

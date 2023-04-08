@@ -3,23 +3,39 @@ import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
 import {
   Box,
-  Divider,
   Flex,
-  FormLabel,
-  SkeletonCircle,
-  SkeletonText,
   Text,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
 import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
 import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
 import { CountByMeetingStatus } from "../../../Services/AdminSideServices/GetEventsService";
+import { useSearch } from "../../../utils/SetParams";
+import { useLocation, useNavigate } from "react-router-dom";
 const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
 const id = userDetails?.user?.id;
 const token = userDetails?.token;
 
+
+
+
 const AdminDashBoard = () => {
+  const [colorScheme,setColorScheme] = useState({
+    "pending":"blue",
+    "compleated":"blue"
+  })
+  const [search, updateSearch] = useSearch();
+  const [batchName,setBatchName] = useState<string | null>("")
+const navigate = useNavigate()
+const location = useLocation();
+const params = new URLSearchParams(location.search);
+const name = params.get("name");
+
+useEffect(()=>{
+ setBatchName(name)
+},[name])
+
+
   const [totalIntervies, setTotalInterviews] = useState({
     totalIntervies: "",
     results: [
@@ -56,6 +72,14 @@ const AdminDashBoard = () => {
     GetEvents();
   }, [GetEvents]);
 
+  
+  const Clear =()=>{
+    setColorScheme({pending:"blue",compleated:"blue"})
+    updateSearch({})
+    setBatchName("")
+    navigate("")
+  }
+
   return (
     <div className="container">
       <Navbar />
@@ -84,9 +108,9 @@ const AdminDashBoard = () => {
         </Box>
       </Box>
       {/* search by batch name component */}
-      <SearchByBatch />
+      <SearchByBatch batchName={batchName} setBatchName={setBatchName} />
       {/* search by batch name and  pendingstaus component */}
-      <SearchByPendingStauts />
+      <SearchByPendingStauts   Clear={Clear} search={search} updateSearch={updateSearch} colorScheme={colorScheme} setColorScheme={setColorScheme} />
     </div>
   );
 };

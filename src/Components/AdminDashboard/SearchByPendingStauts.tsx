@@ -18,24 +18,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 
 
-const SearchByPendingStauts = () => {
+const SearchByPendingStauts = ({Clear,search, updateSearch, colorScheme,setColorScheme}:any) => {
     const [futureInerviews, setfutureInerviews] = useState([]);
-    const [colorScheme,setColorScheme] = useState({
-        "pending":"blue",
-        "compleated":"blue"
-      })
+  
     const toast = useToast();
     const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
     const id = userDetails?.user?.id;
     const token = userDetails?.token;
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const name = params.get("name");
-   
-      const [search, updateSearch] = useSearch();
-      const navigate = useNavigate()
 
-      
+  
       const GetEvents = useCallback(async () => {
         try {
           const response = await GetFutureInterviewService(id, token);
@@ -58,27 +51,19 @@ const SearchByPendingStauts = () => {
       }, [GetEvents]);
 
 
-    const Pending =()=>{
-        setColorScheme({pending:"green",compleated:"blue"})
-      updateSearch({
-        ...search,
-        "meeting-status":"pending"
-      })
+      const searchForPending =(val:string) =>{
+   if(val==="pending"){
+    setColorScheme({pending:"green",compleated:"blue"})
+   }else{
+    setColorScheme({pending:"blue",compleated:"green"})
+   }
+   updateSearch({
+          ...search,
+          "meeting-status":val
+        })
       }
 
-      const Compleated =()=>{
-        setColorScheme({pending:"blue",compleated:"green"})
-        updateSearch({
-          ...search,
-          "meeting-status":"compleated"
-        })
-        }
     
-        const Clear =()=>{
-          setColorScheme({pending:"blue",compleated:"blue"})
-          updateSearch({})
-          navigate("")
-        }
 
 
   return (
@@ -97,8 +82,8 @@ const SearchByPendingStauts = () => {
       >
            <Flex justifyContent="flex-end">
         <FormLabel mr="20px" mt="7px" >Meeting Status :- </FormLabel>
-          <Button colorScheme={colorScheme.pending} onClick={Pending}>Pending</Button>
-          <Button colorScheme={colorScheme.compleated} ml="20px" onClick={Compleated}>Compleated</Button>
+          <Button colorScheme={colorScheme.pending} onClick={()=>searchForPending("pending")}>Pending</Button>
+          <Button colorScheme={colorScheme.compleated} ml="20px" onClick={()=>searchForPending("compleated")}>Compleated</Button>
           <Button ml="20px" colorScheme="blue" onClick={Clear}>Clear</Button>
         </Flex>
         <Divider mt="10px" mb="10px" />

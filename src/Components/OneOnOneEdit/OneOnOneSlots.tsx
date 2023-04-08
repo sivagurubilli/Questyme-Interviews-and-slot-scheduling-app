@@ -21,7 +21,15 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const [days, setDays] = useState(DaysForRecurring);
   const [availability,setAvailability] = useState(DaysForRecurringEvents)
   const state = useSelector((state: RootState) => state);
-  const AllData = state.SingleEventReducer;
+  const setData = state.SingleEventReducer;
+  const [recurringEventDetails,setRecurringEventDetails] = useState({
+    name:setData?.setData?.title,
+    meetingLink:setData?.setData?.meetingLink,
+    duration:setData?.setData?.duration,
+    instructions:setData?.setData?.instruction,
+    availability:availability
+
+  })
   const toast = useToast();
   const id = useParams();
   const navigate = useNavigate();
@@ -37,13 +45,14 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
       }))
     }));
     setAvailability(transformedDays);
-  }, [days]);
+    setRecurringEventDetails({...recurringEventDetails,availability:availability})
+  }, [days,recurringEventDetails,availability]);
 
 
 
   const AddSlots = async () => {
     try {
-      const response = await AddRecurringSlotsService(id, availability);
+      const response = await AddRecurringSlotsService(id, recurringEventDetails);
       if (response) {
         toast({
           title: "Slots Added Successfully",
@@ -93,8 +102,8 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
               </Flex>
               <Flex>
                 {" "}
-                <Text>{AllData?.AllData?.title}</Text>{" "}
-                <Text ml="20px">{AllData?.AllData?.duration} Minutes</Text>
+                <Text>{setData?.setData?.title}</Text>{" "}
+                <Text ml="20px">{setData?.setData?.duration} Minutes</Text>
               </Flex>
             </Box>
           </Flex>
