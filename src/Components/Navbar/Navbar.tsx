@@ -6,8 +6,11 @@ import AdminProfileComponent from './AdminProfileComponent'
 import { masaiImage } from '../../Assets/Assets'
 
 const Navbar = () => {
-
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+  const userType = userDetails?.user?.roles[0]?.name
+  const linkTo = userType === "ROLE_ADMIN" ? "/admin/dashboard" : "/user/dashboard";
   const [show1, setshow1] = useState(false);
+
   return (
     <div>
        <Box position="relative" h="auto" top="0" bg="whiteAlpha.900" w="100%">
@@ -22,7 +25,7 @@ const Navbar = () => {
           color={"gray.600"}
         >
           <Flex align="center" flex={"2"}>
-            <Link to="/admin/interviews">
+          <Link to={linkTo}>
               {" "}
               <Image objectFit="contain" src={masaiImage} alt="Masai logo" />
             </Link>
@@ -31,7 +34,7 @@ const Navbar = () => {
       <Box ml={"50px"} onClick={() => setshow1(!show1)}>
                 {" "}
                 <Button variant={"link"} _hover={{ cursor: "pointer" }}>
-                  Gurubilli Siva
+                  {userDetails?.user?.name}
                 </Button>
                 <i
                   style={{ marginLeft: "10px" }}

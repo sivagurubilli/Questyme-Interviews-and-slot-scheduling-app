@@ -41,7 +41,6 @@ const InterviewDetails = () => {
               <Box h={"auto"} w={"45%"}  >
                 <Box  w={"80%"} m={"auto"} h={"100%"}>
                   <Box
-                    
                     m={"auto"}
                     h={"12%"}
                     p={"10px"}

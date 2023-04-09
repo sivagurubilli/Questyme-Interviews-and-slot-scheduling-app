@@ -10,23 +10,13 @@ import {
     Textarea,
     useMediaQuery,
   } from "@chakra-ui/react";
-  import React, { useEffect } from "react";
+  import React, { useEffect, useState } from "react";
   import { useFormik } from "formik";
-  import * as yup from "yup";
-import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
-
-  
+import { Duration } from "../../Assets/Assets";
+import { validationSchema } from "./ValidationSchema";
+import TimeslotsInput from "./TimeslotsInput";
   //yup validation schema
-  const validationSchema = yup.object().shape({
-    title: yup
-      .string()
-      .required("This feild is required")
-      .min(3, "Name must be 3 character"),
-    category: yup.string().required("This feild is required"),
-    meetingLink: yup.string().required("This feild is required"),
-    duration: yup.string().required("This feild is required"),
-    date: yup.string().required("This feild is required"),
-  });
+
   
   const OneOffEventInput = ({
     EventValues,
@@ -37,17 +27,13 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
   }: any) => {
     //setting initial values for formik and yup
     const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
-  
     const initialValues = {
       title: EventValues.title,
       instruction: EventValues.instruction,
       meetingLink: EventValues.meetingLink,
       duration: EventValues.duration,
-      category: EventValues.category,
       date: EventValues.date,
-      adminId: EventValues.adminId,
-      startTime: EventValues.startTime,
-      endTime: EventValues.endTime,
+      adminId: EventValues.adminId
     };
   
     const onSubmit = async () => {
@@ -57,7 +43,8 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
         SaveEvent();
       }
     };
-  
+
+
     //using formik we can set values onSubmit and onChange
     const { handleSubmit, handleBlur, touched, handleChange, values, errors } =
       useFormik({
@@ -65,14 +52,11 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
         initialValues,
         validationSchema,
       });
+      
   
     const setCancel = () => {
       setEventValues("");
     };
-  
-    useEffect(() => {
-      setEventValues({ ...values });
-    }, [values, setEventValues]);
   
     return (
       <div>
@@ -84,7 +68,8 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
               </FormLabel>
   
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                width="100%"
+                minW="40%"
                 name="title"
                 value={values.title}
                 onChange={handleChange}
@@ -105,7 +90,8 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
               </FormLabel>
   
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                width="100%"
+                minW="40%"
                 name="meetingLink"
                 value={values.meetingLink}
                 onChange={handleChange}
@@ -124,24 +110,18 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 Duration
               </FormLabel>
               <Select
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="100%"
+                 minW="40%"
                 value={values.duration}
                 onChange={handleChange}
                 name="duration"
                 placeholder="Duration"
               >
-                <option key={"15mins"} value="15">
-                  15 mins
-                </option>
-                <option key={"30mins"} value="30">
-                  30 mins
-                </option>
-                <option key={"45mins"} value="45">
-                  45 mins
-                </option>
-                <option key={"60mins"} value="60">
-                  60 mins
-                </option>
+               {Duration.map((e)=>(
+              <option key={e} value={e}>
+                {e} 
+              </option>))}
+              
               </Select>
               {touched.duration && errors.duration && (
                 <Text color="red">
@@ -149,43 +129,15 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 </Text>
               )}
             </Box>
-            <Box>
-              <FormLabel mt="10px" color="rgb(75 85 99)">
-                Category
-              </FormLabel>
-              <Select
-                width={isSmallerThan600 ? "80%" : "100%"}
-                value={values.category}
-                onChange={handleChange}
-                name="category"
-                placeholder="Category"
-              >
-                <option key={"Dsa"} value={"Dsa"}>
-                  Dsa
-                </option>
-                <option key={"coding"} value={"Coding"}>
-                  Coding
-                </option>
-                <option key={"Csbt"} value={"Csbt"}>
-                  C.S.B.T
-                </option>
-                <option key={"Revision"} value={"Revision"}>
-                  Revision
-                </option>
-              </Select>
-              {touched.category && errors.category && (
-                <Text color="red">
-                  {JSON.stringify(errors.category).replace(/"/g, "")}
-                </Text>
-              )}
-            </Box>
+            
             <Box>
               <FormLabel mt="10px" color="rgb(75 85 99)">
                 Select Date{" "}
               </FormLabel>
   
               <Input
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="100%"
+                 minW="40%"
                 name="date"
                 type="date"
                 value={values.date}
@@ -199,7 +151,8 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 Instructions
               </FormLabel>
               <Textarea
-                width={isSmallerThan600 ? "80%" : "100%"}
+                 width="100%"
+                 minW="40%"
                 name="instruction"
                 value={values.instruction}
                 onChange={handleChange}
@@ -212,13 +165,20 @@ import TimeslotsInput from "../OneOnOneEdit/TimeslotsInput";
                 </Text>
               )}
             </Box>
-  
-            <Box>
+          
+            <Box  minW="40%"  width="100%">
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+              Add Availability  {" "}
+              </FormLabel>
+
+             
               <TimeslotsInput
                 values={values}
                 EventValues={EventValues}
                 setEventValues={setEventValues}
               />
+            
+              
             </Box>
           </Grid>
           <Flex mt="20px" justifyContent="flex-end">
