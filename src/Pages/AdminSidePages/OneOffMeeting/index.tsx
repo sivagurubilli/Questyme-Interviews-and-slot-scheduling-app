@@ -53,15 +53,13 @@ const GotoOneOffMeet = () => {
       <Navbar/>
       <Box boxShadow="0 5px 15px rgba(0,0,0,0.06)" h="60px" w="100%" bg="white">
         <Flex justifyContent="space-around">
+        <Button colorScheme="blue" mt="10px" onClick={() => navigate(-1)}>
+            Back
+          </Button>
           <Text fontSize="20px" mt="10px">
             New One-Off Meeting
           </Text>{" "}
-             <Flex>
-          <Button colorScheme="blue" mt="10px" onClick={() => navigate(-1)}>
-            Back
-          </Button>
-          
-            </Flex>
+            
         </Flex>
       </Box>
 

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../Redux/eventById";
 import { Box, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
-import OneOnOneEdit from "../../../Components/OneOnOneEdit/OneOnOneEdit";
+import OneOnOneEdit from "../../../Components/OneOneOneEdit/OneOnOneEdit";
 import { useParams } from "react-router-dom";
 import { GetSingleEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import {  IOneOnEventValues } from "../Interfacces";

@@ -48,6 +48,8 @@ const AdminInterviewBox = ({
             <Text color="#778087">{event.batch}</Text>{" "}
             <Text color="#778087">{event.category} </Text>{" "}
           </Flex>
+        <Flex  mt="10px" justifyContent="space-between">   <Text color="#778087">Meeting Status</Text>
+         <Text color="blue" >{event.meetingStatus==="C"? "Compleated":"Pending"}</Text></Flex>
         </Box>
 
         <Divider mb="10px" />

@@ -1,6 +1,8 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
+
+
 import {
   Box,
   Flex,
@@ -9,32 +11,14 @@ import {
 } from "@chakra-ui/react";
 import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
 import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
-import { CountByMeetingStatus } from "../../../Services/AdminSideServices/GetEventsService";
+import {  CountByMeetingStatusService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useSearch } from "../../../utils/SetParams";
 import { useLocation, useNavigate } from "react-router-dom";
-const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-const id = userDetails?.user?.id;
-const token = userDetails?.token;
 
 
 
 
 const AdminDashBoard = () => {
-  const [colorScheme,setColorScheme] = useState({
-    "pending":"blue",
-    "compleated":"blue"
-  })
-  const [search, updateSearch] = useSearch();
-  const [batchName,setBatchName] = useState<string | null>("")
-const navigate = useNavigate()
-const location = useLocation();
-const params = new URLSearchParams(location.search);
-const name = params.get("name");
-
-useEffect(()=>{
- setBatchName(name)
-},[name])
-
 
   const [totalIntervies, setTotalInterviews] = useState({
     totalIntervies: "",
@@ -49,11 +33,27 @@ useEffect(()=>{
       },
     ],
   });
-  const toast = useToast();
+  const [search, updateSearch] = useSearch();
+ const [batchName,setBatchName] = useState<string | null>("")
+
+const navigate = useNavigate()
+const location = useLocation();
+const params = new URLSearchParams(location.search);
+const name = params.get("name");
+const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+const id = userDetails?.user?.id;
+const token = userDetails?.token;
+const toast = useToast();
+
+
+  useEffect(()=>{
+    setBatchName(name)
+   },[name])
+   
 
   const GetEvents = useCallback(async () => {
     try {
-      const response = await CountByMeetingStatus(id, token);
+      const response = await CountByMeetingStatusService(id, token);
       if (response.length) {
         setTotalInterviews(response.data);
       }
@@ -73,12 +73,11 @@ useEffect(()=>{
   }, [GetEvents]);
 
   
-  const Clear =()=>{
-    setColorScheme({pending:"blue",compleated:"blue"})
-    updateSearch({})
-    setBatchName("")
-    navigate("")
-  }
+const clearUrl =()=>{
+  navigate("")
+  setBatchName("")
+}
+ 
 
   return (
     <div className="container">
@@ -110,7 +109,10 @@ useEffect(()=>{
       {/* search by batch name component */}
       <SearchByBatch batchName={batchName} setBatchName={setBatchName} />
       {/* search by batch name and  pendingstaus component */}
-      <SearchByPendingStauts   Clear={Clear} search={search} updateSearch={updateSearch} colorScheme={colorScheme} setColorScheme={setColorScheme} />
+      <SearchByPendingStauts 
+      clearUrl ={clearUrl}
+    search={search} updateSearch={updateSearch}
+       />    
     </div>
   );
 };

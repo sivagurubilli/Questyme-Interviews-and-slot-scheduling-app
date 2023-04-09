@@ -1,72 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Navbar from "../../../Components/Navbar/Navbar";
-import OneonOneEventComponent from "../../../Components/OneonOneEventComponent";
-import { Box, Grid, useToast } from "@chakra-ui/react";
-import OneOnOneEventsNav from "./OneOnOneEventsNav";
-import SearchComponent from "../../../Components/SearchComponent";
-import { GetAllEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import React from 'react'
+import FutureOrPastInterviewsComponent from '../../../Components/AdminInterviews/PastOrFutureInterview';
+import Navbar from "../../../Components/Navbar/Navbar" ;
+import OneOnOneEventsNav from './OneOnOneEventsNav';
 
-const OneonOneEvents = () => {
-  const [oneOnOneEvents, setOneOnOneEvents] = useState([]);
-  const toast = useToast();
 
+const OneonOneEvents= () => {
+  const path = window.location.pathname;
+  const segments = path.split('/');
+  const InterviewsValue = segments[segments.length - 1];
   
-  const GetEvents = useCallback(async () => {
-    try {
-      const response = await GetAllEventsService();
-      if (response) {
-        setOneOnOneEvents(response);
-      }
-    } catch (error) {
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  },[toast]);
-
-  useEffect(() => {
-    GetEvents();
-  }, [GetEvents]);
 
   return (
-    <div className="container">
-      <Navbar />
-      <OneOnOneEventsNav />
-      <Box
-        w="80%"
-        ml="10%"
-        mt="60px"
-        minH="200px"
-        h="auto"
-        p="5%"
-        bg="white"
-        borderRadius="10px"
-        boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
-      >
-        <SearchComponent />
-
-        <Grid
-          mt={4}
-          templateColumns={{
-            base: "1fr",
-            md: "1fr 1fr 1fr",
-            lg: "1fr 1fr 1fr",
-          }}
-          gap={4}
-        >
-          {oneOnOneEvents?.map((el) => (
-            <Box key={el}>
-              <OneonOneEventComponent event={el} GetEvents={GetEvents} />
-            </Box>
-          ))}
-        </Grid>
-      </Box>
+    <div>
+        <Navbar />
+  <OneOnOneEventsNav />
+      {InterviewsValue ==="one-on-one-interviews" ? <FutureOrPastInterviewsComponent />:""}
     </div>
-  );
-};
+  )
+}
 
-export default OneonOneEvents;
+export default OneonOneEvents

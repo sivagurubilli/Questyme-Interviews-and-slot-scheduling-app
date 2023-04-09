@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { Popover, PopoverTrigger, PopoverContent, PopoverBody } from '@chakra-ui/react';
 
@@ -40,7 +40,7 @@ const navigate = useNavigate()
             color={"gray.600"}
           >
                <Button
-                 onClick={()=>navigate(-1)}
+              onClick={() => navigate("/admin/dashboard")}
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="30px"
