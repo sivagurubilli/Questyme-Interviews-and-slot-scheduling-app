@@ -13,6 +13,8 @@ import { reducer as ScheduleBulkInterviewReducer } from "./ScheduleBulkInterview
 import {reducer as CategoryReducer} from "./CategoryReducer/Reducer"
 import {reducer as AdminListByCategoryReducer} from "./AdminListByCategoryReducer/Reducer"
 import {reducer as PastInterViewReducer} from "./PastInterviewReducer/Reducer"
+import {reducer as CancelInterviewReducer} from "./CancelInterviewReducer/Reducer"
+import {reducer as SingleInterviewReducer} from "./InterviewByIdReducer/Reducer"
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -27,7 +29,9 @@ const rootreducer = combineReducers({
   ScheduleBulkInterviewReducer,
   CategoryReducer,
   AdminListByCategoryReducer,
-  PastInterViewReducer
+  PastInterViewReducer,
+  SingleInterviewReducer,
+  CancelInterviewReducer
 });
 export const store = legacy_createStore(
   rootreducer,
