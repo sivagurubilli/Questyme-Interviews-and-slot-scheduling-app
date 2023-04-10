@@ -41,6 +41,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { Dispatch } from "redux";
 import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
+import SearchComponent from "../../Components/SearchComponent";
 
 export interface interview{
   interviewId: number,
@@ -90,34 +91,14 @@ const UserDashboard = () => {
      <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-            <Box
-              display={"flex"}
-              w={"50%"}
-              h={"25px"}
-              textAlign={"center"}
-              pl={"10px"}
-            >
-              <SearchIcon h={"20px"} w={"20px"} mt={"10px"} color={"gray"} />
-              <Input
-                type="text"
-                placeholder="Filter..."
-                variant="unstyled"
-                border={"none"}
-                size={"md"}
-                outline={"none"}
-                mt={"10px"}
-                ml={"10px"}
-                fontSize={"18px"}
-              />
-              <CloseIcon h={"15px"} w={"15px"} mt={"10px"} color={"gray"} />
-            </Box>
+           <SearchComponent />
             <Box
               w={"100%"}
               h={"90%"}
               m={"auto"}
               borderTop={"1px solid gray"}
               pt={"20px"}
-              mt={"20px"}
+              mt={"5px"}
             >
               {/* grid layout of scheduled interview */}
               <Grid templateColumns={"repeat(3,1fr)"} gap={6}>

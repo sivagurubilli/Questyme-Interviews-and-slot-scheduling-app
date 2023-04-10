@@ -14,9 +14,9 @@ import {
 } from "../../Redux/CategoryReducer/Action";
 import { getAllCategoryDataService } from "../../Services/UserSideServices/GetCategoryServices/GetCategoryService";
 import {
-  adminLIstByCategoryFailure,
-  adminLIstByCategoryLoading,
-  adminLIstByCategorySuccess,
+  adminListByCategoryFailure,
+  adminListByCategoryLoading,
+  adminListByCategorySuccess,
 } from "@/Redux/AdminListByCategoryReducer/Action";
 import { getAlladminListByCategoryService } from "../../Services/UserSideServices/GetAllAdminListByCategoryReducer/GetAdminListByCategoryReducer";
 let title: string;
@@ -33,9 +33,9 @@ const BookOneOnOne = () => {
     categoryDataSuccess | categoryDataLoading | categoryDataFailure
   > = useDispatch();
   const adminListDispatch: Dispatch<
-    | adminLIstByCategorySuccess
-    | adminLIstByCategoryFailure
-    | adminLIstByCategoryLoading
+    | adminListByCategorySuccess
+    | adminListByCategoryFailure
+    | adminListByCategoryLoading
   > = useDispatch();
   useEffect(() => {
     getAllCategoryDataService()(categoryDispatch);

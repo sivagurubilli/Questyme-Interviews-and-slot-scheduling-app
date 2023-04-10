@@ -2,15 +2,15 @@ import { ActionTypes } from "../../../Redux/AdminListByCategoryReducer/ActionTyp
 import { Dispatch } from "redux";
 import axios from "axios";
 import {
-  adminLIstByCategoryFailure,
-  adminLIstByCategoryLoading,
-  adminLIstByCategorySuccess,
+  adminListByCategoryFailure,
+  adminListByCategoryLoading,
+  adminListByCategorySuccess,
 } from "../../../Redux/AdminListByCategoryReducer/Action";
 
 export const getAlladminListByCategoryService =
   (type: string) =>
   (
-    dispatch: Dispatch<adminLIstByCategorySuccess | adminLIstByCategoryFailure>
+    dispatch: Dispatch<adminListByCategorySuccess | adminListByCategoryFailure>
   ): Promise<void | ActionTypes> => {
     return axios
       .get("http://localhost:8080/adminListBycategory")
