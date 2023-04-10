@@ -66,7 +66,7 @@ const StudentBooking = () => {
     try {
       const userId = 30195;
       const response = await axios.post(
-        `https://88ca-27-116-40-89.in.ngrok.io/slot/bookslot/${e.slotId}/user/${userId}`
+        `https://b952-27-116-40-42.in.ngrok.io/slot/bookslot/${e.slotId}/user/${userId}`
       );
       toast({
         title: "Event scheduled",
@@ -95,11 +95,12 @@ const StudentBooking = () => {
       arg.date.getTime() - arg.date.getTimezoneOffset() * 60 * 1000
     );
     const clickedDateStr = clickedDate.toISOString().substr(0, 10);
-    if (clickedDate < today) {
-      return;
-    } else {
-      fetchSlot(clickedDateStr);
-    }
+    // if (clickedDate < today) {
+    //   return;
+    // } else {
+     
+    // }
+    fetchSlot(clickedDateStr);
   };
 
   return (
