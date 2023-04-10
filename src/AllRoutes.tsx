@@ -14,8 +14,11 @@ import RequireAuth from './Components/ProtectedRoute/RequireAuth'
 import { LoginUser } from './Pages/Login/LoginUser'
 import AdminDashBoard from './Pages/AdminSidePages/AdminDashBoard'
 import AddStudents from './Pages/AdminSidePages/AddStudents'
-import PastEvents from './Pages/PastEvents/PastEvents'
-
+import PastEvents from './Pages/PastEvents/PastEvents';
+import PastInterviews from './Pages/AdminSidePages/AdminPastInterviews';
+import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots';
+import FutureInterviews from './Pages/AdminSidePages/FutureInterviews';
+import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 const AllRoutes = () => {
   return (
     <div>
