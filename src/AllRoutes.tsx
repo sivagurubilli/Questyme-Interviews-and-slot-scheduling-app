@@ -14,16 +14,16 @@ import RequireAuth from './Components/ProtectedRoute/RequireAuth'
 import { LoginUser } from './Pages/Login/LoginUser'
 import AdminDashBoard from './Pages/AdminSidePages/AdminDashBoard'
 import AddStudents from './Pages/AdminSidePages/AddStudents'
-import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit'
+import PastEvents from './Pages/PastEvents/PastEvents';
 import PastInterviews from './Pages/AdminSidePages/AdminPastInterviews';
 import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots';
 import FutureInterviews from './Pages/AdminSidePages/FutureInterviews';
-
-
+import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 const AllRoutes = () => {
   return (
     <div>
             <Routes>
+            <Route path ="" element ={<LoginUser/>} />
             <Route path ="/login" element ={<LoginUser/>} />
 
             {/* <Route path ="/login" element ={<Login/>} /> */}
@@ -39,11 +39,12 @@ const AllRoutes = () => {
             <Route path ="/admin/past-interviews" element ={<PastInterviews />} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
-            <Route path='dashboard' element={<RequireAuth><UserDashboard /></RequireAuth>} />
+            <Route path='/dashboard' element={<RequireAuth><UserDashboard /></RequireAuth>} />
             <Route path={"/dashboard/book-one-on-One"}  element={<BookOneOnOne />} />
             <Route path={"/dashboard/interview/:id"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
+            <Route path='/dashboard/past-events' element={<RequireAuth><PastEvents /></RequireAuth>} />
             </Routes>
     </div>
   )
