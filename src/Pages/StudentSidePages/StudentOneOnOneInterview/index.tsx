@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Box, Flex, Heading, Text, Button, useToast } from "@chakra-ui/react";
 import { BsClockFill } from "react-icons/bs";
 import { BsFillCameraVideoFill } from "react-icons/bs";
+import {RiGuideLine} from 'react-icons/ri'
 import {
   getSlotDays,
   getSlots,
+  getBookSlot
 } from "../../../Services/UserSideServices/SlotBookingServices";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -23,6 +25,14 @@ const StudentBooking = () => {
   const [loading2, setLoading2] = useState(false);
   const height = useBreakpointValue({ base: "auto", sm: "800px", md: "500px" });
   const [bookSlot, setBookSlot] = useState<any>();
+  const [title,setTitle]=useState<any>()
+  const [instruction,setInstruction]=useState<any>()
+  
+  const userDetails = localStorage.getItem("userDetails");
+const userDetails2:any = userDetails ? JSON.parse(userDetails) : null;
+console.log("userDetails",userDetails2)
+const userId = userDetails2.user.id;
+console.log("userId",userId)
   useEffect(() => {
     async function fetchSlotsDays(id: any) {
       try {
@@ -54,20 +64,28 @@ const StudentBooking = () => {
     try {
       setLoading(true);
       const response = await getSlots(clickedDate);
+     
       setIsName(response);
+      if(response[0].title){
+        setTitle(response[0].title)
+      }
+      if(response[0].instruction){
+        setInstruction(response[0].instruction)
+      }
+      
+      
+     
       setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }
-
-  const handleClick = async (e: any) => {
+ 
+  const handleClick = async (e: any,userId:any) => {
     try {
-      const userId = 30195;
-      const response = await axios.post(
-        `https://88ca-27-116-40-89.in.ngrok.io/slot/bookslot/${e.slotId}/user/${userId}`
-      );
+     
+      const response = await getBookSlot(e,userId);
       toast({
         title: "Event scheduled",
         description: "Your event has been scheduled successfully!",
@@ -77,6 +95,7 @@ const StudentBooking = () => {
         isClosable: true,
       });
     } catch (error) {
+      
       console.log(error);
       toast({
         title: "Something Went Wrong",
@@ -87,6 +106,7 @@ const StudentBooking = () => {
         isClosable: true,
       });
     }
+   
   };
 
   const handleDateClick = (arg: any) => {
@@ -98,9 +118,12 @@ const StudentBooking = () => {
     if (clickedDate < today) {
       return;
     } else {
+      console.log("clickedDateStr",clickedDateStr)
       fetchSlot(clickedDateStr);
     }
   };
+
+  console.log(isName[0])
 
   return (
     <Box bg="#f3f4f6">
@@ -144,11 +167,12 @@ const StudentBooking = () => {
               )}
             </Box>
           </Box>
-          <Box flexGrow={1} mb={["4", "0"]}>
+         {isName.length ? <Box flexGrow={1} mb={["4", "0"]}>
             <Text>Pintu Gouda</Text>
-            <Heading as="h4" size={["md", "lg"]} mb={["2", "4"]}>
-              Counselling session
-            </Heading>
+            
+              {/* Counselling session */}
+              {isName ? <Heading as="h4" size={["md", "lg"]} mb={["2", "4"]}>{title}</Heading>:<Box></Box>}
+           
             <Flex alignItems="center" mb="2">
               <Box mt="1px" mr="2" fontSize={["sm", "md"]}>
                 {<BsClockFill />}
@@ -163,9 +187,17 @@ const StudentBooking = () => {
                 Web conferencing details provided upon confirmation.
               </Box>
             </Flex>
-          </Box>
+            <Flex alignItems="center">
+              <Box mt="1px" mr="2" fontSize={["sm", "md"]}>
+                {<RiGuideLine />}
+              </Box>
+              <Box fontSize={["sm", "md"]}>
+                {instruction}
+              </Box>
+            </Flex>
+          </Box> :<Box></Box>}
           <Box flexGrow={1}>
-            {isName ? (
+            {isName.length ? (
               <Button
                 w={["100%", "180px"]}
                 size={["sm", "md"]}
@@ -195,10 +227,10 @@ const StudentBooking = () => {
                           borderColor="blue.500"
                           color="blue"
                           _hover={{ bg: "blue", color: "white" }}
-                          onClick={() => handleClick(e)}
+                          onClick={() => handleClick(e,userId)}
                           mt="5"
                         >
-                          {e.startTime}
+                          {e.startTime}  -  {e.endTime}
                         </Button>
                       </Box>
                     </Box>
