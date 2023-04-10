@@ -1,12 +1,22 @@
 import { Dispatch } from "redux"
-import { Action } from "./Action"
+import { ActionIDataState ,ActionOneOnOne} from "./Action"
 import { ActionTypes } from "./ActionTypes"
 
 
 export  const GetSingleData = (payload:any)=>{
-  return (dispatch :Dispatch<Action>)=>{
+  return (dispatch :Dispatch<ActionIDataState>)=>{
      dispatch({
       type:ActionTypes.GET_SINGLE_DATA_SUCCESS,
+      payload:payload
+     })
+  }
+}
+
+
+export  const SetOneOnOneData = (payload:any)=>{
+  return (dispatch :Dispatch<ActionOneOnOne>)=>{
+     dispatch({
+      type:ActionTypes.SET_SINGLE_DATA_SUCCESS,
       payload:payload
      })
   }

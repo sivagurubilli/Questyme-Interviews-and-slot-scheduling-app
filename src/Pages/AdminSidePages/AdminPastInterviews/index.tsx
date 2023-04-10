@@ -1,21 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Navbar from "../../../Components/Navbar/Navbar";
-import OneonOneEventComponent from "../../../Components/OneonOneEventComponent";
 import { Box, Grid, useToast } from "@chakra-ui/react";
-import OneOnOneEventsNav from "./OneOnOneEventsNav";
 import SearchComponent from "../../../Components/SearchComponent";
-import { GetAllEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import Navbar from "../../../Components/Navbar/Navbar";
+import DashboardNavbar from "../AdminDashBoard/DashboardNavbar";
+import AdminInterviewBox from "../../../Components/AdminInterviews/InterviewsComponent";
+import { GetPastInterviewService } from "../../../Services/UserSideServices/GetInterviewsServices";
 
-const OneonOneEvents = () => {
-  const [oneOnOneEvents, setOneOnOneEvents] = useState([]);
+const PastInterviews = () => {
+  const [pastInterviews, setpastInterviews] = useState([]);
   const toast = useToast();
+  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
+const id = userDetails?.user?.id
+const token = userDetails?.token
 
-  
+
   const GetEvents = useCallback(async () => {
     try {
-      const response = await GetAllEventsService();
+      const response = await GetPastInterviewService(id,token);
       if (response) {
-        setOneOnOneEvents(response);
+        setpastInterviews(response);
       }
     } catch (error) {
       toast({
@@ -26,16 +29,17 @@ const OneonOneEvents = () => {
         isClosable: true,
       });
     }
-  },[toast]);
+  },[id,token,toast]);
 
   useEffect(() => {
     GetEvents();
   }, [GetEvents]);
 
+
   return (
     <div className="container">
-      <Navbar />
-      <OneOnOneEventsNav />
+<Navbar />
+<DashboardNavbar />
       <Box
         w="80%"
         ml="10%"
@@ -58,9 +62,9 @@ const OneonOneEvents = () => {
           }}
           gap={4}
         >
-          {oneOnOneEvents?.map((el) => (
+          {pastInterviews.length >0 && pastInterviews?.map((el) => (
             <Box key={el}>
-              <OneonOneEventComponent event={el} GetEvents={GetEvents} />
+              <AdminInterviewBox  event={el} GetEvents={GetEvents} />
             </Box>
           ))}
         </Grid>
@@ -69,4 +73,4 @@ const OneonOneEvents = () => {
   );
 };
 
-export default OneonOneEvents;
+export default PastInterviews;

@@ -73,9 +73,12 @@ const InterviewDetails = () => {
                   justifyContent={"space-between"}
                 >
                   <Box
-                   
-                    w={"30%"}
-                    textAlign={"center"}
+                    
+                    m={"auto"}
+                    h={"12%"}
+                    p={"10px"}
+                    textAlign={"left"}
+                    pl={"20px"}
                   >
                     <Text
                       mt={"6px"}

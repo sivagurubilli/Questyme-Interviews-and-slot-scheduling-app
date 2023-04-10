@@ -1,32 +1,37 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useState } from "react";
 import OneOnOneCreateNav from "./OneOnOneCreateNav";
-import { Box, Divider,  FormLabel, useToast } from "@chakra-ui/react";
+import { Box, Divider,  FormLabel,  useToast } from "@chakra-ui/react";
 import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
 import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useNavigate } from "react-router-dom";
-import { IEventValuescreate } from "../Interfacces";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../Redux/eventById";
+import { IOneOnEventValues } from "../Interfacces";
 
 
 const OneonOneEventsCreate = () => {
-  const [EventValues, setEventValues] = useState<IEventValuescreate>({
+  const [EventValues, setEventValues] = useState<IOneOnEventValues>({
     title: "",
     instruction: "",
     meetingLink: "",
     adminId: "5",
     duration: "",
-    category: "",
-    date:"",
-    slots:[{start: "",
-    end: ""}]
   });
+
+  const dispatch = useDispatch();
+  const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
   const toast = useToast();
 
   const addEvent = async () => {
     try {
+      SetOneOnOneData(EventValues)
       const response = await PostEventsService(EventValues);
-
+      setTimeout(() => {
+        navigate(`/admin/add-avialability`);
+      }, 2000);
       if (response) {
         toast({
           title: "Event created",
@@ -36,9 +41,7 @@ const OneonOneEventsCreate = () => {
           duration: 2000,
           isClosable: true,
         });
-        setTimeout(() => {
-          navigate(`/admin/one-on-one-interviews/${response.id}/edit`);
-        }, 2000);
+       
       }
     } catch (error) {
       toast({
@@ -54,7 +57,7 @@ const OneonOneEventsCreate = () => {
   return (
     <div className="container">
       <Navbar />
-      <OneOnOneCreateNav />
+      <OneOnOneCreateNav  NavText ="Add One-On-One Event Type"/>
 
       <Box
         w="80%"
@@ -75,7 +78,7 @@ const OneonOneEventsCreate = () => {
             EventValues={EventValues}
             addEvent={addEvent}
             setEventValues={setEventValues}
-            buttonName={"Create Slots"}
+            buttonName={"Next"}
           />
         </Box>
       </Box>

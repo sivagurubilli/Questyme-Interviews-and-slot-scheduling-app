@@ -1,0 +1,137 @@
+{
+  "one-on-one-events": [
+    {
+      "title": "Dsa interview with ankush",
+      "duration": "15",
+      " instruction": "on camera while in meet",
+      "meetingLink": "dddddddddddddddddddd",
+      " adminId": "5",
+      "id": 1
+    },
+    {
+      "title": "Dsa interview with rajnesh",
+      "duration": "15",
+      " instruction": "on camera while in meet",
+      "meetingLink": "dddddddddddddddddddd",
+      " adminId": "5",
+      "id": 2
+    },
+    {
+      "title": "interview with rama",
+      "instruction": "dummy",
+      "adminId": "5",
+      "meetingLink": "https://us06web.zoom.us/j/81073976928",
+      "duration": "30",
+      "id": 3
+    },
+    {
+      "title": "interview with nrupul",
+      "instruction": "dummmy",
+      "adminId": "5",
+      "meetingLink": "https://us06web.zoom.us/j/81073976928",
+      "duration": "15",
+      "id": 4
+    }
+  ],
+  "sb201": [
+    {
+      "id": 1,
+      "name": "sb201-1"
+    },
+    {
+      "id": 2,
+      "name": "sb201-2"
+    },
+    {
+      "id": 3,
+      "name": "sb201-3"
+    },
+    {
+      "id": 4,
+      "name": "sb201-4"
+    }
+  ],
+  "rct201": [
+    {
+      "id": 5,
+      "name": "rct201-1"
+    },
+    {
+      "id": 6,
+      "name": "rct201-2"
+    },
+    {
+      "id": 7,
+      "name": "rct201-3"
+    },
+    {
+      "id": 8,
+      "name": "rct201-4"
+    }
+  ],
+  "interviews": [
+    {
+      "interviewId": 23,
+      "interviewerId": 3,
+      "intervieweeId": 1,
+      "startTime": "11:30:00",
+      "endTime": "12:00:00",
+      "date": "04-04-2023",
+      "studentsNotes": null,
+      "adminFeedback": null,
+      "category": "Technical",
+      "instructions": "This interview will cover topics related to software engineering",
+      "title": "Software Engineer Interview",
+      "zoomLink": "https://zoom.us/j/1234567890",
+      "meetingStatus": "P",
+      "batch": "sb201"
+    },
+    {
+      "interviewId": 24,
+      "interviewerId": 3,
+      "intervieweeId": 1,
+      "startTime": "12:00:00",
+      "endTime": "14:00:00",
+      "date": "02-04-2023",
+      "studentsNotes": null,
+      "adminFeedback": null,
+      "category": "DSA",
+      "instructions": "Join before 5 minutes",
+      "title": "Dsa interview with ankush",
+      "zoomLink": "https://us06web.zoom.us/j/81073976928#success",
+      "meetingStatus": "C",
+      "batch": "sb201"
+    },
+    {
+      "interviewId": 25,
+      "interviewerId": 3,
+      "intervieweeId": 2,
+      "startTime": "10:00:00",
+      "endTime": "11:00:00",
+      "date": "03-04-2023",
+      "studentsNotes": null,
+      "adminFeedback": null,
+      "category": "coding",
+      "instructions": "Join before 5 minutes",
+      "title": "Coding interview with nrupul",
+      "zoomLink": "https://us06web.zoom.us/j/810976928#success",
+      "meetingStatus": "P",
+      "batch": "js201"
+    }
+  ],
+  "csv": [
+    {
+      "id": 1,
+      "name": "siva",
+      "email": "siva@gmail.com",
+      "password": "1234",
+      "batch": "js201"
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    }
+  ]
+}

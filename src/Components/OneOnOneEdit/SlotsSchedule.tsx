@@ -58,7 +58,7 @@ const SlotsSchedule = ({ days, setDays }: any) => {
                 Set your weekly hours
               </FormLabel>
 
-              <Flex justifyContent="space-between">
+              <Flex justifyContent="space-between" >
                 <DayAvailability days={days} setDays={setDays} />
               </Flex>
             </Box>

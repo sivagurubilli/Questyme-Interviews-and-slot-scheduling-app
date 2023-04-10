@@ -12,6 +12,15 @@ export interface IEventValues {
   }
 
 
+  export interface IOneOnEventValues {
+    title?: string;
+    instruction?: string;
+    meetingLink?: string;
+    adminId?: string;
+    duration?: string;
+    id?:number
+   
+  }
 
 
   export interface IEventValuescreate {
@@ -20,8 +29,7 @@ export interface IEventValues {
     meetingLink: string;
     adminId: string;
     duration: string;
-    category: string;
     date:string | Date;
-    slots:[{start:string,
-    end: string}]
+    slotTime:[{startTime:string,
+    endTime: string}]
   }

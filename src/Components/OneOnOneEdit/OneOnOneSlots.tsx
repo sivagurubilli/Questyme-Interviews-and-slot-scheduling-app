@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,65 +13,46 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import {
   AddRecurringSlotsService,
-  GetSingleEventsService,
 } from "../../Services/AdminSideServices/GetEventsService";
 import { useNavigate, useParams } from "react-router-dom";
+import { DaysForRecurring, DaysForRecurringEvents } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
+  const [days, setDays] = useState(DaysForRecurring);
+  const [availability,setAvailability] = useState(DaysForRecurringEvents)
   const state = useSelector((state: RootState) => state);
-  const AllData = state.SingleEventReducer;
+  const setData = state.SingleEventReducer;
+  const [recurringEventDetails,setRecurringEventDetails] = useState({
+    name:setData?.setData?.title,
+    meetingLink:setData?.setData?.meetingLink,
+    duration:setData?.setData?.duration,
+    instructions:setData?.setData?.instruction,
+    availability:availability
+
+  })
   const toast = useToast();
   const id = useParams();
   const navigate = useNavigate();
 
-  const [days, setDays] = useState([
-    {
-      name: "Sun",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Mon",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Tue",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Wed",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Thu",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Fri",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-    {
-      name: "Sat",
-      isChecked: true,
-      inputs: [{ start: "9:00am", end: "5:00pm" }],
-      errors: [{ start: "", end: "" }],
-    },
-  ]);
+
+  useEffect(() => {
+    const transformedDays = days.map(day => ({
+      name: day.name,
+      isChecked: day.isChecked,
+      TimeSlot: day.inputs.map(input => ({
+        startTime: input.start,
+        endTime: input.end
+      }))
+    }));
+    setAvailability(transformedDays);
+    setRecurringEventDetails({...recurringEventDetails,availability:availability})
+  }, [days,recurringEventDetails,availability]);
+
+
 
   const AddSlots = async () => {
     try {
-      const response = await AddRecurringSlotsService(id, days);
+      const response = await AddRecurringSlotsService(id, recurringEventDetails);
       if (response) {
         toast({
           title: "Slots Added Successfully",
@@ -82,7 +63,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
         });
 
         setTimeout(() => {
-          navigate("/admin/one-on-one-interviews/event-types");
+          navigate("/admin/one-on-one-interviews");
         }, 2000);
       }
     } catch (err) {
@@ -96,27 +77,7 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
     }
   };
 
-  //GetEventById function
-  const GetEventById = async () => {
-    try {
-      const response = await GetSingleEventsService(id);
-      if (response.days) {
-        setDays(response.days);
-      }
-    } catch (err) {
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  };
 
-  useEffect(() => {
-    GetEventById();
-  }, []);
 
   return (
     <div>
@@ -141,8 +102,8 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
               </Flex>
               <Flex>
                 {" "}
-                <Text>{AllData?.AllData?.title}</Text>{" "}
-                <Text ml="20px">{AllData?.AllData?.duration} Minutes</Text>
+                <Text>{setData?.setData?.title}</Text>{" "}
+                <Text ml="20px">{setData?.setData?.duration} Minutes</Text>
               </Flex>
             </Box>
           </Flex>

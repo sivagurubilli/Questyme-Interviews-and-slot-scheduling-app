@@ -1,28 +1,24 @@
-import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
-import { Box, Divider, Flex, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
 
-import SettingsComponent from "./SettingsComponent";
+import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Iinterviews } from "../../Services/AdminSideServices/GetEventsInterface";
 
 interface ProfilecomponentProps {
-  event: IEventValues;
+  event: Iinterviews;
   GetEvents: any;
 }
 
-const OneonOneEventComponent = ({
+const AdminInterviewBox = ({
   event,
   GetEvents,
 }: ProfilecomponentProps) => {
-  const [openDrop, setOpenDrop] = useState(false);
+
   const [isCopied, setCopied] = useState(false);
   const [uniquelink, setuniqueLink] = useState<string | null>("");
 
-
-  
-
   useEffect(() => {
-    setuniqueLink(`localhost:3001/slot/${event.id}`);
-  }, [event.id]);
+    setuniqueLink(event.meetingLink);
+  }, [event.meetingLink]);
 
   //for copying link when click on copylink
   const handleCopyLink = () => {
@@ -40,30 +36,20 @@ const OneonOneEventComponent = ({
         border="1px solid grey"
         borderRadius="10px"
       >
-        <Flex pt="20px" pl="20px" pr="20px" justifyContent="flex-end">
-          <Flex onClick={() => setOpenDrop(!openDrop)} cursor="pointer">
-            <i className="fa-solid fa-gear" style={{ color: "#778087" }}></i>{" "}
-            <i
-              style={{ marginLeft: "10px", color: "#778087" }}
-              className="fa-solid fa-caret-down"
-            ></i>{" "}
-          </Flex>
-        </Flex>
-        {openDrop && (
-          <SettingsComponent
-            event={event}
-            setshow1={setOpenDrop}
-            GetEvents={GetEvents}
-          />
-        )}
-
+       
+    
         <Box p="20px">
           <Text color="#474747">{event.title}</Text>
           <Flex mt="10px" justifyContent="space-between">
-            <Text color="#778087">{event.duration} Mins</Text>{" "}
-           
+            <Text color="#778087">{event.startTime} </Text>{" "}
+            <Text color="#778087">{event.endTime} </Text>{" "}
+          </Flex>
+          <Flex mt="10px" justifyContent="space-between">
+            <Text color="#778087">{event.batch}</Text>{" "}
+            <Text color="#778087">{event.category} </Text>{" "}
           </Flex>
         </Box>
+
         <Divider mb="10px" />
 
         <Flex justifyContent="space-between" p="10px">
@@ -89,12 +75,15 @@ const OneonOneEventComponent = ({
               <Text color="#778087" onClick={handleCopyLink}>
                 Copy Link
               </Text>
+
             </Flex>
           )}
+
+          <Button variant="link" color="blue">View Details</Button>
         </Flex>
       </Box>
     </div>
   );
 };
 
-export default OneonOneEventComponent;
+export default AdminInterviewBox;

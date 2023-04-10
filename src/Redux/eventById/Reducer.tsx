@@ -1,19 +1,22 @@
-import { Action } from "./Action";
+import {ActionOneOnOne} from "./Action";
 import { ActionTypes } from "./ActionTypes";
 
 
 const initialState = {
- AllData:{}
+
+ setData:{}
 };
 
 export const reducer = (
   state= initialState,
-  action: Action
+  action: ActionOneOnOne
 ): any => {
   const { payload } = action;
   switch (action.type) {
-    case ActionTypes.GET_SINGLE_DATA_SUCCESS:
-      return { ...state, AllData:payload };
+    case ActionTypes.SET_SINGLE_DATA_SUCCESS:
+      return { ...state, setData:payload };
+      
+      
     default:
       return state;
   }
