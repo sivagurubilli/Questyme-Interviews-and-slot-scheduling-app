@@ -30,20 +30,23 @@ export async function PostEventsService(data: any) {
 }
 
 //post Event service
-export async function PostOneOffService(data: any) {
-  const { title, instruction, meetingLink, date, slotTime, duration, adminId } =
+export async function PostOneOffService(data: any,token:string,id:string) {
+  const { title, instruction, meetingLink, date, slotTime, duration } =
     data;
 
   try {
-    const response = await fetch(
-      "/slot/create-slots",{
-      method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(data)
-}
-    );
+    const response = await axios.post(
+      "/slot/create-slots",
+      { title, instruction, meetingLink, date, slotTime, duration
+,"adminId":id
+}, 
+      {
+    
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      
+        });
     console.log(response);
     return response;
   } catch (error: any) {
@@ -57,7 +60,7 @@ export async function GetDateOneOffService(id: any) {
     const response = await axios.get(
       `/slot/get-slot-dates/${id}`
     );
-    console.log(response.data);
+    
     return response.data;
   } catch (error: any) {
     return error.response;
@@ -160,14 +163,35 @@ export async function AddBulkStudentService(data: any, token: string) {
 }
 
 //service for getting slots for particular date
-export async function GetSlotsService(date: string) {
+export async function GetSlotsForDateService(id:string,date: string,token:string) {
   try {
-    const response = await axios.post(
-      "/auth/users/bulk-createbyCSV",
-      date,
+    const response = await axios.get(
+      `/slot/get-all-slot/${id}/${date}`,
+     
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+
+
+    return error.response;
+  }
+}
+
+
+//service for deleting slots 
+export async function DeleteSlotsService(id:string,token:string) {
+  try {
+    const response = await axios.post(
+      `/slot/deleteslot/${id}`,
+     
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -183,7 +207,12 @@ export async function GetSlotsService(date: string) {
 export async function CountByMeetingStatusService(id: string, token: string) {
   try {
     const response = await axios.get(
-      "/count-by-meeting-status"
+      "/api/interview/count-by-meeting-status",
+      {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    },
     );
 
     return response.data;
@@ -194,12 +223,13 @@ export async function CountByMeetingStatusService(id: string, token: string) {
 
 
  // getting data about particular batch
-export async function CountByBatchStatusService(url:any) {
+export async function CountByBatchStatusService(batchName:any) {
   try {
     const response = await axios.get(
-    `/${url}`,
+    `/api/interview/count-by-meeting-status-by-batch?batch=${batchName}`,
       
     );
+
     return response.data;
   } catch (error: any) {
     return error.response;
@@ -208,12 +238,47 @@ export async function CountByBatchStatusService(url:any) {
 
 
  // getting data about particular batch
- export async function GetByPendingStatusService(url:any) {
+ export async function GetByPendingStatusService(batchName:string|null,meeting:string,token:string) {
   try {
     const response = await axios.get(
-    "/interviews",
-      
-    );
+    `api/interview/filter?batch=${batchName}&meetingStatus=${meeting}`,
+    {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+    return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+ // getting category details
+ export async function GetCategoryService(token:string) {
+  try {
+    const response = await axios.get(
+      "/api/category",{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+    return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+
+ // getting category details
+ export async function GetRecurringListService(token:string) {
+  try {
+    const response = await axios.get(
+      "/recurring/getList",{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+  console.log(response)
     return response.data;
   } catch (error: any) {
     return error.response;

@@ -16,6 +16,7 @@ import AdminInterviewBox from "../AdminInterviews/InterviewsComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetByPendingStatusService } from "../../Services/AdminSideServices/GetEventsService";
 import Pagination from "./Pagination";
+import { MdOutlineToken } from "react-icons/md";
 
 const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   const [colorScheme, setColorScheme] = useState({
@@ -26,7 +27,9 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   const [Interviews, setInterviews] = useState([]);
   const [PaginatedInterviewsData, setPaginatedInterviewsData] = useState([]);
   const [interviewStatus, setInterviewStatus] = useState("");
+  const [status,setStatus] = useState("")
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages,setTotalPages] = useState(0)
   const [startIndex, setStartIndex] = useState<number>(1);
   const [endIndex, setEndIndex] = useState<number>();
   const toast = useToast();
@@ -34,17 +37,22 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   const params = new URLSearchParams(location.search);
   const pageNumber = params.get("page");
   const meeting = params.get("meeting-status");
+  const batchName = params.get("batch")
   const itemsPerPage = 1;
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
   const token = userDetails?.token;
 
+
+
   // set color to buttons even after refreshing
   const setColor = useCallback(() => {
     if (interviewStatus === "pending") {
       setColorScheme({ pending: "green", compleated: "blue" });
+      setStatus("P")
     } else if (interviewStatus === "compleated") {
       setColorScheme({ pending: "blue", compleated: "green" });
+      setStatus("E")
     } else {
       setColorScheme({ pending: "blue", compleated: "blue" });
     }
@@ -66,9 +74,12 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   // getting interviews based on pending and compleated when click on button
   const GetByPendingStatus = useCallback(async () => {
     try {
-      const response = await GetByPendingStatusService(id);
+      const response = await GetByPendingStatusService(batchName,status,token);
       if (response.length) {
         setInterviews(response);
+        setTotalPages(Math.ceil(response?.length/itemsPerPage));
+      }else{
+        setStartIndex(0)
       }
     } catch (error) {
       toast({
@@ -79,7 +90,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
         isClosable: true,
       });
     }
-  }, [id, toast]);
+  }, [ toast,token,batchName,status]);
 
   useEffect(() => {
     GetByPendingStatus();
@@ -211,7 +222,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
           </Text>
           <Pagination
             currentPage={currentPage}
-            totalPages={3}
+            totalPages={totalPages}
             onChange={handlePageChange}
             setPage={setCurrentPage}
             interviewsData={Interviews}

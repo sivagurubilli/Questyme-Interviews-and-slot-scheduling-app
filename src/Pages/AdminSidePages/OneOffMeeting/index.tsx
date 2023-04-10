@@ -18,12 +18,15 @@ const GotoOneOffMeet = () => {
     slotTime:[{startTime: "",
     endTime: ""}]
   });
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+const id = userDetails?.user?.id;
+const token = userDetails?.token;
   const navigate = useNavigate();
   const toast = useToast();
 
   const addEvent = async () => {
     try {
-      const response = await PostOneOffService(EventValues);
+      const response = await PostOneOffService(EventValues,token,id);
       if (response) {
         toast({
           title: "Event created",
@@ -34,8 +37,8 @@ const GotoOneOffMeet = () => {
           isClosable: true,
         });
         setTimeout(() => {
-          navigate(`/admin/one-on-one-interviews`);
-        }, 2000);
+          navigate(`/admin/slots/view`);
+        }, 1000);
       }
     } catch (error) {
       toast({

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Button, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
 
 import { useSearch } from "../../utils/SetParams";
@@ -6,28 +6,39 @@ import SearchComponent from "../SearchComponent";
 import { CountByBatchStatusService } from "../../Services/AdminSideServices/GetEventsService";
 
 const SearchByBatch = ({ batchName, setBatchName }: any) => {
-  const [totalIntervies, setTotalInterviews] = useState({
-    totalIntervies: "",
+  const [totalInterviews, setTotalInterviews] = useState({
+    totalInterviews: 0,
     results: [
       {
         meetingStatus: "",
         count: 0,
+        batch:""
       },
       {
         meetingStatus: "",
         count: 0,
+        batch:""
       },
     ],
   });
   const [search, updateSearch] = useSearch();
+  const [loading,setLoading] = useState(false);
+
   const toast = useToast();
+
 
   const GetBatchStatus = useCallback(async () => {
     if (batchName !== "") {
+      setLoading(true)
+  setTimeout(()=>{
+    setLoading(false)
+  },1000)
+
       try {
         const response = await CountByBatchStatusService(batchName);
 
-        if (response.length > 1) {
+        if (response.results) {
+          setTotalInterviews(response)
         }
       } catch (err) {
         toast({
@@ -61,21 +72,32 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
               search={search}
               updateSearch={updateSearch}
               value={batchName}
+              name="batch"
             />{" "}
-            <Button colorScheme="blue" mt="10px" onClick={GetBatchStatus}>
+            <Button isLoading={loading} colorScheme="blue" mt="10px" onClick={GetBatchStatus}>
               Search
             </Button>{" "}
           </Flex>
           <FormLabel mt="10px">Total Interviews In Particular Batch</FormLabel>
+          <Box w="100%" >
           <Flex justifyContent="space-between">
-            <Text>Total Interviews </Text> <Text>0</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Completed </Text> <Text>0</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Pending </Text> <Text>0</Text>
-          </Flex>
+          <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
+  </Flex>
+
+  { totalInterviews?.results && batchName && totalInterviews?.results?.map((el:any) => (
+    el.meetingStatus === "E" ? (
+     
+      <Flex justifyContent="space-between">
+        <Text>Interviews Completed </Text> <Text>{el.count}</Text>
+      </Flex>
+    ) : (
+      <Flex justifyContent="space-between">
+        <Text>Interviews Pending </Text> <Text>{el.count}</Text>
+      </Flex>
+    )
+  ))}
+
+</Box>
         </Box>
       </Box>
     </div>

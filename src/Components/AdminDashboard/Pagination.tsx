@@ -4,7 +4,7 @@ import "./index.css";
 
 interface PaginationProps {
   currentPage: number;
-  totalPages: number;
+  totalPages: any ;
   onChange: (page: number) => void;
   setPage: (page: number) => void;
   interviewsData: any;
@@ -28,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({
     let startPage = currentPage;
     let endPage = totalPages;
     const maxPages = totalPages;
-    if (totalPages > maxPages) {
+    if ( totalPages > maxPages) {
       const middlePage = Math.floor(maxPages / 2);
       if (currentPage > middlePage) {
         startPage = currentPage - middlePage;
@@ -42,6 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({
         startPage = endPage - maxPages + 1;
       }
     }
+   
     for (let i = startPage; i <= endPage; i++) {
       newPages?.push(i);
     }

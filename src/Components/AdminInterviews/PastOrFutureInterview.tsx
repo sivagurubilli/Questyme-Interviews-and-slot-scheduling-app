@@ -2,12 +2,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
+  FormLabel,
   Grid,
   SkeletonCircle,
-
   SkeletonText,
   Text,
-  useClipboard,
   useToast,
 } from "@chakra-ui/react";
 import AdminInterviewBox from "./InterviewsComponent";
@@ -18,6 +17,8 @@ import Pagination from "../AdminDashboard/Pagination";
 import { Iinterviews } from "../../Services/AdminSideServices/GetEventsInterface";
 import { GetFutureInterviewService, GetPastInterviewService } from "../../Services/UserSideServices/GetInterviewsServices";
 import OneonOneEventComponent from "../OneonOneEventComponent";
+import { GetRecurringListService } from "../../Services/AdminSideServices/GetEventsService";
+import ErrorToast from "../../utils/ErrorToast";
 
 const FutureOrPastInterviewsComponent = ( ) => {
   const [futureInterviews, setfutureInterviews] = useState<Iinterviews[]>([]);
@@ -25,9 +26,10 @@ const FutureOrPastInterviewsComponent = ( ) => {
   const [PaginatedInterviewsData,setPaginatedInterviewsData] = useState<Iinterviews[]>([])
   const [searchName,setSearchName] = useState("")
   const [search, updateSearch] = useSearch();
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<any >(1);
   const [startIndex, setStartIndex] = useState<number>(1);
   const [endIndex, setEndIndex] = useState<number>();
+  const [totalPages,setTotalPages] = useState(0)
   const toast = useToast();
   const location = useLocation();
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
@@ -61,8 +63,9 @@ const FutureOrPastInterviewsComponent = ( ) => {
   //function for filter data 
   useEffect(()=>{
 if(searchName){
-    const interviews = allData.filter((el:any)=>el?.title.includes(searchName))
+  const interviews = allData.filter((el:any) => el.title.toLowerCase().includes(searchName.toLowerCase()));
     setfutureInterviews(interviews)
+    setTotalPages(Math.ceil(interviews?.length/itemsPerPage));
   }
 },[allData,searchName])
   
@@ -71,14 +74,21 @@ if(searchName){
   const GetEvents = useCallback(async () => {
     try {
         var response;
-     if(InterviewsValueUrl==="future-interviews"){
+     if(InterviewsValueUrl==="upcoming-interviews"){
         response = await GetFutureInterviewService(id,token)
      }else if(InterviewsValueUrl==="past-interviews"){
         response = await GetPastInterviewService(id,token)  
+     }else{
+      response = await GetRecurringListService(token)
+    
      }
+
      if(response.length){
+      setTotalPages(Math.ceil(response?.length/itemsPerPage));
         setAllData(response);
         setfutureInterviews(response)
+   }else{
+    setStartIndex(0)
    }
     } catch (error) {
       toast({
@@ -87,9 +97,9 @@ if(searchName){
         position: "top",
         duration: 2000,
         isClosable: true,
-      });
+      })
     }
-  }, [id, token, toast,InterviewsValueUrl]);
+  }, [id, token,toast,InterviewsValueUrl]);
 
  
   useEffect(() => {
@@ -99,11 +109,16 @@ if(searchName){
   useEffect(()=>{
     const params = new URLSearchParams(location.search);
     const name = params.get("name");
+    const page = params.get("page")
     if(name){
-  setSearchName(name)
+      setSearchName(name)
     }
-  },[setSearchName,searchName,location.search])
-  
+    if(page){
+      setCurrentPage(page)
+    }
+   
+  },[setSearchName,currentPage, updateSearch,search,searchName,location.search])
+ 
    // for handling page buttn value
    const handlePageChange = (page: any) => {
     updateSearch({
@@ -111,6 +126,7 @@ if(searchName){
       page: page,
     });
   };
+
 
 
   return (
@@ -127,6 +143,7 @@ if(searchName){
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
+        <FormLabel>Search By Title</FormLabel>
         <SearchComponent value={searchName} search={search} updateSearch={updateSearch} />
 
         {PaginatedInterviewsData?.length <= 0 ? (
@@ -163,12 +180,12 @@ if(searchName){
           </Text>
           <Pagination
             currentPage={currentPage}
-            totalPages={3}
+              totalPages={totalPages}
             onChange={handlePageChange}
             setPage={setCurrentPage}
             interviewsData={futureInterviews}
             setPaginatedData={setPaginatedInterviewsData}
-            perPage={1}
+            perPage={itemsPerPage}
           />
         </Box>
       </Box>

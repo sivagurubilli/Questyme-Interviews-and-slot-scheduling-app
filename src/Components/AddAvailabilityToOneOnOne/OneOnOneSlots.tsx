@@ -19,38 +19,70 @@ import { DaysForRecurring, DaysForRecurringEvents } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const [days, setDays] = useState(DaysForRecurring);
-  const [availability,setAvailability] = useState(DaysForRecurringEvents)
   const state = useSelector((state: RootState) => state);
   const setData = state.SingleEventReducer;
-  const [recurringEventDetails,setRecurringEventDetails] = useState({
-    name:setData?.setData?.title,
-    meetingLink:setData?.setData?.meetingLink,
-    duration:setData?.setData?.duration,
-    instructions:setData?.setData?.instruction,
-    availability:availability
-
-  })
+  const [availability, setAvailability] = useState<{ 
+    name: string; 
+    isChecked: boolean; 
+    TimeSlot: { 
+      startTime: string; 
+      endTime: string; 
+    }[] 
+  }[]>([]);
+  const [recurringEventDetails, setRecurringEventDetails] = useState({
+    name: setData?.setData?.title,
+    meetingLink: setData?.setData?.meetingLink,
+    duration: setData?.setData?.duration,
+    category: setData?.setData?.category,
+    instructions: setData?.setData?.instruction,
+    availability: [] as {
+      name: string; 
+      isChecked: boolean; 
+      TimeSlot: { 
+        startTime: string; 
+        endTime: string; 
+      }[] 
+    }[]
+  });
   const toast = useToast();
   const id = useParams();
   const navigate = useNavigate();
-
-
+  
   useEffect(() => {
-    const transformedDays = days.map(day => ({
-      name: day.name,
-      isChecked: day.isChecked,
-      TimeSlot: day.inputs.map(input => ({
-        startTime: input.start,
-        endTime: input.end
-      }))
-    }));
-    setAvailability(transformedDays);
-    setRecurringEventDetails({...recurringEventDetails,availability:availability})
-  }, [days,recurringEventDetails,availability]);
-
-
+    const transformedDays = days.map(day => {
+      if (day.isChecked) {
+        return {
+          name: day.name,
+          isChecked: day.isChecked,
+          TimeSlot: day.inputs.map(input => ({
+            startTime: input.start,
+            endTime: input.end
+          }))
+        };
+      }
+      return undefined;
+    }).filter(day => day !== undefined) as {
+      name: string; 
+      isChecked: boolean; 
+      TimeSlot: { 
+        startTime: string; 
+        endTime: string; 
+      }[] 
+    }[];
+  
+    if (transformedDays.length > 0) {
+      setAvailability(transformedDays);
+      setRecurringEventDetails({
+        ...recurringEventDetails,
+        availability: transformedDays
+      });
+    }
+  }, [days]);
+  
 
   const AddSlots = async () => {
+    
+
     try {
       const response = await AddRecurringSlotsService(id, recurringEventDetails);
       if (response) {

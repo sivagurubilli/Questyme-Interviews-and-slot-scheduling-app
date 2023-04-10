@@ -10,7 +10,7 @@ const OneOnOneEventsNav = () => {
 const navigate = useNavigate()
 
   const GotoSlotsViewPage = () => {
-    navigate(`/slot/${1}`);
+    navigate(`/slots/view`);
   };
   const GotoCreateEvent = () => {
     navigate("/admin/one-on-one-interviews/create");

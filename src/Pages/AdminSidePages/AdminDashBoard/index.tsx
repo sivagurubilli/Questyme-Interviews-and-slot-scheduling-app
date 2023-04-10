@@ -1,8 +1,6 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
-
-
 import {
   Box,
   Flex,
@@ -20,8 +18,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const AdminDashBoard = () => {
 
-  const [totalIntervies, setTotalInterviews] = useState({
-    totalIntervies: "",
+  const [totalInterviews, setTotalInterviews] = useState({
+    totalInterviews: 0,
     results: [
       {
         meetingStatus: "",
@@ -39,7 +37,7 @@ const AdminDashBoard = () => {
 const navigate = useNavigate()
 const location = useLocation();
 const params = new URLSearchParams(location.search);
-const name = params.get("name");
+const name = params.get("batch");
 const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
 const id = userDetails?.user?.id;
 const token = userDetails?.token;
@@ -53,9 +51,9 @@ const toast = useToast();
 
   const GetEvents = useCallback(async () => {
     try {
-      const response = await CountByMeetingStatusService(id, token);
-      if (response.length) {
-        setTotalInterviews(response.data);
+      const response = await CountByMeetingStatusService(id, token); 
+      if (response.results) {
+        setTotalInterviews(response);
       }
     } catch (error) {
       toast({
@@ -94,17 +92,23 @@ const clearUrl =()=>{
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <Box w="60%" ml="20%">
-          <Flex justifyContent="space-between">
-            <Text>Total Interviews </Text> <Text>17</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Completed </Text> <Text>7</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Pending </Text> <Text>10</Text>
-          </Flex>
-        </Box>
+     <Box w="60%" ml="20%">
+  <Flex justifyContent="space-between">
+    <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
+  </Flex>
+  { totalInterviews?.results && totalInterviews?.results?.map((el:any) => (
+    el.meetingStatus === "E" ? (
+      <Flex justifyContent="space-between">
+        <Text>Interviews Completed </Text> <Text>{el.count}</Text>
+      </Flex>
+    ) : (
+      <Flex justifyContent="space-between">
+        <Text>Interviews Pending </Text> <Text>{el.count}</Text>
+      </Flex>
+    )
+  ))}
+</Box>
+
       </Box>
       {/* search by batch name component */}
       <SearchByBatch batchName={batchName} setBatchName={setBatchName} />

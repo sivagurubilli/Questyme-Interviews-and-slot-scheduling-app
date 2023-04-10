@@ -14,6 +14,7 @@ import {  IOneOnEventValues } from "../Interfacces";
 const OneonOneSlotsEdit = () => {
   const [isNameEdit, setNameEdit] = useState(false);
 
+  
   const dispatch = useDispatch();
   const { GetSingleData } = bindActionCreators(actionCreators, dispatch);
   const [EventValues, setEventValues] = useState<IOneOnEventValues>({
@@ -21,6 +22,7 @@ const OneonOneSlotsEdit = () => {
     instruction: "",
     meetingLink: "",
     adminId: "5",
+    category:"",
     duration: "",
   });
   const { id } = useParams();

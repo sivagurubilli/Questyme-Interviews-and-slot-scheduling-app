@@ -5,21 +5,27 @@ import { useState, useEffect } from "react";
 
 
 
-const SearchComponent = ({search,updateSearch,value}:any) => {
+const SearchComponent = ({search,updateSearch,value,name}:any) => {
   const [searchTerm, setSearchTerm] = useState("");
 
 useEffect(()=>{
 setSearchTerm(value)
 },[value])
 
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  
     setSearchTerm(event.target.value)
-    updateSearch({
-      ...search,
-    "name":event.target.value
-    });
+    if(name ==="batch"){
+      updateSearch({
+        ...search,
+      "batch":event.target.value
+      });
+    }else{
+      updateSearch({
+        ...search,
+      "name":event.target.value
+      });
+    }
+   
    
   };
 
@@ -32,7 +38,7 @@ setSearchTerm(value)
       pointerEvents='none'
       children={<SearchIcon color='gray.300' />}
     />
-    <Input type='tel' value={searchTerm} placeholder='Search' onChange={handleInputChange} />
+    <Input type='tel' value={searchTerm} placeholder="search" onChange={handleInputChange} />
   </InputGroup>
       </Box>
     </div>

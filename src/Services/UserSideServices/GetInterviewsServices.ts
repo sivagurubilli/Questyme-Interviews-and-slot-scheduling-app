@@ -21,12 +21,13 @@ export async function GetAllInterviewService(){
 // for getting future interviews service
 export async function GetFutureInterviewService(id:string,token:string,){
     try{
-        const response = await axios.get("/interviews",{
+        const response = await axios.get(`/api/interview/${id}/upcoming-interviews`,{
             
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }
         });
+        
         return response.data
     }catch(error:any){
         return error.response
@@ -36,7 +37,7 @@ export async function GetFutureInterviewService(id:string,token:string,){
 // for getting past interviews service
 export async function GetPastInterviewService(id:string,token:string){
     try{
-        const response = await axios.get("/interviews",{ 
+        const response = await axios.get(`/api/interview/${id}/past-interviews`,{ 
              headers: {
             Authorization: `Bearer ${token}`,
           }});
