@@ -34,13 +34,14 @@ import { Link } from "react-router-dom";
 import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
 import { FaRegClone} from "react-icons/fa";
 import Header from "../../Components/CommonComponents/Header";
-import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetInterviewsServices";
+import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetAllScheduledInterviewServices/GetInterviewsServices";
 import {convertTimeFormat} from "../../utils/index"
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { Dispatch } from "redux";
 import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
+import SearchComponent from "../../Components/SearchComponent";
 
 export interface interview{
   interviewId: number,
@@ -90,34 +91,14 @@ const UserDashboard = () => {
      <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-            <Box
-              display={"flex"}
-              w={"50%"}
-              h={"25px"}
-              textAlign={"center"}
-              pl={"10px"}
-            >
-              <SearchIcon h={"20px"} w={"20px"} mt={"10px"} color={"gray"} />
-              <Input
-                type="text"
-                placeholder="Filter..."
-                variant="unstyled"
-                border={"none"}
-                size={"md"}
-                outline={"none"}
-                mt={"10px"}
-                ml={"10px"}
-                fontSize={"18px"}
-              />
-              <CloseIcon h={"15px"} w={"15px"} mt={"10px"} color={"gray"} />
-            </Box>
+           <SearchComponent />
             <Box
               w={"100%"}
               h={"90%"}
               m={"auto"}
               borderTop={"1px solid gray"}
               pt={"20px"}
-              mt={"20px"}
+              mt={"5px"}
             >
               {/* grid layout of scheduled interview */}
               <Grid templateColumns={"repeat(3,1fr)"} gap={6}>
@@ -229,39 +210,7 @@ const UserDashboard = () => {
             </Box>
           </Box>
         </Box>
-        <Box w={"100%"} bg={"blue"}>
-          <Box
-            w={"75%"}
-            height={"70px"}
-            m={"auto"}
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
-            <Box display={"flex"}>
-              <InfoOutlineIcon
-                w={"25px"}
-                h={"25px"}
-                color={"white"}
-                fontWeight={"500"}
-              />
-              <Text
-                color={"white"}
-                fontSize={"20px"}
-                mt={"-2px"}
-                ml={"10px"}
-                fontWeight={"500"}
-              >
-                You Have Notifications
-              </Text>
-            </Box>
-            <Box>
-              <Button bg={"white"} color={"black"}>
-                View
-              </Button>
-            </Box>
-          </Box>
-        </Box>
+       
       </main>
     </div>
   );

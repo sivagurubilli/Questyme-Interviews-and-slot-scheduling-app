@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { Box, Button, Divider, Flex, FormLabel } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, FormLabel, useToast } from "@chakra-ui/react";
 import Navbar from '../../../../Components/Navbar/Navbar'
 import BulkEventNav from "./BulkEventNav";
 import { useDispatch } from "react-redux";
 import { createBulkInterview } from "../../../../Redux/ScheduleBulkInterviewAdmin/ActionCreators";
+import { useNavigate } from "react-router-dom";
 
 const CreateBulkEvent = () => {
   const [file, setFile] = useState('');
   const dispatch = useDispatch();
+  const toast=useToast();
+  const navigate=useNavigate();
 
   const handleOnchange = (e: any) => {
     const fileList = e.target.files;
@@ -20,7 +23,26 @@ const CreateBulkEvent = () => {
   const handleCreateSchedule = () => {
     const formData = new FormData();
     formData.append("file", file);
-    createBulkInterview(formData)(dispatch);
+    createBulkInterview(formData)(dispatch).then((res:any)=>{
+      if(res.status==201){
+        toast({
+            title: "Interview Schduled success",
+            status: "success",
+            position: "top",
+            duration: 2000,
+            isClosable: true,
+          });
+          navigate("/admin/dashboard");
+    }else{
+        toast({
+            title: "Something Went Wrong",
+            status: "error",
+            position: "top",
+            duration: 2000,
+            isClosable: true,
+          });
+    }
+    })
   }
 
   // Down load csv file

@@ -61,9 +61,7 @@ const OneonOneEventComponent = ({
           <Text color="#474747">{event.title}</Text>
           <Flex mt="10px" justifyContent="space-between">
             <Text color="#778087">{event.duration} Mins</Text>{" "}
-            <Text color="#778087" ml="20px">
-              {event.category}
-            </Text>
+           
           </Flex>
         </Box>
         <Divider mb="10px" />
