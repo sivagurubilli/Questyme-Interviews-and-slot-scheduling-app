@@ -24,7 +24,9 @@ import { convertTimeFormat } from "../../utils/index";
 import { Action } from "../../Redux/PastInterviewReducer/Action";
 import { Dispatch } from "redux";
 import { getAllPastInterviewService } from "../../Services/UserSideServices/GetAllPastInterviewServices/GetAllPastInterviewService";
-import SearchComponent from "../../Components/SearchComponent";
+
+
+
 const PastEvents = () => {
     const interviews = useSelector((state:RootState)=>state.PastInterViewReducer.interviews)
     const dispatch:Dispatch<Action> =useDispatch();
@@ -41,7 +43,7 @@ const PastEvents = () => {
       <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-            <SearchComponent />
+   
             <Box
               w={"100%"}
               h={"90%"}

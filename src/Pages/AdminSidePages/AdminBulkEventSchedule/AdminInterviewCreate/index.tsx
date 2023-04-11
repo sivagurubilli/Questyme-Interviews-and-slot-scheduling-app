@@ -169,7 +169,7 @@ export const CreateSingleInterview = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
-                                {errors.title && <p style={{ "color": "red" }}>{errors.title}</p>}
+                                {touched.title && errors.title && <p style={{ "color": "red" }}>{errors.title}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">Interviewer Email</FormLabel>
@@ -181,7 +181,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Interviewer e-mail address"
                                     value={values.interviewer}
                                 />
-                                {touched.interviewer && errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
+                                {touched.interviewer &&  errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -195,7 +195,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Interviewer e-mail address"
                                     value={values.interviewee}
                                 />
-                                {touched.interviewee && errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
+                                {touched.interviewee &&  errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -208,7 +208,7 @@ export const CreateSingleInterview = () => {
                                     type='time'
                                     value={values.start}
                                 />
-                                {touched.start && errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
+                                {touched.start &&  errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -221,7 +221,7 @@ export const CreateSingleInterview = () => {
                                     type='time'
                                     value={values.end}
                                 />
-                                {touched.end && errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
+                                {touched.end &&  errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -235,7 +235,7 @@ export const CreateSingleInterview = () => {
                                     min={`${year}-${month}-${date}`}
                                     value={values.date}
                                 />
-                                {touched.date && errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
+                                { touched.date && errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -253,7 +253,7 @@ export const CreateSingleInterview = () => {
                                         })
                                     }
                                 </Select>
-                                {touched.category && errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
+                                {touched.category &&  errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -266,7 +266,7 @@ export const CreateSingleInterview = () => {
                                     type='text'
                                     value={values.batch}
                                 />
-                                {touched.batch && errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
+                                {touched.batch &&  errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -279,7 +279,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Zoomlink "
                                     value={values.zoomlink}
                                 />
-                                {errors.zoomlink && <p style={{ "color": "red" }}>{errors.zoomlink}</p>}
+                                {touched.zoomlink && errors.zoomlink && <p style={{ "color": "red" }}>{errors.zoomlink}</p>}
                             </div>
                             <div className='instruction'>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -291,7 +291,7 @@ export const CreateSingleInterview = () => {
                                     onBlur={handleBlur}
                                     value={values.instruction}
                                 />
-                                {errors.instruction && <p style={{ "color": "red" }}>{errors.instruction}</p>}
+                                {touched.instruction && errors.instruction && <p style={{ "color": "red" }}>{errors.instruction}</p>}
                             </div>
                         </div>
                         <div className='submitButton'>

@@ -9,35 +9,17 @@ import {
 } from "@chakra-ui/react";
 import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
 import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
-import { CountByMeetingStatus } from "../../../Services/AdminSideServices/GetEventsService";
+import {  CountByMeetingStatusService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useSearch } from "../../../utils/SetParams";
 import { useLocation, useNavigate } from "react-router-dom";
-const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-const id = userDetails?.user?.id;
-const token = userDetails?.token;
 
 
 
 
 const AdminDashBoard = () => {
-  const [colorScheme,setColorScheme] = useState({
-    "pending":"blue",
-    "compleated":"blue"
-  })
-  const [search, updateSearch] = useSearch();
-  const [batchName,setBatchName] = useState<string | null>("")
-const navigate = useNavigate()
-const location = useLocation();
-const params = new URLSearchParams(location.search);
-const name = params.get("name");
 
-useEffect(()=>{
- setBatchName(name)
-},[name])
-
-
-  const [totalIntervies, setTotalInterviews] = useState({
-    totalIntervies: "",
+  const [totalInterviews, setTotalInterviews] = useState({
+    totalInterviews: 0,
     results: [
       {
         meetingStatus: "",
@@ -49,13 +31,29 @@ useEffect(()=>{
       },
     ],
   });
-  const toast = useToast();
+  const [search, updateSearch] = useSearch();
+ const [batchName,setBatchName] = useState<string | null>("")
+
+const navigate = useNavigate()
+const location = useLocation();
+const params = new URLSearchParams(location.search);
+const name = params.get("batch");
+const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+const id = userDetails?.user?.id;
+const token = userDetails?.token;
+const toast = useToast();
+
+
+  useEffect(()=>{
+    setBatchName(name)
+   },[name])
+   
 
   const GetEvents = useCallback(async () => {
     try {
-      const response = await CountByMeetingStatus(id, token);
-      if (response.length) {
-        setTotalInterviews(response.data);
+      const response = await CountByMeetingStatusService(id, token); 
+      if (response.results) {
+        setTotalInterviews(response);
       }
     } catch (error) {
       toast({
@@ -73,12 +71,11 @@ useEffect(()=>{
   }, [GetEvents]);
 
   
-  const Clear =()=>{
-    setColorScheme({pending:"blue",compleated:"blue"})
-    updateSearch({})
-    setBatchName("")
-    navigate("")
-  }
+const clearUrl =()=>{
+  navigate("")
+  setBatchName("")
+}
+ 
 
   return (
     <div className="container">
@@ -95,22 +92,31 @@ useEffect(()=>{
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <Box w="60%" ml="20%">
-          <Flex justifyContent="space-between">
-            <Text>Total Interviews </Text> <Text>17</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Completed </Text> <Text>7</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Pending </Text> <Text>10</Text>
-          </Flex>
-        </Box>
+     <Box w="60%" ml="20%">
+  <Flex justifyContent="space-between">
+    <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
+  </Flex>
+  { totalInterviews?.results && totalInterviews?.results?.map((el:any) => (
+    el.meetingStatus === "E" ? (
+      <Flex justifyContent="space-between">
+        <Text>Interviews Completed </Text> <Text>{el.count}</Text>
+      </Flex>
+    ) : (
+      <Flex justifyContent="space-between">
+        <Text>Interviews Pending </Text> <Text>{el.count}</Text>
+      </Flex>
+    )
+  ))}
+</Box>
+
       </Box>
       {/* search by batch name component */}
       <SearchByBatch batchName={batchName} setBatchName={setBatchName} />
       {/* search by batch name and  pendingstaus component */}
-      <SearchByPendingStauts   Clear={Clear} search={search} updateSearch={updateSearch} colorScheme={colorScheme} setColorScheme={setColorScheme} />
+      <SearchByPendingStauts 
+      clearUrl ={clearUrl}
+    search={search} updateSearch={updateSearch}
+       />    
     </div>
   );
 };

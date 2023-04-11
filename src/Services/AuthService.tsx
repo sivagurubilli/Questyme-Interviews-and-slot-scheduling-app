@@ -7,8 +7,10 @@ import { LoginData } from "../Pages/Login/LoginUser";
 
 export const loginService =(payload:LoginData)=>(dispatch:Dispatch<isLoginSuccess|isLoginFailure>):Promise<void | ActionTypes>=>{
 
- return axios.post("https://78b6-103-200-85-161.in.ngrok.io/auth/login",payload).then((res)=>{
-  console.log("res.data");
+
+ return axios.post("/auth/login",payload).then((res)=>{
+
+
   dispatch({type:ActionTypes.LOGIN_SUCCESS,payload:res.data})
   return ActionTypes.LOGIN_SUCCESS
  })

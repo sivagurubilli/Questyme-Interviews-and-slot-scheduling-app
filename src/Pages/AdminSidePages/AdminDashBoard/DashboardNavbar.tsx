@@ -59,7 +59,7 @@ const DashboardNavbar = () => {
                 _hover={{ cursor: "pointer" }}
                 mr={[0, 0, "30px"]}
                 mb={["10px", "10px", 0]}
-                fontSize={["sm", "sm", "md"]}
+                fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
                 px={["2", "2", "4"]}
                 py={["1", "1", "2"]}
                 onClick={() => navigate("/admin/single-interview/create")}
@@ -71,7 +71,7 @@ const DashboardNavbar = () => {
                 _hover={{ cursor: "pointer" }}
                 mr={[0, 0, "30px"]}
                 mb={["10px", "10px", 0]}
-                fontSize={["sm", "sm", "md"]}
+                fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
                 px={["2", "2", "4"]}
                 py={["1", "1", "2"]}
                 onClick={() => navigate("/admin/bulk-interview/create")}
@@ -83,7 +83,7 @@ const DashboardNavbar = () => {
                 _hover={{ cursor: "pointer" }}
                 mr={[0, 0, "30px"]}
                 mb={["10px", "10px", 0]}
-                fontSize={["sm", "sm", "md"]}
+                fontSize={{ base: "12px", sm: "16px",md: "16px", lg: "16px" }}
                 px={["2", "2", "4"]}
                 py={["1", "1", "2"]}
                 onClick={() => navigate("/admin/one-on-one-interviews")}
@@ -98,10 +98,10 @@ const DashboardNavbar = () => {
                   _hover={{ cursor: "pointer" }}
                   mr={[0, 0, "30px"]}
                   mb={["10px", "10px", 0]}
-                  fontSize={["sm", "sm", "md"]}
+                  fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
                   px={["2", "2", "4"]}
                   py={["1", "1", "2"]}
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/admin/dashboard")}
                 >
                   Back
                 </Button>

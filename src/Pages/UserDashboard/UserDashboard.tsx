@@ -41,7 +41,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { Dispatch } from "redux";
 import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
-import SearchComponent from "../../Components/SearchComponent";
+import SearchComponent from "../../Components/SearchComponents/SearchComponent";
 
 export interface interview{
   interviewId: number,

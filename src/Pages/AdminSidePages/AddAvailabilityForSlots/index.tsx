@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import OneOnOneSlots from "../../../Components/OneOnOneEdit/OneOnOneSlots";
+import OneOnOneSlots from "../../../Components/AddAvailabilityToOneOnOne/OneOnOneSlots";
 import { Box, Flex, FormLabel, Text } from '@chakra-ui/react';
 import OneOnOneCreateNav from '../AdminOneOnOneCreate/OneOnOneCreateNav';
 import Navbar from '../../../Components/Navbar/Navbar';
 
 const AddDaysAvailability= () => {
 
-    const [isSlotsEdit, setSlotsEdit] = useState(false);
+    const [isSlotsEditOpen, setSlotsEditOpen] = useState(false);
 
   return (
     
@@ -24,14 +24,14 @@ const AddDaysAvailability= () => {
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        {isSlotsEdit ? (
+        {isSlotsEditOpen ? (
           <OneOnOneSlots
-            isSlotsEdit={isSlotsEdit}
-            setSlotsEdit={setSlotsEdit}
+            isSlotsEdit={isSlotsEditOpen}
+            setSlotsEdit={setSlotsEditOpen}
           />
         ) : (
           <Box
-            onClick={() => setSlotsEdit(!isSlotsEdit)}
+            onClick={() => setSlotsEditOpen(!isSlotsEditOpen)}
             cursor="pointer"
             boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
             mt="5px"

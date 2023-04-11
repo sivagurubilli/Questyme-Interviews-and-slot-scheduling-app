@@ -5,6 +5,7 @@ import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css"
 import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
+import { DaysForRecurringEvents } from "../../Assets/Assets";
 
 interface ICalender {
   events: IEventValues[] | undefined;
@@ -15,27 +16,32 @@ interface ICalender {
 
 const Calendar = ({events,handleSelect,dates}:ICalender)  => {
 
+  const [days,setDays] = useState([])
 
 const dateList = dates.map((date)=>({
       title:"slots available",
       date,
       allDay:true
 }))
-const isMonday = (date: Date) => date.getDay() === 1; // 0=Sun, 1=Mon, etc.
 
-const dayCellContent = (arg:any) => {
-  if (isMonday(arg.date)) {
-    return (
-      <div style={{ backgroundColor: 'green',width:"100%", color: 'white' }}>
-        {arg.dayNumberText}
-        <br/>
-        available for this day
-      </div>
-    );
-  } else {
-    return <div>{arg.dayNumberText}</div>;
-  }
-}
+
+
+// const dayCellContent = (arg: any) => {
+//   const dayIndex = arg.date.getDay();
+//   const isDayChecked = days[dayIndex]?.isChecked;
+  
+//   if (isDayChecked) {
+//     return (
+//       <div style={{ backgroundColor: 'green', width: '100%', height: '100%', color: 'white' }}>
+//         {arg.dayNumberText}
+//         <br />
+//         Available for this day
+//       </div>
+//     );
+//   } else {
+//     return <div>{arg.dayNumberText}</div>;
+//   }
+// };
 
   return (
     <div>
@@ -51,7 +57,7 @@ const dayCellContent = (arg:any) => {
               center: "title",
               end: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            dayCellContent={dayCellContent}
+           // dayCellContent={dayCellContent}
           />
     </div>
   );

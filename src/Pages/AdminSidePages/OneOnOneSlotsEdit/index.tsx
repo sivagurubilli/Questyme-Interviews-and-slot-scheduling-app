@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../Redux/eventById";
 import { Box, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
-import OneOnOneEdit from "../../../Components/OneOnOneEdit/OneOnOneEdit";
+import OneOnOneEdit from "../../../Components/OneOneOneEdit/OneOnOneEdit";
 import { useParams } from "react-router-dom";
 import { GetSingleEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import {  IOneOnEventValues } from "../Interfacces";
@@ -14,6 +14,7 @@ import {  IOneOnEventValues } from "../Interfacces";
 const OneonOneSlotsEdit = () => {
   const [isNameEdit, setNameEdit] = useState(false);
 
+  
   const dispatch = useDispatch();
   const { GetSingleData } = bindActionCreators(actionCreators, dispatch);
   const [EventValues, setEventValues] = useState<IOneOnEventValues>({
@@ -21,6 +22,7 @@ const OneonOneSlotsEdit = () => {
     instruction: "",
     meetingLink: "",
     adminId: "5",
+    category:"",
     duration: "",
   });
   const { id } = useParams();
