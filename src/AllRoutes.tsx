@@ -19,6 +19,7 @@ import PastInterviews from './Pages/AdminSidePages/AdminPastInterviews';
 import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots';
 import FutureInterviews from './Pages/AdminSidePages/FutureInterviews';
 import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
+import AdminInterviewDetailPage from './Pages/AdminSidePages/AdminInterviewDetailPage';
 const AllRoutes = () => {
   return (
     <div>
@@ -44,6 +45,7 @@ const AllRoutes = () => {
             <Route path={"/dashboard/interview/:id"}  element={<InterviewDetails />} />
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
+            <Route path='/admin/dashboard/interview/:id' element={<AdminInterviewDetailPage />}/>
             <Route path='/dashboard/past-events' element={<RequireAuth><PastEvents /></RequireAuth>} />
             </Routes>
     </div>

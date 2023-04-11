@@ -3,18 +3,17 @@ import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
 
-export const createSingleInterview = (data: any) => {
+export const cancelSingleInterview = (interviewId: any) => {
     return (dispatch: Dispatch<Action>) => {
-        console.log("shivam");
         dispatch({
-            type: ActionTypes.CREATE_SINGLE_INTERVIEW_REQUEST,
+            type: ActionTypes.CANCEL_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
-        return axios.post<any>("http://35.178.167.63:8888/api/interview/create", data)
+        return axios.post<any>(`https://6786-202-142-81-182.in.ngrok.io/api/interview/${interviewId}/cancel`)
             .then((res) => {
                 console.log(res);
                 dispatch({
-                    type: ActionTypes.CREATE_SINGLE_INTERVIEW_SUCCESS,
+                    type: ActionTypes.CANCEL_SINGLE_INTERVIEW_SUCCESS,
                     payload: res.data
                 })
                 return res;
@@ -22,7 +21,7 @@ export const createSingleInterview = (data: any) => {
             .catch((err) => {
                 console.log(err);
                 dispatch({
-                    type: ActionTypes.CREATE_SINGLE_INTERVIEW_FAILURE,
+                    type: ActionTypes.CANCEL_SINGLE_INTERVIEW_FAILURE,
                     payload: true
                 })
             })
