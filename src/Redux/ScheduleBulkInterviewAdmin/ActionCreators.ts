@@ -3,7 +3,7 @@ import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
 
-export const createBulkInterview = (data: any) => {
+export const createBulkInterview = (data: any,token:string) => {
     return (dispatch: Dispatch<Action>) => {
         console.log("shivam");
         dispatch({
@@ -12,6 +12,7 @@ export const createBulkInterview = (data: any) => {
         })
         return axios.post<any>("http://35.178.167.63:8888/api/interview/csv/create", data, {
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
             },
         })

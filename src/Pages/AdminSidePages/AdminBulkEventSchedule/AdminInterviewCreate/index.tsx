@@ -1,13 +1,16 @@
 import Navbar from '../../../../Components/Navbar/Navbar'
-import React from 'react'
+import React, { useEffect } from 'react'
 import InterviewCreateNav from './InterviewCreateNav'
-import { Box, Button, FormErrorMessage, FormLabel, Grid, Input, Select, Textarea, useMediaQuery, useToast } from '@chakra-ui/react'
+import { Box, Button, FormLabel, Input, Select, Textarea, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import * as yup from "yup";
 import './index.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createSingleInterview } from '../../../../Redux/ScheduleInterviewAdmin/ActionCreators'
 import { useNavigate } from 'react-router-dom'
+import { getAllCategoryDataService } from '../../../../Services/UserSideServices/GetCategoryServices/GetCategoryService'
+import { RootState } from '../../../../Redux/store'
+
 
 const validationSchema = yup.object().shape({
     interviewer: yup
@@ -71,10 +74,16 @@ const initialValues: MyFormValues = {
 }
 
 export const CreateSingleInterview = () => {
-    const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
     const dispatch = useDispatch();
-    const toast=useToast();
-    const navigate=useNavigate();
+    const toast = useToast();
+    const navigate = useNavigate();
+    const token = useSelector((state: RootState) => state.AuthReducer.token)
+    const category = useSelector((state: RootState) => state.CategoryReducer.categories);
+    console.log(category);
+
+    useEffect(() => {
+        getAllCategoryDataService()(dispatch);
+    }, []);
 
     // -------------takinc current date and time for validation --------------
     let currDateTime = new Date();
@@ -95,7 +104,7 @@ export const CreateSingleInterview = () => {
         // Accessing the date to change the date formate
 
         const initialDate = values.date.split("-");
-        const [year,month,date]=initialDate;
+        const [year, month, date] = initialDate;
         const data = {
             "interviewerEmail": values.interviewer,
             "intervieweeEmail": values.interviewee,
@@ -109,24 +118,24 @@ export const CreateSingleInterview = () => {
             "batch": values.batch
         }
         console.log(data);
-        createSingleInterview(data)(dispatch).then((res:any)=>{
-            if(res.status==201){
+        createSingleInterview(data, token)(dispatch).then((res: any) => {
+            if (res.status == 201) {
                 toast({
                     title: "Interview Schduled success",
                     status: "success",
                     position: "top",
                     duration: 2000,
                     isClosable: true,
-                  });
-                  navigate("/admin/dashboard");
-            }else{
+                });
+                navigate("/admin/dashboard");
+            } else {
                 toast({
                     title: "Something Went Wrong",
                     status: "error",
                     position: "top",
                     duration: 2000,
                     isClosable: true,
-                  });
+                });
             }
         })
     };
@@ -172,7 +181,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Interviewer e-mail address"
                                     value={values.interviewer}
                                 />
-                                {errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
+                                {touched.interviewer && errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -186,7 +195,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Interviewer e-mail address"
                                     value={values.interviewee}
                                 />
-                                {errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
+                                {touched.interviewee && errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -199,7 +208,7 @@ export const CreateSingleInterview = () => {
                                     type='time'
                                     value={values.start}
                                 />
-                                {errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
+                                {touched.start && errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -212,7 +221,7 @@ export const CreateSingleInterview = () => {
                                     type='time'
                                     value={values.end}
                                 />
-                                {errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
+                                {touched.end && errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -226,7 +235,7 @@ export const CreateSingleInterview = () => {
                                     min={`${year}-${month}-${date}`}
                                     value={values.date}
                                 />
-                                {errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
+                                {touched.date && errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -235,15 +244,16 @@ export const CreateSingleInterview = () => {
                                 <Select
                                     name='category'
                                     onChange={handleChange}
-                                    onBlur={handleBlur}
                                     value={values.category}
                                 >
-                                    <option value={"category"}>Technical Round</option>
-                                    <option value={"category"}>DSA Round</option>
-                                    <option value={"category"}>Manegerial round</option>
-                                    <option value={"category"}>HR Round</option>
+                                    <option value="">Category</option>
+                                    {
+                                        category.map((e: string) => {
+                                            return <option value={e}>{e}</option>
+                                        })
+                                    }
                                 </Select>
-                                {errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
+                                {touched.category && errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -256,7 +266,7 @@ export const CreateSingleInterview = () => {
                                     type='text'
                                     value={values.batch}
                                 />
-                                {errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
+                                {touched.batch && errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
