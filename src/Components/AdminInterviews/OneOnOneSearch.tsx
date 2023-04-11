@@ -27,7 +27,7 @@ const OneOnOnOneSearch = ( ) => {
   const [allData,setAllData] = useState<Iinterviews[]>([]);
   const [PaginatedInterviewsData,setPaginatedInterviewsData] = useState<Iinterviews[]>([])
   const [searchName,setSearchName] = useState("")
-  const [batchName,setBatchName] = useState("")
+  const [category,setcategory] = useState("")
   const [search, updateSearch] = useSearch();
   const [currentPage, setCurrentPage] = useState<any >(1);
   const [startIndex, setStartIndex] = useState<number>(1);
@@ -65,20 +65,22 @@ const OneOnOnOneSearch = ( ) => {
 
   //function for filter data 
   useEffect(()=>{
-if(searchName || batchName){
+if(searchName || category){
   const interviews = allData.filter((el:any) => el.title.toLowerCase().includes(searchName.toLowerCase()) && 
-  el.batch.toLowerCase().includes(batchName.toLowerCase()));
+  el.category.toLowerCase().includes(category.toLowerCase()));
     setfutureInterviews(interviews)
     setTotalPages(Math.ceil(interviews?.length/itemsPerPage));
     if(interviews.length===0){
       setStartIndex(0)
     }
-  }else if(batchName==="" || searchName===""){
+  }else if(category==="" || searchName===""){
     setfutureInterviews(allData)
+    setTotalPages(Math.ceil(futureInterviews?.length/itemsPerPage));
   }
  
-},[allData,searchName,batchName])
+},[allData,searchName,futureInterviews,category])
   
+
 
 
 // get interviews data
@@ -126,16 +128,20 @@ if(searchName || batchName){
     if(name){
       setSearchName(name)
       setCurrentPage(1)
+    }else{
+        setSearchName("")
     }
     if(page){
       setCurrentPage(page)
     }
     if(category){
-      setBatchName(category)
+      setcategory(category)
       setCurrentPage(1)
+    }else{
+        setcategory("")
     }
    
-  },[setSearchName,currentPage, batchName,updateSearch,search,searchName,location.search])
+  },[setSearchName,currentPage, category,updateSearch,search,searchName,location.search])
  
 
    // for handling page buttn value
@@ -170,7 +176,7 @@ if(searchName || batchName){
         </Box>
         <Box w="50%">
         <FormLabel>Search By category</FormLabel>
-       <BatchSearch  value={batchName} search={search} updateSearch={updateSearch} name="category" />
+       <BatchSearch  value={category} search={search} updateSearch={updateSearch} name="category" />
        </Box>
        </Flex>
         {PaginatedInterviewsData?.length <= 0 ? (

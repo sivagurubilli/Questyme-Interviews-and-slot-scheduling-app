@@ -1,97 +1,49 @@
 import {
-  Box,
-  Button,
-  Grid,
-  GridItem,
-  Heading,
-  Input,
-  Text,
-  Flex,
-  Divider,
-  Stack,
-  Select,
-} from "@chakra-ui/react";
-import {
-  Portal,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  useDisclosure
-} from "@chakra-ui/react";
-import {
-  SearchIcon,
-  CloseIcon,
-  InfoOutlineIcon,
-  CopyIcon,
-  ChevronDownIcon,
-  ChevronUpIcon
-} from "@chakra-ui/icons";
-import { MdSettings } from "react-icons/md";
-import React, { useEffect, useState } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
-import { Link } from "react-router-dom";
-import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
-import { FaRegClone} from "react-icons/fa";
-import Header from "../../Components/CommonComponents/Header";
-import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetAllScheduledInterviewServices/GetInterviewsServices";
-import {convertTimeFormat} from "../../utils/index"
-
+    Box,
+    Button,
+    Grid,
+    GridItem,
+    Input,
+    Text,
+    Flex,
+    Divider,
+    Stack,
+  } from "@chakra-ui/react";
+  import {
+    SearchIcon,
+    CloseIcon,
+  } from "@chakra-ui/icons";
+  import { interview } from "../UserDashboard/UserDashboard";
+  import { Link } from "react-router-dom";
+import Header from '../../Components/CommonComponents/Header'
+import Navbar from '../../Components/Navbar/Navbar'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
+import { convertTimeFormat } from "../../utils/index";
+import { Action } from "../../Redux/PastInterviewReducer/Action";
 import { Dispatch } from "redux";
-import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
-import SearchComponent from "../../Components/SearchComponents/SearchComponent";
+import { getAllPastInterviewService } from "../../Services/UserSideServices/GetAllPastInterviewServices/GetAllPastInterviewService";
 
-export interface interview{
-  interviewId: number,
-        interviewerName: string,
-        intervieweeName: string,
-        startTime: string,
-        endTime: string,
-        date: string,
-        category: string,
-        instructions: string,
-        title: string,
-        meetingLink: string,
-        batch: string,
-        meetingStatus: string,
-        studentNote: string,
-        adminFeedback: string
-}
-const UserDashboard = () => {
-    const { onOpen, onClose, isOpen } = useDisclosure();
-    const interviews = useSelector((state:RootState)=>state.ScheduledInterviewReducer.interviews)
-    const [copyText,setCopyText] =useState("");
-    const dispatch:Dispatch<scheduledInterviewSuccess|scheduledInterviewLoading|scheduledInterviewFailure> = useDispatch();
+
+
+const PastEvents = () => {
+    const interviews = useSelector((state:RootState)=>state.PastInterViewReducer.interviews)
+    const dispatch:Dispatch<Action> =useDispatch();
 
     useEffect(()=>{
-   if(interviews?.length===0){
-    GetAllScheduledInterView()(dispatch)
-   }
-    },[dispatch,interviews?.length])
-    
-    async function copyContent(text:string) {
-      try {
-        await navigator.clipboard.writeText(text);
-        const res = navigator.clipboard.readText().then((response)=>{
-          setCopyText(response)
-        })
-        /* Resolved - text copied to clipboard successfully */
-      } catch (err) {
-        console.error('Failed to copy: ', err);
-        /* Rejected - text failed to copy to the clipboard */
-      }
-    }
+        getAllPastInterviewService()(dispatch)
+    },[])
 
-  return (
+    console.log("djkdhkd",interviews)
+    return (
     <div>
       <Navbar />
-     <Header title={"today's Bookings"} buttonName={"+ Book 1-1"}/>
-     <main>
+      <Header title={"Past Events"} buttonName ={"Back"} />
+      <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-           <SearchComponent />
+   
             <Box
               w={"100%"}
               h={"90%"}
@@ -166,30 +118,7 @@ const UserDashboard = () => {
                             w={"100%"}
                             p={"10px"}
                           >
-                            <Box>
-                              <Flex
-                                justifyContent={"space-between"}
-                                alignItems={"center"}
-                              >
-                                {copyText && copyText == item.meetingLink ? (
-                                  ""
-                                ) : (
-                                  <CopyIcon w={"20px"} h={"20px"} />
-                                )}
-                                {copyText && copyText == item.meetingLink ? (
-                                  <Text>Copied !</Text>
-                                ) : (
-                                  <Text
-                                    ml={"10px"}
-                                    onClick={() =>
-                                      copyContent(item.meetingLink)
-                                    }
-                                  >
-                                    Copy Link
-                                  </Text>
-                                )}
-                              </Flex>
-                            </Box>
+                            
                             <Box>
                               <Link to={`/dashboard/interview/${item.interviewId}`}>
                                 <Button
@@ -212,8 +141,8 @@ const UserDashboard = () => {
         </Box>
        
       </main>
-    </div>
-  );
-};
+     </div>
+  )
+}
 
-export default UserDashboard;
+export default PastEvents

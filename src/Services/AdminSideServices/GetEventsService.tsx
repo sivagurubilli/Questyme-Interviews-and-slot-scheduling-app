@@ -242,7 +242,7 @@ export async function CountByBatchStatusService(batchName:any) {
  export async function GetByPendingStatusService(batchName:string|null,meeting:string,token:string) {
   try {
     const response = await axios.get(
-    `api/interview/filter?batch=${batchName}&meetingStatus=${meeting}`,
+    `/api/interview/filter?batch=${batchName}&meetingStatus=${meeting}`,
     {
     headers: {
       Authorization: `Bearer ${token}`,

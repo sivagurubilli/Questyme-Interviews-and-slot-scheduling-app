@@ -2,8 +2,6 @@ import { Dispatch } from "redux";
 import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
-import { Alert, useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 export const createSingleInterview = (data: any) => {
     return (dispatch: Dispatch<Action>) => {
@@ -12,7 +10,9 @@ export const createSingleInterview = (data: any) => {
             type: ActionTypes.CREATE_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
+
         return axios.post<any>("/api/interview/create", data)
+
             .then((res) => {
                 
                 dispatch({

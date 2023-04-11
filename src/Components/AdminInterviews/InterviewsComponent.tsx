@@ -80,7 +80,7 @@ const navigate = useNavigate()
          <Text color="blue" >{event.meetingStatus==="C"? "Compleated":"Pending"}</Text></Flex>
         </Box>
 
-        <Divider mb="10px" />
+        <Divider mb="10px" mt="10px" />
 
         <Flex justifyContent="space-between" p="10px">
           {isCopied ? (

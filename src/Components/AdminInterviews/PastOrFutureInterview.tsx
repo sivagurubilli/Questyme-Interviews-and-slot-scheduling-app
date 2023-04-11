@@ -75,11 +75,12 @@ if(searchName || batchName){
     }
   }else if(batchName==="" || searchName===""){
     setfutureInterviews(allData)
+    setTotalPages(Math.ceil(futureInterviews?.length/itemsPerPage));
   }
  
-},[allData,searchName,batchName])
+},[allData,searchName,batchName,futureInterviews])
   
-
+console.log(batchName,searchName,futureInterviews)
 
 // get interviews data
   const GetEvents = useCallback(async () => {
@@ -126,6 +127,8 @@ if(searchName || batchName){
     if(name){
       setSearchName(name)
       setCurrentPage(1)
+    }else{
+      setSearchName("")
     }
     if(page){
       setCurrentPage(page)
@@ -133,6 +136,8 @@ if(searchName || batchName){
     if(batch){
       setBatchName(batch)
       setCurrentPage(1)
+    }else{
+      setBatchName("")
     }
    
   },[setSearchName,currentPage, batchName,updateSearch,search,searchName,location.search])
