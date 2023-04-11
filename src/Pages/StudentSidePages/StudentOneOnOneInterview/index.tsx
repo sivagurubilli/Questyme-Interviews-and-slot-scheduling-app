@@ -30,16 +30,13 @@ const StudentBooking = () => {
   
   const userDetails = localStorage.getItem("userDetails");
 const userDetails2:any = userDetails ? JSON.parse(userDetails) : null;
-console.log("userDetails",userDetails2)
 const userId = userDetails2.user.id;
-console.log("userId",userId)
   useEffect(() => {
     async function fetchSlotsDays(id: any) {
       try {
         setLoading2(true);
         const response = await getSlotDays(id);
         setLoading2(false);
-
         if (response.length) {
           const events = response.map((date: string) => {
             return {
@@ -115,12 +112,7 @@ console.log("userId",userId)
       arg.date.getTime() - arg.date.getTimezoneOffset() * 60 * 1000
     );
     const clickedDateStr = clickedDate.toISOString().substr(0, 10);
-    if (clickedDate < today) {
-      return;
-    } else {
-      console.log("clickedDateStr",clickedDateStr)
       fetchSlot(clickedDateStr);
-    }
   };
 
   console.log(isName[0])
