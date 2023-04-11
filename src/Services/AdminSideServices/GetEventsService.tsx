@@ -13,15 +13,16 @@ export async function GetAllEventsService() {
 
 //post Event service
 export async function PostEventsService(data: any) {
-  const { title, instruction, meetingLink, adminId, duration } = data;
+  const { title, instruction, meetingLink,  duration } = data;
 
   try {
-    const response = await axios.post("/one-on-one-events", {
+    const response = await axios.post("/recurring/createRecMeet", {
       title,
       instruction,
-      adminId,
+      "adminId":41,
       meetingLink,
       duration,
+      "category":"GENERAL"
     });
     return response.data;
   } catch (error: any) {

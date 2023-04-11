@@ -1,7 +1,8 @@
 
-import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Popover, PopoverBody, PopoverContent, PopoverTrigger, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Iinterviews } from "../../Services/AdminSideServices/GetEventsInterface";
+import { useNavigate } from "react-router-dom";
 
 interface ProfilecomponentProps {
   event: Iinterviews;
@@ -15,7 +16,7 @@ const AdminInterviewBox = ({
 
   const [isCopied, setCopied] = useState(false);
   const [uniquelink, setuniqueLink] = useState<string | null>("");
-
+const navigate = useNavigate()
   useEffect(() => {
     setuniqueLink(event.meetingLink);
   }, [event.meetingLink]);
@@ -32,13 +33,40 @@ const AdminInterviewBox = ({
       <Box
         w="100%"
         h="auto"
+        p="10px"
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         border="1px solid grey"
         borderRadius="10px"
       >
-       
+       <Box>
+       <Popover>
+      <PopoverTrigger>
+      <Flex cursor="pointer" pt="10px" pl="20px" pr="20px" justifyContent="flex-end">
+        
+            <i className="fa-solid fa-gear" style={{ color: "#778087" }}></i>{" "}
+            <i
+              style={{ marginLeft: "10px", color: "#778087" }}
+              className="fa-solid fa-caret-down"
+            ></i>{" "}
+          </Flex>
+      </PopoverTrigger>
+      <PopoverContent mt="10px">
+        <PopoverBody>
+        <Box cursor="pointer" onClick={()=>navigate(`/admin/inteviews/${event.interviewId}/edit`)}>
+          <Text color="black" fontSize="18px">
+            Event Edit
+          </Text>
+          
+        </Box>
+        <Divider mt="5px" />
     
-        <Box p="20px">
+    
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  
+        
+        
           <Text color="#474747">{event.title}</Text>
           <Flex mt="10px" justifyContent="space-between">
             <Text color="#778087">{event.startTime} </Text>{" "}
@@ -83,7 +111,7 @@ const AdminInterviewBox = ({
 
           <Button variant="link" color="blue">View Details</Button>
         </Flex>
-      </Box>
+        </Box>
     </div>
   );
 };

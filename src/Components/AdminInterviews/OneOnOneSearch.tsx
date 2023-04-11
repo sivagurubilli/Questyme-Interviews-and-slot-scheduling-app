@@ -22,7 +22,7 @@ import { GetRecurringListService } from "../../Services/AdminSideServices/GetEve
 import ErrorToast from "../../utils/ErrorToast";
 import BatchSearch from "../SearchComponents/BatchSearch";
 
-const FutureOrPastInterviewsComponent = ( ) => {
+const OneOnOnOneSearch = ( ) => {
   const [futureInterviews, setfutureInterviews] = useState<Iinterviews[]>([]);
   const [allData,setAllData] = useState<Iinterviews[]>([]);
   const [PaginatedInterviewsData,setPaginatedInterviewsData] = useState<Iinterviews[]>([])
@@ -122,7 +122,7 @@ if(searchName || batchName){
     const params = new URLSearchParams(location.search);
     const name = params.get("name");
     const page = params.get("page")
-    const batch =params.get("batch")
+    const category=params.get("category")
     if(name){
       setSearchName(name)
       setCurrentPage(1)
@@ -130,8 +130,8 @@ if(searchName || batchName){
     if(page){
       setCurrentPage(page)
     }
-    if(batch){
-      setBatchName(batch)
+    if(category){
+      setBatchName(category)
       setCurrentPage(1)
     }
    
@@ -169,8 +169,8 @@ if(searchName || batchName){
         <SearchComponent value={searchName} search={search} updateSearch={updateSearch} name="name"/>
         </Box>
         <Box w="50%">
-        <FormLabel>Search By BatchName</FormLabel>
-       <BatchSearch  value={batchName} search={search} updateSearch={updateSearch} name="batch" />
+        <FormLabel>Search By category</FormLabel>
+       <BatchSearch  value={batchName} search={search} updateSearch={updateSearch} name="category" />
        </Box>
        </Flex>
         {PaginatedInterviewsData?.length <= 0 ? (
@@ -220,4 +220,4 @@ if(searchName || batchName){
   );
 };
 
-export default FutureOrPastInterviewsComponent;
+export default OneOnOnOneSearch;

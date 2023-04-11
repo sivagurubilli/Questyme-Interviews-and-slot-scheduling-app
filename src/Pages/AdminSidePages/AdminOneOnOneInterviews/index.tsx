@@ -1,7 +1,7 @@
 import React from 'react'
-import FutureOrPastInterviewsComponent from '../../../Components/AdminInterviews/PastOrFutureInterview';
 import Navbar from "../../../Components/Navbar/Navbar" ;
 import OneOnOneEventsNav from './OneOnOneEventsNav';
+import OneOnOnOneSearch from '../../../Components/AdminInterviews/OneOnOneSearch';
 
 
 const OneonOneEvents= () => {
@@ -14,7 +14,7 @@ const OneonOneEvents= () => {
     <div>
         <Navbar />
   <OneOnOneEventsNav />
-      {InterviewsValue ==="one-on-one-interviews" ? <FutureOrPastInterviewsComponent />:""}
+      {InterviewsValue ==="one-on-one-interviews" ? <OneOnOnOneSearch />:""}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Box, Button, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
 
 import { useSearch } from "../../utils/SetParams";
-import SearchComponent from "../SearchComponent";
+import SearchComponent from "../SearchComponents/SearchComponent";
 import { CountByBatchStatusService } from "../../Services/AdminSideServices/GetEventsService";
 
 const SearchByBatch = ({ batchName, setBatchName }: any) => {
