@@ -15,6 +15,7 @@ import {reducer as AdminListByCategoryReducer} from "./AdminListByCategoryReduce
 import {reducer as PastInterViewReducer} from "./PastInterviewReducer/Reducer"
 import {reducer as CancelInterviewReducer} from "./CancelInterviewReducer/Reducer"
 import {reducer as SingleInterviewReducer} from "./InterviewByIdReducer/Reducer"
+import {reducer as UpdateSingleInterviewReducer} from "./UpdateSingleInterviewReducer/Reducer"
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -31,7 +32,8 @@ const rootreducer = combineReducers({
   AdminListByCategoryReducer,
   PastInterViewReducer,
   SingleInterviewReducer,
-  CancelInterviewReducer
+  CancelInterviewReducer,
+  UpdateSingleInterviewReducer
 });
 export const store = legacy_createStore(
   rootreducer,
