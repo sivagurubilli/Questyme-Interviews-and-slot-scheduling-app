@@ -19,14 +19,15 @@ export async function GetAllInterviewService(){
 }
 
 // for getting future interviews service
-export async function GetFutureInterviewService(id:string,token:string){
+export async function GetFutureInterviewService(id:string,token:string,){
     try{
-        const response = await axios.get(`https://18dd-202-142-81-195.in.ngrok.io/${id}/upcoming-interviews`,{
+        const response = await axios.get(`/api/interview/${id}/upcoming-interviews`,{
             
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }
         });
+        
         return response.data
     }catch(error:any){
         return error.response
@@ -36,7 +37,7 @@ export async function GetFutureInterviewService(id:string,token:string){
 // for getting past interviews service
 export async function GetPastInterviewService(id:string,token:string){
     try{
-        const response = await axios.get(`https://18dd-202-142-81-195.in.ngrok.io/${id}/past-interviews`,{ 
+        const response = await axios.get(`/api/interview/${id}/past-interviews`,{ 
              headers: {
             Authorization: `Bearer ${token}`,
           }});

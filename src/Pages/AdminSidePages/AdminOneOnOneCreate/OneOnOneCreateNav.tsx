@@ -28,7 +28,7 @@ const OneOnOneCreateNav = ({NavText}:any) => {
             <Button
               borderRadius="15px"
               colorScheme="blue"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/admin/one-on-one-interviews")}
             >
               Back
             </Button>

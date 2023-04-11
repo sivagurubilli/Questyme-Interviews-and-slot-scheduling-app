@@ -9,11 +9,13 @@ import {
   Text,
   Textarea,
   useMediaQuery,
+  useToast,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Duration } from "../Assets/Assets";
+import { GetCategoryService } from "../Services/AdminSideServices/GetEventsService";
 
 //yup validation schema
 const validationSchema = yup.object().shape({
@@ -34,6 +36,36 @@ const OneOnOneEventsCreateInput = ({
 }: any) => {
   //setting initial values for formik and yup
 
+const [category,setCategory] = useState([])
+const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+const id = userDetails?.user?.id;
+const token = userDetails?.token;
+const toast = useToast()
+
+const GetCategory =useCallback(async()=>{
+  try {
+    const response = await GetCategoryService( token); 
+   
+    if (response.length) {
+      setCategory(response);
+    }
+  } catch (error) {
+    toast({
+      title: "Something Went Wrong",
+      status: "error",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
+  }
+}, [toast,token]);
+
+
+
+
+   useEffect(()=>{
+  GetCategory()
+   },[GetCategory])
 
   const initialValues = {
     title: EventValues.title,
@@ -41,7 +73,6 @@ const OneOnOneEventsCreateInput = ({
     meetingLink: EventValues.meetingLink,
     duration: EventValues.duration,
     category: EventValues.category,
-    date: EventValues.date,
     adminId: EventValues.adminId,
     startTime: EventValues.startTime,
     endTime: EventValues.endTime,
@@ -136,7 +167,28 @@ const OneOnOneEventsCreateInput = ({
               </Text>
             )}
           </Box>
-         
+          <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+             Category
+            </FormLabel>
+            <Select
+              value={values.category}
+              onChange={handleChange}
+              name="category"
+              placeholder="category"
+            >
+              {category?.map((e)=>(
+              <option key={e} value={e}>
+                {e} 
+              </option>))}
+              
+            </Select>
+            {touched.category && errors.category && (
+              <Text color="red">
+                {JSON.stringify(errors.category).replace(/"/g, "")}
+              </Text>
+            )}
+          </Box>
          
           <Box>
             <FormLabel mt="10px" color="rgb(75 85 99)">
