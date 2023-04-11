@@ -16,6 +16,7 @@ const AdminInterviewBox = ({
 
   const [isCopied, setCopied] = useState(false);
   const [uniquelink, setuniqueLink] = useState<string | null>("");
+  console.log(event,"event")
 const navigate = useNavigate()
   useEffect(() => {
     setuniqueLink(event.meetingLink);
@@ -27,6 +28,11 @@ const navigate = useNavigate()
       navigator.clipboard.writeText(uniquelink);
     }
   };
+
+  // for viewing detail page
+  const viewDetailPage=()=>{
+    navigate(`/admin/dashboard/interview/${event.interviewId}`)
+  }
 
   return (
     <div>
@@ -109,7 +115,7 @@ const navigate = useNavigate()
             </Flex>
           )}
 
-          <Button variant="link" color="blue">View Details</Button>
+          <Button variant="link" color="blue" onClick={viewDetailPage}>View Details</Button>
         </Flex>
         </Box>
     </div>

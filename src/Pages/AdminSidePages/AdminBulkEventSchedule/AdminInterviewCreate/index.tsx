@@ -77,7 +77,7 @@ export const CreateSingleInterview = () => {
     const dispatch = useDispatch();
     const toast = useToast();
     const navigate = useNavigate();
-    const token = useSelector((state: RootState) => state.AuthReducer.token)
+    const token = useSelector((state: RootState) => state.AuthReducer.token);
     const category = useSelector((state: RootState) => state.CategoryReducer.categories);
     console.log(category);
 
