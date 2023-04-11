@@ -25,8 +25,8 @@ const StudentBooking = () => {
   const [loading2, setLoading2] = useState(false);
   const height = useBreakpointValue({ base: "auto", sm: "800px", md: "500px" });
   const [bookSlot, setBookSlot] = useState<any>();
-  const [title,setTitle]=useState<any>()
-  const [instruction,setInstruction]=useState<any>()
+  const [title,setTitle]=useState<string>()
+  const [instruction,setInstruction]=useState<string>()
   
   const userDetails = localStorage.getItem("userDetails");
 const userDetails2:any = userDetails ? JSON.parse(userDetails) : null;
