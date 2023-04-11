@@ -18,12 +18,15 @@ const GotoOneOffMeet = () => {
     slotTime:[{startTime: "",
     endTime: ""}]
   });
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+const id = userDetails?.user?.id;
+const token = userDetails?.token;
   const navigate = useNavigate();
   const toast = useToast();
 
   const addEvent = async () => {
     try {
-      const response = await PostOneOffService(EventValues);
+      const response = await PostOneOffService(EventValues,token,id);
       if (response) {
         toast({
           title: "Event created",
@@ -34,8 +37,8 @@ const GotoOneOffMeet = () => {
           isClosable: true,
         });
         setTimeout(() => {
-          navigate(`/admin/one-on-one-interviews`);
-        }, 2000);
+          navigate(`/admin/slots/view`);
+        }, 1000);
       }
     } catch (error) {
       toast({
@@ -53,15 +56,13 @@ const GotoOneOffMeet = () => {
       <Navbar/>
       <Box boxShadow="0 5px 15px rgba(0,0,0,0.06)" h="60px" w="100%" bg="white">
         <Flex justifyContent="space-around">
+        <Button colorScheme="blue" mt="10px" onClick={() => navigate(-1)}>
+            Back
+          </Button>
           <Text fontSize="20px" mt="10px">
             New One-Off Meeting
           </Text>{" "}
-             <Flex>
-          <Button colorScheme="blue" mt="10px" onClick={() => navigate(-1)}>
-            Back
-          </Button>
-          
-            </Flex>
+            
         </Flex>
       </Box>
 

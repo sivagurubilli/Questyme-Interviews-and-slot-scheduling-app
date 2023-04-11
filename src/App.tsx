@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AllRoutes from "./AllRoutes"
 import React from 'react';
-axios.defaults.baseURL ="http://localhost:3001"
+axios.defaults.baseURL ="http://35.178.167.63:8888/"
 
 
 function App(){

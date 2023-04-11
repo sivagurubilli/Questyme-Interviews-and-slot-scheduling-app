@@ -1,14 +1,14 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useState } from "react";
 import OneOnOneCreateNav from "./OneOnOneCreateNav";
-import { Box, Divider,  FormLabel,  useToast } from "@chakra-ui/react";
+import { Box, Divider,  FormLabel, useToast } from "@chakra-ui/react";
 import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
-import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../Redux/eventById";
 import { IOneOnEventValues } from "../Interfacces";
+import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 
 
 const OneonOneEventsCreate = () => {
@@ -17,33 +17,28 @@ const OneonOneEventsCreate = () => {
     instruction: "",
     meetingLink: "",
     adminId: "5",
+    category:"",
     duration: "",
   });
 
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
-  const toast = useToast();
-
+const toast = useToast()
   const addEvent = async () => {
-    try {
-      SetOneOnOneData(EventValues)
-      const response = await PostEventsService(EventValues);
-      setTimeout(() => {
-        navigate(`/admin/add-avialability`);
-      }, 2000);
-      if (response) {
-        toast({
-          title: "Event created",
-          description: "Your event has been created successfully!",
-          status: "success",
-          position: "top",
-          duration: 2000,
-          isClosable: true,
-        });
-       
-      }
-    } catch (error) {
+    try{
+     const response =await  PostEventsService(EventValues)
+if(response){
+     toast({
+      title: "Event created",
+      description: "Your event has been created successfully!",
+      status: "success",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
+  }
+    }catch(err){
       toast({
         title: "Something Went Wrong",
         status: "error",
@@ -52,6 +47,10 @@ const OneonOneEventsCreate = () => {
         isClosable: true,
       });
     }
+    SetOneOnOneData(EventValues)
+    setTimeout(() => {
+      navigate(`/admin/add-avialability`);
+    }, 1000);
   };
 
   return (

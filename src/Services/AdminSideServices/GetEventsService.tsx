@@ -13,15 +13,16 @@ export async function GetAllEventsService() {
 
 //post Event service
 export async function PostEventsService(data: any) {
-  const { title, instruction, meetingLink, adminId, duration } = data;
+  const { title, instruction, meetingLink,  duration } = data;
 
   try {
-    const response = await axios.post("/one-on-one-events", {
+    const response = await axios.post("/recurring/createRecMeet", {
       title,
       instruction,
-      adminId,
+      "adminId":41,
       meetingLink,
       duration,
+      "category":"GENERAL"
     });
     return response.data;
   } catch (error: any) {
@@ -30,20 +31,23 @@ export async function PostEventsService(data: any) {
 }
 
 //post Event service
-export async function PostOneOffService(data: any) {
-  const { title, instruction, meetingLink, date, slotTime, duration, adminId } =
+export async function PostOneOffService(data: any,token:string,id:string) {
+  const { title, instruction, meetingLink, date, slotTime, duration } =
     data;
 
   try {
-    const response = await fetch(
-      "https://b952-27-116-40-42.in.ngrok.io/slot/create-slots",{
-      method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(data)
-}
-    );
+    const response = await axios.post(
+      "/slot/create-slots",
+      { title, instruction, meetingLink, date, slotTime, duration
+,"adminId":id
+}, 
+      {
+    
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      
+        });
     console.log(response);
     return response;
   } catch (error: any) {
@@ -55,9 +59,9 @@ export async function PostOneOffService(data: any) {
 export async function GetDateOneOffService(id: any) {
   try {
     const response = await axios.get(
-      `https://ffd2-27-116-40-219.in.ngrok.io/slot/get-slot-dates/${id}`
+      `/slot/get-slot-dates/${id}`
     );
-    console.log(response.data);
+    
     return response.data;
   } catch (error: any) {
     return error.response;
@@ -120,7 +124,7 @@ export async function AddStudentService(data: IAddStdents, token: string) {
   const { name, email, password, batch } = data;
   try {
     const response = await axios.post(
-      "https://18dd-202-142-81-195.in.ngrok.io/auth/users/add/student",
+      "/auth/users/add/student",
       {
         name,
         email,
@@ -160,14 +164,35 @@ export async function AddBulkStudentService(data: any, token: string) {
 }
 
 //service for getting slots for particular date
-export async function GetSlotsService(date: string) {
+export async function GetSlotsForDateService(id:string,date: string,token:string) {
+  try {
+    const response = await axios.get(
+      `/slot/get-all-slot/${id}/${date}`,
+     
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+
+
+    return error.response;
+  }
+}
+
+
+//service for deleting slots 
+export async function DeleteSlotsService(id:string,token:string) {
   try {
     const response = await axios.post(
-      "https://e617-2405-201-9009-9180-c96a-473e-c9a9-e6db.in.ngrok.io/auth/users/bulk-createbyCSV",
-      date,
+      `/slot/deleteslot/${id}`,
+     
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -179,15 +204,16 @@ export async function GetSlotsService(date: string) {
   }
 }
 
-export async function CountByMeetingStatus(id: string, token: string) {
+// get data abot how many interviews compleated and how many pending
+export async function CountByMeetingStatusService(id: string, token: string) {
   try {
     const response = await axios.get(
-      "https://6786-202-142-81-182.in.ngrok.io/count-by-meeting-status",
+      "/api/interview/count-by-meeting-status",
       {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      headers: {
+        Authorization: `Bearer ${token}`,
       }
+    },
     );
 
     return response.data;
@@ -197,13 +223,63 @@ export async function CountByMeetingStatus(id: string, token: string) {
 }
 
 
-
-export async function CountByBatchStatus(url:any) {
+ // getting data about particular batch
+export async function CountByBatchStatusService(batchName:any) {
   try {
     const response = await axios.get(
-    `/${url}`,
+    `/api/interview/count-by-meeting-status-by-batch?batch=${batchName}`,
       
     );
+
+    return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+
+ // getting data about particular batch
+ export async function GetByPendingStatusService(batchName:string|null,meeting:string,token:string) {
+  try {
+    const response = await axios.get(
+    `/api/interview/filter?batch=${batchName}&meetingStatus=${meeting}`,
+    {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+    return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+ // getting category details
+ export async function GetCategoryService(token:string) {
+  try {
+    const response = await axios.get(
+      "/api/category",{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+    return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+
+ // getting category details
+ export async function GetRecurringListService(token:string) {
+  try {
+    const response = await axios.get(
+      "/recurring/getList",{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+  console.log(response)
     return response.data;
   } catch (error: any) {
     return error.response;
