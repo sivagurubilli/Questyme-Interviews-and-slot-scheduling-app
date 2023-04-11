@@ -15,7 +15,7 @@ import { LoginUser } from './Pages/Login/LoginUser'
 import AdminDashBoard from './Pages/AdminSidePages/AdminDashBoard'
 import AddStudents from './Pages/AdminSidePages/AddStudents'
 import PastEvents from './Pages/PastEvents/PastEvents';
-import PastInterviews from './Pages/AdminSidePages/AdminPastInterviews';
+import PastInterviews from './Pages/AdminSidePages/AdminPastInterviews/index';
 import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots';
 import FutureInterviews from './Pages/AdminSidePages/FutureInterviews';
 import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';

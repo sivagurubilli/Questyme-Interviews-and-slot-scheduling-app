@@ -1,23 +1,20 @@
 import {
-    Box,
-    Button,
-    Grid,
-    GridItem,
-    Input,
-    Text,
-    Flex,
-    Divider,
-    Stack,
-  } from "@chakra-ui/react";
-  import {
-    SearchIcon,
-    CloseIcon,
-  } from "@chakra-ui/icons";
-  import { interview } from "../UserDashboard/UserDashboard";
-  import { Link } from "react-router-dom";
-import Header from '../../Components/CommonComponents/Header'
-import Navbar from '../../Components/Navbar/Navbar'
-import React, { useEffect } from 'react'
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Input,
+  Text,
+  Flex,
+  Divider,
+  Stack,
+} from "@chakra-ui/react";
+import { SearchIcon, CloseIcon } from "@chakra-ui/icons";
+import { interview } from "../UserDashboard/UserDashboard";
+import { Link } from "react-router-dom";
+import Header from "../../Components/CommonComponents/Header";
+import Navbar from "../../Components/Navbar/Navbar";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { convertTimeFormat } from "../../utils/index";
@@ -26,18 +23,26 @@ import { Dispatch } from "redux";
 import { getAllPastInterviewService } from "../../Services/UserSideServices/GetAllPastInterviewServices/GetAllPastInterviewService";
 import SearchComponent from "../../Components/SearchComponent";
 const PastEvents = () => {
-    const interviews = useSelector((state:RootState)=>state.PastInterViewReducer.interviews)
-    const dispatch:Dispatch<Action> =useDispatch();
+  const interviews = useSelector(
+    (state: RootState) => state.PastInterViewReducer.interviews
+  );
+  const dispatch: Dispatch<Action> = useDispatch();
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+  const userId: number = userDetails?.user?.id;
 
-    useEffect(()=>{
-        getAllPastInterviewService()(dispatch)
-    },[])
+  const token:string = userDetails.token;
 
-    console.log("djkdhkd",interviews)
-    return (
+  useEffect(() => {
+    if(userId && interviews?.length ===0){
+      getAllPastInterviewService(userId,token)(dispatch);
+    }
+  }, [dispatch]);
+
+  console.log("djkdhkd", interviews);
+  return (
     <div>
       <Navbar />
-      <Header title={"Past Events"} buttonName ={"Back"} />
+      <Header title={"Past Events"} buttonName={"Back"} />
       <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
@@ -116,9 +121,13 @@ const PastEvents = () => {
                             w={"100%"}
                             p={"10px"}
                           >
-                            
+                             <Box>
+                             
+                             </Box>
                             <Box>
-                              <Link to={`/dashboard/interview/${item.interviewId}`}>
+                              <Link
+                                to={`/dashboard/interview/${item.interviewId}`}
+                              >
                                 <Button
                                   variant={"link"}
                                   float={"right"}
@@ -137,10 +146,9 @@ const PastEvents = () => {
             </Box>
           </Box>
         </Box>
-       
       </main>
-     </div>
-  )
-}
+    </div>
+  );
+};
 
-export default PastEvents
+export default PastEvents;

@@ -18,7 +18,7 @@ import {
   adminListByCategoryLoading,
   adminListByCategorySuccess,
 } from "@/Redux/AdminListByCategoryReducer/Action";
-import { getAlladminListByCategoryService } from "../../Services/UserSideServices/GetAllAdminListByCategoryReducer/GetAdminListByCategoryReducer";
+import { getAlladminListByCategoryService } from "../../Services/UserSideServices/GetAllAdminListByCategoryServices/GetAdminListByCategoryService";
 let title: string;
 let buttonName: string;
 const BookOneOnOne = () => {
@@ -29,6 +29,7 @@ const BookOneOnOne = () => {
   const admins = useSelector(
     (state: RootState) => state.AdminListByCategoryReducer.admins
   );
+
   const categoryDispatch: Dispatch<
     categoryDataSuccess | categoryDataLoading | categoryDataFailure
   > = useDispatch();
@@ -37,8 +38,14 @@ const BookOneOnOne = () => {
     | adminListByCategoryFailure
     | adminListByCategoryLoading
   > = useDispatch();
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+  const userId: number = userDetails?.user?.id;
+  const token: string = userDetails?.token;
+
+
+
   useEffect(() => {
-    getAllCategoryDataService()(categoryDispatch);
+    getAllCategoryDataService(token)(categoryDispatch);
   }, []);
   console.log("cate", categoryType);
   useEffect(() => {
@@ -66,7 +73,6 @@ const BookOneOnOne = () => {
             w={"75%"}
             h={"auto"}
             m={"auto"}
-           
             mt={"50px"}
             bg={"white"}
             p={"100px"}
@@ -76,7 +82,6 @@ const BookOneOnOne = () => {
               <Box>
                 <Box
                   w={"45%"}
-                  
                   borderRadius={"10px"}
                   bgColor={"#e71515cd"}
                   textAlign={"center"}
@@ -93,7 +98,6 @@ const BookOneOnOne = () => {
                 </Box>
                 <Flex
                   padding={"20px"}
-                 
                   flexWrap={"wrap"}
                   w={"45%"}
                   justifyContent={"space-between"}
@@ -133,13 +137,7 @@ const BookOneOnOne = () => {
                     Admin List
                   </Text>
                 </Box>
-                <Flex
-                    
-                  w={"50%"}
-                  padding={"20px"}
-                  gap={2}
-                  flexWrap={"wrap"}
-                >
+                <Flex w={"50%"} padding={"20px"} gap={2} flexWrap={"wrap"}>
                   {admins.length > 0 &&
                     admins.map((item: any, index: number) => {
                       return (
