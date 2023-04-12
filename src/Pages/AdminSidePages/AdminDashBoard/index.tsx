@@ -12,28 +12,20 @@ import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPe
 import {  CountByMeetingStatusService } from "../../../Services/AdminSideServices/GetEventsService";
 import { useSearch } from "../../../utils/SetParams";
 import { useLocation, useNavigate } from "react-router-dom";
+import { interviewsStatus } from "../../../Assets/Assets";
 
+interface InterviewResult {
+  meetingStatus: string;
+  count: number;
+}
 
 
 
 const AdminDashBoard = () => {
 
-  const [totalInterviews, setTotalInterviews] = useState({
-    totalInterviews: 0,
-    results: [
-      {
-        meetingStatus: "",
-        count: 0,
-      },
-      {
-        meetingStatus: "",
-        count: 0,
-      },
-    ],
-  });
+  const [totalInterviews, setTotalInterviews] = useState(interviewsStatus);
   const [search, updateSearch] = useSearch();
  const [batchName,setBatchName] = useState<string | null>("")
-
 const navigate = useNavigate()
 const location = useLocation();
 const params = new URLSearchParams(location.search);
@@ -64,7 +56,7 @@ const toast = useToast();
         isClosable: true,
       });
     }
-  }, [toast]);
+  }, [toast,token,id]);
 
   useEffect(() => {
     GetEvents();
@@ -96,17 +88,60 @@ const clearUrl =()=>{
   <Flex justifyContent="space-between">
     <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
   </Flex>
-  { totalInterviews?.results && totalInterviews?.results?.map((el:any) => (
-    el.meetingStatus === "E" ? (
-      <Flex justifyContent="space-between">
-        <Text>Interviews Completed </Text> <Text>{el.count}</Text>
-      </Flex>
-    ) : (
-      <Flex justifyContent="space-between">
-        <Text>Interviews Pending </Text> <Text>{el.count}</Text>
-      </Flex>
-    )
-  ))}
+  <>
+      {totalInterviews?.results?.map((el: InterviewResult) => (
+        <Flex justifyContent="space-between" key={el.meetingStatus}>
+          {el.meetingStatus === 'E' ? (
+            <>
+              <Text>Interviews Compleated</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+          {el.meetingStatus === 'P' ? (
+            <>
+              <Text>Interviews Pending</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'C' ? (
+            <>
+              <Text>Interviews Cancelled</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'S' ? (
+            <>
+              <Text>Interviews Started</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'SS' ? (
+            <>
+              <Text>Interviews Started By Student</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'IS' ? (
+            <>
+              <Text>Interviews Started By Interviewr</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'SE' ? (
+            <>
+              <Text>Interviews Ended By Stuuent</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'IE' ? (
+            <>
+              <Text>Interviews Ended By Interviewr</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+        </Flex>
+      ))}
+    </>
 </Box>
 
       </Box>

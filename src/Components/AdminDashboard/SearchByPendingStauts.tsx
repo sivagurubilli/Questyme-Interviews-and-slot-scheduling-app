@@ -6,8 +6,7 @@ import {
   Flex,
   FormLabel,
   Grid,
-  SkeletonCircle,
-  SkeletonText,
+  Image,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -16,47 +15,55 @@ import AdminInterviewBox from "../AdminInterviews/InterviewsComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetByPendingStatusService } from "../../Services/AdminSideServices/GetEventsService";
 import Pagination from "./Pagination";
-import { MdOutlineToken } from "react-icons/md";
+import { meetingStausButtons } from "../../Assets/Assets";
 
 const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
-  const [colorScheme, setColorScheme] = useState({
-    pending: "blue",
-    compleated: "blue",
-  });
-
   const [Interviews, setInterviews] = useState([]);
   const [PaginatedInterviewsData, setPaginatedInterviewsData] = useState([]);
   const [interviewStatus, setInterviewStatus] = useState("");
-  const [status,setStatus] = useState("")
+  const [status, setStatus] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages,setTotalPages] = useState(0)
+  const [totalPages, setTotalPages] = useState(0);
   const [startIndex, setStartIndex] = useState<number>(1);
   const [endIndex, setEndIndex] = useState<number>();
+  const [batchName, setBatchName] = useState("");
   const toast = useToast();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const pageNumber = params.get("page");
   const meeting = params.get("meeting-status");
-  const batchName = params.get("batch")
-  const itemsPerPage = 1;
+  const batch = params.get("batch");
+  const itemsPerPage = 6;
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
   const token = userDetails?.token;
-
-
+  const [activeButton, setActiveButton] = useState<number | null>(null);
 
   // set color to buttons even after refreshing
   const setColor = useCallback(() => {
-    if (interviewStatus === "pending") {
-      setColorScheme({ pending: "green", compleated: "blue" });
-      setStatus("P")
-    } else if (interviewStatus === "compleated") {
-      setColorScheme({ pending: "blue", compleated: "green" });
-      setStatus("E")
-    } else {
-      setColorScheme({ pending: "blue", compleated: "blue" });
-    }
-  }, [interviewStatus, setColorScheme]);
+    meetingStausButtons.map((el, index) => {
+      if (el.toLowerCase() === interviewStatus) {
+        setActiveButton(index);
+      }
+      if (interviewStatus === "pending") {
+        setStatus("P");
+      } else if (interviewStatus === "compleated") {
+        setStatus("E");
+      } else if (interviewStatus === "started") {
+        setStatus("S");
+      } else if (interviewStatus === "canceled") {
+        setStatus("C");
+      } else if (interviewStatus === "started-by-student") {
+        setStatus("SS");
+      } else if (interviewStatus === "started-by-interviewer") {
+        setStatus("IS");
+      } else if (interviewStatus === "ended-by-student") {
+        setStatus("SE");
+      } else if (interviewStatus === "ended-by-interviewer") {
+        setStatus("IE");
+      }
+    });
+  }, [interviewStatus]);
 
   //when getting from url params we should get values
   useEffect(() => {
@@ -66,20 +73,29 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
     }
     if (meeting) {
       setInterviewStatus(meeting);
+      setColor();
     }
-    setColor();
-  }, [pageNumber, meeting, setColor, setCurrentPage]);
-
+    if (batch) {
+      setBatchName(batch);
+    }
+  }, [pageNumber, meeting, setColor, setCurrentPage, batch]);
 
   // getting interviews based on pending and compleated when click on button
   const GetByPendingStatus = useCallback(async () => {
     try {
-      const response = await GetByPendingStatusService(batchName,status,token);
+      const response = await GetByPendingStatusService(
+        batchName,
+        status,
+        token
+      );
       if (response.length) {
         setInterviews(response);
-        setTotalPages(Math.ceil(response?.length/itemsPerPage));
-      }else{
-        setStartIndex(0)
+        setTotalPages(Math.ceil(response?.length / itemsPerPage));
+        setCurrentPage(1);
+      } else {
+        setStartIndex(0);
+        setTotalPages(0);
+        setInterviews([]);
       }
     } catch (error) {
       toast({
@@ -90,16 +106,15 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
         isClosable: true,
       });
     }
-  }, [ toast,token,batchName,status]);
+  }, [toast, token, batchName, status]);
 
   useEffect(() => {
     GetByPendingStatus();
   }, [GetByPendingStatus]);
 
- 
   // set paginated data
   useEffect(() => {
-    if (Interviews) {
+    if (Interviews.length) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       setStartIndex(startIndex + 1);
@@ -111,31 +126,28 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
         setEndIndex(endIndex);
       }
       setPaginatedInterviewsData(Paginatedinterviewsdata);
+    } else {
+      setStartIndex(0);
+      setEndIndex(0);
+      setPaginatedInterviewsData([]);
     }
   }, [currentPage, itemsPerPage, Interviews]);
 
-
-// when click clear button everything should be clear url filter values
+  // when click clear button everything should be clear url filter values
   const Clear = () => {
-    setColorScheme({ pending: "blue", compleated: "blue" });
-    updateSearch({});
+    setActiveButton(-100);
     setInterviewStatus("");
-    setCurrentPage(1);
+    setCurrentPage(0);
     clearUrl();
     setInterviews([]);
+    setTotalPages(0);
   };
 
   // changing colors for button when click on pending and comleated
-  const searchForPending = (val: string) => {
-    setInterviewStatus(val);
-    if (interviewStatus === "pending") {
-      GetByPendingStatus()
-      setColorScheme({ pending: "green", compleated: "blue" });
-    } else {
-      GetByPendingStatus()
-      setColorScheme({ pending: "blue", compleated: "green" });
-    }
 
+  const handleButtonClick = (index: number, val: string) => {
+    setActiveButton(index);
+    GetByPendingStatus();
     updateSearch({
       ...search,
       "meeting-status": val,
@@ -163,39 +175,43 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
-        <Flex justifyContent="flex-end">
-          <FormLabel mr="20px" mt="7px">
-            Meeting Status :-{" "}
+        <Flex justifyItems="center">
+          <FormLabel fontSize="20px" style={{ margin: "0 auto" }}>
+            Display Events Based On Meeting Status
           </FormLabel>
-          <Button
-            colorScheme={colorScheme.pending}
-            fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
-            onClick={() => searchForPending("pending")}
-          >
-            Pending
-          </Button>
-          <Button
-            colorScheme={colorScheme.compleated}
-            fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
-            ml="20px"
-            onClick={() => searchForPending("compleated")}
-          >
-            Compleated
-          </Button>
-          <Button
-            ml="20px"
-            colorScheme="blue"
-            fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
-            onClick={Clear}
-          >
+        </Flex>
+        <Flex justifyContent="center" flexWrap="wrap">
+          {meetingStausButtons?.map((status, index) => (
+            <Button
+              mt="20px"
+              key={index}
+              onClick={() => handleButtonClick(index, status.toLowerCase())}
+              fontSize={{ base: "12px", sm: "14px", md: "14px", lg: "14px" }}
+              colorScheme={activeButton === index ? "green" : "blue"}
+              mr="10px"
+            >
+              {status.split("-").join(" ")}
+            </Button>
+          ))}
+          <Button mt="20px" onClick={Clear} colorScheme="blue">
             Clear
           </Button>
         </Flex>
+
         <Divider mt="10px" mb="10px" />
         {PaginatedInterviewsData?.length <= 0 ? (
           <Box>
-            <SkeletonCircle size="10" />
-            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+            <Image
+              w="40%"
+              h="200px"
+              ml="30%"
+              src={
+                "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
+              }
+            />
+            <Text fontSize="20px" mt="20px" ml="40%">
+              No Events Were Found
+            </Text>
           </Box>
         ) : (
           <Grid
@@ -227,7 +243,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
             setPage={setCurrentPage}
             interviewsData={Interviews}
             setPaginatedData={setPaginatedInterviewsData}
-            perPage={1}
+            perPage={itemsPerPage}
           />
         </Box>
       </Box>

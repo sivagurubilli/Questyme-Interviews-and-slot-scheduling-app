@@ -4,7 +4,9 @@ import {
   Divider,
   Flex,
   FormLabel,
+  Stack,
   Text,
+  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
 import OneOffModal from "../../../Components/Modals/OneOffModal";
@@ -35,6 +37,9 @@ const OneOnOneSlotsView = () => {
   const id = userDetails?.user?.id;
   const token = userDetails?.token;
   const toast = useToast();
+  const [isSmallerThan600] = useMediaQuery("(max-width: 800px)");
+
+
 
   const GetEvents = useCallback(async () => {
     try {
@@ -141,7 +146,7 @@ const istDate = istTime.toISOString().slice(0, 10);
   return (
     <div className="container">
       <Navbar />
-      <OneOnOneCreateNav NavText=" All Slots Available Slots" />
+      <OneOnOneCreateNav NavText=" All  Available Slots" />
       <Box
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         h="auto"
@@ -152,14 +157,14 @@ const istDate = istTime.toISOString().slice(0, 10);
         p="2%"
         pb="100px"
       >
-        <Flex>
-          <Box
-            boxShadow="0 5px 15px rgba(0,0,0,0.06)"
-            w="60%"
-            ml="20px"
-            h="auto"
-            p="20px"
-          >
+       <Stack direction={isSmallerThan600 ? "column" : "row"} spacing={8}>
+       <Box
+  boxShadow="0 5px 15px rgba(0,0,0,0.06)"
+  w={{ base: "100%", sm: "100%", md: "60%" }}
+  ml={{ base: "0", sm: "0", md: "20px" }}
+  h="auto"
+  p="20px"
+>
             <Calendar
               events={events}
               handleSelect={handleSelect}
@@ -171,7 +176,7 @@ const istDate = istTime.toISOString().slice(0, 10);
             h="auto"
             ml="20px"
             bg="white"
-            w="40%"
+            w={{ base: "100%", sm: "100%", md: "40%" }}
             p="20px"
           >
             <FormLabel>All Slots On Particular Date</FormLabel>
@@ -216,7 +221,7 @@ const istDate = istTime.toISOString().slice(0, 10);
               ))
             )}
           </Box>
-        </Flex>
+        </Stack>
       </Box>
     </div>
   );

@@ -4,39 +4,30 @@ import { Box, Button, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
 import { useSearch } from "../../utils/SetParams";
 import SearchComponent from "../SearchComponents/SearchComponent";
 import { CountByBatchStatusService } from "../../Services/AdminSideServices/GetEventsService";
+import { batch } from "react-redux";
+import { IntervieStatusByBatch } from "../../Assets/Assets";
 
 const SearchByBatch = ({ batchName, setBatchName }: any) => {
-  const [totalInterviews, setTotalInterviews] = useState({
-    totalInterviews: 0,
-    results: [
-      {
-        meetingStatus: "",
-        count: 0,
-        batch:""
-      },
-      {
-        meetingStatus: "",
-        count: 0,
-        batch:""
-      },
-    ],
-  });
+  const [totalInterviews, setTotalInterviews] = useState(IntervieStatusByBatch);
   const [search, updateSearch] = useSearch();
   const [loading,setLoading] = useState(false);
 
   const toast = useToast();
-
-
+  interface InterviewResult {
+    meetingStatus: string;
+    count: number;
+  }
+  
+// if batchname then call the api to get details on batch
   const GetBatchStatus = useCallback(async () => {
     if (batchName !== "") {
-      setLoading(true)
-  setTimeout(()=>{
-    setLoading(false)
-  },1000)
+         setLoading(true)
+        setTimeout(()=>{
+       setLoading(false)
+           },1000)
 
       try {
         const response = await CountByBatchStatusService(batchName);
-
         if (response.results) {
           setTotalInterviews(response)
         }
@@ -80,22 +71,64 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
           </Flex>
           <FormLabel mt="10px">Total Interviews In Particular Batch</FormLabel>
           <Box w="100%" >
-          <Flex justifyContent="space-between">
+        
+        {batchName &&  <Flex justifyContent="space-between">
           <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
-  </Flex>
-
-  { totalInterviews?.results && batchName && totalInterviews?.results?.map((el:any) => (
-    el.meetingStatus === "E" ? (
-     
-      <Flex justifyContent="space-between">
-        <Text>Interviews Completed </Text> <Text>{el.count}</Text>
-      </Flex>
-    ) : (
-      <Flex justifyContent="space-between">
-        <Text>Interviews Pending </Text> <Text>{el.count}</Text>
-      </Flex>
-    )
-  ))}
+  </Flex>}
+  <>
+      {totalInterviews?.results?.map((el: InterviewResult) => (
+        <Flex justifyContent="space-between" key={el.meetingStatus}>
+          {el.meetingStatus === 'E' ? (
+            <>
+              <Text>Interviews Compleated</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+          {el.meetingStatus === 'P' ? (
+            <>
+              <Text>Interviews Pending</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'C' ? (
+            <>
+              <Text>Interviews Cancelled</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'S' ? (
+            <>
+              <Text>Interviews Started</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'SS' ? (
+            <>
+              <Text>Interviews Started By Student</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'IS' ? (
+            <>
+              <Text>Interviews Started By Interviewr</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'SE' ? (
+            <>
+              <Text>Interviews Ended By Stuuent</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+            {el.meetingStatus === 'IE' ? (
+            <>
+              <Text>Interviews Ended By Interviewr</Text>
+              <Text>{el.count}</Text>
+            </>
+          ) : null}
+        </Flex>
+      ))}
+    </>
 
 </Box>
         </Box>

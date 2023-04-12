@@ -99,3 +99,115 @@ export const DaysForRecurringEvents = [
 
 
 
+export const interviewsStatus = {
+
+totalInterviews: 0,
+results: [
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+]
+}
+
+
+
+export const IntervieStatusByBatch ={
+  totalInterviews: 0,
+  results: [
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+  ],
+}
+
+
+export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
+
+export const SlotsStatus = {
+    "totalSlots": 32,
+    "results": [
+        {
+            "meetingStatus": "B",
+            "count": 1
+        },
+        {
+            "meetingStatus": "U",
+            "count": 30
+        },
+        {
+            "meetingStatus": "D",
+            "count": 1
+        }
+    ]
+}
