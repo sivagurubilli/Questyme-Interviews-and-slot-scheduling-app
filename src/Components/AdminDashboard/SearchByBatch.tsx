@@ -1,29 +1,44 @@
-import React, { useCallback, useEffect } from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  FormLabel,
-  Grid,
-  SkeletonCircle,
-  SkeletonText,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Box, Button, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
 
 import { useSearch } from "../../utils/SetParams";
-import SearchComponent from "../SearchComponent";
-import { CountByBatchStatus } from "../../Services/AdminSideServices/GetEventsService";
+import SearchComponent from "../SearchComponents/SearchComponent";
+import { CountByBatchStatusService } from "../../Services/AdminSideServices/GetEventsService";
 
 const SearchByBatch = ({ batchName, setBatchName }: any) => {
+  const [totalInterviews, setTotalInterviews] = useState({
+    totalInterviews: 0,
+    results: [
+      {
+        meetingStatus: "",
+        count: 0,
+        batch:""
+      },
+      {
+        meetingStatus: "",
+        count: 0,
+        batch:""
+      },
+    ],
+  });
   const [search, updateSearch] = useSearch();
+  const [loading,setLoading] = useState(false);
+
   const toast = useToast();
-  const AddSlots = useCallback(async () => {
+
+
+  const GetBatchStatus = useCallback(async () => {
     if (batchName !== "") {
+      setLoading(true)
+  setTimeout(()=>{
+    setLoading(false)
+  },1000)
+
       try {
-        const response = await CountByBatchStatus(batchName);
-        if (response.length > 1) {
+        const response = await CountByBatchStatusService(batchName);
+
+        if (response.results) {
+          setTotalInterviews(response)
         }
       } catch (err) {
         toast({
@@ -36,10 +51,6 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
       }
     }
   }, [toast, batchName]);
-
-  useEffect(() => {
-    AddSlots();
-  }, [AddSlots]);
 
   return (
     <div>
@@ -56,21 +67,37 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
       >
         <Box w="60%" ml="20%">
           <FormLabel>Search By Batch</FormLabel>
-          <SearchComponent
-            search={search}
-            updateSearch={updateSearch}
-            value={batchName}
-          />
+          <Flex w="100%" justifyContent="space-between">
+            <SearchComponent
+              search={search}
+              updateSearch={updateSearch}
+              value={batchName}
+              name="batch"
+            />{" "}
+            <Button isLoading={loading} colorScheme="blue" mt="10px" onClick={GetBatchStatus}>
+              Search
+            </Button>{" "}
+          </Flex>
           <FormLabel mt="10px">Total Interviews In Particular Batch</FormLabel>
+          <Box w="100%" >
           <Flex justifyContent="space-between">
-            <Text>Total Interviews </Text> <Text>0</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Completed </Text> <Text>0</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Interviews Pending </Text> <Text>0</Text>
-          </Flex>
+          <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
+  </Flex>
+
+  { totalInterviews?.results && batchName && totalInterviews?.results?.map((el:any) => (
+    el.meetingStatus === "E" ? (
+     
+      <Flex justifyContent="space-between">
+        <Text>Interviews Completed </Text> <Text>{el.count}</Text>
+      </Flex>
+    ) : (
+      <Flex justifyContent="space-between">
+        <Text>Interviews Pending </Text> <Text>{el.count}</Text>
+      </Flex>
+    )
+  ))}
+
+</Box>
         </Box>
       </Box>
     </div>

@@ -17,6 +17,7 @@ export interface IEventValues {
     instruction?: string;
     meetingLink?: string;
     adminId?: string;
+    category?:string;
     duration?: string;
     id?:number
    
@@ -33,3 +34,18 @@ export interface IEventValues {
     slotTime:[{startTime:string,
     endTime: string}]
   }
+
+  export interface ISlotsValues {
+    title?: string;
+    instruction?: string;
+    meetingLink?: string;
+    adminId?: string;
+    duration?: string;
+    category?: string;
+    slotId?:number,
+    date?:string | Date;
+    startTime?:string;
+    endTime?:string;
+    status?:string;
+  }
+

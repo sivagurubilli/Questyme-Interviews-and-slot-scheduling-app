@@ -16,8 +16,8 @@ import AdminDashBoard from './Pages/AdminSidePages/AdminDashBoard'
 import AddStudents from './Pages/AdminSidePages/AddStudents'
 import PastEvents from './Pages/PastEvents/PastEvents';
 import PastInterviews from './Pages/AdminSidePages/AdminPastInterviews/index';
-import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots';
-import FutureInterviews from './Pages/AdminSidePages/FutureInterviews';
+import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots/index';
+import FutureInterviews from './Pages/AdminSidePages/FutureInterviews/index';
 import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 import AdminInterviewDetailPage from './Pages/AdminSidePages/AdminInterviewDetailPage';
 const AllRoutes = () => {
@@ -32,10 +32,10 @@ const AllRoutes = () => {
 
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsEdit/>}/>
-            <Route path ="/slot/:id" element ={<OneOnOneSlotsView/>} />
+            <Route path ="/admin/slots/view" element ={<OneOnOneSlotsView/>} />
             <Route path ="/student/booking/:id" element={<StudentBooking />}/>
             <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
-            <Route path ="/admin/future-interviews" element={<FutureInterviews/>}/>
+            <Route path ="/admin/upcoming-interviews" element={<FutureInterviews/>}/>
             <Route path ="/admin/add-avialability" element={<AddDaysAvailability/>}/>
             <Route path ="/admin/past-interviews" element ={<PastInterviews />} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
