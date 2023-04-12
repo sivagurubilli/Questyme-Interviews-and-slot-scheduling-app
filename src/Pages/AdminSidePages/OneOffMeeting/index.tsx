@@ -15,6 +15,7 @@ const GotoOneOffMeet = () => {
     adminId: "5",
     duration: "",
     date:"",
+    category:"",
     slotTime:[{startTime: "",
     endTime: ""}]
   });

@@ -20,6 +20,10 @@ const OneonOneEventsCreate = () => {
     category:"",
     duration: "",
   });
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+  const id = userDetails?.user?.id;
+  const token = userDetails?.token;
+
 
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
@@ -27,7 +31,7 @@ const OneonOneEventsCreate = () => {
 const toast = useToast()
   const addEvent = async () => {
     try{
-     const response =await  PostEventsService(EventValues)
+     const response =await  PostEventsService(EventValues,id,token)
 if(response){
      toast({
       title: "Event created",

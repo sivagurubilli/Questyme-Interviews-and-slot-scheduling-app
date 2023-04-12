@@ -99,3 +99,144 @@ export const DaysForRecurringEvents = [
 
 
 
+export const interviewsStatus = {
+
+totalInterviews: 0,
+results: [
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+]
+}
+
+
+
+export const IntervieStatusByBatch ={
+  totalInterviews: 0,
+  results: [
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+  ],
+}
+
+
+export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
+
+export const SlotsStatus = {
+    "totalSlots":0,
+    "results": [
+        {
+            "meetingStatus": "B",
+            "count": 0
+        },
+        {
+            "meetingStatus": "U",
+            "count": 0
+        },
+        {
+            "meetingStatus": "D",
+            "count": 0
+        }
+    ]
+}
+
+
+
+
+export const backendResponse = [
+  {
+    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    name: 'Sun',
+  },
+  {
+    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    name: 'Mon',
+  },
+  {
+    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    name: 'Tue',
+  },
+  {
+    TimeSlot: [
+      { startTime: '09:00', endTime: '17:00' },
+      { startTime: '20:00', endTime: '21:00' },
+    ],
+    isChecked: true,
+    name: 'Wed',
+  }
+]

@@ -12,18 +12,22 @@ export async function GetAllEventsService() {
 }
 
 //post Event service
-export async function PostEventsService(data: any) {
-  const { title, instruction, meetingLink,  duration } = data;
+export async function PostEventsService(data: any,id:string,token:string) {
+  const { title, instruction, meetingLink, category, duration } = data;
 
   try {
     const response = await axios.post("/recurring/createRecMeet", {
       title,
       instruction,
-      "adminId":41,
+      adminId:id,
       meetingLink,
       duration,
-      "category":"GENERAL"
-    });
+      category
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }});
     return response.data;
   } catch (error: any) {
     return error.response;
@@ -32,13 +36,13 @@ export async function PostEventsService(data: any) {
 
 //post Event service
 export async function PostOneOffService(data: any,token:string,id:string) {
-  const { title, instruction, meetingLink, date, slotTime, duration } =
+  const { title, instruction, meetingLink, date, slotTime, duration ,category} =
     data;
 
   try {
     const response = await axios.post(
       "/slot/create-slots",
-      { title, instruction, meetingLink, date, slotTime, duration
+      { title, instruction, meetingLink, date, slotTime, duration,"type":category
 ,"adminId":id
 }, 
       {
@@ -187,7 +191,7 @@ export async function GetSlotsForDateService(id:string,date: string,token:string
 //service for deleting slots 
 export async function DeleteSlotsService(id:string,token:string) {
   try {
-    const response = await axios.post(
+    const response = await axios.delete(
       `/slot/deleteslot/${id}`,
      
       {
@@ -238,27 +242,34 @@ export async function CountByBatchStatusService(batchName:any) {
 }
 
 
- // getting data about particular batch
- export async function GetByPendingStatusService(batchName:string|null,meeting:string,token:string) {
+
+
+// getting data about particular batch
+
+
+export async function GetByPendingStatusService(batchName: string, meeting: string, token: string) {
   try {
-    const response = await axios.get(
-    `/api/interview/filter?batch=${batchName}&meetingStatus=${meeting}`,
-    {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    }
-  });
+    const response = await axios.get(`/api/interview/filter`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        batch: batchName,
+        meetingStatus: meeting,
+      },
+    });
     return response.data;
   } catch (error: any) {
     return error.response;
   }
 }
 
+
  // getting category details
  export async function GetCategoryService(token:string) {
   try {
     const response = await axios.get(
-      "/api/category",{
+      "/api/category/",{
     headers: {
       Authorization: `Bearer ${token}`,
     }

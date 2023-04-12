@@ -3,39 +3,22 @@ import {
   Button,
   Grid,
   GridItem,
-  Heading,
-  Input,
   Text,
   Flex,
   Divider,
   Stack,
-  Select,
 } from "@chakra-ui/react";
-import {
-  Portal,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  useDisclosure
-} from "@chakra-ui/react";
-import {
-  SearchIcon,
-  CloseIcon,
-  InfoOutlineIcon,
-  CopyIcon,
-  ChevronDownIcon,
-  ChevronUpIcon
-} from "@chakra-ui/icons";
+import { useDisclosure } from "@chakra-ui/react";
+import { CopyIcon } from "@chakra-ui/icons";
 import { MdSettings } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Link } from "react-router-dom";
-import {BiEdit,BiNote,BiTrash} from "react-icons/bi";
-import { FaRegClone} from "react-icons/fa";
+import { BiEdit, BiNote, BiTrash } from "react-icons/bi";
+import { FaRegClone } from "react-icons/fa";
 import Header from "../../Components/CommonComponents/Header";
 import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetAllScheduledInterviewServices/GetInterviewsServices";
-import {convertTimeFormat} from "../../utils/index"
+import { convertTimeFormat } from "../../utils/index";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
@@ -43,55 +26,53 @@ import { Dispatch } from "redux";
 import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
 import SearchComponent from "../../Components/SearchComponents/SearchComponent";
 
-export interface interview{
-  interviewId: number,
-        interviewerName: string,
-        intervieweeName: string,
-        startTime: string,
-        endTime: string,
-        date: string,
-        category: string,
-        instructions: string,
-        title: string,
-        meetingLink: string,
-        batch: string,
-        meetingStatus: string,
-        studentNote: string,
-        adminFeedback: string
+export interface interview {
+  interviewId: number;
+  interviewerName: string;
+  intervieweeName: string;
+  startTime: string;
+  endTime: string;
+  date: string;
+  category: string;
+  instructions: string;
+  title: string;
+  meetingLink: string;
+  batch: string;
+  meetingStatus: string;
+  studentNote: string;
+  adminFeedback: string;
 }
 const UserDashboard = () => {
-    const { onOpen, onClose, isOpen } = useDisclosure();
-    const interviews = useSelector((state:RootState)=>state.ScheduledInterviewReducer.interviews)
-    const [copyText,setCopyText] =useState("");
-    const dispatch:Dispatch<scheduledInterviewSuccess|scheduledInterviewLoading|scheduledInterviewFailure> = useDispatch();
-
-    useEffect(()=>{
-   if(interviews?.length===0){
-    GetAllScheduledInterView()(dispatch)
-   }
-    },[dispatch,interviews?.length])
-    
-    async function copyContent(text:string) {
-      try {
-        await navigator.clipboard.writeText(text);
-        const res = navigator.clipboard.readText().then((response)=>{
-          setCopyText(response)
-        })
-        /* Resolved - text copied to clipboard successfully */
-      } catch (err) {
-        console.error('Failed to copy: ', err);
-        /* Rejected - text failed to copy to the clipboard */
-      }
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const interviews = useSelector(
+    (state: RootState) => state.ScheduledInterviewReducer.interviews
+  );
+  const [copyText, setCopyText] = useState("");
+  const dispatch: Dispatch<
+    | scheduledInterviewSuccess
+    | scheduledInterviewLoading
+    | scheduledInterviewFailure
+  > = useDispatch();
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+  const userId: number = userDetails?.user?.id;
+  const token: string = userDetails?.token;
+  
+  useEffect(() => {
+    if (userId && interviews?.length === 0) {
+      GetAllScheduledInterView(userId,token)(dispatch);
     }
+  }, [dispatch, interviews?.length]);
+
+ 
 
   return (
     <div>
       <Navbar />
-     <Header title={"today's Bookings"} buttonName={"+ Book 1-1"}/>
-     <main>
+      <Header title={"Upcoming Events"} buttonName={"+ Book 1-1"} />
+      <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-           <SearchComponent />
+            <SearchComponent />
             <Box
               w={"100%"}
               h={"90%"}
@@ -139,12 +120,12 @@ const UserDashboard = () => {
                               pr={"15px"}
                             >
                               <Box>
-                                <Text>Start Time</Text>
-                                <Text>{convertTimeFormat(item.startTime)}</Text>
+                                <Text>Date</Text>
+                                <Text>{item.date}</Text>
                               </Box>
                               <Box>
                                 <Text>Start Time</Text>
-                                <Text>{convertTimeFormat(item.endTime)}</Text>
+                                <Text>{convertTimeFormat(item.startTime)}</Text>
                               </Box>
                             </Flex>
                             <Divider orientation="horizontal" mt={"10px"} />
@@ -167,37 +148,19 @@ const UserDashboard = () => {
                             p={"10px"}
                           >
                             <Box>
-                              <Flex
-                                justifyContent={"space-between"}
-                                alignItems={"center"}
-                              >
-                                {copyText && copyText == item.meetingLink ? (
-                                  ""
-                                ) : (
-                                  <CopyIcon w={"20px"} h={"20px"} />
-                                )}
-                                {copyText && copyText == item.meetingLink ? (
-                                  <Text>Copied !</Text>
-                                ) : (
-                                  <Text
-                                    ml={"10px"}
-                                    onClick={() =>
-                                      copyContent(item.meetingLink)
-                                    }
-                                  >
-                                    Copy Link
-                                  </Text>
-                                )}
-                              </Flex>
+                        
                             </Box>
                             <Box>
-                              <Link to={`/dashboard/interview/${item.interviewId}`}>
+                              <Link
+                                to={`/dashboard/interview/${item.interviewId}`}
+                              >
                                 <Button
                                   variant={"link"}
                                   float={"right"}
                                   mt={"1px"}
+                                  colorScheme="blue"
                                 >
-                                  Details &gt;
+                                 View Details &gt;
                                 </Button>
                               </Link>
                             </Box>
@@ -210,7 +173,6 @@ const UserDashboard = () => {
             </Box>
           </Box>
         </Box>
-       
       </main>
     </div>
   );
