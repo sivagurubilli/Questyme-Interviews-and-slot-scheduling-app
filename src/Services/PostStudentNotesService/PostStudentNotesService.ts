@@ -15,7 +15,5 @@ export const postStudentNotes =(interviewId:number,userId:number,token:string,no
     })
     .catch((err)=>{
         console.log(err)
-    })
-        
-    
+    }) 
 }

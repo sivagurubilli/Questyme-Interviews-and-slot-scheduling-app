@@ -63,11 +63,8 @@ const DetailPageNav = ({ interview, id }: InterviewProp) => {
                             <Button colorScheme="blue" onClick={handleUpdate}>
                                 Update
                             </Button>
-                            <Button colorScheme="blue" onClick={handleDelete}>
+                            <Button colorScheme="red" onClick={handleDelete}>
                                 Cancel
-                            </Button>
-                            <Button colorScheme="blue" onClick={AddFeedback}>
-                                Add Feedback
                             </Button>
                         </Flex>
                     </Flex>
