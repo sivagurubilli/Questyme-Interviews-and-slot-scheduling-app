@@ -36,7 +36,7 @@ const AllRoutes = () => {
             <Route path ="/student/booking/:id" element={<StudentBooking />}/>
             <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
             <Route path ="/admin/upcoming-interviews" element={<FutureInterviews/>}/>
-            <Route path ="/admin/add-avialability" element={<AddDaysAvailability/>}/>
+            <Route path ="/admin/add-availability" element={<AddDaysAvailability/>}/>
             <Route path ="/admin/past-interviews" element ={<PastInterviews />} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />

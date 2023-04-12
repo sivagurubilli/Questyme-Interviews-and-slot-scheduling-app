@@ -3,13 +3,9 @@ import {
   CountBySlotsStatusService,
 } from "../../Services/UserSideServices/SlotBookingServices";
 import { SlotsStatus } from "../../Assets/Assets";
-import { Box, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, FormLabel, useToast } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
-
-interface SlotsResult {
-  meetingStatus: string;
-  count: number;
-}
+import SlotsStatsTable from "./SlotsStatsTable";
 
 const SlotsDashboard = () => {
   const [totalSlots, setTotalSlots] = useState(SlotsStatus);
@@ -27,7 +23,6 @@ const SlotsDashboard = () => {
         id,
         token
       );
-      console.log(response,adminSlotsResponse)
       if (response.results) {
         setTotalSlots(response);
       }
@@ -65,36 +60,10 @@ const SlotsDashboard = () => {
         <Box w="60%" ml="20%">
           <Flex justifyItems="center">
             <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
-              Status of All Slots
+              Update on Slot Availability
             </FormLabel>
           </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Total Slots </Text> <Text>{totalSlots?.totalSlots}</Text>
-          </Flex>
-          <>
-            {totalSlots?.results?.map((el: SlotsResult) => (
-              <Flex justifyContent="space-between" key={el.meetingStatus}>
-                {el.meetingStatus === "B" ? (
-                  <>
-                    <Text>Slots Booked</Text>
-                    <Text>{el.count}</Text>
-                  </>
-                ) : null}
-                {el.meetingStatus === "U" ? (
-                  <>
-                    <Text>Slots Unbooked</Text>
-                    <Text>{el.count}</Text>
-                  </>
-                ) : null}
-                {el.meetingStatus === "D" ? (
-                  <>
-                    <Text>Slots Deleted</Text>
-                    <Text>{el.count}</Text>
-                  </>
-                ) : null}
-              </Flex>
-            ))}
-          </>
+          <SlotsStatsTable totalInterviews={totalSlots} />
         </Box>
       </Box>
 
@@ -112,36 +81,11 @@ const SlotsDashboard = () => {
         <Box w="60%" ml="20%">
           <Flex justifyItems="center">
             <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
-              Status of All Slots for Interviewer {name}
+              Current Availability of All Your Slots
             </FormLabel>
           </Flex>
-          <Flex justifyContent="space-between">
-            <Text>Total Slots </Text> <Text>{adminSlots?.totalSlots}</Text>
-          </Flex>
-          <>
-            {adminSlots?.results?.map((el: SlotsResult) => (
-              <Flex justifyContent="space-between" key={el.meetingStatus}>
-                {el.meetingStatus === "B" ? (
-                  <>
-                    <Text>Slots Booked</Text>
-                    <Text>{el.count}</Text>
-                  </>
-                ) : null}
-                {el.meetingStatus === "U" ? (
-                  <>
-                    <Text>Slots Unbooked</Text>
-                    <Text>{el.count}</Text>
-                  </>
-                ) : null}
-                {el.meetingStatus === "D" ? (
-                  <>
-                    <Text>Slots Deleted</Text>
-                    <Text>{el.count}</Text>
-                  </>
-                ) : null}
-              </Flex>
-            ))}
-          </>
+
+          <SlotsStatsTable totalInterviews={adminSlots} />
         </Box>
       </Box>
     </div>

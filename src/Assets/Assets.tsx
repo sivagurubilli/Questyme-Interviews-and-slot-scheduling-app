@@ -211,3 +211,32 @@ export const SlotsStatus = {
         }
     ]
 }
+
+
+
+
+export const backendResponse = [
+  {
+    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    name: 'Sun',
+  },
+  {
+    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    name: 'Mon',
+  },
+  {
+    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    name: 'Tue',
+  },
+  {
+    TimeSlot: [
+      { startTime: '09:00', endTime: '17:00' },
+      { startTime: '20:00', endTime: '21:00' },
+    ],
+    isChecked: true,
+    name: 'Wed',
+  }
+]

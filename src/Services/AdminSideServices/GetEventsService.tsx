@@ -36,13 +36,13 @@ export async function PostEventsService(data: any,id:string,token:string) {
 
 //post Event service
 export async function PostOneOffService(data: any,token:string,id:string) {
-  const { title, instruction, meetingLink, date, slotTime, duration } =
+  const { title, instruction, meetingLink, date, slotTime, duration ,category} =
     data;
 
   try {
     const response = await axios.post(
       "/slot/create-slots",
-      { title, instruction, meetingLink, date, slotTime, duration
+      { title, instruction, meetingLink, date, slotTime, duration,"type":category
 ,"adminId":id
 }, 
       {

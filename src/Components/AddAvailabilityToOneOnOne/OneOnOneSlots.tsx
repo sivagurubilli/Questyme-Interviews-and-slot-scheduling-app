@@ -15,7 +15,7 @@ import {
   AddRecurringSlotsService,
 } from "../../Services/AdminSideServices/GetEventsService";
 import { useNavigate, useParams } from "react-router-dom";
-import { DaysForRecurring, DaysForRecurringEvents } from "../../Assets/Assets";
+import { DaysForRecurring, DaysForRecurringEvents, backendResponse } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const [days, setDays] = useState(DaysForRecurring);
@@ -77,12 +77,14 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
         availability: transformedDays
       });
     }
-  }, [days]);
+  }, [days,recurringEventDetails]);
   
+ 
+
+ 
 
   const AddSlots = async () => {
-    
-
+  
     try {
       const response = await AddRecurringSlotsService(id, recurringEventDetails);
       if (response) {
