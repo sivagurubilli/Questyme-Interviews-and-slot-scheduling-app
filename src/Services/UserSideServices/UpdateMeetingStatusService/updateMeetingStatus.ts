@@ -3,8 +3,8 @@ import { Dispatch } from "redux";
 export const updateMeetingStartStatusService =(interviewId:number,userId:number,token:string)=>{
     console.log(interviewId,userId,token)
     return axios({
-        method:"put",
-        url:`http://35.178.167.63:8888/${interviewId}/start/${userId}`,
+        method:"PUT",
+        url:`http://35.178.167.63:8888/api/interview/${interviewId}/start/${userId}`,
         headers:{
             Authorization:`Bearer ${token}`
         }
@@ -19,8 +19,14 @@ export const updateMeetingStartStatusService =(interviewId:number,userId:number,
     })
 }
 
-export const updateMeetingEndedStatusService =(interviewId:number,userId:number)=>{
-    return axios.put(`http://35.178.167.63:8888/${interviewId}/end/${userId}`)
+export const updateMeetingEndedStatusService =(interviewId:number,userId:number,token:string)=>{
+    return axios({
+            method:"PUT",
+            url:`http://35.178.167.63:8888/api/interview/${interviewId}/end/${userId}`,
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+    })
     .then((res)=>{
         console.log("res",res.data)
         return true

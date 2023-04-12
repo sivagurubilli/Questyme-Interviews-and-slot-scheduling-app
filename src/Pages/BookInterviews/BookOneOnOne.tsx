@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Header from "../../Components/CommonComponents/Header";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Select, Text } from "@chakra-ui/react";
 
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ import {
 import { getAlladminListByCategoryService } from "../../Services/UserSideServices/GetAllAdminListByCategoryServices/GetAdminListByCategoryService";
 let title: string;
 let buttonName: string;
+
 const BookOneOnOne = () => {
   const [categoryType, setCategoryType] = useState("");
   const categories = useSelector(
@@ -40,22 +41,26 @@ const BookOneOnOne = () => {
   > = useDispatch();
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const userId: number = userDetails?.user?.id;
-  const token: string = userDetails?.token;
-
-
+  const token: string = userDetails.token;
+console.log("categoryTye",categoryType)
 
   useEffect(() => {
     getAllCategoryDataService(token)(categoryDispatch);
   }, []);
   console.log("cate", categoryType);
+
   useEffect(() => {
     if (categoryType && admins?.length === 0) {
-      getAlladminListByCategoryService(categoryType)(adminListDispatch);
+      getAlladminListByCategoryService(categoryType,token)(adminListDispatch);
       setCategoryType("");
       console.log("cate", categoryType);
     }
-  }, [categoryType]);
+  }, [categoryType,adminListDispatch,admins.length]);
 
+  const handleChangeCategoryType =(e:string)=>{
+    
+    getAlladminListByCategoryService(e,token)(adminListDispatch);
+  }
   console.log("categories", categories);
   console.log("admins", admins);
   return (
@@ -75,80 +80,40 @@ const BookOneOnOne = () => {
             m={"auto"}
             mt={"50px"}
             bg={"white"}
-            p={"100px"}
+            p={"50px"}
             borderRadius={"10px"}
           >
             <Flex justifyContent={"space-between"}>
-              <Box>
-                <Box
-                  w={"45%"}
-                  borderRadius={"10px"}
-                  bgColor={"#e71515cd"}
-                  textAlign={"center"}
-                >
-                  <Text
-                    p={"5px"}
-                    fontSize={"20px"}
-                    fontFamily={"sans-serif"}
-                    fontWeight={"500"}
-                    color={"white"}
-                  >
-                    Category List
-                  </Text>
-                </Box>
-                <Flex
-                  padding={"20px"}
-                  flexWrap={"wrap"}
-                  w={"45%"}
-                  justifyContent={"space-between"}
-                  gap={3}
-                  alignItems={"center"}
-                >
-                  {categories &&
+              <Box w={"30%"}>
+                <Select w={"100%"} onChange={(e)=>handleChangeCategoryType(e.target.value)} >
+                 
+                  {categories.length>0 &&
                     categories.map((item: string, index: number) => {
-                      return (
-                        <Box key={index}>
-                          <Button
-                            colorScheme="blue"
+                        return (
+                          <option
+                            key={index}
                             onClick={() => setCategoryType(item)}
+                            value={item}
                           >
                             {item}
-                          </Button>
-                        </Box>
-                      );
+                          </option>
+                        );
+                      
                     })}
-                </Flex>
+                </Select>
               </Box>
-              <Box>
-                <Box
-                  w={"100%"}
-                  border={"1px solid red"}
-                  borderRadius={"10px"}
-                  bgColor={"#e71515cd"}
-                  textAlign={"center"}
-                >
-                  <Text
-                    p={"5px"}
-                    fontSize={"20px"}
-                    fontFamily={"sans-serif"}
-                    fontWeight={"500"}
-                    color={"white"}
-                  >
-                    Admin List
-                  </Text>
-                </Box>
-                <Flex w={"50%"} padding={"20px"} gap={2} flexWrap={"wrap"}>
-                  {admins.length > 0 &&
-                    admins.map((item: any, index: number) => {
-                      return (
-                        <Box key={index}>
-                          <Link to={`/book-one-on-one/admin/${item.id}`}>
-                            <Button colorScheme="blue">{item.name}</Button>
-                          </Link>
-                        </Box>
-                      );
-                    })}
-                </Flex>
+              <Box  w={"65%"} textAlign={"center"} >
+                <Text p={"6px"} border={"1px solid indigo"} borderRadius={"8px"} width={"150px"} align={"center"} m={"auto"}>Admin List</Text>
+                {Object.keys(admins).length>0 &&
+                  admins.Instructors.map((item: any, index: number) => {
+                    console.log("item",item)
+                    return (
+                    
+                        <Link to={`/book-one-on-one/admin/${item.id}`} key={item.id}>
+                          <Button colorScheme="blue" mt={"10px"}>{item.name}</Button>
+                        </Link>)
+                      
+                  })}
               </Box>
             </Flex>
           </Box>

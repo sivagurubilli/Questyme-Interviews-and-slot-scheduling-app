@@ -24,7 +24,7 @@ const Header = ({title,buttonName}:any) => {
                             {title}
                             </Text>
                             
-                            {title=="today's Bookings"? <Link to={buttonName=="+ Book 1-1"?"/dashboard/past-events":"#"}><Button colorScheme="blue">Old Events</Button></Link>:""}
+                            {title=="Upcoming Events"? <Link to={buttonName=="+ Book 1-1"?"/dashboard/past-events":"#"}><Button colorScheme="blue">Old Events</Button></Link>:""}
                             <Link to={buttonName=="+ Book 1-1"?"/dashboard/book-one-on-One":buttonName=="Back"?"/dashboard":"#"}><Button colorScheme="blue">{buttonName}</Button></Link>
                         </Box>
                       

@@ -68,7 +68,7 @@ const UserDashboard = () => {
   return (
     <div>
       <Navbar />
-      <Header title={"today's Bookings"} buttonName={"+ Book 1-1"} />
+      <Header title={"Upcoming Events"} buttonName={"+ Book 1-1"} />
       <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
@@ -120,12 +120,12 @@ const UserDashboard = () => {
                               pr={"15px"}
                             >
                               <Box>
-                                <Text>Start Time</Text>
-                                <Text>{convertTimeFormat(item.startTime)}</Text>
+                                <Text>Date</Text>
+                                <Text>{item.date}</Text>
                               </Box>
                               <Box>
                                 <Text>Start Time</Text>
-                                <Text>{convertTimeFormat(item.endTime)}</Text>
+                                <Text>{convertTimeFormat(item.startTime)}</Text>
                               </Box>
                             </Flex>
                             <Divider orientation="horizontal" mt={"10px"} />
@@ -148,7 +148,7 @@ const UserDashboard = () => {
                             p={"10px"}
                           >
                             <Box>
-                             
+                        
                             </Box>
                             <Box>
                               <Link
@@ -158,8 +158,9 @@ const UserDashboard = () => {
                                   variant={"link"}
                                   float={"right"}
                                   mt={"1px"}
+                                  colorScheme="blue"
                                 >
-                                  Details &gt;
+                                 View Details &gt;
                                 </Button>
                               </Link>
                             </Box>
