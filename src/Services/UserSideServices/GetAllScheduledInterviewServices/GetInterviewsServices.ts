@@ -9,7 +9,7 @@ import { Dispatch } from "redux";
 import { ActionTypes } from "../../../Redux/ScheduledInterviewUser/ActionTypes";
 
 export const GetAllScheduledInterView =
-  () =>
+  (userId:number,token:string) =>
     (
       dispatch: Dispatch<
         scheduledInterviewLoading
@@ -18,7 +18,11 @@ export const GetAllScheduledInterView =
       >
     ): Promise<void | ActionTypes> => {
       return axios
-        .get("http://localhost:8080/interviews")
+        .get(`http://35.178.167.63:8888/api/interview/${userId}/upcoming-interviews`,{
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        })
         .then((res) => {
           console.log("resinterviews", res.data)
           dispatch({
