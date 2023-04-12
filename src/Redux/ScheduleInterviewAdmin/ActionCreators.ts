@@ -3,18 +3,20 @@ import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
 
-export const createSingleInterview = (data: any) => {
+export const createSingleInterview = (data: any, token: string) => {
+    console.log(data,token)
     return (dispatch: Dispatch<Action>) => {
-       
         dispatch({
             type: ActionTypes.CREATE_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
 
-        return axios.post<any>("/api/interview/create", data)
-
+        return axios.post<any>("http://35.178.167.63:8888/api/interview/create", data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => {
-                
                 dispatch({
                     type: ActionTypes.CREATE_SINGLE_INTERVIEW_SUCCESS,
                     payload: res.data

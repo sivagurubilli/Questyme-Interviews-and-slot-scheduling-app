@@ -3,31 +3,30 @@ import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
 
-export const createBulkInterview = (data: any,token:string) => {
+export const updateSingleInterview = (interviewId: any,data:any, token: string) => {
+    console.log(data,token)
     return (dispatch: Dispatch<Action>) => {
-        console.log("shivam");
         dispatch({
-            type: ActionTypes.CREATE_BULK_INTERVIEW_REQUEST,
+            type: ActionTypes.UPDATE_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
-        return axios.post<any>("http://35.178.167.63:8888/api/interview/csv/create", data, {
+
+        return axios.put<any>(`http://35.178.167.63:8888/api/interview/${interviewId}/update`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
             },
         })
             .then((res) => {
-                console.log(res);
                 dispatch({
-                    type: ActionTypes.CREATE_BULK_INTERVIEW_SUCCESS,
-                    payload: res
+                    type: ActionTypes.UPDATE_SINGLE_INTERVIEW_SUCCESS,
+                    payload: res.data
                 })
                 return res;
             })
             .catch((err) => {
                 console.log(err);
                 dispatch({
-                    type: ActionTypes.CREATE_BULK_INTERVIEW_FAILURE,
+                    type: ActionTypes.UPDATE_SINGLE_INTERVIEW_FAILURE,
                     payload: true
                 })
             })

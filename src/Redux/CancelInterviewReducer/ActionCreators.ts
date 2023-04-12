@@ -3,13 +3,17 @@ import { ActionTypes } from "./ActionTypes";
 import axios from "axios";
 import { Action } from "./Action";
 
-export const cancelSingleInterview = (interviewId: any) => {
+export const cancelSingleInterview = (interviewId: any,token:string) => {
     return (dispatch: Dispatch<Action>) => {
         dispatch({
             type: ActionTypes.CANCEL_SINGLE_INTERVIEW_REQUEST,
             payload: true
         })
-        return axios.post<any>(`https://6786-202-142-81-182.in.ngrok.io/api/interview/${interviewId}/cancel`)
+        return axios.put<any>(`http://35.178.167.63:8888/api/interview/${interviewId}/cancel`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => {
                 console.log(res);
                 dispatch({
