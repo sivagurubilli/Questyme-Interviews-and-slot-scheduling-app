@@ -25,7 +25,7 @@ export const getSlotDays = async (id:any) => {
   export const CountBySlotsStatusService = async(token:string)=>{
     try {
       const response = await axios.get(
-        "/slot/get-analytics",
+        "/slot/get-analytics/",
         {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -42,7 +42,7 @@ export const getSlotDays = async (id:any) => {
   export const CountByAdminSlotsStatusService = async(id:string,token:string)=>{
     try {
       const response = await axios.get(
-        `/slot/get-analytics${id}`,
+        `/slot/get-analytics/${id}`,
         {
         headers: {
           Authorization: `Bearer ${token}`,

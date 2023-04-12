@@ -31,7 +31,7 @@ const OneOnOneSlotsView = () => {
   const [dates, setDates] = useState([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modalBody, setModalBody] = useState<string>("");
-  const [selectedDay, setSelectedDay] = useState<string | Date>("");
+  const [selectedDay, setSelectedDay] = useState<string >("");
   const location = useLocation();
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
@@ -91,7 +91,14 @@ const OneOnOneSlotsView = () => {
       const response = await DeleteSlotsService(slotId, token);
 
    if(response){
-
+    GetEventByDate(selectedDay)
+    toast({
+      title: "Slot Deletion Successful",
+      status: "success",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
    }
     } catch (err) {
       toast({

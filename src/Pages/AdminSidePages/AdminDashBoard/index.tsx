@@ -4,6 +4,7 @@ import DashboardNavbar from "./DashboardNavbar";
 import {
   Box,
   Flex,
+  FormLabel,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -85,6 +86,11 @@ const clearUrl =()=>{
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
      <Box w="60%" ml="20%">
+     <Flex justifyItems="center" mb="20px">
+            <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
+            The Status of All Interviews 
+            </FormLabel>
+            </Flex>
   <Flex justifyContent="space-between">
     <Text>Total Interviews </Text> <Text>{totalInterviews?.totalInterviews}</Text>
   </Flex>

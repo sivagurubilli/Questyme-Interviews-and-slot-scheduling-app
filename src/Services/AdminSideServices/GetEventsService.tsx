@@ -191,7 +191,7 @@ export async function GetSlotsForDateService(id:string,date: string,token:string
 //service for deleting slots 
 export async function DeleteSlotsService(id:string,token:string) {
   try {
-    const response = await axios.post(
+    const response = await axios.delete(
       `/slot/deleteslot/${id}`,
      
       {

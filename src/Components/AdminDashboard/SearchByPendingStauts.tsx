@@ -177,7 +177,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
       >
         <Flex justifyItems="center">
           <FormLabel fontSize="20px" style={{ margin: "0 auto" }}>
-            Display Events Based On Meeting Status
+            Display Events Based on Meeting Status
           </FormLabel>
         </Flex>
         <Flex justifyContent="center" flexWrap="wrap">
@@ -210,7 +210,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
               }
             />
             <Text fontSize="20px" mt="20px" ml="40%">
-              No Events Were Found
+              No Events were Found
             </Text>
           </Box>
         ) : (

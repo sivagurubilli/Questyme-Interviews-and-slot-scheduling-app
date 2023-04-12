@@ -195,19 +195,19 @@ export const IntervieStatusByBatch ={
 export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
 
 export const SlotsStatus = {
-    "totalSlots": 32,
+    "totalSlots":0,
     "results": [
         {
             "meetingStatus": "B",
-            "count": 1
+            "count": 0
         },
         {
             "meetingStatus": "U",
-            "count": 30
+            "count": 0
         },
         {
             "meetingStatus": "D",
-            "count": 1
+            "count": 0
         }
     ]
 }

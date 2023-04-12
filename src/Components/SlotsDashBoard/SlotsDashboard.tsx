@@ -27,6 +27,7 @@ const SlotsDashboard = () => {
         id,
         token
       );
+      console.log(response,adminSlotsResponse)
       if (response.results) {
         setTotalSlots(response);
       }
@@ -64,7 +65,7 @@ const SlotsDashboard = () => {
         <Box w="60%" ml="20%">
           <Flex justifyItems="center">
             <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
-              Status Of All Slots
+              Status of All Slots
             </FormLabel>
           </Flex>
           <Flex justifyContent="space-between">
@@ -111,7 +112,7 @@ const SlotsDashboard = () => {
         <Box w="60%" ml="20%">
           <Flex justifyItems="center">
             <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
-              Status Of All Slots For {name}
+              Status of All Slots for Interviewer {name}
             </FormLabel>
           </Flex>
           <Flex justifyContent="space-between">

@@ -57,6 +57,11 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
       >
         <Box w="60%" ml="20%">
+        <Flex justifyItems="center" mb="20px">
+            <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
+            The Status of Interviews in a Particular Batch
+            </FormLabel>
+            </Flex>
           <FormLabel>Search By Batch</FormLabel>
           <Flex w="100%" justifyContent="space-between">
             <SearchComponent
@@ -69,7 +74,7 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
               Search
             </Button>{" "}
           </Flex>
-          <FormLabel mt="10px">Total Interviews In Particular Batch</FormLabel>
+       
           <Box w="100%" >
         
         {batchName &&  <Flex justifyContent="space-between">
