@@ -8,12 +8,13 @@ import {
 } from "../../../Redux/AdminListByCategoryReducer/Action";
 
 export const getAlladminListByCategoryService =
-  (type: string) =>
+  (type: string,token:string) =>
   (
     dispatch: Dispatch<adminListByCategorySuccess | adminListByCategoryFailure>
   ): Promise<void | ActionTypes> => {
+    console.log("type",type)
     return axios
-      .get("http://localhost:8080/adminListBycategory")
+      .get(`http://35.178.167.63:8888/slot/get-all-available-admin/${type}`)
       .then((res) => {
         console.log("resadmins", res.data);
         dispatch({
