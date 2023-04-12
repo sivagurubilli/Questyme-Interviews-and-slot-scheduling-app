@@ -331,18 +331,28 @@ const AdminInterviewDetailPage = () => {
                                                 Meeting Status
                                             </Text>
                                         </Box>
-                                        <Box
-                                            w={"60%"}
-                                            textAlign={"left"}
-                                        >
-                                            <Text
-                                                mt={"8px"}
-                                                fontSize={"18px"}
-                                                fontWeight={"500"}
-                                                color={"blue"}
-                                            >
-                                                <Switch />
-                                            </Text>
+                                        <Box w={"60%"} textAlign={"left"}>
+                                            {Object.keys(interview).length === 0 ? (
+                                                ""
+                                            ) : interview.meetingStatus == "P" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Pending</Text>
+                                            ) : interview.meetingStatus === "C" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Canceled...</Text>
+                                            ) : interview.meetingStatus === "SS" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Started By Student</Text>
+                                            ) : interview.meetingStatus === "SE" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Ended By Student</Text>
+                                            ) : interview.meetingStatus == "IE" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Ended By Interviewer</Text>
+                                            ) : interview.meetingStatus == "IS" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Started By Interviewer</Text>
+                                            ) : interview.meetingStatus == "S" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Started</Text>
+                                            ) : interview.meetingStatus == "E" ? (
+                                                <Text color={"blue"} fontSize={"18px"} fontWeight={"500"}>Ended</Text>
+                                            ) : (
+                                                ""
+                                            )}
                                         </Box>
                                     </Flex>
                                     <Flex
@@ -396,7 +406,7 @@ const AdminInterviewDetailPage = () => {
                                                 fontSize={"18px"}
                                                 fontWeight={"500"}
                                             >
-                                                Notes
+                                                Feedback
                                             </Text>
                                         </Box>
                                         <Box
@@ -409,7 +419,7 @@ const AdminInterviewDetailPage = () => {
                                                 fontWeight={"500"}
                                                 color={"blue"}
                                             >
-                                                notes
+                                               {Object.keys(interview).length === 0 ? "" : interview.adminFeedback}
                                             </Text>
                                         </Box>
                                     </Flex>

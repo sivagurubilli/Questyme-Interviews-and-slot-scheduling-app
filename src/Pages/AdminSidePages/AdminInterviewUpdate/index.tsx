@@ -86,8 +86,8 @@ export const UpdateSingleInterview = () => {
     })
 
     const initialValues: MyFormValues = {
-        interviewer: "gurubillisiva22@gmail.com",
-        interviewee: "siva112323@gmail.com",
+        interviewer: data.interviewerEmail,
+        interviewee: data.intervieweeEmail,
         start: startTime,
         end: endTime,
         date: `${iyear}-${imonth}-${idate}`,

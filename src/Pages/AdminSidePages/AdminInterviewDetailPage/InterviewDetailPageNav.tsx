@@ -44,7 +44,11 @@ const DetailPageNav = ({ interview, id }: InterviewProp) => {
     }
 
     const handleUpdate = () => {
-        navigate(`/admin/single-interview/edit/${id}`,{ state: { data: interview} })
+        navigate(`/admin/single-interview/edit/${id}`, { state: { data: interview } })
+    }
+
+    const AddFeedback = () => {
+
     }
 
     return (
@@ -61,6 +65,9 @@ const DetailPageNav = ({ interview, id }: InterviewProp) => {
                             </Button>
                             <Button colorScheme="blue" onClick={handleDelete}>
                                 Cancel
+                            </Button>
+                            <Button colorScheme="blue" onClick={AddFeedback}>
+                                Add Feedback
                             </Button>
                         </Flex>
                     </Flex>
