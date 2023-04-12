@@ -99,7 +99,7 @@ export const UpdateSingleInterview = () => {
     }
 
     useEffect(() => {
-        getAllCategoryDataService()(dispatch);
+        getAllCategoryDataService(token)(dispatch);
     }, []);
 
     // -------------takinc current date and time for validation --------------

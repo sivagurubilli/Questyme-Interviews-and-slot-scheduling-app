@@ -82,7 +82,7 @@ export const CreateSingleInterview = () => {
     console.log(category);
 
     useEffect(() => {
-        getAllCategoryDataService()(dispatch);
+        getAllCategoryDataService(token)(dispatch);
     }, []);
 
     // -------------takinc current date and time for validation --------------
