@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Divider, Flex, FormLabel, useToast } from "@chakra-ui/react";
 import Navbar from '../../../../Components/Navbar/Navbar'
 import BulkEventNav from "./BulkEventNav";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createBulkInterview } from "../../../../Redux/ScheduleBulkInterviewAdmin/ActionCreators";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,7 @@ const CreateBulkEvent = () => {
   const dispatch = useDispatch();
   const toast=useToast();
   const navigate=useNavigate();
+  const token=useSelector((state:any)=>state.AuthReducer.token)
 
   const handleOnchange = (e: any) => {
     const fileList = e.target.files;
@@ -23,7 +24,7 @@ const CreateBulkEvent = () => {
   const handleCreateSchedule = () => {
     const formData = new FormData();
     formData.append("file", file);
-    createBulkInterview(formData)(dispatch).then((res:any)=>{
+    createBulkInterview(formData,token)(dispatch).then((res:any)=>{
       if(res.status==201){
         toast({
             title: "Interview Schduled success",

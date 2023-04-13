@@ -38,7 +38,7 @@ const OneOnOnOneSearch = ( ) => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
   const token = userDetails?.token;
-  const itemsPerPage =1
+  const itemsPerPage =6
   const path = window.location.pathname;
   const segments = path.split('/');
   const InterviewsValueUrl= segments[segments.length - 1];
@@ -160,7 +160,7 @@ if(searchName || category){
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
         p="5%"

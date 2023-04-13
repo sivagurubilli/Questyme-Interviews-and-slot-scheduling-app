@@ -1,9 +1,56 @@
 import React from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Iinterviews } from "../../../Services/AdminSideServices/GetEventsInterface";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from '../../../Redux/store'
+import { cancelSingleInterview } from "../../../Redux/CancelInterviewReducer/ActionCreators";
 
-const DetailPageNav = () => {
+
+interface InterviewProp {
+    interview: Iinterviews;
+    id: any;
+}
+
+const DetailPageNav = ({ interview, id }: InterviewProp) => {
+    const toast = useToast();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.AuthReducer.token)
+
+
+    const handleDelete = () => {
+        cancelSingleInterview(id, token)(dispatch).then((res: any) => {
+            if (res.status == 200) {
+                console.log("yes")
+                toast({
+                    title: "Interview Canceled Successfully",
+                    status: "success",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                });
+                navigate(-1)
+            }
+        }).catch((err: any) => {
+            toast({
+                title: `Somthing Went Wrong`,
+                status: "error",
+                position: "top",
+                duration: 2000,
+                isClosable: true,
+            })
+        })
+    }
+
+    const handleUpdate = () => {
+        navigate(`/admin/single-interview/edit/${id}`, { state: { data: interview } })
+    }
+
+    const AddFeedback = () => {
+
+    }
+
     return (
         <div>
             <Box position="relative" h="auto" marginTop="2px" bg="whiteAlpha.900" w="100%">
@@ -13,11 +60,14 @@ const DetailPageNav = () => {
                             Back
                         </Button>
                         <Flex gap={"20px"}>
-                            <Button colorScheme="blue" onClick={() => navigate(-1)}>
+                            <Button colorScheme="blue" onClick={handleUpdate}>
                                 Update
                             </Button>
-                            <Button colorScheme="blue" onClick={() => navigate(-1)}>
-                                Delete
+                            <Button colorScheme="blue" onClick={handleDelete}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="blue" onClick={AddFeedback}>
+                                Add Feedback
                             </Button>
                         </Flex>
                     </Flex>

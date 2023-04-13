@@ -19,9 +19,9 @@ const OneonOneEventComponent = ({
 
 
   
-
+// creating unique hashed link for admin copy paste for slots booking
   useEffect(() => {
-    setuniqueLink(`localhost:3001/slot/${event.id}`);
+    setuniqueLink(`http://35.178.167.63:8888/student/booking/${event.id}`);
   }, [event.id]);
 
   //for copying link when click on copylink
@@ -60,8 +60,13 @@ const OneonOneEventComponent = ({
         <Box p="20px">
           <Text color="#474747">{event.title}</Text>
           <Flex mt="10px" justifyContent="space-between">
+          <Text color="#778087">Duration</Text>{" "}
             <Text color="#778087">{event.duration} Mins</Text>{" "}
            
+          </Flex>
+          <Flex mt="10px" justifyContent="space-between">
+          <Text color="#778087">Category</Text>{" "}
+          <Text color="#778087">{event.category?.toLowerCase()}</Text>
           </Flex>
         </Box>
         <Divider mb="10px" />

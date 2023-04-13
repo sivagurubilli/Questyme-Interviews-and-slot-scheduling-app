@@ -32,3 +32,38 @@ export const getSlotDays = async (id:any) => {
       console.log(error)
     }
   }
+
+
+  export const CountBySlotsStatusService = async(token:string)=>{
+    try {
+      const response = await axios.get(
+        "/slot/get-analytics/",
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      },
+      );
+  
+      return response.data;
+    } catch (error: any) {
+      return error.response;
+    }
+  }
+
+  export const CountByAdminSlotsStatusService = async(id:string,token:string)=>{
+    try {
+      const response = await axios.get(
+        `/slot/get-analytics/${id}`,
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      },
+      );
+  
+      return response.data;
+    } catch (error: any) {
+      return error.response;
+    }
+  }

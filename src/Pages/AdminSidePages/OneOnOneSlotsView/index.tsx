@@ -4,37 +4,36 @@ import {
   Divider,
   Flex,
   FormLabel,
+  Stack,
   Text,
+  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
-import OneOffModal from "../../../Components/Modals/OneOffModal";
-import Navbar from "../../../Components/Navbar/Navbar";
-import Calendar from "../../../Components/Calender/Calendar";
+
 import {
   DeleteSlotsService,
   GetDateOneOffService,
   GetSlotsForDateService,
 } from "../../../Services/AdminSideServices/GetEventsService";
-import { IEventValues, ISlotsValues } from "../Interfacces";
+import {  ISlotsValues } from "../Interfacces";
 import { useLocation } from "react-router-dom";
 import OneOnOneCreateNav from "../AdminOneOnOneCreate/OneOnOneCreateNav";
+import Navbar from "../../../Components/Navbar/Navbar";
+import Calendar from "../../../Components/Calender/Calendar";
 
-interface Islot {
-  start: "";
-  end: "";
-}
 
 const OneOnOneSlotsView = () => {
   const [events, setEvents] = useState<ISlotsValues[]>([]);
   const [dates, setDates] = useState([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [modalBody, setModalBody] = useState<string>("");
-  const [selectedDay, setSelectedDay] = useState<string | Date>("");
+  const [selectedDay, setSelectedDay] = useState<string >("");
   const location = useLocation();
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
   const token = userDetails?.token;
   const toast = useToast();
+  const [isSmallerThan600] = useMediaQuery("(max-width: 800px)");
+
+
 
   const GetEvents = useCallback(async () => {
     try {
@@ -63,7 +62,7 @@ const OneOnOneSlotsView = () => {
         const response = await GetSlotsForDateService(id, date, token);
 
         if (response.length) {
-          
+          console.log(response)
           setEvents(response);
         } else {
           setEvents([]);
@@ -86,7 +85,14 @@ const OneOnOneSlotsView = () => {
       const response = await DeleteSlotsService(slotId, token);
 
    if(response){
-
+    GetEventByDate(selectedDay)
+    toast({
+      title: "Slot Deletion Successful",
+      status: "success",
+      position: "top",
+      duration: 2000,
+      isClosable: true,
+    });
    }
     } catch (err) {
       toast({
@@ -141,7 +147,7 @@ const istDate = istTime.toISOString().slice(0, 10);
   return (
     <div className="container">
       <Navbar />
-      <OneOnOneCreateNav NavText=" All Slots Available Slots" />
+      <OneOnOneCreateNav NavText=" All  Available Slots" />
       <Box
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         h="auto"
@@ -152,14 +158,14 @@ const istDate = istTime.toISOString().slice(0, 10);
         p="2%"
         pb="100px"
       >
-        <Flex>
-          <Box
-            boxShadow="0 5px 15px rgba(0,0,0,0.06)"
-            w="60%"
-            ml="20px"
-            h="auto"
-            p="20px"
-          >
+       <Stack direction={isSmallerThan600 ? "column" : "row"} spacing={8}>
+       <Box
+  boxShadow="0 5px 15px rgba(0,0,0,0.06)"
+  w={{ base: "100%", sm: "100%", md: "60%" }}
+  ml={{ base: "0", sm: "0", md: "20px" }}
+  h="auto"
+  p="20px"
+>
             <Calendar
               events={events}
               handleSelect={handleSelect}
@@ -171,7 +177,7 @@ const istDate = istTime.toISOString().slice(0, 10);
             h="auto"
             ml="20px"
             bg="white"
-            w="40%"
+            w={{ base: "100%", sm: "100%", md: "40%" }}
             p="20px"
           >
             <FormLabel>All Slots On Particular Date</FormLabel>
@@ -216,7 +222,7 @@ const istDate = istTime.toISOString().slice(0, 10);
               ))
             )}
           </Box>
-        </Flex>
+        </Stack>
       </Box>
     </div>
   );
