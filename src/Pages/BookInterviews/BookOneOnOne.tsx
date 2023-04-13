@@ -109,7 +109,7 @@ console.log("categoryTye",categoryType)
                     console.log("item",item)
                     return (
                     
-                        <Link to={`/book-one-on-one/admin/${item.id}`} key={item.id}>
+                        <Link to={`/student/booking/${item.id}`} key={item.id}>
                           <Button colorScheme="blue" mt={"10px"}>{item.name}</Button>
                         </Link>)
                       
