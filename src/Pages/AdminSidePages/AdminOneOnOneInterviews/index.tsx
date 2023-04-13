@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from "../../../Components/Navbar/Navbar" ;
 import OneOnOneEventsNav from './OneOnOneEventsNav';
 import OneOnOnOneSearch from '../../../Components/AdminInterviews/OneOnOneSearch';
+import SlotsDashboard from '../../../Components/SlotsDashBoard/SlotsDashboard';
 
 
 const OneonOneEvents= () => {
@@ -14,6 +15,7 @@ const OneonOneEvents= () => {
     <div>
         <Navbar />
   <OneOnOneEventsNav />
+  <SlotsDashboard />
       {InterviewsValue ==="one-on-one-interviews" ? <OneOnOnOneSearch />:""}
     </div>
   )

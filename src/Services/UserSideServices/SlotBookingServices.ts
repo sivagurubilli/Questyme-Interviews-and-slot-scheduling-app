@@ -68,4 +68,3 @@ export const getSlotDays = async (id:any) => {
       return error.response;
     }
   }
-  

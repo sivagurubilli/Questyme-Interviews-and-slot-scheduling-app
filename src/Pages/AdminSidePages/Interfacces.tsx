@@ -31,6 +31,7 @@ export interface IEventValues {
     adminId: string;
     duration: string;
     date:string | Date;
+    category:string;
     slotTime:[{startTime:string,
     endTime: string}]
   }

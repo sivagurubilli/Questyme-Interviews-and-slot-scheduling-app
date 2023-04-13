@@ -15,7 +15,8 @@ import {
   AddRecurringSlotsService,
 } from "../../Services/AdminSideServices/GetEventsService";
 import { useNavigate, useParams } from "react-router-dom";
-import { DaysForRecurring ,backendResponse} from "../../Assets/Assets";
+
+import { DaysForRecurring, backendResponse } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const [days, setDays] = useState(DaysForRecurring);
@@ -81,7 +82,7 @@ day: string;
         availabilities: transformedDays
       });
     }
-  }, [days]);
+  }, [days,recurringEventDetails]);
   
  
 // when getting values from backend make it to frontend
@@ -124,8 +125,7 @@ setDays(result)
  
 
   const AddSlots = async () => {
-    
-
+  
     try {
       const response = await AddRecurringSlotsService(recurringEventDetails,token);
       if (response) {

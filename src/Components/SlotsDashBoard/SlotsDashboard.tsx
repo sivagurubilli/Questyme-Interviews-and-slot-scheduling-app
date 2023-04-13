@@ -16,8 +16,6 @@ const SlotsDashboard = () => {
   const name = userDetails?.user?.name;
   const toast = useToast();
 
-
-  console.log(adminSlots)
   const GetEvents = useCallback(async () => {
     try {
       const response = await CountBySlotsStatusService(token);

@@ -9,12 +9,14 @@ import {
     Text,
     Textarea,
     useMediaQuery,
+    useToast,
   } from "@chakra-ui/react";
-  import React, { useEffect, useState } from "react";
+  import React, { useCallback, useEffect, useState } from "react";
   import { useFormik } from "formik";
 import { Duration } from "../../Assets/Assets";
 import { validationSchema } from "./ValidationSchema";
 import TimeslotsInput from "./TimeslotsInput";
+import { GetCategoryService } from "../../Services/AdminSideServices/GetEventsService";
   //yup validation schema
 
   
@@ -33,9 +35,15 @@ import TimeslotsInput from "./TimeslotsInput";
       meetingLink: EventValues.meetingLink,
       duration: EventValues.duration,
       date: EventValues.date,
+      category:EventValues.category,
       adminId: EventValues.adminId
     };
-  
+    const [category,setCategory] = useState([])
+    const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+    const id = userDetails?.user?.id;
+    const token = userDetails?.token;
+    const toast = useToast()
+
     const onSubmit = async () => {
       if (buttonName === "Create Slots") {
         addEvent();
@@ -44,6 +52,31 @@ import TimeslotsInput from "./TimeslotsInput";
       }
     };
 
+
+    const GetCategory =useCallback(async()=>{
+      try {
+        const response = await GetCategoryService( token); 
+       
+        if (response.length) {
+          setCategory(response);
+        }
+      } catch (error) {
+        toast({
+          title: "Something Went Wrong",
+          status: "error",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }, [toast,token]);
+    
+    
+    
+    
+       useEffect(()=>{
+      GetCategory()
+       },[GetCategory])
 
     //using formik we can set values onSubmit and onChange
     const { handleSubmit, handleBlur, touched, handleChange, values, errors } =
@@ -129,7 +162,28 @@ import TimeslotsInput from "./TimeslotsInput";
                 </Text>
               )}
             </Box>
-            
+            <Box>
+            <FormLabel mt="10px" color="rgb(75 85 99)">
+             Category
+            </FormLabel>
+            <Select
+              value={values.category}
+              onChange={handleChange}
+              name="category"
+              placeholder="category"
+            >
+              {category?.map((e)=>(
+              <option key={e} value={e}>
+                {e} 
+              </option>))}
+              
+            </Select>
+            {touched.category && errors.category && (
+              <Text color="red">
+                {JSON.stringify(errors.category).replace(/"/g, "")}
+              </Text>
+            )}
+          </Box>
             <Box>
               <FormLabel mt="10px" color="rgb(75 85 99)">
                 Select Date{" "}

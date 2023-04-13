@@ -38,7 +38,7 @@ const FutureOrPastInterviewsComponent = ( ) => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
   const token = userDetails?.token;
-  const itemsPerPage =1
+  const itemsPerPage =6
   const path = window.location.pathname;
   const segments = path.split('/');
   const InterviewsValueUrl= segments[segments.length - 1];

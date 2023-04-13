@@ -166,11 +166,7 @@ export const SlotsStatus = {
             "meetingStatus": "D",
             "count": 0
         }
-    ]
-}
-
-
-
+      }
 
 export const backendResponse = [
   {
@@ -181,7 +177,7 @@ export const backendResponse = [
   {
     slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    day: 'Mon',
+  day: 'Mon',
   },
   {
     slotTiming: [{ startTime: '09:00', endTime: '17:00' }],

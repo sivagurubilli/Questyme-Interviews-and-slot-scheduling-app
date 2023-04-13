@@ -14,7 +14,7 @@ import { PostEventsService } from "../../../Services/AdminSideServices/GetEvents
 const OneonOneEventsCreate = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const id = userDetails?.user?.id;
-
+  const token = userDetails?.token;
   const [EventValues, setEventValues] = useState<IOneOnEventValues>({
     title: "",
     instruction: "",
@@ -23,9 +23,6 @@ const OneonOneEventsCreate = () => {
     category:"",
     duration: "",
   });
-
-
-
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
@@ -33,13 +30,12 @@ const OneonOneEventsCreate = () => {
 
 
   const addEvent = async () => {
- 
-    
+  
     SetOneOnOneData(EventValues)
     setTimeout(() => {
       navigate(`/admin/add-availability`);
     }, 1000);
-  };
+  }
 
   return (
     <div className="container">
