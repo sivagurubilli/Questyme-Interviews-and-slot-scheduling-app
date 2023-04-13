@@ -1,16 +1,15 @@
-import Navbar from '../../../../Components/Navbar/Navbar'
+import Navbar from '../../../Components/Navbar/Navbar'
 import React, { useEffect } from 'react'
-import InterviewCreateNav from './InterviewCreateNav'
 import { Box, Button, FormLabel, Input, Select, Textarea, useToast } from '@chakra-ui/react'
 import { useFormik } from 'formik'
 import * as yup from "yup";
-import './index.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { createSingleInterview } from '../../../../Redux/ScheduleInterviewAdmin/ActionCreators'
-import { useNavigate } from 'react-router-dom'
-import { getAllCategoryDataService } from '../../../../Services/UserSideServices/GetCategoryServices/GetCategoryService'
-import { RootState } from '../../../../Redux/store'
-
+import { createSingleInterview } from '../../../Redux/ScheduleInterviewAdmin/ActionCreators'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getAllCategoryDataService } from '../../../Services/UserSideServices/GetCategoryServices/GetCategoryService'
+import { RootState } from '../../../Redux/store'
+import InterviewUpdateNav from './InterviewUpdateNav'
+import { updateSingleInterview } from "../../../Redux/UpdateSingleInterviewReducer/ActionCreators";
 
 const validationSchema = yup.object().shape({
     interviewer: yup
@@ -48,38 +47,56 @@ const validationSchema = yup.object().shape({
 })
 
 export interface MyFormValues {
-    "interviewer": string,
-    "interviewee": string,
-    "start": string,
-    "end": string,
-    "date": string,
-    "category": string,
-    "instruction": string,
-    "title": string,
-    "zoomlink": string,
-    "batch": string
+    interviewer: string,
+    interviewee: string,
+    start: string,
+    end: string,
+    date: string,
+    category: string,
+    instruction: string,
+    title: string,
+    zoomlink: string,
+    batch: string
 }
 
-const initialValues: MyFormValues = {
-    "interviewer": "",
-    "interviewee": "",
-    "start": "",
-    "end": "",
-    "date": "",
-    "category": "",
-    "instruction": "",
-    "title": "",
-    "zoomlink": "",
-    "batch": ""
-}
-
-export const CreateSingleInterview = () => {
+export const UpdateSingleInterview = () => {
     const dispatch = useDispatch();
     const toast = useToast();
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const { state } = useLocation();
+    const data = state.data;
+    const { id } = useParams();
+    console.log(data);
     const token = useSelector((state: RootState) => state.AuthReducer.token);
     const category = useSelector((state: RootState) => state.CategoryReducer.categories);
-    console.log(category);
+
+    // formating the start time to update in the form 
+    const startTime = data.startTime.split(":").slice(0, 2).join(":");
+
+    // formating the end time to update in the form 
+    const endTime = data.endTime.split(":").slice(0, 2).join(":");
+
+    // formating the date to update in the form 
+    const [idate, imonth, iyear] = data.date.split("-")
+
+    category.map((e: string) => {
+        if (data.category === e) {
+            data.category = e
+        }
+    })
+
+    const initialValues: MyFormValues = {
+        interviewer: data.interviewerEmail,
+        interviewee: data.intervieweeEmail,
+        start: startTime,
+        end: endTime,
+        date: `${iyear}-${imonth}-${idate}`,
+        category: data.category,
+        instruction: data.instructions,
+        title: data.title,
+        zoomlink: data.meetingLink,
+        batch: data.batch
+    }
 
     useEffect(() => {
         getAllCategoryDataService(token)(dispatch);
@@ -118,25 +135,25 @@ export const CreateSingleInterview = () => {
             "batch": values.batch
         }
         console.log(data);
-        createSingleInterview(data, token)(dispatch).then((res: any) => {
-            if (res.status == 201) {
+        updateSingleInterview(id, data, token)(dispatch).then((res: any) => {
+            if (res.status == 200) {
                 toast({
-                    title: "Interview Schduled success",
+                    title: "Interview Updated Successfully",
                     status: "success",
                     position: "top",
                     duration: 2000,
                     isClosable: true,
                 });
-                navigate("/admin/dashboard");
-            } else {
-                toast({
-                    title: "Something Went Wrong",
-                    status: "error",
-                    position: "top",
-                    duration: 2000,
-                    isClosable: true,
-                });
+                navigate(-1);
             }
+        }).catch((err) => {
+            toast({
+                title: "Something Went Wrong",
+                status: "error",
+                position: "top",
+                duration: 2000,
+                isClosable: true,
+            });
         })
     };
 
@@ -153,7 +170,7 @@ export const CreateSingleInterview = () => {
     return (
         <div className="container">
             <Navbar />
-            <InterviewCreateNav />
+            <InterviewUpdateNav />
             <Box w="80%" ml="10%" mt="60px" minH="200px" h="auto" p="5%" bg="white" borderRadius="10px" boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)">
                 <Box borderRadius={"10px"} justifyContent={'center'} boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" width={"100%"} p="20px">
                     <form onSubmit={handleSubmit}>
@@ -181,7 +198,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Interviewer e-mail address"
                                     value={values.interviewer}
                                 />
-                                {touched.interviewer &&  errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
+                                {touched.interviewer && errors.interviewer && <p style={{ "color": "red" }}>{errors.interviewer}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -195,7 +212,7 @@ export const CreateSingleInterview = () => {
                                     placeholder="Enter Interviewer e-mail address"
                                     value={values.interviewee}
                                 />
-                                {touched.interviewee &&  errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
+                                {touched.interviewee && errors.interviewee && <p style={{ "color": "red" }}>{errors.interviewee}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -208,7 +225,7 @@ export const CreateSingleInterview = () => {
                                     type='time'
                                     value={values.start}
                                 />
-                                {touched.start &&  errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
+                                {touched.start && errors.start && <p style={{ "color": "red" }}>{errors.start}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -221,7 +238,7 @@ export const CreateSingleInterview = () => {
                                     type='time'
                                     value={values.end}
                                 />
-                                {touched.end &&  errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
+                                {touched.end && errors.end && <p style={{ "color": "red" }}>{errors.end}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -235,7 +252,7 @@ export const CreateSingleInterview = () => {
                                     min={`${year}-${month}-${date}`}
                                     value={values.date}
                                 />
-                                { touched.date && errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
+                                {touched.date && errors.date && <p style={{ "color": "red" }}>{errors.date}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -253,7 +270,7 @@ export const CreateSingleInterview = () => {
                                         })
                                     }
                                 </Select>
-                                {touched.category &&  errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
+                                {touched.category && errors.category && <p style={{ "color": "red" }}>{errors.category}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -266,7 +283,7 @@ export const CreateSingleInterview = () => {
                                     type='text'
                                     value={values.batch}
                                 />
-                                {touched.batch &&  errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
+                                {touched.batch && errors.batch && <p style={{ "color": "red" }}>{errors.batch}</p>}
                             </div>
                             <div>
                                 <FormLabel mt="10px" color="rgb(75 85 99)">
@@ -295,7 +312,7 @@ export const CreateSingleInterview = () => {
                             </div>
                         </div>
                         <div className='submitButton'>
-                            <Button type='submit' colorScheme='blue' mt="10px">Schedule Interview</Button>
+                            <Button type='submit' colorScheme='blue' mt="10px">Update Interview</Button>
                         </div>
                     </form>
                 </Box>

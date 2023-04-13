@@ -12,6 +12,9 @@ import { id} from "../../../Assets/Assets";
 
 
 const OneonOneEventsCreate = () => {
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+  const id = userDetails?.user?.id;
+  const token = userDetails?.token;
   const [EventValues, setEventValues] = useState<IOneOnEventValues>({
     title: "",
     instruction: "",
@@ -20,19 +23,29 @@ const OneonOneEventsCreate = () => {
     category:"",
     duration: "",
   });
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> master
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const addEvent = async () => {
+=======
+
+
+  const addEvent = async () => {
+  
+>>>>>>> master
     SetOneOnOneData(EventValues)
     setTimeout(() => {
       navigate(`/admin/add-availability`);
     }, 1000);
-  };
+  }
 
   return (
     <div className="container">

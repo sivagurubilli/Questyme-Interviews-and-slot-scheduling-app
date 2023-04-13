@@ -1,29 +1,33 @@
 import axios from "axios"
 
+
 export const getSlotDays = async (id:any) => {
     try {
       const response = await axios.get(`http://35.178.167.63:8888/slot/get-slot-dates/${id}`);
-      if( response.data.dates){
-        return  response.data.dates
-        
+      if( response.data){
+        return  response.data
       }
     } catch (error) {
-      console.log("error",error)
+      console.log(error)
     }
   }
 
-  export const getSlots = async (time:string) => {
+  export const getSlots = async (id:any,time:string) => {
     try {
-      const response = await axios.get(`http://35.178.167.63:8888/slot/get-unbooked-slot/1/${time}`);
+      const response = await axios.get(`http://35.178.167.63:8888/slot/get-unbooked-slot/${id}/${time}`);
       return response.data
     } catch (error) {
       console.log(error)
     }
   }
 
-  export const getBookSlot = async (e:any,userId:any) =>{
+  export const getBookSlot = async (e:any,userId:any,token:string) =>{
     try {
-      const response = await axios.post(`http://35.178.167.63:8888/slot/bookslot/${e.slotId}/user/${userId}`);
+      const response = await axios.post(`http://35.178.167.63:8888/slot/bookslot/${e.slotId}/user/${userId}`, {}, {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});
       return response.data
     } catch (error) {
       console.log(error)

@@ -52,49 +52,6 @@ export const DaysForRecurring = [
   },
 ]
 
-export const DaysForRecurringEvents = [
-  {
-    name: "Sun",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  },
-  {
-    name: "Mon",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-
-  },
-  {
-    name: "Tue",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-    
-  },
-  {
-    name: "Wed",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
- 
-  },
-  {
-    name: "Thu",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-   
-  },
-  {
-    name: "Fri",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-
-  },
-  {
-    name: "Sat",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  
-  },
-]
 
 
 

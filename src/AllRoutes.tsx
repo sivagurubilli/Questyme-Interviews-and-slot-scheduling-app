@@ -20,17 +20,17 @@ import AddDaysAvailability from './Pages/AdminSidePages/AddAvailabilityForSlots/
 import FutureInterviews from './Pages/AdminSidePages/FutureInterviews/index';
 import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 import AdminInterviewDetailPage from './Pages/AdminSidePages/AdminInterviewDetailPage';
-
+import { UpdateSingleInterview } from './Pages/AdminSidePages/AdminInterviewUpdate';
 const AllRoutes = () => {
   return (
     <div>
-            <Routes>
-            <Route path ="" element ={<LoginUser/>} />
-            <Route path ="/login" element ={<LoginUser/>} />
+      <Routes>
+        <Route path="" element={<LoginUser />} />
+        <Route path="/login" element={<LoginUser />} />
 
             {/* <Route path ="/login" element ={<Login/>} /> */}
             <Route path ="/admin/one-on-one-interviews" element={<OneonOneEvents/>}/>
-
+            <Route path ="/admin/slots/view" element={<OneOnOneSlotsView/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsEdit/>}/>
         
