@@ -1,7 +1,7 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useEffect, useState } from "react";
 import DetailPageNav from "./InterviewDetailPageNav";
-import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SkeletonCircle, SkeletonText, Switch, Table, Tbody, Td, Text, Textarea, Tr, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SkeletonCircle, SkeletonText, Switch, Table, Tbody, Td, Text, Textarea, Tr, useDisclosure, useToast } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleInterview } from "../../../Redux/InterviewByIdReducer/ActionCreators";
@@ -12,6 +12,7 @@ import { postAdminFeedback } from "../../../Services/PostAdminFeedbackService/Po
 
 const AdminInterviewDetailPage = () => {
     const dispatch = useDispatch();
+    const toast = useToast();
     const { id } = useParams<string>();
     const token = useSelector((state: RootState) => state.AuthReducer.token)
     const user = useSelector((state: RootState) => state.AuthReducer.user)
@@ -19,26 +20,32 @@ const AdminInterviewDetailPage = () => {
     const interview = useSelector((state: RootState) => state.SingleInterviewReducer.interview);
     const isLoading = useSelector((state: RootState) => state.SingleInterviewReducer.isLoading);
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [startTimeStatus, setStartTimeStatus] = useState(false);
+    const [joinButtonStatus, setJoinButtonStatus] = useState(false);
+    const [updateCancelButtonStatus, setUpdateCancelButtonStatus] = useState(false);
+    const [feedbackButtonStatus, setFeedbackButtonStatus] = useState(false);
+    const [endButtonStatus, setEndButtonStatus] = useState(false);
     const [feedback, setFeedback] = useState("");
-    const showfeedback = decodeURI(interview.adminFeedback);
-    console.log(showfeedback);
 
+    // dispatching the function to get the interview-detail
     useEffect(() => {
         getSingleInterview(id, token)(dispatch);
     }, [])
 
+    // getting the current time in milisecond
     const time = Date.now();
-    console.log(time);
+    console.log(updateCancelButtonStatus, "updateStatus");
 
     // getting date time to convert it in milisecond
     const date = interview.date
     const startTime = interview.startTime
     const endTime = interview.endTime
-    console.log(date, startTime, endTime);
 
+    // combining the date and time to convert it in milisecond for comparision
     const starttime = `${date} ${startTime}`;
     const endtime = `${date} ${endTime}`
 
+    // function to convert the start and end time into milisecond
     function convertToMilliseconds(dateTimeString: string) {
         const [date, time] = dateTimeString.split(" ");
         const [day, month, year] = date.split("-");
@@ -47,9 +54,54 @@ const AdminInterviewDetailPage = () => {
         return milliseconds;
     }
 
+    // converting the start and end time into milisecond
     const miliStart = convertToMilliseconds(starttime);
     const miliEnd = convertToMilliseconds(endtime);
-    console.log(miliStart, miliEnd, "milisecond start and end")
+
+    // when to show the start button =>{startTime-5min <= currTime && meetingStatus==="P" && currTime < EndTime}
+    useEffect(() => {
+        if (((miliStart) <= time) && (interview.meetingStatus === "P" || interview.meetingStatus === "SS") && (time < miliEnd)) {
+            setStartTimeStatus(true);
+        }
+
+    }, [interview, time, miliStart, miliEnd]);
+
+    // when to show the update and cancel button =>{startTime < time || interview.meetingStatus === "C"}
+    useEffect(() => {
+        if (((miliStart) > time) && (interview.meetingStatus !== "C")) {
+            setUpdateCancelButtonStatus(true);
+        }
+    }, [interview, time, miliStart, miliEnd])
+
+    // when to show the join meeting button =>{startTime-5min <=currTime && currTime < endTime}
+    useEffect(() => {
+        if (((miliStart - 300000) <= time) && (time < miliEnd)) {
+            setJoinButtonStatus(true);
+        }
+        if ((interview.meetingStatus === "C")) {
+            setJoinButtonStatus(false);
+        }
+    }, [interview, time, miliStart, miliEnd])
+
+    // when to show add feedback button =>{meetingStatus==="S" || meetingStatus==="IS" || meetingStatus==="SE"}
+    useEffect(() => {
+        if ((interview.meetingStatus === "S") || (interview.meetingStatus === "IS") || (interview.meetingStatus === "SE")) {
+            setFeedbackButtonStatus(true);
+            setStartTimeStatus(false);
+        }
+    }, [interview])
+
+    // when to show end meeting button =>{currTime >= endTime}
+    useEffect(() => {
+        if ((time >= miliEnd)) {
+            setEndButtonStatus(true);
+        }
+        if ((interview.meetingStatus === "C") || (interview.meetingStatus === "IE") || (interview.meetingStatus === "E") || (interview.meetingStatus === "P")) {
+            setEndButtonStatus(false);
+            setFeedbackButtonStatus(false);
+            setJoinButtonStatus(false);
+        }
+    }, [interview, time, miliEnd])
 
     // on starting the meeting 
     const handleStarted = async (
@@ -78,17 +130,27 @@ const AdminInterviewDetailPage = () => {
         userId: number,
         token: string
     ) => {
-        try {
-            if (interviewId && userId && token) {
-                const res = await updateMeetingEndedStatusService(
-                    interviewId,
-                    userId,
-                    token
-                );
-                getSingleInterview(id, token)(dispatch);
+        if (!interview.adminFeedback) {
+            toast({
+                title: "Add Feedback to end the meet",
+                status: "error",
+                position: "top",
+                duration: 2000,
+                isClosable: true,
+            });
+        } else {
+            try {
+                if (interviewId && userId && token) {
+                    const res = await updateMeetingEndedStatusService(
+                        interviewId,
+                        userId,
+                        token
+                    );
+                    getSingleInterview(id, token)(dispatch);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
         }
     };
 
@@ -108,11 +170,10 @@ const AdminInterviewDetailPage = () => {
         }
     };
 
-
     return (
         <div>
             <Navbar />
-            <DetailPageNav interview={interview} id={id} />
+            <DetailPageNav interview={interview} id={id} updateCancelButtonStatus={updateCancelButtonStatus} />
             <main>
                 <Box bgColor={"#fafafa"} p={"20px"}>
                     <Box
@@ -131,7 +192,7 @@ const AdminInterviewDetailPage = () => {
                                         <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                                         </Td>
                                         <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                            title
+                                            Title
                                         </Td>
                                         <Td textAlign={"left"} color={"black"} fontSize={"17px"} fontWeight={"500"}>
                                             {Object.keys(interview).length === 0
@@ -161,131 +222,6 @@ const AdminInterviewDetailPage = () => {
                                             {Object.keys(interview).length === 0
                                                 ? ""
                                                 : convertTimeFormat(interview.endTime)}
-                                        </Td>
-                                    </Tr>
-                                    <Tr >
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                        </Td>
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                            isStarted
-                                        </Td>
-                                        <Td textAlign={"left"} color={"black"} fontSize={"17px"} fontWeight={"500"}>
-                                            {" "}
-                                            {interview.meetingStatus == "C" ? (
-                                                <Text
-                                                    color={"black"}
-                                                    fontSize={"17px"}
-                                                    fontWeight={"500"}
-                                                >
-                                                    Canceled...
-                                                </Text>
-                                            ) : miliStart <= time &&
-                                                interview.meetingStatus == "P" ? (
-                                                <Button
-                                                    onClick={() =>
-                                                        handleStarted(
-                                                            interview.interviewId,
-                                                            userId,
-                                                            token
-                                                        )
-                                                    }
-                                                    colorScheme="blue"
-                                                >
-                                                    Start
-                                                </Button>
-                                            ) : miliStart <= time &&
-                                                interview.meetingStatus == "SS" ? (
-                                                <Button
-                                                    onClick={() =>
-                                                        handleStarted(
-                                                            interview.interviewId,
-                                                            userId,
-                                                            token
-                                                        )
-                                                    }
-                                                    colorScheme="blue"
-                                                >
-                                                    Start
-                                                </Button>
-                                            ) : interview.meetingStatus == "P" ? (
-                                                <Text
-                                                    color={"black"}
-                                                    fontSize={"17px"}
-                                                    fontWeight={"500"}
-                                                >
-                                                    you can start the meet at start time
-                                                </Text>
-                                            ) : interview.meetingStatus == "S" ? (
-                                                <Button disabled={true} colorScheme="blue">
-                                                    Started
-                                                </Button>
-                                            ) : interview.meetingStatus == "IS" ? <Button disabled={true} colorScheme="blue">
-                                                Started
-                                            </Button> : (
-                                                <Text
-                                                    color={"black"}
-                                                    fontSize={"17px"}
-                                                    fontWeight={"500"}
-                                                >
-                                                    The meeting has already ended
-                                                </Text>
-                                            )}
-                                        </Td>
-                                    </Tr>
-                                    <Tr >
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                        </Td>
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                            isEnded
-                                        </Td>
-                                        <Td textAlign={"left"} color={"black"} fontSize={"17px"} fontWeight={"500"}>
-                                            {interview.meetingStatus == "C" ? (
-                                                <Text
-                                                    color={"black"}
-                                                    fontSize={"17px"}
-                                                    fontWeight={"500"}
-                                                >
-                                                    Canceled
-                                                </Text>
-                                            ) : interview.adminFeedback == null ? (
-                                                <Text
-                                                    color={"black"}
-                                                    fontSize={"17px"}
-                                                    fontWeight={"500"}
-                                                >
-                                                    Must add feedback to end the meet
-                                                </Text>
-                                            ) : interview.meetingStatus == "IE" ? (
-                                                <Button disabled={true} colorScheme="blue">
-                                                    Ended
-                                                </Button>
-                                            ) : interview.meetingStatus == "E" ? (
-                                                <Button disabled={true} colorScheme="blue">
-                                                    Ended
-                                                </Button>
-                                            ) : (miliEnd <= time &&
-                                                interview.meetingStatus == "S") ? (
-                                                <Button
-                                                    onClick={() =>
-                                                        handleEnded(
-                                                            interview.interviewId,
-                                                            userId,
-                                                            token
-                                                        )
-                                                    }
-                                                    colorScheme="blue"
-                                                >
-                                                    End
-                                                </Button>
-                                            ) : (
-                                                <Text
-                                                    color={"black"}
-                                                    fontSize={"17px"}
-                                                    fontWeight={"500"}
-                                                >
-                                                    you can not end the meet before endtime
-                                                </Text>
-                                            )}
                                         </Td>
                                     </Tr>
                                     <Tr >
@@ -335,7 +271,7 @@ const AdminInterviewDetailPage = () => {
                                                     fontSize={"17px"}
                                                     fontWeight={"500"}
                                                 >
-                                                    Canceled...
+                                                    Canceled
                                                 </Text>
                                             ) : interview.meetingStatus === "SS" ? (
                                                 <Text
@@ -384,22 +320,24 @@ const AdminInterviewDetailPage = () => {
                                             )}
                                         </Td>
                                     </Tr>
-                                    <Tr >
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                        </Td>
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                            Feedback
-                                        </Td>
-                                        <Td textAlign={"left"}>
-                                            <Text
-                                                color={"black"}
-                                                fontSize={"17px"}
-                                                fontWeight={"500"}>
-                                                {decodeURIComponent(interview.adminFeedback)}
-                                            </Text>
+                                    {
+                                        interview.adminFeedback && <Tr >
+                                            <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                                            </Td>
+                                            <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                                                Feedback
+                                            </Td>
+                                            <Td textAlign={"left"}>
+                                                <Text
+                                                    color={"black"}
+                                                    fontSize={"17px"}
+                                                    fontWeight={"500"}>
+                                                    {interview.adminFeedback}
+                                                </Text>
 
-                                        </Td>
-                                    </Tr>
+                                            </Td>
+                                        </Tr>
+                                    }
                                     <Tr >
                                         <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                                         </Td>
@@ -412,85 +350,97 @@ const AdminInterviewDetailPage = () => {
                                                 : interview.date}
                                         </Td>
                                     </Tr>
-                                    <Tr >
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                        </Td>
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                            Join Meeting
-                                        </Td>
-                                        <Td textAlign={"left"}>
-                                            <Link
-
-                                                to={`${Object.keys(interview).length !== 0 &&
-                                                    interview.meetingLink
-                                                    }`}
-                                                target="_blank"
-                                            >
-                                                <Button
-                                                    colorScheme="blue"
-                                                >
-                                                    join meet
-                                                </Button>
-                                            </Link>
-                                        </Td>
-                                    </Tr>
-                                    {interview.meetingStatus == "S" ? <Tr >
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                        </Td>
-                                        <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                                            Add Feedback
-                                        </Td>
-                                        <Td textAlign={"left"} color={"black"} fontSize={"17px"} fontWeight={"500"}>
-                                            <Box
-                                                display={"flex"}
-                                                w={"200px"}
-                                                textAlign={"left"}
-                                            >
-                                                <Button
-                                                    onClick={onOpen}
-                                                    colorScheme="blue"
-                                                >
-                                                    Add Feedback
-                                                </Button>
-
-                                                <Modal isOpen={isOpen} onClose={onClose}>
-                                                    <ModalOverlay />
-                                                    <ModalContent>
-                                                        <ModalHeader>Add Feedback</ModalHeader>
-                                                        <ModalCloseButton />
-                                                        <ModalBody>
-                                                            <Textarea
-                                                                onChange={(e) => {
-                                                                    setFeedback(e.target.value);
-                                                                }}
-                                                            ></Textarea>
-                                                        </ModalBody>
-
-                                                        <ModalFooter >
-                                                            <Button
-                                                                colorScheme="blue"
-                                                                mr={3}
-                                                                onClick={() =>
-                                                                    handleFeedback(
-                                                                        interview.interviewId,
-                                                                        userId,
-                                                                        token,
-                                                                        feedback
-                                                                    )
-                                                                }
-                                                            >
-                                                                Add Feedback
-                                                            </Button>
-                                                        </ModalFooter>
-                                                    </ModalContent>
-                                                </Modal>
-                                            </Box>
-                                        </Td>
-                                    </Tr> : ""}
                                 </Tbody>
                             </Table>
                         )}
+                        <Flex justifyContent={"center"} gap={"10px"} marginTop={"20px"}>
+                            {
+                                startTimeStatus && <Button
+                                    onClick={() =>
+                                        handleStarted(
+                                            interview.interviewId,
+                                            userId,
+                                            token
+                                        )}
+                                    colorScheme="blue"
+                                >
+                                    Start
+                                </Button>
+                            }
+                            {
+                                joinButtonStatus && <Link
+                                    to={`${Object.keys(interview).length !== 0 &&
+                                        interview.meetingLink
+                                        }`}
+                                    target="_blank"
+                                >
+                                    <Button
+                                        colorScheme="blue"
+                                    >
+                                        Join Meet
+                                    </Button>
+                                </Link>
+                            }
+                            {
+                                feedbackButtonStatus && <Box
+                                    display={"flex"}
+                                    w={"200px"}
+                                    textAlign={"left"}
+                                >
+                                    <Button
+                                        onClick={onOpen}
+                                        colorScheme="blue"
+                                    >
+                                        Add Feedback
+                                    </Button>
+                                    <Modal isOpen={isOpen} onClose={onClose}>
+                                        <ModalOverlay />
+                                        <ModalContent>
+                                            <ModalHeader>Add Feedback</ModalHeader>
+                                            <ModalCloseButton />
+                                            <ModalBody>
+                                                <Textarea
+                                                    onChange={(e) => {
+                                                        setFeedback(e.target.value);
+                                                    }}
+                                                ></Textarea>
+                                            </ModalBody>
 
+                                            <ModalFooter >
+                                                <Button
+                                                    colorScheme="blue"
+                                                    mr={3}
+                                                    onClick={() =>
+                                                        handleFeedback(
+                                                            interview.interviewId,
+                                                            userId,
+                                                            token,
+                                                            feedback
+                                                        )
+                                                    }
+                                                >
+                                                    Add Feedback
+                                                </Button>
+                                            </ModalFooter>
+                                        </ModalContent>
+                                    </Modal>
+                                </Box>
+                            }
+                            {
+                                endButtonStatus && <Button
+                                    onClick={() =>
+                                        handleEnded(
+                                            interview.interviewId,
+                                            userId,
+                                            token
+                                        )
+                                    }
+                                    colorScheme="blue"
+                                >
+                                    End
+                                </Button>
+                            }
+                        </Flex>
                     </Box>
                 </Box>
             </main>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Flex, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { Iinterviews } from "../../../Services/AdminSideServices/GetEventsInterface";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,9 +10,10 @@ import { cancelSingleInterview } from "../../../Redux/CancelInterviewReducer/Act
 interface InterviewProp {
     interview: Iinterviews;
     id: any;
+    updateCancelButtonStatus: boolean
 }
 
-const DetailPageNav = ({ interview, id }: InterviewProp) => {
+const DetailPageNav = ({ interview, id, updateCancelButtonStatus }: InterviewProp) => {
     const toast = useToast();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -59,14 +60,20 @@ const DetailPageNav = ({ interview, id }: InterviewProp) => {
                         <Button colorScheme="blue" onClick={() => navigate(-1)}>
                             Back
                         </Button>
-                        <Flex gap={"20px"}>
-                            <Button colorScheme="blue" onClick={handleUpdate}>
-                                Update
-                            </Button>
-                            <Button colorScheme="red" onClick={handleDelete}>
-                                Cancel
-                            </Button>
-                        </Flex>
+                        {updateCancelButtonStatus ?
+                            <Flex gap={"20px"}>
+                                <Button colorScheme="blue" onClick={handleUpdate}>
+                                    Update
+                                </Button>
+                                <Button colorScheme="red" onClick={handleDelete}>
+                                    Cancel
+                                </Button>
+                            </Flex> : <Flex>
+                                <Text fontWeight={"bold"} fontSize={"medium"}>
+                                    Interview Detail Page
+                                </Text>
+                            </Flex>
+                        }
                     </Flex>
                 </Box>
             </Box>
