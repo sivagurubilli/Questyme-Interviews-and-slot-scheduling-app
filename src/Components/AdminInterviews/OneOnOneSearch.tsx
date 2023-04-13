@@ -19,8 +19,10 @@ import { Iinterviews } from "../../Services/AdminSideServices/GetEventsInterface
 import { GetFutureInterviewService, GetPastInterviewService } from "../../Services/UserSideServices/GetInterviewsServices";
 import OneonOneEventComponent from "../OneonOneEventComponent";
 import { GetRecurringListService } from "../../Services/AdminSideServices/GetEventsService";
-import ErrorToast from "../../utils/ErrorToast";
 import BatchSearch from "../SearchComponents/BatchSearch";
+import { token,id,itemsPerPage} from "../../Assets/Assets";
+
+
 
 const OneOnOnOneSearch = ( ) => {
   const [futureInterviews, setfutureInterviews] = useState<Iinterviews[]>([]);
@@ -35,10 +37,7 @@ const OneOnOnOneSearch = ( ) => {
   const [totalPages,setTotalPages] = useState(0)
   const toast = useToast();
   const location = useLocation();
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
-  const itemsPerPage =6
+
   const path = window.location.pathname;
   const segments = path.split('/');
   const InterviewsValueUrl= segments[segments.length - 1];
@@ -57,7 +56,7 @@ const OneOnOnOneSearch = ( ) => {
   }
   setPaginatedInterviewsData(Paginatedinterviewsdata);
 }
-  },[currentPage, itemsPerPage, futureInterviews])
+  },[currentPage, futureInterviews])
 
   useEffect(() => {
     GetPagination()
@@ -92,7 +91,7 @@ if(searchName || category){
      }else if(InterviewsValueUrl==="past-interviews"){
         response = await GetPastInterviewService(id,token)  
      }else{
-      response = await GetRecurringListService(token)
+      response = await GetRecurringListService(token,id)
     
      }
 
@@ -112,7 +111,7 @@ if(searchName || category){
         isClosable: true,
       })
     }
-  }, [id, token,toast,InterviewsValueUrl]);
+  }, [toast,InterviewsValueUrl]);
 
   
  

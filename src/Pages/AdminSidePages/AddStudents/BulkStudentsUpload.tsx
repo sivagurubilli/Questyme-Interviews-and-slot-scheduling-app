@@ -12,14 +12,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AddBulkStudentService } from "../../../Services/AdminSideServices/GetEventsService";
-
+import { token} from "../../../Assets/Assets";
 
 const BulkStudentsUpload = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
   const [csvFile, setCsvFile] = useState<File | null>(null);
-  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
-  const id =userDetails?.user?.id
-  const token = userDetails?.token
   const toast = useToast();
 
   

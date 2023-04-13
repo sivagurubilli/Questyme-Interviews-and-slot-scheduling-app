@@ -13,9 +13,12 @@ interface ProfilecomponentProps {
 const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps) => {
   const navigate = useNavigate();
   const toast = useToast();
+
   const GotoEdit = () => {
     navigate(`/admin/one-on-one-interviews/${event.id}/edit`);
   };
+
+  
   const DeleteEvent = async (id: any) => {
     try {
       const response = await DeleteEventSevice(id);
@@ -68,15 +71,7 @@ const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps)
             <Link to="">Edit</Link>
           </Text>
         </Flex>
-        <Flex pt="5px">
-          <i
-            className="fa-regular fa-note-sticky"
-            style={{ marginTop: "5px" }}
-          ></i>
-          <Text color="#778087" pl="15px">
-            <Link to="">View Slots For This Event</Link>
-          </Text>
-        </Flex>
+        
         <Flex pt="5px">
           <i
             className="fa-regular fa-trash-can"

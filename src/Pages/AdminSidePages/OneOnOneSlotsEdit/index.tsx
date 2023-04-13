@@ -9,28 +9,29 @@ import OneOnOneEdit from "../../../Components/OneOneOneEdit/OneOnOneEdit";
 import { useParams } from "react-router-dom";
 import { GetSingleEventsService } from "../../../Services/AdminSideServices/GetEventsService";
 import {  IOneOnEventValues } from "../Interfacces";
+import { id} from "../../../Assets/Assets";
+
+
 
 //this component is for creating events  slots
 const OneonOneSlotsEdit = () => {
   const [isNameEdit, setNameEdit] = useState(false);
-
-  
   const dispatch = useDispatch();
   const { GetSingleData } = bindActionCreators(actionCreators, dispatch);
   const [EventValues, setEventValues] = useState<IOneOnEventValues>({
     title: "",
     instruction: "",
     meetingLink: "",
-    adminId: "5",
+    adminId: id,
     category:"",
     duration: "",
   });
-  const { id } = useParams();
+  const { paramsId } = useParams();
   const toast = useToast();
 
   const GetEventById = useCallback(async () => {
     try {
-      const response = await GetSingleEventsService(id);
+      const response = await GetSingleEventsService(paramsId);
     
       if (response.id) {
         setEventValues(response);
@@ -45,7 +46,7 @@ const OneonOneSlotsEdit = () => {
         isClosable: true,
       });
     }
-  },[GetSingleData,id,toast]);
+  },[GetSingleData,paramsId,toast]);
 
   useEffect(() => {
     GetEventById();

@@ -13,71 +13,71 @@ const TableForStats = ({ totalInterviews }: any) => {
         <Table variant="striped" colorScheme="teal">
           <Thead>
             <Tr>
-              <Th>Status</Th>
+              <Th >Status</Th>
               <Th isNumeric>Count</Th>
             </Tr>
           </Thead>
           <Tbody>
             <Tr>
-              <Td>Total Interviews </Td>
-              <Td isNumeric>{totalInterviews?.totalInterviews}</Td>
+              <Td  fontWeight="medium">Total Interviews </Td>
+              <Td  fontWeight="medium" isNumeric>{totalInterviews?.totalInterviews}</Td>
             </Tr>
             {totalInterviews?.results?.map(
               (el: InterviewResult, index: number) => (
                 <Tr key={index}>
                   {el.meetingStatus === "E" && (
                     <>
-                      <Td>Interviews Completed</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Interviews Completed</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "P" && (
                     <>
-                      <Td>Interviews Pending</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Interviews Pending</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "S" && (
                     <>
-                      <Td>Interviews Started</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Interviews Started</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "C" && (
                     <>
-                      <Td>Interviews Cancelled</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Interviews Cancelled</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "SS" && (
                     <>
-                      <Td>Interviews Started by Student</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium" >Interviews Started by Student</Td>
+                      <Td  fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "IS" && (
                     <>
-                      <Td>Interviews Started by Interviewer</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium" >Interviews Started by Interviewer</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "SE" && (
                     <>
-                      <Td>Interviews Ended by Student</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium" >Interviews Ended by Student</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "IE" && (
                     <>
-                      <Td>Interviews Ended by Interviewer</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Interviews Ended by Interviewer</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
                 </Tr>

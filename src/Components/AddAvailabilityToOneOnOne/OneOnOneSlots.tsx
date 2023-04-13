@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,47 +14,49 @@ import { RootState } from "../../Redux/store";
 import {
   AddRecurringSlotsService,
 } from "../../Services/AdminSideServices/GetEventsService";
-import { useNavigate, useParams } from "react-router-dom";
-import { DaysForRecurring, DaysForRecurringEvents, backendResponse } from "../../Assets/Assets";
+import { useNavigate } from "react-router-dom";
+import { DaysForRecurring, backendResponse,token,id } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const [days, setDays] = useState(DaysForRecurring);
   const state = useSelector((state: RootState) => state);
   const setData = state.SingleEventReducer;
+  
   const [availability, setAvailability] = useState<{ 
-    name: string; 
+    day: string; 
     isChecked: boolean; 
-    TimeSlot: { 
+    slotTiming: { 
       startTime: string; 
       endTime: string; 
     }[] 
   }[]>([]);
+
   const [recurringEventDetails, setRecurringEventDetails] = useState({
-    name: setData?.setData?.title,
+    title: setData?.setData?.title,
     meetingLink: setData?.setData?.meetingLink,
     duration: setData?.setData?.duration,
     category: setData?.setData?.category,
-    instructions: setData?.setData?.instruction,
-    availability: [] as {
-      name: string; 
+    adminId:id,
+    instruction: setData?.setData?.instruction,
+    availabilities: [] as {
+      day: string; 
       isChecked: boolean; 
-      TimeSlot: { 
+      slotTiming: { 
         startTime: string; 
         endTime: string; 
       }[] 
     }[]
   });
   const toast = useToast();
-  const id = useParams();
   const navigate = useNavigate();
   
   useEffect(() => {
     const transformedDays = days.map(day => {
       if (day.isChecked) {
         return {
-          name: day.name,
+          day: day.name,
           isChecked: day.isChecked,
-          TimeSlot: day.inputs.map(input => ({
+          slotTiming: day.inputs.map(input => ({
             startTime: input.start,
             endTime: input.end
           }))
@@ -62,9 +64,9 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
       }
       return undefined;
     }).filter(day => day !== undefined) as {
-      name: string; 
+      day: string; 
       isChecked: boolean; 
-      TimeSlot: { 
+      slotTiming: { 
         startTime: string; 
         endTime: string; 
       }[] 
@@ -74,19 +76,48 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
       setAvailability(transformedDays);
       setRecurringEventDetails({
         ...recurringEventDetails,
-        availability: transformedDays
+        availabilities: transformedDays
       });
     }
   }, [days,recurringEventDetails]);
   
  
+// when getting values from backend make it to frontend
+useEffect(()=>{
+  const transformedResponse = backendResponse.map((day) => {
+    return {
+     name: day.day,
+      isChecked: true,
+      inputs: day.slotTiming.map((timeSlot) => {
+        return { start: timeSlot.startTime, end: timeSlot.endTime };
+      }),
+      errors: day.slotTiming.map((timeSlot) => {
+        return { start: "", end: "" };
+      }),
+    };
+  });
 
- 
+
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const result = days.map(day => {
+const foundDay = transformedResponse.find(item => item.name === day);
+if (foundDay) {
+  return foundDay;
+} else {
+  return {
+    name: day,
+    isChecked: false,
+    inputs: [{ start: '', end: '' }],
+    errors: [{ start: '', end: '' }]
+  };
+}
+});
+setDays(result)
+},[])
 
   const AddSlots = async () => {
-  
     try {
-      const response = await AddRecurringSlotsService(id, recurringEventDetails);
+      const response = await AddRecurringSlotsService(id, recurringEventDetails,token);
       if (response) {
         toast({
           title: "Slots Added Successfully",

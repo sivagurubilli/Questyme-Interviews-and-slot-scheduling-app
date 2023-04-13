@@ -1,14 +1,14 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useState } from "react";
 import OneOnOneCreateNav from "./OneOnOneCreateNav";
-import { Box, Divider,  FormLabel, useToast } from "@chakra-ui/react";
+import { Box, Divider,  FormLabel} from "@chakra-ui/react";
 import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../Redux/eventById";
 import { IOneOnEventValues } from "../Interfacces";
-import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import { id} from "../../../Assets/Assets";
 
 
 const OneonOneEventsCreate = () => {
@@ -16,44 +16,21 @@ const OneonOneEventsCreate = () => {
     title: "",
     instruction: "",
     meetingLink: "",
-    adminId: "5",
+    adminId: id,
     category:"",
     duration: "",
   });
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
+
 
 
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
-const toast = useToast()
+
   const addEvent = async () => {
-    try{
-     const response =await  PostEventsService(EventValues,id,token)
-if(response){
-     toast({
-      title: "Event created",
-      description: "Your event has been created successfully!",
-      status: "success",
-      position: "top",
-      duration: 2000,
-      isClosable: true,
-    });
-  }
-    }catch(err){
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
     SetOneOnOneData(EventValues)
     setTimeout(() => {
-      navigate(`/admin/add-avialability`);
+      navigate(`/admin/add-availability`);
     }, 1000);
   };
 
