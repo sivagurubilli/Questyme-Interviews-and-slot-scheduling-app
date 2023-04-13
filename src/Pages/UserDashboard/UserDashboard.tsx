@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../Redux/store";
 import { Dispatch } from "redux";
 import { scheduledInterviewFailure, scheduledInterviewLoading, scheduledInterviewSuccess } from "@/Redux/ScheduledInterviewUser/Action";
-import SearchComponent from "../../Components/SearchComponents/SearchComponent";
+import SearchByTitle from "../../Components/SearchComponents/SearchByTitle";
 
 export interface interview {
   interviewId: number;
@@ -63,8 +63,6 @@ const UserDashboard = () => {
     }
   }, [dispatch, interviews?.length]);
 
- 
-
   return (
     <div>
       <Navbar />
@@ -72,7 +70,7 @@ const UserDashboard = () => {
       <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-            <SearchComponent />
+            <SearchByTitle />
             <Box
               w={"100%"}
               h={"90%"}
@@ -100,13 +98,16 @@ const UserDashboard = () => {
                           <Flex
                             justifyContent={"space-between"}
                             alignItems={"center"}
+                            
                           >
-                            <Box>
+                            <Box  w={"100%"}>
                               <Text
                                 fontSize={"18px"}
                                 fontWeight={"500"}
                                 ml={"15px"}
                                 mt={"10px"}
+                                maxW={"200px"}
+                                isTruncated
                               >
                                 {item.title}
                               </Text>

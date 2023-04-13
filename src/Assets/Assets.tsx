@@ -145,7 +145,7 @@ export const IntervieStatusByBatch ={
       count: 0,
       batch:""
     },
-  ],
+  ]
 }
 
 
@@ -166,7 +166,9 @@ export const SlotsStatus = {
             "meetingStatus": "D",
             "count": 0
         }
+
       ]
+
       }
 
 export const backendResponse = [
