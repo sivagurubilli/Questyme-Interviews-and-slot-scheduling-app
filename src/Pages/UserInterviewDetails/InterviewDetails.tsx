@@ -47,6 +47,7 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  useToast,
 } from "@chakra-ui/react";
 import { postStudentNotes } from "../../Services/PostStudentNotesService/PostStudentNotesService";
 const InterviewDetails = () => {
@@ -54,6 +55,7 @@ const InterviewDetails = () => {
   const [currentInterview, setCurrentInterview] = useState<interview>();
   const { id } = useParams();
   const [notes, setNotes] = useState<string>("");
+  const toast = useToast();
   const interviews = useSelector(
     (state: RootState) => state.ScheduledInterviewReducer.interviews
   );
@@ -70,7 +72,6 @@ const InterviewDetails = () => {
   let today = new Date();
   let time =
     today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  console.log(time);
 
   const handleStarted = async (
     interviewId: number,
@@ -85,7 +86,6 @@ const InterviewDetails = () => {
           token
         );
         setIsStarted(res);
-        console.log("jhj", res);
       }
     } catch (err) {
       console.log(err);
@@ -99,11 +99,37 @@ const InterviewDetails = () => {
   ) => {
     try {
       const res = await postStudentNotes(interviewId, userId, token, notes);
+      if (res === undefined) {
+        toast({
+          title: "Something Went Wrong",
+          description: "Unable to add notes",
+          status: "error",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Note added successfully",
+          description: "",
+          status: "success",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     } catch (err) {
+      toast({
+        title: "Something Went Wrong",
+        description: "Unable to add notes",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
       console.log(err);
     }
   };
-  console.log("notes", notes);
   const handleEnded = async (
     interviewId: number,
     userId: number,
@@ -135,8 +161,6 @@ const InterviewDetails = () => {
       tempInterview && setCurrentInterview(tempInterview);
     }
   }, [id, interviews, setCurrentInterview]);
-
-  console.log("current", currentInterview, time);
   return (
     <div>
       <Navbar />
@@ -153,55 +177,75 @@ const InterviewDetails = () => {
             bgColor={"white"}
           >
             {currentInterview && (
-              <Table  w={"100%"}>
+              <Table w={"100%"}>
                 <Tbody>
-                  <Tr >
-                    <Td textAlign={"left"}   fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       1
                     </Td>
-                    <Td  textAlign={"left"}  fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       title
                     </Td>
-                    <Td  textAlign={"left"} color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {Object.keys(currentInterview).length === 0
                         ? ""
                         : currentInterview.title}
                     </Td>
                   </Tr>
-                  <Tr >
+                  <Tr>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       2
                     </Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Start Time
                     </Td>
-                    <Td textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {Object.keys(currentInterview).length === 0
                         ? ""
                         : convertTimeFormat(currentInterview.startTime)}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       3
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       End Time
                     </Td>
-                    <Td  textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {Object.keys(currentInterview).length === 0
                         ? ""
                         : convertTimeFormat(currentInterview.endTime)}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       4
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       isStarted
                     </Td>
-                    <Td  textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {" "}
                       {currentInterview.meetingStatus == "C" ? (
                         <Text
@@ -248,14 +292,19 @@ const InterviewDetails = () => {
                       )}
                     </Td>
                   </Tr>
-                  <Tr >
+                  <Tr>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       5
                     </Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       isEnded
                     </Td>
-                    <Td textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {currentInterview.meetingStatus == "C" ? (
                         <Text
                           color={"blue"}
@@ -324,40 +373,50 @@ const InterviewDetails = () => {
                       )}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       6
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Interviewer Name
                     </Td>
-                    <Td textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {Object.keys(currentInterview).length === 0
                         ? ""
                         : currentInterview.interviewerName}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       7
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Interviewee Name
                     </Td>
-                    <Td  textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {Object.keys(currentInterview).length === 0
                         ? ""
                         : currentInterview.intervieweeName}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       8
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Meeting Status
                     </Td>
-                    <Td  textAlign={"left"}>
+                    <Td textAlign={"left"}>
                       {Object.keys(currentInterview).length === 0 ? (
                         ""
                       ) : currentInterview.meetingStatus == "P" ? (
@@ -409,7 +468,13 @@ const InterviewDetails = () => {
                           Started By Interviewer
                         </Text>
                       ) : currentInterview.meetingStatus == "S" ? (
-                        <Text  color={"blue"} fontSize={"17px"} fontWeight={"500"}>Started</Text>
+                        <Text
+                          color={"blue"}
+                          fontSize={"17px"}
+                          fontWeight={"500"}
+                        >
+                          Started
+                        </Text>
                       ) : currentInterview.meetingStatus == "E" ? (
                         <Text
                           color={"blue"}
@@ -423,167 +488,155 @@ const InterviewDetails = () => {
                       )}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       9
                     </Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                     Notes
+                      Notes
                     </Td>
-                    <Td  textAlign={"left"}>
-                    {currentInterview.meetingStatus == "S" ? (
-                      <Box
-                        display={"flex"}
-                        
-                        w={"200px"}
-                        textAlign={"left"}
-                      >
-                        <Button
-                          onClick={onOpen}
-                          
-                          colorScheme="blue"
-                        >
-                          Add Notes
-                        </Button>
+                    <Td textAlign={"left"}>
+                      {currentInterview.meetingStatus == "S" ? (
+                        <Box display={"flex"} w={"200px"} textAlign={"left"}>
+                          <Button onClick={onOpen} colorScheme="blue">
+                            Add Notes
+                          </Button>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                          <ModalOverlay />
-                          <ModalContent>
-                            <ModalHeader>Add Notes</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody>
-                              <Textarea
-                                onChange={(e) => {
-                                  setNotes(e.target.value);
-                                }}
-                              ></Textarea>
-                            </ModalBody>
+                          <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                              <ModalHeader>Add Notes</ModalHeader>
+                              <ModalCloseButton />
+                              <ModalBody>
+                                <Textarea
+                                  onChange={(e) => {
+                                    setNotes(e.target.value);
+                                  }}
+                                ></Textarea>
+                              </ModalBody>
 
-                            <ModalFooter>
-                              <Button
-                                colorScheme="blue"
-                                mr={3}
-                                onClick={() =>
-                                  handleNote(
-                                    currentInterview.interviewId,
-                                    userId,
-                                    token,
-                                    notes
-                                  )
-                                }
-                              >
-                                Add Note
-                              </Button>
-                            </ModalFooter>
-                          </ModalContent>
-                        </Modal>
-                      </Box>
-                    ) : currentInterview.meetingStatus == "SE" ? (
-                      `${currentInterview.studentNote}`
-                    ) : currentInterview.meetingStatus == "E" ? (
-                      `${currentInterview.studentNote}`
-                    ) : currentInterview.meetingStatus == "SS" ? (
-                      <Box
-                        display={"flex"}
-                        w={"200px"}
-                        textAlign={"center"}
-                      >
-                        <Button
-                          onClick={onOpen}
-                          colorScheme="blue"
-                        >
-                          Add Notes
-                        </Button>
+                              <ModalFooter>
+                                <Button
+                                  colorScheme="blue"
+                                  mr={3}
+                                  onClick={() =>
+                                    handleNote(
+                                      currentInterview.interviewId,
+                                      userId,
+                                      token,
+                                      notes
+                                    )
+                                  }
+                                >
+                                  Add Note
+                                </Button>
+                              </ModalFooter>
+                            </ModalContent>
+                          </Modal>
+                        </Box>
+                      ) : currentInterview.meetingStatus == "SE" ? (
+                        `${currentInterview.studentNote}`
+                      ) : currentInterview.meetingStatus == "E" ? (
+                        `${currentInterview.studentNote}`
+                      ) : currentInterview.meetingStatus == "SS" ? (
+                        <Box display={"flex"} w={"200px"} textAlign={"center"}>
+                          <Button onClick={onOpen} colorScheme="blue">
+                            Add Notes
+                          </Button>
 
-                        <Modal isOpen={isOpen} onClose={onClose}>
-                          <ModalOverlay />
-                          <ModalContent>
-                            <ModalHeader>Add Notes</ModalHeader>
-                            <ModalCloseButton />
-                            <ModalBody>
-                              <Textarea
-                                onChange={(e) => {
-                                  setNotes(e.target.value);
-                                }}
-                              ></Textarea>
-                            </ModalBody>
+                          <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                              <ModalHeader>Add Notes</ModalHeader>
+                              <ModalCloseButton />
+                              <ModalBody>
+                                <Textarea
+                                  onChange={(e) => {
+                                    setNotes(e.target.value);
+                                  }}
+                                ></Textarea>
+                              </ModalBody>
 
-                            <ModalFooter>
-                              <Button
-                                colorScheme="blue"
-                                mr={3}
-                                onClick={() =>
-                                  handleNote(
-                                    currentInterview.interviewId,
-                                    userId,
-                                    token,
-                                    notes
-                                  )
-                                }
-                              >
-                                Add Note
-                              </Button>
-                            </ModalFooter>
-                          </ModalContent>
-                        </Modal>
-                      </Box>
-                    ) : (
-                      `${currentInterview.studentNote}`
-                    )}
+                              <ModalFooter>
+                                <Button
+                                  colorScheme="blue"
+                                  mr={3}
+                                  onClick={() =>
+                                    handleNote(
+                                      currentInterview.interviewId,
+                                      userId,
+                                      token,
+                                      notes
+                                    )
+                                  }
+                                >
+                                  Add Note
+                                </Button>
+                              </ModalFooter>
+                            </ModalContent>
+                          </Modal>
+                        </Box>
+                      ) : (
+                        `${currentInterview.studentNote}`
+                      )}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       10
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Date
                     </Td>
-                    <Td  textAlign={"left"}  color={"blue"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
                       {Object.keys(currentInterview).length === 0
                         ? ""
                         : currentInterview.date}
                     </Td>
                   </Tr>
-                  <Tr >
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                  <Tr>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       11
                     </Td>
-                    <Td  textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Join Meeting
                     </Td>
-                    <Td  textAlign={"left"}>
-                    <Link
-                      to={`${
-                        Object.keys(currentInterview).length === 0
-                          ? "#"
-                          : currentInterview.meetingStatus == "SE" ||
-                            "E" ||
-                            "IE" ||
-                            "C"
-                          ? "#"
-                          : currentInterview.meetingLink
-                      }`}
-                    >
-                      <Button
-                        colorScheme="blue"
-                        disabled={
-                          currentInterview.meetingStatus == "SE"
-                            ? false
-                            : currentInterview.meetingStatus == "E"
-                            ? false
-                            : true
-                        }
+                    <Td textAlign={"left"}>
+                      <Link
+                        to={`${
+                          Object.keys(currentInterview).length === 0
+                            ? "#"
+                            : currentInterview.meetingStatus == "SE" ||
+                              "E" ||
+                              "IE" ||
+                              "C"
+                            ? "#"
+                            : currentInterview.meetingLink
+                        }`}
                       >
-                        join meet
-                      </Button>
-                    </Link>
+                        <Button
+                          colorScheme="blue"
+                          disabled={
+                            currentInterview.meetingStatus == "SE"
+                              ? false
+                              : currentInterview.meetingStatus == "E"
+                              ? false
+                              : true
+                          }
+                        >
+                          join meet
+                        </Button>
+                      </Link>
                     </Td>
                   </Tr>
                 </Tbody>
               </Table>
             )}
-            
           </Box>
         </Box>
       </main>
