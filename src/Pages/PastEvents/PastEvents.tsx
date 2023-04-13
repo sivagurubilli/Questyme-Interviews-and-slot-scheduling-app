@@ -21,6 +21,7 @@ import { convertTimeFormat } from "../../utils/index";
 import { Action } from "../../Redux/PastInterviewReducer/Action";
 import { Dispatch } from "redux";
 import { getAllPastInterviewService } from "../../Services/UserSideServices/GetAllPastInterviewServices/GetAllPastInterviewService";
+import SearchComponent from "../../Components/SearchComponents/SearchComponent";
 
 
 
@@ -48,7 +49,7 @@ const PastEvents = () => {
       <main>
         <Box bg={"#fafafa"}>
           <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-   
+            <SearchComponent />
             <Box
               w={"100%"}
               h={"90%"}
@@ -83,6 +84,8 @@ const PastEvents = () => {
                                 fontWeight={"500"}
                                 ml={"15px"}
                                 mt={"10px"}
+                                maxW={"200px"}
+                                isTruncated
                               >
                                 {item.title}
                               </Text>

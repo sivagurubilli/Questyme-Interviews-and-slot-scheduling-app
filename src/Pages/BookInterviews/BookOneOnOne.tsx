@@ -86,7 +86,7 @@ console.log("categoryTye",categoryType)
             <Flex justifyContent={"space-between"}>
               <Box w={"30%"}>
                 <Select w={"100%"} onChange={(e)=>handleChangeCategoryType(e.target.value)} >
-                 
+                 <option value="">select category</option>
                   {categories.length>0 &&
                     categories.map((item: string, index: number) => {
                         return (
@@ -98,7 +98,6 @@ console.log("categoryTye",categoryType)
                             {item}
                           </option>
                         );
-                      
                     })}
                 </Select>
               </Box>
@@ -109,10 +108,9 @@ console.log("categoryTye",categoryType)
                     console.log("item",item)
                     return (
                     
-                        <Link to={`/student/booking/${item.id}`} key={item.id}>
-                          <Button colorScheme="blue" mt={"10px"}>{item.name}</Button>
+                        <Link to={`/book-one-on-one/${item.id}`} key={item.id}>
+                          <Button colorScheme="blue" mt={"10px"} ml={"5px"}>{item.name}</Button>
                         </Link>)
-                      
                   })}
               </Box>
             </Flex>
