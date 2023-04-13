@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { convertTo24Hour } from "../../utils/AddToAm";
 import {
   Box,

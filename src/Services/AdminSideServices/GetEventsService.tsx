@@ -1,15 +1,6 @@
 import axios from "axios";
 import { IAddStdents } from "./GetEventsInterface";
 
-//Get All Events service
-export async function GetAllEventsService() {
-  try {
-    const response = await axios.get("/one-on-one-events");
-    return response.data;
-  } catch (error: any) {
-    return error.response;
-  }
-}
 
 //post Event service
 export async function PostEventsService(data: any,id:string,token:string) {
@@ -46,7 +37,6 @@ export async function PostOneOffService(data: any,token:string,id:string) {
 ,"adminId":id
 }, 
       {
-    
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -101,22 +91,24 @@ export async function EditEventsService(data: any, id: any) {
   }
 }
 
-// Add slots for recurring events
-export async function AddRecurringSlotsService( days: any,token:string) {
- console.log(days)
+// adding events recurring manner
+export async function AddRecurringSlotsService(id: string, days: any,token:string) {
+
   try {
-    const response = await axios.post("/recurring/createRecMe", { days },
+    const response = await axios.post("/recurring/createRecMeet", { days },
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    }
+   );
     console.log(response)
     return response.data;
   } catch (error: any) {
     return error.response;
   }
 }
+
 
 //Delete Event service
 export async function DeleteEventSevice(id: any) {
@@ -288,10 +280,10 @@ export async function GetByPendingStatusService(batchName: string, meeting: stri
 
 
  // getting category details
- export async function GetRecurringListService(token:string) {
+ export async function GetRecurringListService(token:string,id:string) {
   try {
     const response = await axios.get(
-      "/recurring/getList",{
+      `/getListByAdminId?adminId=${id}`,{
     headers: {
       Authorization: `Bearer ${token}`,
     }

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Text, Divider, Flex } from "@chakra-ui/react";
+import { Box, Text, Divider} from "@chakra-ui/react";
 
 // this component is for when clicking on user name in navbar this component will display
 interface ProfilecomponentProps {
@@ -36,12 +36,7 @@ const AdminProfileComponent = ({ setshow1 }: ProfilecomponentProps) => {
       p={3}
       zIndex="1"
     >
-        <Flex>
-<i className="fa-solid fa-user" style={{marginTop:"5px"}}></i>
-      <Text color="#778087" fontSize="sm" padding="5px">
-       Settings
-      </Text>
-      </Flex>
+      
       <Text color="#778087" padding="5px">
         <Link to="" onClick={() => setshow1(false)}>
           Admin Management

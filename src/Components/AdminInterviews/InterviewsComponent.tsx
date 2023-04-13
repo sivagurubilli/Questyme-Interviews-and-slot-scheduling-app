@@ -31,7 +31,7 @@ const AdminInterviewBox = ({ event, GetEvents }: ProfilecomponentProps) => {
       case "P":
         return "Pending";
       case "C":
-        return "Cancel";
+        return "Cancelled";
       case "S":
         return "Started";
       case "SS":

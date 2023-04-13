@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Box, Button, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import React, { useCallback,  useState } from "react";
+import { Box, Button, Flex, FormLabel,  useToast } from "@chakra-ui/react";
 
 import { useSearch } from "../../utils/SetParams";
 import SearchComponent from "../SearchComponents/SearchComponent";
 import { CountByBatchStatusService } from "../../Services/AdminSideServices/GetEventsService";
-import { batch } from "react-redux";
 import { IntervieStatusByBatch } from "../../Assets/Assets";
 import TableForStats from "./TableForStats";
 
@@ -12,7 +11,6 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
   const [totalInterviews, setTotalInterviews] = useState(IntervieStatusByBatch);
   const [search, updateSearch] = useSearch();
   const [loading, setLoading] = useState(false);
-
   const toast = useToast();
 
   // if batchname then call the api to get details on batch
@@ -55,7 +53,7 @@ const SearchByBatch = ({ batchName, setBatchName }: any) => {
       >
         <Box w="60%" ml="20%">
           <Flex justifyItems="center" mb="20px">
-            <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
+            <FormLabel fontSize="18px" style={{ margin: "0 auto" }}>
               The Status of Interviews in a Particular Batch
             </FormLabel>
           </Flex>

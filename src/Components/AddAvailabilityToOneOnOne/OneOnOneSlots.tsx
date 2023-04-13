@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,17 +14,14 @@ import { RootState } from "../../Redux/store";
 import {
   AddRecurringSlotsService,
 } from "../../Services/AdminSideServices/GetEventsService";
-import { useNavigate, useParams } from "react-router-dom";
-
-import { DaysForRecurring, backendResponse } from "../../Assets/Assets";
+import { useNavigate } from "react-router-dom";
+import { DaysForRecurring, backendResponse,token,id } from "../../Assets/Assets";
 
 const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   const [days, setDays] = useState(DaysForRecurring);
   const state = useSelector((state: RootState) => state);
   const setData = state.SingleEventReducer;
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-const id = userDetails?.user?.id;
-const token = userDetails?.token;
+  
   const [availability, setAvailability] = useState<{ 
     day: string; 
     isChecked: boolean; 
@@ -42,7 +39,7 @@ const token = userDetails?.token;
     adminId:id,
     instruction: setData?.setData?.instruction,
     availabilities: [] as {
-     day: string; 
+      day: string; 
       isChecked: boolean; 
       slotTiming: { 
         startTime: string; 
@@ -57,9 +54,9 @@ const token = userDetails?.token;
     const transformedDays = days.map(day => {
       if (day.isChecked) {
         return {
-         day: day.name,
+          day: day.name,
           isChecked: day.isChecked,
-        slotTiming: day.inputs.map(input => ({
+          slotTiming: day.inputs.map(input => ({
             startTime: input.start,
             endTime: input.end
           }))
@@ -67,7 +64,7 @@ const token = userDetails?.token;
       }
       return undefined;
     }).filter(day => day !== undefined) as {
-day: string; 
+      day: string; 
       isChecked: boolean; 
       slotTiming: { 
         startTime: string; 
@@ -89,7 +86,7 @@ day: string;
 useEffect(()=>{
   const transformedResponse = backendResponse.map((day) => {
     return {
-      name: day.day,
+     name: day.day,
       isChecked: true,
       inputs: day.slotTiming.map((timeSlot) => {
         return { start: timeSlot.startTime, end: timeSlot.endTime };
@@ -115,19 +112,12 @@ if (foundDay) {
   };
 }
 });
-
-
 setDays(result)
 },[])
 
-
-
- 
-
   const AddSlots = async () => {
-  
     try {
-      const response = await AddRecurringSlotsService(recurringEventDetails,token);
+      const response = await AddRecurringSlotsService(id, recurringEventDetails,token);
       if (response) {
         toast({
           title: "Slots Added Successfully",

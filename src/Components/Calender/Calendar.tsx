@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import FullCalendar from "@fullcalendar/react";
@@ -17,7 +17,7 @@ interface ICalender {
 const Calendar = ({events,handleSelect,dates}:ICalender)  => {
 
   const [days,setDays] = useState([])
-
+console.log(dates)
 const dateList = dates.map((date)=>({
       title:"slots available",
       date,

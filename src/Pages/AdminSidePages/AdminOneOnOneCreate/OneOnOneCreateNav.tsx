@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import "./index.css";
+
 
 const OneOnOneCreateNav = ({NavText}:any) => {
   const navigate = useNavigate();

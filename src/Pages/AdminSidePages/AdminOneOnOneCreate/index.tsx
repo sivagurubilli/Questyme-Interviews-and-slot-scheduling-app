@@ -1,14 +1,14 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useState } from "react";
 import OneOnOneCreateNav from "./OneOnOneCreateNav";
-import { Box, Divider,  FormLabel, useToast } from "@chakra-ui/react";
+import { Box, Divider,  FormLabel} from "@chakra-ui/react";
 import OneOnOneEventsCreateInput from "../../../Components/OneOnOneEventsCreateInput";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../Redux/eventById";
 import { IOneOnEventValues } from "../Interfacces";
-import { PostEventsService } from "../../../Services/AdminSideServices/GetEventsService";
+import { id} from "../../../Assets/Assets";
 
 
 const OneonOneEventsCreate = () => {
@@ -23,14 +23,24 @@ const OneonOneEventsCreate = () => {
     category:"",
     duration: "",
   });
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> master
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
+  const addEvent = async () => {
+=======
 
 
   const addEvent = async () => {
   
+>>>>>>> master
     SetOneOnOneData(EventValues)
     setTimeout(() => {
       navigate(`/admin/add-availability`);

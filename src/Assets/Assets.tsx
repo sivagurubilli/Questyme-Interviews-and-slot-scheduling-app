@@ -149,8 +149,7 @@ export const IntervieStatusByBatch ={
 }
 
 
-
-export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
+export const meetingStausButtons =["Pending","Completed","Cancelled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
 
 export const SlotsStatus = {
     "totalSlots":0,
@@ -167,7 +166,9 @@ export const SlotsStatus = {
             "meetingStatus": "D",
             "count": 0
         }
-    ]
+
+      ]
+
       }
 
 export const backendResponse = [
@@ -179,12 +180,12 @@ export const backendResponse = [
   {
     slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-  day: 'Mon',
+    day: 'Mon',
   },
   {
     slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    day: 'Tue',
+   day: 'Tue',
   },
   {
     slotTiming: [
@@ -195,3 +196,8 @@ export const backendResponse = [
     day: 'Wed',
   }
 ]
+
+export const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+export const id = userDetails?.user?.id;
+export const token = userDetails?.token;
+export const itemsPerPage =6

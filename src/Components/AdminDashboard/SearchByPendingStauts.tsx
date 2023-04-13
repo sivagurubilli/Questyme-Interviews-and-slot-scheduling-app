@@ -10,12 +10,14 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useSearch } from "../../utils/SetParams";
+
 import AdminInterviewBox from "../AdminInterviews/InterviewsComponent";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import { GetByPendingStatusService } from "../../Services/AdminSideServices/GetEventsService";
 import Pagination from "./Pagination";
 import { meetingStausButtons } from "../../Assets/Assets";
+import { itemsPerPage ,token} from "../../Assets/Assets";
+
 
 const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   const [Interviews, setInterviews] = useState([]);
@@ -33,10 +35,6 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   const pageNumber = params.get("page");
   const meeting = params.get("meeting-status");
   const batch = params.get("batch");
-  const itemsPerPage = 6;
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
   const [activeButton, setActiveButton] = useState<number | null>(null);
 
   // set color to buttons even after refreshing
@@ -47,11 +45,11 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
       }
       if (interviewStatus === "pending") {
         setStatus("P");
-      } else if (interviewStatus === "compleated") {
+      } else if (interviewStatus === "completed") {
         setStatus("E");
       } else if (interviewStatus === "started") {
         setStatus("S");
-      } else if (interviewStatus === "canceled") {
+      } else if (interviewStatus === "cancelled") {
         setStatus("C");
       } else if (interviewStatus === "started-by-student") {
         setStatus("SS");
@@ -62,6 +60,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
       } else if (interviewStatus === "ended-by-interviewer") {
         setStatus("IE");
       }
+      return null
     });
   }, [interviewStatus]);
 
@@ -106,7 +105,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
         isClosable: true,
       });
     }
-  }, [toast, token, batchName, status]);
+  }, [toast,  batchName, status]);
 
   useEffect(() => {
     GetByPendingStatus();
@@ -131,7 +130,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
       setEndIndex(0);
       setPaginatedInterviewsData([]);
     }
-  }, [currentPage, itemsPerPage, Interviews]);
+  }, [currentPage, Interviews]);
 
   // when click clear button everything should be clear url filter values
   const Clear = () => {

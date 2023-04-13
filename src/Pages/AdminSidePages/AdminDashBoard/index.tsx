@@ -1,7 +1,7 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
-import { Box, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, FormLabel,  useToast } from "@chakra-ui/react";
 import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
 import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
 import { CountByMeetingStatusService } from "../../../Services/AdminSideServices/GetEventsService";
@@ -9,6 +9,8 @@ import { useSearch } from "../../../utils/SetParams";
 import { useLocation, useNavigate } from "react-router-dom";
 import { interviewsStatus } from "../../../Assets/Assets";
 import TableForStats from "../../../Components/AdminDashboard/TableForStats";
+import { token,id} from "../../../Assets/Assets";
+
 
 const AdminDashBoard = () => {
   const [totalInterviews, setTotalInterviews] = useState(interviewsStatus);
@@ -18,9 +20,6 @@ const AdminDashBoard = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const name = params.get("batch");
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
   const toast = useToast();
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const AdminDashBoard = () => {
         isClosable: true,
       });
     }
-  }, [toast, token, id]);
+  }, [toast]);
 
   useEffect(() => {
     GetEvents();
@@ -70,7 +69,7 @@ const AdminDashBoard = () => {
       >
         <Box w="60%" ml="20%">
           <Flex justifyItems="center" mb="20px">
-            <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
+            <FormLabel fontSize="18px" style={{ margin: "0 auto" }}>
               The Status of All Interviews
             </FormLabel>
           </Flex>
