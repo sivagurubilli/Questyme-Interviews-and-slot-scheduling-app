@@ -29,7 +29,7 @@ const AllRoutes = () => {
 
             {/* <Route path ="/login" element ={<Login/>} /> */}
             <Route path ="/admin/one-on-one-interviews" element={<OneonOneEvents/>}/>
-
+            <Route path ="/admin/slots/view" element={<OneOnOneSlotsView/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsEdit/>}/>
             <Route path ="/slot/:id" element ={<OneOnOneSlotsView/>} />

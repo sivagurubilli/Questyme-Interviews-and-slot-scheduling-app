@@ -98,10 +98,16 @@ export async function EditEventsService(data: any, id: any) {
 }
 
 // Add slots for recurring events
-export async function AddRecurringSlotsService(id: any, days: any) {
-  console.log(days)
+export async function AddRecurringSlotsService( days: any,token:string) {
+ console.log(days)
   try {
-    const response = await axios.patch(`/one-on-one-events/${id}`, { days });
+    const response = await axios.post("/recurring/createRecMe", { days },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response)
     return response.data;
   } catch (error: any) {
     return error.response;

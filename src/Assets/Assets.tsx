@@ -52,50 +52,148 @@ export const DaysForRecurring = [
   },
 ]
 
-export const DaysForRecurringEvents = [
-  {
-    name: "Sun",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  },
-  {
-    name: "Mon",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
 
-  },
-  {
-    name: "Tue",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-    
-  },
-  {
-    name: "Wed",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
- 
-  },
-  {
-    name: "Thu",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-   
-  },
-  {
-    name: "Fri",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
 
+
+
+export const interviewsStatus = {
+
+totalInterviews: 0,
+results: [
+  {
+    meetingStatus: "",
+    count: 0,
   },
   {
-    name: "Sat",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
+  },
+  {
+    meetingStatus: "",
+    count: 0,
   },
 ]
+}
+
+
+
+export const IntervieStatusByBatch ={
+  totalInterviews: 0,
+  results: [
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+    {
+      meetingStatus: "",
+      count: 0,
+      batch:""
+    },
+  ],
+}
+
+
+export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
+
+export const SlotsStatus = {
+    "totalSlots":0,
+    "results": [
+        {
+            "meetingStatus": "B",
+            "count": 0
+        },
+        {
+            "meetingStatus": "U",
+            "count": 0
+        },
+        {
+            "meetingStatus": "D",
+            "count": 0
+        }
+    ]
+}
 
 
 
 
+export const backendResponse = [
+  {
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    day: 'Sun',
+  },
+  {
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    day: 'Mon',
+  },
+  {
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+    day: 'Tue',
+  },
+  {
+    slotTiming: [
+      { startTime: '09:00', endTime: '17:00' },
+      { startTime: '20:00', endTime: '21:00' },
+    ],
+    isChecked: true,
+    day: 'Wed',
+  }
+]

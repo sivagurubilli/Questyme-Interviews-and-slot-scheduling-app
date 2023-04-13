@@ -31,6 +31,7 @@ const StudentBooking = () => {
   const userDetails = localStorage.getItem("userDetails");
 const userDetails2:any = userDetails ? JSON.parse(userDetails) : null;
 const userId = userDetails2.user.id;
+const token = userDetails2.user.token
   useEffect(() => {
     async function fetchSlotsDays(id: any) {
       try {
@@ -60,7 +61,7 @@ const userId = userDetails2.user.id;
   async function fetchSlot(clickedDate: string) {
     try {
       setLoading(true);
-      const response = await getSlots(clickedDate);
+      const response = await getSlots(id,clickedDate);
      
       setIsName(response);
       if(response[0].title){
@@ -82,7 +83,7 @@ const userId = userDetails2.user.id;
   const handleClick = async (e: any,userId:any) => {
     try {
      
-      const response = await getBookSlot(e,userId);
+      const response = await getBookSlot(e,userId,token);
       toast({
         title: "Event scheduled",
         description: "Your event has been scheduled successfully!",
