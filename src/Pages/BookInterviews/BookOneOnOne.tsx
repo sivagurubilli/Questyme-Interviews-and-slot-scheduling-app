@@ -107,11 +107,9 @@ console.log("categoryTye",categoryType)
                   admins.Instructors.map((item: any, index: number) => {
                     console.log("item",item)
                     return (
-                    
                         <Link to={`/book-one-on-one/admin/${item.id}`} key={item.id}>
-                          <Button colorScheme="blue" mt={"10px"} ml={"5px"}>{item.name}</Button>
-                        </Link>)
-                      
+                        <Button colorScheme="blue" mt={"10px"} ml={"5px"}>{item.name}</Button>
+                        </Link>
                   })}
               </Box>
             </Flex>

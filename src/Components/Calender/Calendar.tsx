@@ -5,7 +5,7 @@ import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css"
 import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
-import { DaysForRecurringEvents } from "../../Assets/Assets";
+
 
 interface ICalender {
   events: IEventValues[] | undefined;

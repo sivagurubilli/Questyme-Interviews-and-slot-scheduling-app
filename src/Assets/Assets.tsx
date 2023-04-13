@@ -52,49 +52,6 @@ export const DaysForRecurring = [
   },
 ]
 
-export const DaysForRecurringEvents = [
-  {
-    name: "Sun",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  },
-  {
-    name: "Mon",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-
-  },
-  {
-    name: "Tue",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-    
-  },
-  {
-    name: "Wed",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
- 
-  },
-  {
-    name: "Thu",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-   
-  },
-  {
-    name: "Fri",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-
-  },
-  {
-    name: "Sat",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  
-  },
-]
 
 
 
@@ -209,34 +166,30 @@ export const SlotsStatus = {
             "meetingStatus": "D",
             "count": 0
         }
-    ]
-}
-
-
-
+      }
 
 export const backendResponse = [
   {
-    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    name: 'Sun',
+    day: 'Sun',
   },
   {
-    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    name: 'Mon',
+  day: 'Mon',
   },
   {
-    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    name: 'Tue',
+    day: 'Tue',
   },
   {
-    TimeSlot: [
+    slotTiming: [
       { startTime: '09:00', endTime: '17:00' },
       { startTime: '20:00', endTime: '21:00' },
     ],
     isChecked: true,
-    name: 'Wed',
+    day: 'Wed',
   }
 ]

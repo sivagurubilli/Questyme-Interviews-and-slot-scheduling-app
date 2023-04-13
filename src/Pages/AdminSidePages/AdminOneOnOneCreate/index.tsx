@@ -12,50 +12,30 @@ import { PostEventsService } from "../../../Services/AdminSideServices/GetEvents
 
 
 const OneonOneEventsCreate = () => {
+  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+  const id = userDetails?.user?.id;
+  const token = userDetails?.token;
   const [EventValues, setEventValues] = useState<IOneOnEventValues>({
     title: "",
     instruction: "",
     meetingLink: "",
-    adminId: "5",
+    adminId: id,
     category:"",
     duration: "",
   });
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
-
-
   const dispatch = useDispatch();
   const { SetOneOnOneData } = bindActionCreators(actionCreators, dispatch);
   const navigate = useNavigate();
-const toast = useToast()
+
+
+
   const addEvent = async () => {
-    try{
-     const response =await  PostEventsService(EventValues,id,token)
-if(response){
-     toast({
-      title: "Event created",
-      description: "Your event has been created successfully!",
-      status: "success",
-      position: "top",
-      duration: 2000,
-      isClosable: true,
-    });
-  }
-    }catch(err){
-      toast({
-        title: "Something Went Wrong",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+  
     SetOneOnOneData(EventValues)
     setTimeout(() => {
-      navigate(`/admin/add-avialability`);
+      navigate(`/admin/add-availability`);
     }, 1000);
-  };
+  }
 
   return (
     <div className="container">
