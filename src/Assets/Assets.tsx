@@ -145,8 +145,9 @@ export const IntervieStatusByBatch ={
       count: 0,
       batch:""
     },
-  ],
+  ]
 }
+
 
 
 export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
@@ -166,6 +167,7 @@ export const SlotsStatus = {
             "meetingStatus": "D",
             "count": 0
         }
+    ]
       }
 
 export const backendResponse = [
