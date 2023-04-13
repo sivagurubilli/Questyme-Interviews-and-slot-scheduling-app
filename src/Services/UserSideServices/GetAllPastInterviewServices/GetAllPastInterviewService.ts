@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import axios from "axios";
 
 export const getAllPastInterviewService=(userId:number,token:string)=>(dispatch:Dispatch<Action>):Promise<void | ActionTypes>=>{
-            return axios.get(`http://35.178.167.63:8888/api/interview/${userId}/upcoming-interviews`,{
+            return axios.get(`http://35.178.167.63:8888/api/interview/${userId}/past-interviews`,{
                 headers:{
                     Authorization:`Bearer ${token}`
                 }
