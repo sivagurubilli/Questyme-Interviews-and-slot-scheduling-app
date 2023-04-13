@@ -37,9 +37,9 @@ const BulkStudentsUpload = () => {
     
     try {
       const response = await AddBulkStudentService(formData, token);
-      if (response.message) {
+      if (response.data) {
         toast({
-          title: "Students details added successfully",
+          title: "Successfully created Bulk Users by CSV file",
           status: "success",
           position: "top",
           duration: 2000,

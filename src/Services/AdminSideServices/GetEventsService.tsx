@@ -149,16 +149,18 @@ export async function AddStudentService(data: IAddStdents, token: string) {
 //adding students in bulk servive
 export async function AddBulkStudentService(data: any, token: string) {
   try {
-    console.log(data);
+   
     const response = await axios.post(
-      "csv",
+      "auth/users/bulk-create-byCSV",
       data,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
+    console.log(response)
     return response.data;
   } catch (error: any) {
     return error.response;

@@ -21,6 +21,8 @@ import FutureInterviews from './Pages/AdminSidePages/FutureInterviews/index';
 import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 import AdminInterviewDetailPage from './Pages/AdminSidePages/AdminInterviewDetailPage';
 import { UpdateSingleInterview } from './Pages/AdminSidePages/AdminInterviewUpdate';
+
+
 const AllRoutes = () => {
   return (
     <div>
