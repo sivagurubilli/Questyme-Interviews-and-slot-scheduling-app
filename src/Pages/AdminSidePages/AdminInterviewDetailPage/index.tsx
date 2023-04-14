@@ -34,7 +34,6 @@ const AdminInterviewDetailPage = () => {
 
     // getting the current time in milisecond
     const time = Date.now();
-    console.log(updateCancelButtonStatus, "updateStatus");
 
     // getting date time to convert it in milisecond
     const date = interview.date
@@ -63,7 +62,6 @@ const AdminInterviewDetailPage = () => {
         if (((miliStart) <= time) && (interview.meetingStatus === "P" || interview.meetingStatus === "SS") && (time < miliEnd)) {
             setStartTimeStatus(true);
         }
-
     }, [interview, time, miliStart, miliEnd]);
 
     // when to show the update and cancel button =>{startTime < time || interview.meetingStatus === "C"}
@@ -131,7 +129,15 @@ const AdminInterviewDetailPage = () => {
                 getSingleInterview(id, token)(dispatch);
             }
         } catch (err) {
-            console.log(err);
+            if(err){
+                toast({
+                    title: "Somthing Went Wrong",
+                    status: "error",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                });
+            }
         }
     };
 
@@ -178,7 +184,6 @@ const AdminInterviewDetailPage = () => {
                         isClosable: true,
                     });
                 }
-                console.log(err);
             }
         }
     };
@@ -213,7 +218,6 @@ const AdminInterviewDetailPage = () => {
                     isClosable: true,
                 });
             }
-            console.log(err);
         }
     };
 
