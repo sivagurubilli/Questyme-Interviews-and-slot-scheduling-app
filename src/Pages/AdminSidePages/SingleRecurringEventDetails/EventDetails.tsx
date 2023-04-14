@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Flex, FormLabel, Table, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Box, Flex, FormLabel, } from "@chakra-ui/react";
 import SlotsSchedule from "../../../Components/AddAvailabilityToOneOnOne/SlotsSchedule";
 import {
   DetailsRecurringEvent,
 } from "../../../Services/AdminSideServices/GetEventsService";
-import {  Link, useParams } from "react-router-dom";
+import {   useParams } from "react-router-dom";
 import {
   DaysForRecurring,
 
   token,
   id as adminId,
 } from "../../../Assets/Assets";
+import TableForRecurringDetails from "./TableForRecurringDetails";
+
 
 const OneOnOneSlots = () => {
   const [days, setDays] = useState(DaysForRecurring);
@@ -81,51 +83,47 @@ const OneOnOneSlots = () => {
     GetDetails();
   }, [GetDetails]);
 
+
+
   return (
     <div>
-      <Box w="100%" h="auto" p="20px" mt="5px" border="1px solid grey">
-      <Box
-        w="100%"
-    mb="30px"
-        minH="200px"
-        h="auto"
-        p="2%"
-        bg="white"
-        borderRadius="10px"
-        boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
-      >
-            <Table variant="striped" colorScheme="teal">
-         
-          <Tbody>
-            <Tr>
-              <Td  fontWeight="medium">Tilte</Td>
-              <Td  fontWeight="medium" isNumeric>{recurringEventDetails.title}</Td>
-            </Tr>
-            <Tr>
-              <Td  fontWeight="medium">Category</Td>
-              <Td  fontWeight="medium" isNumeric>{recurringEventDetails.category}</Td>
-            </Tr>
-            <Tr>
-              <Td  fontWeight="medium">Duration</Td>
-              <Td  fontWeight="medium" isNumeric>{recurringEventDetails.duration} Mins</Td>
-            </Tr>
-            <Tr>
-              <Td  fontWeight="medium">Meeting Location</Td>
-              <Td  fontWeight="medium" isNumeric><Link color="blue" to={recurringEventDetails.meetingLink}>{recurringEventDetails.meetingLink}</Link></Td>
-            </Tr>
-            </Tbody>
-            </Table>
 
-        </Box>
 
-        <FormLabel ml="10px" color="rgb(75 85 99)">
-          {" "}
-           Availability Time for this Event Type{" "}
-        </FormLabel>
-        <Flex w="100%">
-          <SlotsSchedule days={days} setDays={setDays} />
-        </Flex>
-      </Box>
+<Box
+  w="100%"
+  mb="30px"
+  minH="200px"
+  h="auto"
+  p={{ base: "5%", md: "2%" }} 
+  bg="white"
+  borderRadius="10px"
+  boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
+>
+  <Box w={{ base: "100%", md: "80%" }} ml={{ base: "0", md: "20%" }}> 
+    <TableForRecurringDetails recurringEventDetails={recurringEventDetails} />
+  </Box>
+</Box>
+
+<Box
+  w="100%"
+  mb="30px"
+  minH="200px"
+  h="auto"
+  p={{ base: "5%", md: "2%" }}
+  bg="white"
+  borderRadius="10px"
+  boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
+>
+  <Flex justifyContent="center">
+    <FormLabel ml={{ base: "0", md: "10px" }}>
+      Availability Time for this Event Type
+    </FormLabel>
+  </Flex>
+  <Box ml={{ base: "0", md: "10%" }} w={{ base: "100%", md: "80%" }}> 
+    <SlotsSchedule days={days} setDays={setDays} />
+  </Box>
+</Box>
+
     </div>
   );
 };

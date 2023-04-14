@@ -77,7 +77,7 @@ if(searchName || batchName){
  
 },[allData,searchName,batchName,futureInterviews])
   
-console.log(batchName,searchName,futureInterviews)
+
 
 // get interviews data
   const GetEvents = useCallback(async () => {

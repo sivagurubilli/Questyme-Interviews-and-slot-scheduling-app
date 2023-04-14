@@ -44,6 +44,8 @@ const navigate = useNavigate()
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="30px"
+
+                size={{ base: "sm", md: "md" }} 
               >
                Back
               </Button>
@@ -53,6 +55,7 @@ const navigate = useNavigate()
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="30px"
+  size={{ base: "sm", md: "md" }} 
               >
                 View Slots
               </Button>
@@ -62,6 +65,7 @@ const navigate = useNavigate()
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="110px"
+                size={{ base: "sm", md: "md" }} 
               >
                <Popover>
       <PopoverTrigger>
