@@ -5,6 +5,7 @@ import {
   Flex,
   FormLabel,
   Grid,
+  Image,
   SkeletonCircle,
   SkeletonText,
   Text,
@@ -65,8 +66,8 @@ const OneOnOnOneSearch = ( ) => {
   //function for filter data 
   useEffect(()=>{
 if(searchName || category){
-  const interviews = allData.filter((el:any) => el.title.toLowerCase().includes(searchName.toLowerCase()) && 
-  el.category.toLowerCase().includes(category.toLowerCase()));
+  const interviews = allData.filter((el:any) => el.title?.toLowerCase().includes(searchName?.toLowerCase()) && 
+  el.category?.toLowerCase().includes(category?.toLowerCase()));
     setfutureInterviews(interviews)
     setTotalPages(Math.ceil(interviews?.length/itemsPerPage));
     if(interviews.length===0){
@@ -180,9 +181,18 @@ if(searchName || category){
        </Flex>
         {PaginatedInterviewsData?.length <= 0 ? (
           <Box>
-            <SkeletonCircle size="10" />
-            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
-          </Box>
+          <Image
+            w="40%"
+            h="200px"
+            ml="30%"
+            src={
+              "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
+            }
+          />
+          <Text fontSize="20px" mt="20px" ml="40%">
+            No Events were Found
+          </Text>
+        </Box>
         ) : (
           <Grid
             mt={4}

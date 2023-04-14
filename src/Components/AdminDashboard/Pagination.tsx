@@ -1,10 +1,12 @@
-import { Button } from "@chakra-ui/react";
+
+import { Box, Button } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import "./index.css";
+import { useParams } from "react-router-dom";
 
 interface PaginationProps {
   currentPage: number;
-  totalPages: any;
+  totalPages: number;
   onChange: (page: number) => void;
   setPage: (page: number) => void;
   interviewsData: any;
@@ -19,116 +21,143 @@ const Pagination: React.FC<PaginationProps> = ({
   setPage,
   interviewsData,
   setPaginatedData,
- 
   perPage,
 }) => {
+
   const [pages, setPages] = useState<number[]>([]);
-  const [endPage, setEndPage] = useState<number>(0);
+const [currentpage,setCurrentpage] = useState<number | undefined>(currentPage)
+
+console.log(currentpage)
 
   useEffect(() => {
-    const newPages: number[] = [];
-    let startPage = currentPage;
-    let endPage = totalPages;
+    const newPages: any = [];
     const maxPages = 3; // Maximum number of visible pages in the middle
 
-    if (totalPages > maxPages) {
-      const middlePage = Math.floor(maxPages / 2);
-
-      if (currentPage > middlePage) {
-        startPage = currentPage - middlePage;
-        endPage = currentPage + middlePage;
-      } else {
-        startPage = 1;
-        endPage = maxPages;
+    if (totalPages <= maxPages) {
+      // If total pages are less than or equal to maxPages, display all pages
+      for (let i = 1; i <= totalPages; i++) {
+        newPages.push(i);
       }
-     
-      if (endPage > totalPages) {
-        endPage = totalPages;
-        startPage = endPage - maxPages + 1;
-      }
-      setEndPage(endPage);
-    }
+    } else {
+      // Calculate startPage and endPage for pages in the middle
+      const startPage = Math.max((currentpage||1) - 1, 1);
+      const endPage = Math.min((currentpage||1) + 1, totalPages);
 
-    for (let i = startPage; i <= endPage; i++) {
-      newPages?.push(i);
+      // Add previous button if startPage is greater than 1
+      if (startPage > 1) {
+        newPages.push(1);
+        if (startPage > 2) {
+          newPages.push("...");
+        }
+      }
+
+      // Add pages in the middle
+      for (let i = startPage; i <= endPage; i++) {
+        newPages.push(i);
+      }
+
+      // Add next button if endPage is less than totalPages
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          newPages.push("...");
+        }
+        newPages.push(totalPages);
+      }
     }
 
     setPages(newPages);
-  }, [currentPage, totalPages]);
+  }, [currentpage, totalPages]);
 
-  const handlePageChange = (page: any) => {
-
-    const startIndex = (currentPage - 1) * perPage;
+  const handlePageChange = (page: number) => {
+    const startIndex = (page - 1) * perPage;
     const endIndex = startIndex + perPage;
 
-    if (page !== currentPage && page >= 1 && page <= totalPages) {
+    if (page !== currentpage && page >= 1 && page <= totalPages) {
       const lecturdata = interviewsData.slice(startIndex, endIndex);
       setPaginatedData(lecturdata);
       setPage(page);
-     
+      setCurrentpage(page)
       onChange(page);
     }
+    
   };
 
-  return (
-    <nav>
-      <ul className="pagination" >
-        <li>
-          <Button
-            isDisabled={currentPage === 1}
-            w="auto"
-            borderRadius="6px"
-            h="32px"
-            className="page-link"
-            bg="white"
-            color="rgb(107,114,128)"
-            border="1px solid rgb(209,213,219)"
-            onClick={() => handlePageChange(currentPage - 1)}
-          >
-            <i className="fa-solid fa-chevron-left"></i>
-          </Button>
-        </li>
 
-        {pages.map((page) => (
-          <li key={page}>
+
+return (
+  <nav>
+    <ul className="pagination">
+      <li>
+        <Button
+          isDisabled={currentpage === 1}
+          w="auto"
+          borderRadius="6px"
+          h="32px"
+          className="page-link"
+          bg="white"
+          color="rgb(107,114,128)"
+          border="1px solid rgb(209,213,219)"
+          onClick={() => handlePageChange((currentpage||1)- 1)}
+        >
+          <i className="fa-solid fa-chevron-left"></i>
+        </Button>
+      </li>
+
+      {pages.map((page, index) => (
+        <li key={index}>
+          {typeof page === "number" ? (
             <Button
-              bg={currentPage === page ? "rgb(37,54,235)" : "white"}
-              color={currentPage === page ? "white" : "rgb(107,114,128)"}
+              bg={currentpage === page ? "rgb(37,54,235)" : "white"}
+              color={currentpage === page ? "white" : "rgb(107,114,128)"}
               w="auto"
               borderRadius="6px"
               h="32px"
-              _hover={{ bg: "blue", color: "white" }}
+              className="page-link"
               border="1px solid rgb(209,213,219)"
               onClick={() => handlePageChange(page)}
+              _hover={{ bg: "blue.200" }}
             >
               {page}
             </Button>
-            
-          </li>
-        ))}
+          ) : (
+                <Box
 
-
-        {totalPages > 3 && pages[pages.length - 1] < totalPages && (
-        
-            <li>
-              <Button
-                w="auto"
-                borderRadius="6px"
-                h="32px"
-                bg="white"
-                color="rgb(107,114,128)"
-                border="1px solid rgb(209,213,219)"
-                onClick={() => handlePageChange(Number(currentPage) + 1)}
+            bg="white"
+            color="rgb(107,114,128)"
+            w="30px"
+            borderRadius="6px"
+            h="32px"
+            lineHeight="32px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            fontSize="25px" 
+           
           >
-            <i className="fa-solid fa-chevron-right"></i>
-          </Button>
+            {page}
+          </Box>
+          )}
         </li>
+      ))}
+ <li>
+        <Button
+          isDisabled={currentpage === pages.length}
+          w="auto"
+          borderRadius="6px"
+          h="32px"
+          className="page-link"
+          bg="white"
+          color="rgb(107,114,128)"
+          border="1px solid rgb(209,213,219)"
+          onClick={() => handlePageChange(Number(currentpage) + 1)}
+        >
+          <i className="fa-solid fa-chevron-right"></i>
+        </Button>
+      </li>
+      {/* ... */}
+    </ul>
+  </nav>
+);
+          }
 
-     )}
-     </ul>
-      
-    </nav>
-  );
-};
-
-export default Pagination;
+          export default Pagination
