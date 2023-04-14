@@ -131,7 +131,6 @@ const InterviewDetails = () => {
     ) {
       setEndButtonStatus(false);
       setNotesButtonStatus(false);
-      setJoinButtonStatus(false);
     }
   }, [interview, time, miliEnd]);
 
