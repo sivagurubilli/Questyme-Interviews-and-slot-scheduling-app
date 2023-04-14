@@ -41,7 +41,7 @@ Style the FullCalendar container
   }
   
 :root {
-    --fc-daygrid-event-dot-width: 8px;
+    --fc-daygrid-event-dot-width: 4px;
   }
    
  
