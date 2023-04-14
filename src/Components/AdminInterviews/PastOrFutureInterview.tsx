@@ -77,7 +77,7 @@ if(searchName || batchName){
  
 },[allData,searchName,batchName,futureInterviews])
   
-console.log(batchName,searchName,futureInterviews)
+
 
 // get interviews data
   const GetEvents = useCallback(async () => {
@@ -156,7 +156,7 @@ console.log(batchName,searchName,futureInterviews)
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
         p="5%"
@@ -211,8 +211,9 @@ console.log(batchName,searchName,futureInterviews)
             currentPage={currentPage}
               totalPages={totalPages}
             onChange={handlePageChange}
-            setPage={setCurrentPage}
+           
             interviewsData={futureInterviews}
+            setPage={setCurrentPage}
             setPaginatedData={setPaginatedInterviewsData}
             perPage={itemsPerPage}
           />

@@ -241,6 +241,7 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
             onChange={handlePageChange}
             setPage={setCurrentPage}
             interviewsData={Interviews}
+         
             setPaginatedData={setPaginatedInterviewsData}
             perPage={itemsPerPage}
           />

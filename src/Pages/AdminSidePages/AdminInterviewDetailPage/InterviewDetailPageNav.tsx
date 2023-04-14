@@ -21,7 +21,7 @@ const DetailPageNav = ({ interview, id }: InterviewProp) => {
 
     const handleDelete = () => {
         cancelSingleInterview(id, token)(dispatch).then((res: any) => {
-            if (res.status == 200) {
+            if (res.status === 200) {
                 console.log("yes")
                 toast({
                     title: "Interview Canceled Successfully",

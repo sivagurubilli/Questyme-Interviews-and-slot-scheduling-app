@@ -9,7 +9,7 @@ const FutureInterviews = () => {
   const futureInterviewsValue = segments[segments.length - 1];
 
   return (
-    <div>
+    <div className="container">
         <Navbar />
       <DashboardNavbar />
       {futureInterviewsValue === "upcoming-interviews" ? (

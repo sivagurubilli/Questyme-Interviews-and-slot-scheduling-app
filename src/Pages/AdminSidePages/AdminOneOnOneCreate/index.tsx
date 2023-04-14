@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../Redux/eventById";
 import { IOneOnEventValues } from "../Interfacces";
-import { id} from "../../../Assets/Assets";
+
 
 
 const OneonOneEventsCreate = () => {
@@ -43,7 +43,7 @@ const OneonOneEventsCreate = () => {
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
         p="5%"

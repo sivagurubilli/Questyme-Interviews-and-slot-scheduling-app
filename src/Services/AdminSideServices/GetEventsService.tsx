@@ -93,9 +93,18 @@ export async function EditEventsService(data: any, id: any) {
 
 // adding events recurring manner
 export async function AddRecurringSlotsService(id: string, days: any,token:string) {
-
-  try {
-    const response = await axios.post("/recurring/createRecMeet", { days },
+const {adminId,category,instruction,meetingLink,title,availabilities,duration} = days
+  try { 
+ 
+    const response = await axios.post("/recurring/createRecMeet",{
+     title,
+     meetingLink,
+     category,
+     duration,
+     instruction,
+     adminId,
+     availabilities
+    },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -285,13 +294,30 @@ export async function GetByPendingStatusService(batchName: string, meeting: stri
  export async function GetRecurringListService(token:string,id:string) {
   try {
     const response = await axios.get(
-      `/getListByAdminId?adminId=${id}`,{
+      `/recurring/getListByAdminId?adminId=${id}`,{
     headers: {
       Authorization: `Bearer ${token}`,
     }
   });
   console.log(response)
     return response.data;
+  } catch (error: any) {
+    return error.response;
+  }
+}
+
+
+export const DetailsRecurringEvent =async(id:string,token:string) =>{
+  try {
+    const response = await axios.get(
+      `/recurring/getListByAdminId?adminId=${id}`,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  });
+
+
+   return response.data
   } catch (error: any) {
     return error.response;
   }

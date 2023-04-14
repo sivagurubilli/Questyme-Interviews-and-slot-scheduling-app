@@ -52,6 +52,7 @@ const DashboardNavbar = () => {
               justifyContent={["center", "center", "flex-end"]}
               align="center"
               mb={[2, 2, 0]}
+              mt="10px"
              
             >
               <Button
@@ -60,8 +61,9 @@ const DashboardNavbar = () => {
                 mr={[0, 0, "30px"]}
                 mb={["10px", "10px", 0]}
                 fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
-                px={["2", "2", "4"]}
-                py={["1", "1", "2"]}
+                p="10px"
+                w="auto"
+                h={["30px", "40px", "40px"]}
                 onClick={() => navigate("/admin/single-interview/create")}
               >
                 Create Interviews
@@ -72,8 +74,9 @@ const DashboardNavbar = () => {
                 mr={[0, 0, "30px"]}
                 mb={["10px", "10px", 0]}
                 fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
-                px={["2", "2", "4"]}
-                py={["1", "1", "2"]}
+                w="auto"
+                h={["30px", "40px", "40px"]}
+                p="10px"
                 onClick={() => navigate("/admin/bulk-interview/create")}
               >
                 Create Bulk Interviews
@@ -84,8 +87,9 @@ const DashboardNavbar = () => {
                 mr={[0, 0, "30px"]}
                 mb={["10px", "10px", 0]}
                 fontSize={{ base: "12px", sm: "16px",md: "16px", lg: "16px" }}
-                px={["2", "2", "4"]}
-                py={["1", "1", "2"]}
+                w="auto"
+                p="10px"
+                h={["30px", "40px", "40px"]}
                 onClick={() => navigate("/admin/one-on-one-interviews")}
               >
                 One-On-One Events
@@ -99,8 +103,9 @@ const DashboardNavbar = () => {
                   mr={[0, 0, "30px"]}
                   mb={["10px", "10px", 0]}
                   fontSize={{ base: "12px", sm: "16px", md: "16px", lg: "16px" }}
-                  px={["2", "2", "4"]}
-                  py={["1", "1", "2"]}
+                  p="10px"
+                  w="100x"
+                  h={["30px", "40px", "40px"]}
                   onClick={() => navigate("/admin/dashboard")}
                 >
                   Back
