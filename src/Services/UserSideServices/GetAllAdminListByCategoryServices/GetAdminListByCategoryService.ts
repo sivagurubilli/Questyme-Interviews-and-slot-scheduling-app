@@ -16,14 +16,12 @@ export const getAlladminListByCategoryService =
     return axios
       .get(`http://35.178.167.63:8888/slot/get-all-available-admin/${type}`)
       .then((res) => {
-        console.log("resadmins", res.data);
         dispatch({
           type: ActionTypes.GET_ALL_ADMIN_LIST_BY_CATEGORY_SUCCESS,
           payload: res.data,
         });
       })
       .catch((err) => {
-        console.log(err);
         dispatch({
           type: ActionTypes.GET_ALL_ADMIN_LIST_BY_CATEGORY_FAILURE,
           payload: err,

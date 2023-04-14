@@ -152,7 +152,7 @@ const UserDashboard = () => {
       page: page,
     });
   };
-  console.log("searchTerm", searchTerm);
+  
   return (
     <div>
       <Navbar />

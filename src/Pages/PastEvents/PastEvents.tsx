@@ -125,7 +125,7 @@ const PastEvents = () => {
       page: page,
     });
   };
-  console.log("djkdhkd", interviews);
+ 
   return (
     <div>
       <Navbar />

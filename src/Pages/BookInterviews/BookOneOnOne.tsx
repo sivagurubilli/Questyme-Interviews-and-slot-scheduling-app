@@ -44,26 +44,22 @@ const BookOneOnOne = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const userId: number = userDetails?.user?.id;
   const token: string = userDetails.token;
-  console.log("categoryTye", categoryType);
 
   useEffect(() => {
     getAllCategoryDataService(token)(categoryDispatch);
   }, []);
-  console.log("cate", categoryType);
 
   useEffect(() => {
     if (categoryType && admins?.length === 0) {
       getAlladminListByCategoryService(categoryType, token)(adminListDispatch);
       setCategoryType("");
-      console.log("cate", categoryType);
+
     }
   }, [categoryType, adminListDispatch, admins.length]);
 
   const handleChangeCategoryType = (e: string) => {
     getAlladminListByCategoryService(e, token)(adminListDispatch);
   };
-  console.log("categories", categories);
-  console.log("admins", admins);
   return (
     <div>
       <Navbar />

@@ -10,7 +10,6 @@ export const postStudentNotes =(interviewId:number,userId:number,token:string,no
             },
             data:notes
     }).then((res)=>{
-        console.log(res)
         return res
     })
     .catch((err)=>{

@@ -10,7 +10,6 @@ export const updateMeetingStartStatusService =(interviewId:number,userId:number,
         }
     })
     .then((res)=>{
-        console.log("resetete",res.data)
         return true
     })
     .catch((err)=>{
