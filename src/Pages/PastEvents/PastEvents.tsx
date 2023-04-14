@@ -21,10 +21,12 @@ import { convertTimeFormat } from "../../utils/index";
 import { Action } from "../../Redux/PastInterviewReducer/Action";
 import { Dispatch } from "redux";
 import { getAllPastInterviewService } from "../../Services/UserSideServices/GetAllPastInterviewServices/GetAllPastInterviewService";
-import SearchComponent from "../../Components/SearchComponents/SearchComponent";
-
-
-
+import { InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useSearch } from "../../utils/SetParams";
+import Pagination from "../../Components/AdminDashboard/Pagination";
+import { useCallback } from "react";
 const PastEvents = () => {
   const interviews = useSelector(
     (state: RootState) => state.PastInterViewReducer.interviews
@@ -32,36 +34,136 @@ const PastEvents = () => {
   const dispatch: Dispatch<Action> = useDispatch();
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const userId: number = userDetails?.user?.id;
-
-  const token:string = userDetails.token;
+  const [search, updateSearch] = useSearch();
+  const [searchName, setSearchName] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<any>(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [PaginatedInterviewsData, setPaginatedInterviewsData] = useState<
+    interview[]
+  >([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filteredItem, setFilteredItem] = useState<interview[]>([]);
+  const [startIndex, setStartIndex] = useState<any>(1);
+  const [endIndex, setEndIndex] = useState<number>();
+  const location = useLocation();
+  const token: string = userDetails.token;
+  const itemsPerPage = 9;
+  //for getting interview data
+  useEffect(() => {
+    if (interviews?.length === 0) {
+      getAllPastInterviewService(userId, token)(dispatch);
+      console.log("hi am useEffect");
+    }
+    if (interviews.length > 0 && searchTerm == "") {
+      setFilteredItem(interviews);
+      console.log("filtered", filteredItem);
+    }
+    if (searchTerm == "") {
+      setFilteredItem(interviews);
+    }
+  }, [dispatch, interviews?.length, setFilteredItem, searchTerm]);
+//for set param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const name = params.get("name");
+    const page = params.get("page");
+    if (name) {
+      setSearchName(name);
+      setCurrentPage(1);
+    } else {
+      setSearchName("");
+    }
+    if (page) {
+      setCurrentPage(page);
+    }
+  }, [
+    setSearchName,
+    currentPage,
+    updateSearch,
+    search,
+    searchName,
+    location.search,
+  ]);
+//for searching 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    console.log("searchTerm", searchTerm);
+    if (searchTerm) {
+      const temp = interviews.filter((item: interview) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      console.log("temp", temp);
+      temp.length > 0 && setFilteredItem(temp);
+      setPaginatedInterviewsData(filteredItem);
+      setTotalPages(Math.ceil(filteredItem?.length / itemsPerPage));
+    }
+  };
+//get pagination
+  const GetPagination = useCallback(() => {
+    if (filteredItem) {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      setStartIndex(startIndex + 1);
+      setEndIndex(endIndex);
+      const Paginatedinterviewsdata = filteredItem?.slice(startIndex, endIndex);
+      if (endIndex > filteredItem.length) {
+        setEndIndex(filteredItem.length);
+      } else {
+        setEndIndex(endIndex);
+      }
+      setPaginatedInterviewsData(Paginatedinterviewsdata);
+      setTotalPages(Math.ceil(filteredItem?.length / itemsPerPage));
+    }
+  }, [currentPage, itemsPerPage, filteredItem]);
 
   useEffect(() => {
-    if(userId && interviews?.length ===0){
-      getAllPastInterviewService(userId,token)(dispatch);
-    }
-  }, [dispatch]);
-
+    GetPagination();
+  }, [GetPagination]);
+  const handlePageChange = (page: any) => {
+    updateSearch({
+      ...search,
+      page: page,
+    });
+  };
   console.log("djkdhkd", interviews);
   return (
     <div>
       <Navbar />
       <Header title={"Past Events"} buttonName={"Back"} />
       <main>
-        <Box bg={"#fafafa"}>
-          <Box h={"100vh"} w={"75%"} margin={"auto"} pt={"20px"}>
-            <SearchComponent />
+        <Box bg={"#f1f5f9"}>
+          <Box h={"auto"} w={"75%"} margin={"auto"} pt={"20px"}>
+            <Box mt="10px" mb="10px">
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  children={<SearchIcon color="gray.300" />}
+                />
+                <Input
+                  type="tel"
+                  placeholder="search"
+                  value={searchTerm}
+                  onChange={handleInputChange}
+                />
+              </InputGroup>
+            </Box>
             <Box
               w={"100%"}
-              h={"90%"}
+              h={"auto"}
               m={"auto"}
-              borderTop={"1px solid gray"}
-              pt={"20px"}
               mt={"5px"}
+              pl={"20px"}
+              pr={"20px"}
+              pt={"30px"}
+              pb={"30px"}
+              bg={"white"}
+              boxShadow={"rgba(0, 0, 0, 0.24) 0px 3px 8px"}
+              borderRadius={"10px"}
             >
               {/* grid layout of scheduled interview */}
               <Grid templateColumns={"repeat(3,1fr)"} gap={6}>
-                {interviews.length > 0 &&
-                  interviews.map((item: interview) => {
+                {PaginatedInterviewsData.length > 0 &&
+                  PaginatedInterviewsData.map((item: interview) => {
                     return (
                       <GridItem
                         key={item.interviewId}
@@ -126,9 +228,7 @@ const PastEvents = () => {
                             w={"100%"}
                             p={"10px"}
                           >
-                             <Box>
-                             
-                             </Box>
+                            <Box></Box>
                             <Box>
                               <Link
                                 to={`/dashboard/interview/${item.interviewId}`}
@@ -150,8 +250,29 @@ const PastEvents = () => {
               </Grid>
             </Box>
           </Box>
+          <Flex
+        justifyContent="space-between"
+        alignItems={"center"}
+        w={"75%"}
+        m={"auto"}
+        h={"100px"}
+      >
+        <Text ml="30px">
+          Showing {startIndex} to {endIndex} of {filteredItem?.length} results
+        </Text>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={handlePageChange}
+          setPage={setCurrentPage}
+          interviewsData={interviews}
+          setPaginatedData={setPaginatedInterviewsData}
+          perPage={itemsPerPage}
+        />
+      </Flex>
         </Box>
       </main>
+      
     </div>
   );
 };

@@ -34,15 +34,17 @@ const BookOneOnOne = () => {
   const categoryDispatch: Dispatch<
     categoryDataSuccess | categoryDataLoading | categoryDataFailure
   > = useDispatch();
+
   const adminListDispatch: Dispatch<
     | adminListByCategorySuccess
     | adminListByCategoryFailure
     | adminListByCategoryLoading
   > = useDispatch();
+
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const userId: number = userDetails?.user?.id;
   const token: string = userDetails.token;
-console.log("categoryTye",categoryType)
+  console.log("categoryTye", categoryType);
 
   useEffect(() => {
     getAllCategoryDataService(token)(categoryDispatch);
@@ -51,16 +53,15 @@ console.log("categoryTye",categoryType)
 
   useEffect(() => {
     if (categoryType && admins?.length === 0) {
-      getAlladminListByCategoryService(categoryType,token)(adminListDispatch);
+      getAlladminListByCategoryService(categoryType, token)(adminListDispatch);
       setCategoryType("");
       console.log("cate", categoryType);
     }
-  }, [categoryType,adminListDispatch,admins.length]);
+  }, [categoryType, adminListDispatch, admins.length]);
 
-  const handleChangeCategoryType =(e:string)=>{
-    
-    getAlladminListByCategoryService(e,token)(adminListDispatch);
-  }
+  const handleChangeCategoryType = (e: string) => {
+    getAlladminListByCategoryService(e, token)(adminListDispatch);
+  };
   console.log("categories", categories);
   console.log("admins", admins);
   return (
@@ -71,7 +72,7 @@ console.log("categoryTye",categoryType)
         <Box
           w={"100%"}
           h={"100vh"}
-          bg={"#f1f1f1"}
+          bg={"#f1f5f9"}
           border={"1px solid #f1f1f1 "}
         >
           <Box
@@ -85,32 +86,46 @@ console.log("categoryTye",categoryType)
           >
             <Flex justifyContent={"space-between"}>
               <Box w={"30%"}>
-                <Select w={"100%"} onChange={(e)=>handleChangeCategoryType(e.target.value)} >
-                 <option value="">select category</option>
-                  {categories.length>0 &&
+                <Select
+                  w={"100%"}
+                  onChange={(e) => handleChangeCategoryType(e.target.value)}
+                >
+                  <option value="">select category</option>
+                  {categories.length > 0 &&
                     categories.map((item: string, index: number) => {
-                        return (
-                          <option
-                            key={index}
-                            onClick={() => setCategoryType(item)}
-                            value={item}
-                          >
-                            {item}
-                          </option>
-                        );
+                      return (
+                        <option
+                          key={index}
+                          onClick={() => setCategoryType(item)}
+                          value={item}
+                        >
+                          {item}
+                        </option>
+                      );
                     })}
                 </Select>
               </Box>
-              <Box  w={"65%"} textAlign={"center"} >
-                <Text p={"6px"} border={"1px solid indigo"} borderRadius={"8px"} width={"150px"} align={"center"} m={"auto"}>Admin List</Text>
-                {Object.keys(admins).length>0 &&
+              <Box w={"65%"} textAlign={"center"}>
+                <Text
+                  p={"6px"}
+                  border={"1px solid indigo"}
+                  borderRadius={"8px"}
+                  width={"150px"}
+                  align={"center"}
+                  m={"auto"}
+                >
+                  Admin List
+                </Text>
+                {Object.keys(admins).length > 0 &&
                   admins.Instructors.map((item: any, index: number) => {
-                    console.log("item",item)
+                    console.log("item", item);
                     return (
-                    
-                        <Link to={`/book-one-on-one/${item.id}`} key={item.id}>
-                          <Button colorScheme="blue" mt={"10px"} ml={"5px"}>{item.name}</Button>
-                        </Link>)
+                      <Link to={`/book-one-on-one/${item.id}`} key={item.id}>
+                        <Button colorScheme="blue" mt={"10px"} ml={"5px"}>
+                          {item.name}
+                        </Button>
+                      </Link>
+                    );
                   })}
               </Box>
             </Flex>
