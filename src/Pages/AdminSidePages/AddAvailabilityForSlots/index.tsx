@@ -1,18 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import OneOnOneSlots from "../../../Components/AddAvailabilityToOneOnOne/OneOnOneSlots";
-import { Box, Flex, FormLabel, Text } from '@chakra-ui/react';
-import OneOnOneCreateNav from '../AdminOneOnOneCreate/OneOnOneCreateNav';
-import Navbar from '../../../Components/Navbar/Navbar';
+import { Box, Flex, FormLabel, Text } from "@chakra-ui/react";
+import OneOnOneCreateNav from "../AdminOneOnOneCreate/OneOnOneCreateNav";
+import Navbar from "../../../Components/Navbar/Navbar";
 
-const AddDaysAvailability= () => {
-
-    const [isSlotsEditOpen, setSlotsEditOpen] = useState(false);
+const AddDaysAvailability = () => {
+  const [isSlotsEditOpen, setSlotsEditOpen] = useState(false);
 
   return (
-    
-         <div className="container">
+    <div className="container">
       <Navbar />
-      <OneOnOneCreateNav  NavText = "Add  Availability For One-On-One Event"/>
+      <OneOnOneCreateNav NavText="Add  Availability For One-On-One Event" />
       <Box
         w="80%"
         ml="10%"
@@ -54,9 +52,9 @@ const AddDaysAvailability= () => {
             </Flex>
           </Box>
         )}
-    </Box>
+      </Box>
     </div>
-  )
-}
+  );
+};
 
-export default AddDaysAvailability
+export default AddDaysAvailability;

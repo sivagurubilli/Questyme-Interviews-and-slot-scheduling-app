@@ -19,31 +19,31 @@ const SlotsStatsTable = ({ totalInterviews }: any) => {
           </Thead>
           <Tbody>
             <Tr>
-              <Td>Total Slots</Td>
-              <Td isNumeric>{totalInterviews?.totalSlots}</Td>
+              <Td fontWeight="medium">Total Slots</Td>
+              <Td fontWeight="medium" isNumeric>{totalInterviews?.totalSlots}</Td>
             </Tr>
             {totalInterviews?.results?.map(
               (el: InterviewResult, index: number) => (
                 <Tr key={index}>
                   {el.meetingStatus === "B" && (
                     <>
-                      <Td>Slots Booked</Td>
+                      <Td fontWeight="medium">Slots Reserved</Td>
 
-                      <Td isNumeric>{el.count}</Td>
+                      <Td  fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "U" && (
                     <>
-                      <Td>Slots Unbooked</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Slots Unreserved</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
 
                   {el.meetingStatus === "D" && (
                     <>
-                      <Td>Slots Deleted</Td>
-                      <Td isNumeric>{el.count}</Td>
+                      <Td fontWeight="medium">Slots Deleted</Td>
+                      <Td fontWeight="medium" isNumeric>{el.count}</Td>
                     </>
                   )}
                 </Tr>

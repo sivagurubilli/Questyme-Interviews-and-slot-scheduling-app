@@ -12,14 +12,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AddBulkStudentService } from "../../../Services/AdminSideServices/GetEventsService";
-
+import { token} from "../../../Assets/Assets";
 
 const BulkStudentsUpload = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
   const [csvFile, setCsvFile] = useState<File | null>(null);
-  const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
-  const id =userDetails?.user?.id
-  const token = userDetails?.token
   const toast = useToast();
 
   
@@ -40,9 +37,9 @@ const BulkStudentsUpload = () => {
     
     try {
       const response = await AddBulkStudentService(formData, token);
-      if (response.message) {
+      if (response.data) {
         toast({
-          title: "Students details added successfully",
+          title: "Successfully created Bulk Users by CSV file",
           status: "success",
           position: "top",
           duration: 2000,

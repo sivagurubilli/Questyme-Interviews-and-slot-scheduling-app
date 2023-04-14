@@ -6,14 +6,12 @@ import { SlotsStatus } from "../../Assets/Assets";
 import { Box, Flex, FormLabel, useToast } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import SlotsStatsTable from "./SlotsStatsTable";
+import {id,token} from "../../Assets/Assets"
 
 const SlotsDashboard = () => {
   const [totalSlots, setTotalSlots] = useState(SlotsStatus);
   const [adminSlots, setAdminSlots] = useState(SlotsStatus);
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
-  const name = userDetails?.user?.name;
+
   const toast = useToast();
 
   const GetEvents = useCallback(async () => {
@@ -38,7 +36,7 @@ const SlotsDashboard = () => {
         isClosable: true,
       });
     }
-  }, [toast, token, id]);
+  }, [toast]);
 
   useEffect(() => {
     GetEvents();

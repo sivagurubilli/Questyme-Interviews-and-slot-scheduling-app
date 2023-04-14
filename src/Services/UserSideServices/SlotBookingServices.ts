@@ -1,5 +1,6 @@
 import axios from "axios"
 
+
 export const getSlotDays = async (id:any) => {
     try {
       const response = await axios.get(`http://35.178.167.63:8888/slot/get-slot-dates/${id}`);

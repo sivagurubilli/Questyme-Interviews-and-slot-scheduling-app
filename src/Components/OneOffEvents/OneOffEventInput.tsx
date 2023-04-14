@@ -8,7 +8,6 @@ import {
     Select,
     Text,
     Textarea,
-    useMediaQuery,
     useToast,
   } from "@chakra-ui/react";
   import React, { useCallback, useEffect, useState } from "react";
@@ -17,7 +16,7 @@ import { Duration } from "../../Assets/Assets";
 import { validationSchema } from "./ValidationSchema";
 import TimeslotsInput from "./TimeslotsInput";
 import { GetCategoryService } from "../../Services/AdminSideServices/GetEventsService";
-  //yup validation schema
+import { token} from "../../Assets/Assets";
 
   
   const OneOffEventInput = ({
@@ -27,8 +26,9 @@ import { GetCategoryService } from "../../Services/AdminSideServices/GetEventsSe
     SaveEvent,
     buttonName,
   }: any) => {
+
+
     //setting initial values for formik and yup
-    const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
     const initialValues = {
       title: EventValues.title,
       instruction: EventValues.instruction,
@@ -39,9 +39,7 @@ import { GetCategoryService } from "../../Services/AdminSideServices/GetEventsSe
       adminId: EventValues.adminId
     };
     const [category,setCategory] = useState([])
-    const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-    const id = userDetails?.user?.id;
-    const token = userDetails?.token;
+    
     const toast = useToast()
 
     const onSubmit = async () => {
@@ -69,7 +67,7 @@ import { GetCategoryService } from "../../Services/AdminSideServices/GetEventsSe
           isClosable: true,
         });
       }
-    }, [toast,token]);
+    }, [toast]);
     
     
     

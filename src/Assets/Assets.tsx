@@ -52,49 +52,6 @@ export const DaysForRecurring = [
   },
 ]
 
-export const DaysForRecurringEvents = [
-  {
-    name: "Sun",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  },
-  {
-    name: "Mon",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-
-  },
-  {
-    name: "Tue",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-    
-  },
-  {
-    name: "Wed",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
- 
-  },
-  {
-    name: "Thu",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-   
-  },
-  {
-    name: "Fri",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-
-  },
-  {
-    name: "Sat",
-    isChecked: true,
-    TimeSlot: [{ startTime: "09:00", endTime: "17:00" }],
-  
-  },
-]
 
 
 
@@ -188,11 +145,11 @@ export const IntervieStatusByBatch ={
       count: 0,
       batch:""
     },
-  ],
+  ]
 }
 
 
-export const meetingStausButtons =["Pending","Compleated","Canceled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
+export const meetingStausButtons =["Pending","Completed","Cancelled","Started","Started-By-Student","Started-By-Interviewer","Ended-By-Student","Ended-By-Interviewer"]
 
 export const SlotsStatus = {
     "totalSlots":0,
@@ -209,34 +166,38 @@ export const SlotsStatus = {
             "meetingStatus": "D",
             "count": 0
         }
-    ]
-}
 
+      ]
 
-
+      }
 
 export const backendResponse = [
   {
-    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    name: 'Sun',
+    day: 'Sun',
   },
   {
-    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    name: 'Mon',
+    day: 'Mon',
   },
   {
-    TimeSlot: [{ startTime: '09:00', endTime: '17:00' }],
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
     isChecked: true,
-    name: 'Tue',
+   day: 'Tue',
   },
   {
-    TimeSlot: [
+    slotTiming: [
       { startTime: '09:00', endTime: '17:00' },
       { startTime: '20:00', endTime: '21:00' },
     ],
     isChecked: true,
-    name: 'Wed',
+    day: 'Wed',
   }
 ]
+
+export const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
+export const id = userDetails?.user?.id;
+export const token = userDetails?.token;
+export const itemsPerPage =6

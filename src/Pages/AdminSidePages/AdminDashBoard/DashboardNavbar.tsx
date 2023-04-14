@@ -1,5 +1,5 @@
 import { EventTypesNavbarArray } from "../../../Assets/Assets";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./index.css";
@@ -40,8 +40,8 @@ const DashboardNavbar = () => {
             >
               {EventTypesNavbarArray.map((el) => (
                 <Box ml={["0px", "0px", "10px"]} key={el} className="li">
-                  <NavLink key={el} to={"/admin/" + el.toLowerCase()}>
-                    {el.split("-").join(" ")}
+                  <NavLink  key={el} to={"/admin/" + el.toLowerCase()}>
+                  <Text fontWeight="medium">  {el.split("-").join(" ")} </Text>
                   </NavLink>
                 </Box>
               ))}

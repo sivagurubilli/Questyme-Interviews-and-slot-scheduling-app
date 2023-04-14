@@ -6,22 +6,22 @@ import { IEventValuescreate } from "../Interfacces";
 import {  PostOneOffService } from "../../../Services/AdminSideServices/GetEventsService";
 import OneOffEventInput from "../../../Components/OneOffEvents/OneOffEventInput";
 import Navbar from "../../../Components/Navbar/Navbar";
+import { token,id} from "../../../Assets/Assets";
+
 
 const GotoOneOffMeet = () => {
   const [EventValues, setEventValues] = useState<IEventValuescreate>({
     title: "",
     instruction: "",
     meetingLink: "",
-    adminId: "5",
+    adminId: id,
     duration: "",
     date:"",
     category:"",
     slotTime:[{startTime: "",
     endTime: ""}]
   });
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-const id = userDetails?.user?.id;
-const token = userDetails?.token;
+
   const navigate = useNavigate();
   const toast = useToast();
 

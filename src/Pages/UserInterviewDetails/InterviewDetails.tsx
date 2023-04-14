@@ -20,7 +20,7 @@ import {
   scheduledInterviewFailure,
   scheduledInterviewLoading,
   scheduledInterviewSuccess,
-} from "@/Redux/ScheduledInterviewUser/Action";
+} from "../../Redux/ScheduledInterviewUser/Action";
 import { GetAllScheduledInterView } from "../../Services/UserSideServices/GetAllScheduledInterviewServices/GetInterviewsServices";
 import { useParams } from "react-router-dom";
 import { interview } from "../UserDashboard/UserDashboard";
@@ -49,29 +49,41 @@ import {
   TableContainer,
   useToast,
 } from "@chakra-ui/react";
+// import { convertMillseconds } from "../../utils/index";
+
 import { postStudentNotes } from "../../Services/PostStudentNotesService/PostStudentNotesService";
+import {
+  pastInterviewFailure,
+  pastInterviewLoading,
+  pastInterviewSuccess,
+} from "../../Redux/PastInterviewReducer/Action";
+import { getAllPastInterviewService } from "../../Services/UserSideServices/GetAllPastInterviewServices/GetAllPastInterviewService";
+import { getSingleInterview } from "../../Redux/InterviewByIdReducer/ActionCreators";
+
 const InterviewDetails = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentInterview, setCurrentInterview] = useState<interview>();
+  // const [currentInterview, setCurrentInterview] = useState<interview>();
   const { id } = useParams();
   const [notes, setNotes] = useState<string>("");
   const toast = useToast();
   const interviews = useSelector(
     (state: RootState) => state.ScheduledInterviewReducer.interviews
   );
+  const currentInterview = useSelector((state: RootState) => state.SingleInterviewReducer.interview);
+  const pastInterviews =useSelector((state:RootState)=>state.PastInterViewReducer.interviews)
   const dispatch: Dispatch<
     | scheduledInterviewSuccess
     | scheduledInterviewLoading
     | scheduledInterviewFailure
+  > = useDispatch();
+  const pastdispatch: Dispatch<
+    pastInterviewSuccess | pastInterviewLoading | pastInterviewFailure
   > = useDispatch();
   const [isStarted, setIsStarted] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
   const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
   const userId: number = userDetails?.user?.id;
   const token: string = userDetails?.token;
-  let today = new Date();
-  let time =
-    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
   const handleStarted = async (
     interviewId: number,
@@ -86,12 +98,11 @@ const InterviewDetails = () => {
           token
         );
         setIsStarted(res);
+        console.log("jhj", res);
+        GetAllScheduledInterView(userId, token)(dispatch);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
-  const handleNote = async (
     interviewId: number,
     userId: number,
     token: string,
@@ -99,25 +110,8 @@ const InterviewDetails = () => {
   ) => {
     try {
       const res = await postStudentNotes(interviewId, userId, token, notes);
-      if (res === undefined) {
-        toast({
-          title: "Something Went Wrong",
-          description: "Unable to add notes",
-          status: "error",
-          position: "top",
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: "Note added successfully",
-          description: "",
-          status: "success",
-          position: "top",
-          duration: 2000,
-          isClosable: true,
-        });
-      }
+      GetAllScheduledInterView(userId, token)(dispatch);
+      onClose();
     } catch (err) {
       toast({
         title: "Something Went Wrong",
@@ -130,6 +124,8 @@ const InterviewDetails = () => {
       console.log(err);
     }
   };
+  console.log("notes", pastInterviews);
+
   const handleEnded = async (
     interviewId: number,
     userId: number,
@@ -143,6 +139,7 @@ const InterviewDetails = () => {
           token
         );
         setIsEnded(res);
+        GetAllScheduledInterView(userId, token)(dispatch);
       }
     } catch (err) {
       console.log(err);
@@ -154,13 +151,54 @@ const InterviewDetails = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (id) {
-      const tempInterview =
-        interviews.length > 0 &&
-        interviews.find((item: interview) => item.interviewId == Number(id));
-      tempInterview && setCurrentInterview(tempInterview);
+    getAllPastInterviewService(userId, token)(pastdispatch);
+  }, []);
+  // useEffect(() => {
+  //   if (id) {
+  //     const tempInterview =
+  //       interviews.length > 0 &&
+  //       interviews.find((item: interview) => item.interviewId == Number(id));
+  //     tempInterview && setCurrentInterview(tempInterview);
+  //     console.log(tempInterview,"temp")
+  //     if(tempInterview == undefined){
+  //       const temp =pastInterviews.find((item: interview) => item.interviewId == Number(id));
+  //       temp && setCurrentInterview(temp); 
+  //     }
+  //   }
+    
+  // }, [id, interviews, setCurrentInterview]);
+  // getting date time to convert it in milisecond
+
+  const interview = useSelector((state: RootState) => state.SingleInterviewReducer.interview);
+useEffect(() => {
+        getSingleInterview(id, token)(dispatch);
+    }, [])
+  
+console.log(currentInterview,"sijdksdjs")
+const time = Date.now();
+    console.log(time);
+
+    // getting date time to convert it in milisecond
+    const date = currentInterview.date
+    const startTime = currentInterview.startTime
+    const endTime = currentInterview.endTime
+    console.log(date, startTime, endTime);
+
+    const starttime = `${date} ${startTime}`;
+    const endtime = `${date} ${endTime}`
+
+    function convertToMilliseconds(dateTimeString: string) {
+        const [date, time] = dateTimeString.split(" ");
+        const [day, month, year] = date.split("-");
+        const [hours, minutes, seconds] = time.split(":");
+        const milliseconds = Date.parse(`${month}-${day}-${year} ${hours}:${minutes}:${seconds}`);
+        return milliseconds;
     }
-  }, [id, interviews, setCurrentInterview]);
+
+    const miliStart = convertToMilliseconds(starttime);
+    const miliEnd = convertToMilliseconds(endtime);
+    console.log(miliStart, miliEnd, "milisecond start and end")
+
   return (
     <div>
       <Navbar />
@@ -177,12 +215,14 @@ const InterviewDetails = () => {
             bgColor={"white"}
           >
             {currentInterview && (
-              <Table w={"100%"}>
+              <Table w={"100%"} variant={"striped"}>
                 <Tbody>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      1
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       title
                     </Td>
@@ -198,9 +238,11 @@ const InterviewDetails = () => {
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      2
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Start Time
                     </Td>
@@ -216,9 +258,11 @@ const InterviewDetails = () => {
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      3
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       End Time
                     </Td>
@@ -234,9 +278,11 @@ const InterviewDetails = () => {
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      4
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       isStarted
                     </Td>
@@ -255,8 +301,24 @@ const InterviewDetails = () => {
                         >
                           Canceled...
                         </Text>
-                      ) : currentInterview.startTime <= time &&
+                      ) : miliStart >=
+                          time &&
                         currentInterview.meetingStatus == "P" ? (
+                        <Button
+                          onClick={() =>
+                            handleStarted(
+                              currentInterview.interviewId,
+                              userId,
+                              token
+                            )
+                          }
+                          colorScheme="blue"
+                        >
+                          Start
+                        </Button>
+                      ) :miliStart<=
+                          time &&
+                        currentInterview.meetingStatus == "IS" ? (
                         <Button
                           onClick={() =>
                             handleStarted(
@@ -277,7 +339,11 @@ const InterviewDetails = () => {
                         >
                           you can start the meet at start time
                         </Text>
-                      ) : currentInterview.meetingStatus == "SS" || "S" ? (
+                      ) : currentInterview.meetingStatus == "S" ? (
+                        <Button disabled={true} colorScheme="blue">
+                          Started
+                        </Button>
+                      ) : currentInterview.meetingStatus == "SS" ? (
                         <Button disabled={true} colorScheme="blue">
                           Started
                         </Button>
@@ -287,15 +353,17 @@ const InterviewDetails = () => {
                           fontSize={"17px"}
                           fontWeight={"500"}
                         >
-                          you can start the on start time
+                          The meeting has already ended
                         </Text>
                       )}
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      5
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       isEnded
                     </Td>
@@ -311,16 +379,19 @@ const InterviewDetails = () => {
                           fontSize={"17px"}
                           fontWeight={"500"}
                         >
-                          Canceled...
+                          Canceled
                         </Text>
-                      ) : currentInterview.meetingStatus == "SE" ||
-                        "E" ||
-                        "IE" ? (
+                      ) : currentInterview.meetingStatus == "SE" ? (
                         <Button disabled={true} colorScheme="blue">
                           Ended
                         </Button>
-                      ) : currentInterview.endTime == time &&
-                        currentInterview.meetingStatus == "SS" ? (
+                      ) : currentInterview.meetingStatus == "E" ? (
+                        <Button disabled={true} colorScheme="blue">
+                          Ended
+                        </Button>
+                      ) : 
+                      miliEnd<=time &&
+                        currentInterview.meetingStatus == "S" ? (
                         <Button
                           onClick={() =>
                             handleEnded(
@@ -332,35 +403,6 @@ const InterviewDetails = () => {
                           colorScheme="blue"
                         >
                           End
-                        </Button>
-                      ) : (currentInterview.endTime == time &&
-                          currentInterview.meetingStatus == "S") ||
-                        "SS" ? (
-                        <Button
-                          onClick={() =>
-                            handleEnded(
-                              currentInterview.interviewId,
-                              userId,
-                              token
-                            )
-                          }
-                          colorScheme="blue"
-                        >
-                          End
-                        </Button>
-                      ) : currentInterview.meetingStatus == "S" || "SS" ? (
-                        <Text
-                          color={"blue"}
-                          fontSize={"17px"}
-                          fontWeight={"500"}
-                        >
-                          you can end the meet at end time
-                        </Text>
-                      ) : currentInterview.meetingStatus == "SE" ||
-                        "E" ||
-                        "IE" ? (
-                        <Button disabled={true} colorScheme="blue">
-                          Ended
                         </Button>
                       ) : (
                         <Text
@@ -368,15 +410,17 @@ const InterviewDetails = () => {
                           fontSize={"17px"}
                           fontWeight={"500"}
                         >
-                          you can ent the meet at end time
+                          you can not end the meet before endtime
                         </Text>
                       )}
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      6
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Interviewer Name
                     </Td>
@@ -392,9 +436,11 @@ const InterviewDetails = () => {
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      7
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Interviewee Name
                     </Td>
@@ -410,9 +456,11 @@ const InterviewDetails = () => {
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      8
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Meeting Status
                     </Td>
@@ -489,14 +537,77 @@ const InterviewDetails = () => {
                     </Td>
                   </Tr>
                   <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      9
-                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
                     <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
                       Notes
                     </Td>
+                    <Td textAlign={"left"}>{currentInterview.studentNote}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                      Date
+                    </Td>
+                    <Td
+                      textAlign={"left"}
+                      color={"blue"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    >
+                      {Object.keys(currentInterview).length === 0
+                        ? ""
+                        : currentInterview.date}
+                    </Td>
+                  </Tr>
+                  <Tr>
+                    <Td
+                      textAlign={"left"}
+                      fontSize={"17px"}
+                      fontWeight={"500"}
+                    ></Td>
+                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
+                      Join Meeting
+                    </Td>
                     <Td textAlign={"left"}>
-                      {currentInterview.meetingStatus == "S" ? (
+                      <Link
+                        to={`${
+                          Object.keys(currentInterview).length !== 0 &&
+                          currentInterview.meetingLink
+                        }`}
+                        target="_blank"
+                      >
+                        <Button colorScheme="blue">join meet</Button>
+                      </Link>
+                    </Td>
+                  </Tr>
+                  {currentInterview.meetingStatus == "S" ? (
+                    <Tr>
+                      <Td
+                        textAlign={"left"}
+                        fontSize={"17px"}
+                        fontWeight={"500"}
+                      ></Td>
+                      <Td
+                        textAlign={"left"}
+                        fontSize={"17px"}
+                        fontWeight={"500"}
+                      >
+                        Add Note
+                      </Td>
+                      <Td
+                        textAlign={"left"}
+                        color={"blue"}
+                        fontSize={"17px"}
+                        fontWeight={"500"}
+                      >
                         <Box display={"flex"} w={"200px"} textAlign={"left"}>
                           <Button onClick={onOpen} colorScheme="blue">
                             Add Notes
@@ -534,106 +645,66 @@ const InterviewDetails = () => {
                             </ModalContent>
                           </Modal>
                         </Box>
-                      ) : currentInterview.meetingStatus == "SE" ? (
-                        `${currentInterview.studentNote}`
-                      ) : currentInterview.meetingStatus == "E" ? (
-                        `${currentInterview.studentNote}`
-                      ) : currentInterview.meetingStatus == "SS" ? (
-                        <Box display={"flex"} w={"200px"} textAlign={"center"}>
-                          <Button onClick={onOpen} colorScheme="blue">
-                            Add Notes
-                          </Button>
+                      </Td>
+                    </Tr>
+                  ) : currentInterview.meetingStatus=="IE"?<Tr>
+                  <Td
+                    textAlign={"left"}
+                    fontSize={"17px"}
+                    fontWeight={"500"}
+                  ></Td>
+                  <Td
+                    textAlign={"left"}
+                    fontSize={"17px"}
+                    fontWeight={"500"}
+                  >
+                    Add Note
+                  </Td>
+                  <Td
+                    textAlign={"left"}
+                    color={"blue"}
+                    fontSize={"17px"}
+                    fontWeight={"500"}
+                  >
+                    <Box display={"flex"} w={"200px"} textAlign={"left"}>
+                      <Button onClick={onOpen} colorScheme="blue">
+                        Add Notes
+                      </Button>
 
-                          <Modal isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                            <ModalContent>
-                              <ModalHeader>Add Notes</ModalHeader>
-                              <ModalCloseButton />
-                              <ModalBody>
-                                <Textarea
-                                  onChange={(e) => {
-                                    setNotes(e.target.value);
-                                  }}
-                                ></Textarea>
-                              </ModalBody>
+                      <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader>Add Notes</ModalHeader>
+                          <ModalCloseButton />
+                          <ModalBody>
+                            <Textarea
+                              onChange={(e) => {
+                                setNotes(e.target.value);
+                              }}
+                            ></Textarea>
+                          </ModalBody>
 
-                              <ModalFooter>
-                                <Button
-                                  colorScheme="blue"
-                                  mr={3}
-                                  onClick={() =>
-                                    handleNote(
-                                      currentInterview.interviewId,
-                                      userId,
-                                      token,
-                                      notes
-                                    )
-                                  }
-                                >
-                                  Add Note
-                                </Button>
-                              </ModalFooter>
-                            </ModalContent>
-                          </Modal>
-                        </Box>
-                      ) : (
-                        `${currentInterview.studentNote}`
-                      )}
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      10
-                    </Td>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      Date
-                    </Td>
-                    <Td
-                      textAlign={"left"}
-                      color={"blue"}
-                      fontSize={"17px"}
-                      fontWeight={"500"}
-                    >
-                      {Object.keys(currentInterview).length === 0
-                        ? ""
-                        : currentInterview.date}
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      11
-                    </Td>
-                    <Td textAlign={"left"} fontSize={"17px"} fontWeight={"500"}>
-                      Join Meeting
-                    </Td>
-                    <Td textAlign={"left"}>
-                      <Link
-                        to={`${
-                          Object.keys(currentInterview).length === 0
-                            ? "#"
-                            : currentInterview.meetingStatus == "SE" ||
-                              "E" ||
-                              "IE" ||
-                              "C"
-                            ? "#"
-                            : currentInterview.meetingLink
-                        }`}
-                      >
-                        <Button
-                          colorScheme="blue"
-                          disabled={
-                            currentInterview.meetingStatus == "SE"
-                              ? false
-                              : currentInterview.meetingStatus == "E"
-                              ? false
-                              : true
-                          }
-                        >
-                          join meet
-                        </Button>
-                      </Link>
-                    </Td>
-                  </Tr>
+                          <ModalFooter>
+                            <Button
+                              colorScheme="blue"
+                              mr={3}
+                              onClick={() =>
+                                handleNote(
+                                  currentInterview.interviewId,
+                                  userId,
+                                  token,
+                                  notes
+                                )
+                              }
+                            >
+                              Add Note
+                            </Button>
+                          </ModalFooter>
+                        </ModalContent>
+                      </Modal>
+                    </Box>
+                  </Td>
+                </Tr>:""}
                 </Tbody>
               </Table>
             )}
