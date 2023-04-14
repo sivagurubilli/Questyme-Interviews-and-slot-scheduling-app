@@ -47,11 +47,6 @@ const DetailPageNav = ({ interview, id, updateCancelButtonStatus }: InterviewPro
     const handleUpdate = () => {
         navigate(`/admin/single-interview/edit/${id}`, { state: { data: interview } })
     }
-
-    const AddFeedback = () => {
-
-    }
-
     return (
         <div>
             <Box position="relative" h="auto" marginTop="2px" bg="whiteAlpha.900" w="100%">

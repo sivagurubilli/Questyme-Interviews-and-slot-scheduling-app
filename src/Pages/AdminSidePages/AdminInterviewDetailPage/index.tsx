@@ -68,8 +68,11 @@ const AdminInterviewDetailPage = () => {
 
     // when to show the update and cancel button =>{startTime < time || interview.meetingStatus === "C"}
     useEffect(() => {
+        // alert("")
         if (((miliStart) > time) && (interview.meetingStatus !== "C")) {
             setUpdateCancelButtonStatus(true);
+        } else {
+            setUpdateCancelButtonStatus(false);
         }
     }, [interview, time, miliStart, miliEnd])
 
@@ -99,7 +102,6 @@ const AdminInterviewDetailPage = () => {
         if ((interview.meetingStatus === "C") || (interview.meetingStatus === "IE") || (interview.meetingStatus === "E") || (interview.meetingStatus === "P")) {
             setEndButtonStatus(false);
             setFeedbackButtonStatus(false);
-            setJoinButtonStatus(false);
         }
     }, [interview, time, miliEnd])
 
@@ -117,6 +119,15 @@ const AdminInterviewDetailPage = () => {
                     token
                 );
                 console.log("jhj", res);
+                if (res) {
+                    toast({
+                        title: "Interview Started",
+                        status: "success",
+                        position: "top",
+                        duration: 2000,
+                        isClosable: true,
+                    });
+                }
                 getSingleInterview(id, token)(dispatch);
             }
         } catch (err) {
@@ -146,9 +157,27 @@ const AdminInterviewDetailPage = () => {
                         userId,
                         token
                     );
+                    if (res) {
+                        toast({
+                            title: "Interview Ended",
+                            status: "success",
+                            position: "top",
+                            duration: 2000,
+                            isClosable: true,
+                        });
+                    }
                     getSingleInterview(id, token)(dispatch);
                 }
             } catch (err) {
+                if (err) {
+                    toast({
+                        title: "Somthing Went Wrong",
+                        status: "error",
+                        position: "top",
+                        duration: 2000,
+                        isClosable: true,
+                    });
+                }
                 console.log(err);
             }
         }
@@ -163,9 +192,27 @@ const AdminInterviewDetailPage = () => {
     ) => {
         try {
             const res = await postAdminFeedback(interviewId, userId, token, notes);
+            if (res) {
+                toast({
+                    title: "Feedback Added",
+                    status: "success",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                });
+            }
             getSingleInterview(id, token)(dispatch);
             onClose()
         } catch (err) {
+            if (err) {
+                toast({
+                    title: "Somthing Went Wrong",
+                    status: "error",
+                    position: "top",
+                    duration: 2000,
+                    isClosable: true,
+                });
+            }
             console.log(err);
         }
     };
@@ -403,7 +450,7 @@ const AdminInterviewDetailPage = () => {
                                                     onChange={(e) => {
                                                         setFeedback(e.target.value);
                                                     }}
-                                                ></Textarea>
+                                                />
                                             </ModalBody>
 
                                             <ModalFooter >
