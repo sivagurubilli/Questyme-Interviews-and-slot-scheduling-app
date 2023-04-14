@@ -148,7 +148,7 @@ const StudentBooking = () => {
   };
 
   return (
-    <Box bg="#f3f4f6">
+    <Box bg="#f1f5f9">
       <Navbar />
       <Box
         boxShadow="base"
