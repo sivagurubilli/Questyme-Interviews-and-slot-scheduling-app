@@ -47,7 +47,6 @@ import {
   Td,
   TableCaption,
   TableContainer,
-  useToast,
 } from "@chakra-ui/react";
 // import { convertMillseconds } from "../../utils/index";
 
@@ -65,7 +64,6 @@ const InterviewDetails = () => {
   // const [currentInterview, setCurrentInterview] = useState<interview>();
   const { id } = useParams();
   const [notes, setNotes] = useState<string>("");
-  const toast = useToast();
   const interviews = useSelector(
     (state: RootState) => state.ScheduledInterviewReducer.interviews
   );
@@ -101,8 +99,11 @@ const InterviewDetails = () => {
         console.log("jhj", res);
         GetAllScheduledInterView(userId, token)(dispatch);
       }
+    } catch (err) {
+      console.log(err);
     }
   };
+  const handleNote = async (
     interviewId: number,
     userId: number,
     token: string,
@@ -113,14 +114,6 @@ const InterviewDetails = () => {
       GetAllScheduledInterView(userId, token)(dispatch);
       onClose();
     } catch (err) {
-      toast({
-        title: "Something Went Wrong",
-        description: "Unable to add notes",
-        status: "error",
-        position: "top",
-        duration: 2000,
-        isClosable: true,
-      });
       console.log(err);
     }
   };
