@@ -194,7 +194,23 @@ export const backendResponse = [
     ],
     isChecked: true,
     day: 'Wed',
-  }
+  },
+  {
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+   day: 'Thu',
+  },
+  {
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+   day: 'Fri',
+  },
+  {
+    slotTiming: [{ startTime: '09:00', endTime: '17:00' }],
+    isChecked: true,
+   day: 'Sat',
+  },
+
 ]
 
 export const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");

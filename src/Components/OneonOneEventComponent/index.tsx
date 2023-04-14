@@ -1,8 +1,9 @@
 import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
-import { Box, Divider, Flex, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
+import React, {  useState } from "react";
 
 import SettingsComponent from "./SettingsComponent";
+import { useNavigate } from "react-router-dom";
 
 interface ProfilecomponentProps {
   event: IEventValues;
@@ -15,21 +16,19 @@ const OneonOneEventComponent = ({
 }: ProfilecomponentProps) => {
   const [openDrop, setOpenDrop] = useState(false);
   const [isCopied, setCopied] = useState(false);
-  const [uniquelink, setuniqueLink] = useState<string | null>("");
+ const navigate = useNavigate()
 
 
-  
-// creating unique hashed link for admin copy paste for slots booking
-  useEffect(() => {
-    setuniqueLink(`http://35.178.167.63:8888/student/booking/${event.id}`);
-  }, [event.id]);
+
 
   //for copying link when click on copylink
   const handleCopyLink = () => {
-    if (uniquelink != null) {
-      navigator.clipboard.writeText(uniquelink);
+    if (event.meetingLink != null) {
+      navigator.clipboard.writeText(event.meetingLink);
     }
   };
+
+
 
   return (
     <div>
@@ -96,6 +95,8 @@ const OneonOneEventComponent = ({
               </Text>
             </Flex>
           )}
+
+          <Button color="blue" variant="link" onClick={()=>navigate(`/admin/${event.recurringId}/recurring-event-details`)}>View Deatils</Button>
         </Flex>
       </Box>
     </div>

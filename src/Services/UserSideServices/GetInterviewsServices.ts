@@ -3,7 +3,6 @@ import {
   scheduledInterviewLoading,
   scheduledInterviewSuccess,
 } from "@/Redux/ScheduledInterviewUser/Action";
-import { interview } from "../../Pages/UserDashboard/UserDashboard";
 import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionTypes } from "../../Redux/ScheduledInterviewUser/ActionTypes";
@@ -84,7 +83,7 @@ export async function GetAllSlotDateService(id:string){
 //for getting all slot for particular date  service
 export async function GetAllSlotsService(id:string){
     try{
-        const response = await axios.get(`/slot/get-slot-dates/${id}`);
+        const response = await axios.get(`/slot/get-All-slots/${id}`);
         return response.data
     }catch(error:any){
         return error.response

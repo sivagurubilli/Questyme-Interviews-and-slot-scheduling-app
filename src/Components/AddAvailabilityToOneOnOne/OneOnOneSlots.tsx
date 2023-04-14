@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { DaysForRecurring, backendResponse,token,id } from "../../Assets/Assets";
 
-const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
+const OneOnOneSlots = () => {
   const [days, setDays] = useState(DaysForRecurring);
   const state = useSelector((state: RootState) => state);
   const setData = state.SingleEventReducer;
@@ -74,12 +74,14 @@ const OneOnOneSlots = ({ isSlotsEdit, setSlotsEdit }: any) => {
   
     if (transformedDays.length > 0) {
       setAvailability(transformedDays);
+      console.log(availability)
       setRecurringEventDetails({
         ...recurringEventDetails,
         availabilities: transformedDays
       });
     }
-  }, [days,recurringEventDetails]);
+  }, [days,recurringEventDetails,availability]);
+ 
   
  
 // when getting values from backend make it to frontend
@@ -148,12 +150,12 @@ setDays(result)
     <div>
       <Box h="auto" p="20px" mt="5px" border="1px solid grey">
         <Box
-          onClick={() => setSlotsEdit(!isSlotsEdit)}
+         
           h="auto"
           cursor="pointer"
           mt="5px"
         >
-          <Flex justifyContent="space-between">
+          <Flex  justifyContent="space-between">
             <Box>
               {" "}
               <Flex mt="10px">
@@ -185,13 +187,8 @@ setDays(result)
         <Divider mt="20px" mb="20px" h="2px" />
         <Flex justifyContent={"flex-end"}>
           <Box>
-            <Button
-              variant="link"
-              mr="10px"
-              onClick={() => setSlotsEdit(!isSlotsEdit)}
-            >
-              Cancel
-            </Button>
+           
+          
             <Button
               size={["sm", "md"]}
               borderRadius="16px"

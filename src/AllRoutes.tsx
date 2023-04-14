@@ -21,6 +21,7 @@ import FutureInterviews from './Pages/AdminSidePages/FutureInterviews/index';
 import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 import AdminInterviewDetailPage from './Pages/AdminSidePages/AdminInterviewDetailPage';
 import { UpdateSingleInterview } from './Pages/AdminSidePages/AdminInterviewUpdate';
+import SingleRecurringEventDetails from './Pages/AdminSidePages/SingleRecurringEventDetails';
 
 
 const AllRoutes = () => {
@@ -39,7 +40,8 @@ const AllRoutes = () => {
         
             <Route path ="/admin/slots/view" element ={<OneOnOneSlotsView/>} />
             <Route path ="/book-one-on-one/admin/:id" element={<StudentBooking />}/>
-
+            <Route path ="/admin/:id/recurring-event-details" element={<SingleRecurringEventDetails />}/>
+           
             <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
             <Route path ="/admin/upcoming-interviews" element={<FutureInterviews/>}/>
             <Route path ="/admin/add-availability" element={<AddDaysAvailability/>}/>

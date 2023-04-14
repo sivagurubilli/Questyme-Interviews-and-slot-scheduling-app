@@ -15,7 +15,7 @@ const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps)
   const toast = useToast();
 
   const GotoEdit = () => {
-    navigate(`/admin/one-on-one-interviews/${event.id}/edit`);
+    navigate(`/admin/one-on-one-interviews/${event.recurringId}/edit`);
   };
 
   
@@ -23,7 +23,7 @@ const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps)
     try {
       const response = await DeleteEventSevice(id);
 
-      if (response) {
+      if (response.message) {
         toast({
           title: "Event Deleted Successfully",
           status: "success",
@@ -78,7 +78,7 @@ const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps)
             style={{ marginTop: "5px" }}
           ></i>
           <Text color="#778087" pl="15px">
-            <Link to="" onClick={() => DeleteEvent(event?.id)}>
+            <Link to="" onClick={() => DeleteEvent(event?.recurringId)}>
               Delete
             </Link>
           </Text>

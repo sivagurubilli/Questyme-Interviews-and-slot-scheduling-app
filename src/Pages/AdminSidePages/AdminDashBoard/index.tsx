@@ -1,7 +1,7 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
-import { Box, Flex, FormLabel,  useToast } from "@chakra-ui/react";
+import { Box, Flex, FormLabel,  SkeletonCircle,  SkeletonText,  useToast } from "@chakra-ui/react";
 import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
 import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
 import { CountByMeetingStatusService } from "../../../Services/AdminSideServices/GetEventsService";
@@ -21,6 +21,16 @@ const AdminDashBoard = () => {
   const params = new URLSearchParams(location.search);
   const name = params.get("batch");
   const toast = useToast();
+  const [isLoading,setIsLoading] = useState(false)
+
+ 
+
+  useEffect(()=>{
+   setIsLoading(true)
+   setTimeout(()=>{
+    setIsLoading(false)
+   },2000)
+  },[])
 
   useEffect(() => {
     setBatchName(name);
@@ -74,10 +84,18 @@ const AdminDashBoard = () => {
             </FormLabel>
           </Flex>
 
-          <TableForStats totalInterviews={totalInterviews} />
+        {isLoading ?
+        <Box>
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      </Box>
+        :
+        <TableForStats totalInterviews={totalInterviews} />}
         </Box>
       </Box>
       {/* search by batch name component */}
+
+      
       <SearchByBatch batchName={batchName} setBatchName={setBatchName} />
       {/* search by batch name and  pendingstaus component */}
       <SearchByPendingStauts

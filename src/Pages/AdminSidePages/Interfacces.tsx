@@ -5,7 +5,7 @@ export interface IEventValues {
     adminId?: string;
     duration?: string;
     category?: string;
-    id?:number,
+    recurringId?:number,
     date?:string | Date;
     slots?:[{start:string,
         end: string}]
