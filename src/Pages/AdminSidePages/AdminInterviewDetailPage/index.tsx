@@ -1,5 +1,5 @@
 import Navbar from "../../../Components/Navbar/Navbar";
-import React, { useEffect} from "react";
+import React, { useEffect,useState} from "react";
 import DetailPageNav from "./InterviewDetailPageNav";
 import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, SkeletonCircle, SkeletonText, Switch, Table, Tbody, Td, Text, Textarea, Tr, useDisclosure, useToast } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
