@@ -21,7 +21,6 @@ export async function GetAllInterviewService(){
 export async function GetFutureInterviewService(id:string,token:string,){
     try{
         const response = await axios.get(`/api/interview/${id}/upcoming-interviews`,{
-            
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }

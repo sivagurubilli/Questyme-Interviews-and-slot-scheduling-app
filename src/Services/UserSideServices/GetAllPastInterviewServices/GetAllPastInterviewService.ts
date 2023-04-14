@@ -10,11 +10,9 @@ export const getAllPastInterviewService=(userId:number,token:string)=>(dispatch:
                 }
             })
             .then((res)=>{
-                console.log("past",res.data)
                 dispatch({type:ActionTypes.GET_ALL_PAST_EVENTS_DATA_SUCCESS,payload:res.data})
             })
             .catch((err)=>{
-                console.log(err)
                 dispatch({type:ActionTypes.GET_ALL_PAST_EVENTS_DATA_FAILURE,payload:err})
             })
 }

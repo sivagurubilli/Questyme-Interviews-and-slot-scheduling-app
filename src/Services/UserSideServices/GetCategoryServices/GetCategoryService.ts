@@ -10,11 +10,9 @@ export const getAllCategoryDataService =(token:string)=>(dispatch:Dispatch<categ
         }
     })
     .then((res)=>{
-        console.log(res.data)
         dispatch({type:ActionTypes.GET_CATEGORY_SUCCESS,payload:res.data})
     })
     .catch((err)=>{
-        console.log(err)
         dispatch({type:ActionTypes.GET_CATEGORY_FAILURE,payload:err})
 
     })
