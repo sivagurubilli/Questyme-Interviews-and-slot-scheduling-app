@@ -12,7 +12,7 @@ const OneonOneEvents= () => {
   
 
   return (
-    <div>
+    <div className='container'>
         <Navbar />
   <OneOnOneEventsNav />
   <SlotsDashboard />

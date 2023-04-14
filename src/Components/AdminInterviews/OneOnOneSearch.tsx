@@ -170,11 +170,11 @@ if(searchName || category){
        
         <Flex justifyContent="space-between" w="100%">
           <Box w="50%" mr="10px">
-          <FormLabel>Search By Title</FormLabel>
-        <SearchComponent value={searchName} search={search} updateSearch={updateSearch} name="name"/>
+          <FormLabel   fontSize={{ base: "sm", md: "md" }} >Search By Title</FormLabel>
+        <SearchComponent  value={searchName} search={search} updateSearch={updateSearch} name="name"/>
         </Box>
         <Box w="50%">
-        <FormLabel>Search By category</FormLabel>
+        <FormLabel   fontSize={{ base: "sm", md: "md" }} >Search By category</FormLabel>
        <BatchSearch  value={category} search={search} updateSearch={updateSearch} name="category" />
        </Box>
        </Flex>

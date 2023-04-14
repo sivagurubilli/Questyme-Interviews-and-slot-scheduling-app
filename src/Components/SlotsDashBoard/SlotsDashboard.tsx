@@ -3,7 +3,7 @@ import {
   CountBySlotsStatusService,
 } from "../../Services/UserSideServices/SlotBookingServices";
 import { SlotsStatus } from "../../Assets/Assets";
-import { Box, Flex, FormLabel, useToast } from "@chakra-ui/react";
+import { Box, Flex, FormLabel, SkeletonCircle, SkeletonText, useToast } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import SlotsStatsTable from "./SlotsStatsTable";
 import {id,token} from "../../Assets/Assets"
@@ -13,6 +13,16 @@ const SlotsDashboard = () => {
   const [adminSlots, setAdminSlots] = useState(SlotsStatus);
 
   const toast = useToast();
+  const [isLoading,setIsLoading] = useState(false)
+
+  useEffect(()=>{
+   setIsLoading(true)
+   setTimeout(()=>{
+    setIsLoading(false)
+   },2000)
+  },[])
+
+
 
   const GetEvents = useCallback(async () => {
     try {
@@ -61,7 +71,13 @@ const SlotsDashboard = () => {
               Update on Slot Availability
             </FormLabel>
           </Flex>
-          <SlotsStatsTable totalInterviews={totalSlots} />
+          {isLoading ?
+        <Box>
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      </Box>
+        :
+          <SlotsStatsTable totalInterviews={totalSlots} />}
         </Box>
       </Box>
 
@@ -82,8 +98,13 @@ const SlotsDashboard = () => {
               Current Availability of All Your Slots
             </FormLabel>
           </Flex>
-
-          <SlotsStatsTable totalInterviews={adminSlots} />
+          {isLoading ?
+        <Box>
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      </Box>
+        :
+          <SlotsStatsTable totalInterviews={adminSlots} />}
         </Box>
       </Box>
     </div>

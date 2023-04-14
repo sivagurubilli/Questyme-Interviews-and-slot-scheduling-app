@@ -33,31 +33,33 @@ const StudentBooking = () => {
   const userId = userDetails2.user.id;
   const token = userDetails2.token;
 
-  useEffect(() => {
-    async function fetchSlotsDays(id: any) {
-      try {
-        setLoading2(true);
-        const response = await getSlotDays(id);
-        setInterviewer(response.Admin[0].name);
-        setLoading2(false);
-        if (response.dates.length) {
-          const events = response.dates.map((date: string) => {
-            return {
-              title: "Book",
-              start: date,
-              allDay: true,
-              backgroundColor: "#28a746",
-            };
-          });
-          setBookSlot(events);
-        } else {
-          setBookSlot([]);
-        }
-      } catch (error) {
-        setLoading2(false);
-        console.log(error);
+  async function fetchSlotsDays(id: any) {
+    try {
+      setLoading2(true);
+      const response = await getSlotDays(id);
+      setInterviewer(response.Admin[0].name);
+      setLoading2(false);
+      if (response.dates.length) {
+        const events = response.dates.map((date: string) => {
+          return {
+            title: "Book",
+            start: date,
+            allDay: true,
+            backgroundColor: "#28a746",
+          };
+        });
+        setBookSlot(events);
+      } else {
+        setBookSlot([]);
       }
+    } catch (error) {
+      setLoading2(false);
+      console.log(error);
     }
+  }
+
+  useEffect(() => {
+   
     fetchSlotsDays(id);
   }, [id]);
     
@@ -146,7 +148,7 @@ const StudentBooking = () => {
   };
 
   return (
-    <Box bg="#f3f4f6">
+    <Box bg="#f1f5f9">
       <Navbar />
       <Box
         boxShadow="base"

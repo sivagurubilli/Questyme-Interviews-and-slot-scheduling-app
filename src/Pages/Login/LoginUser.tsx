@@ -9,12 +9,27 @@ import {
   isLoginFailure,
   isLoginSuccess,
 } from "../../Redux/AuthReducer/Action";
-import { Box, Flex, Image, Text, Button, Checkbox } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  Button,
+  Checkbox,
+  useToast,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Link,
+  Heading,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { ActionTypes } from "../../Redux/AuthReducer/ActionTypes";
 import { useLocation, useNavigate } from "react-router-dom";
 // commented code i will use latter
 const SignupSchema = Yup.object().shape({
-  username: Yup.string().email("Invalid email").required("Required"),
+  username: Yup.string().email("Invalid email").required(""),
   password: Yup.string().required("Password is required"),
 
   //    password:  Yup
@@ -33,9 +48,10 @@ export interface LoginData {
 export const LoginUser = () => {
   const dispatch: Dispatch<isLoginSuccess | isLoginFailure> = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const toast = useToast();
   const commingFrom = location?.state?.from?.pathname || "/dashboard";
-  
+
   return (
     <Box bg={"#fafafa"} w={"full"} h={"100vh"} mt={"-50px"} p={"100px"}>
       <Formik
@@ -47,7 +63,6 @@ export const LoginUser = () => {
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={(values) => {
-          console.log("hi");
           // same shape as initial values
           const payload: LoginData = {
             username: values.username,
@@ -56,19 +71,43 @@ export const LoginUser = () => {
 
           loginService(payload)(dispatch)
             .then((res) => {
-              if (res == ActionTypes.LOGIN_SUCCESS) {
-                const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
-                if(userDetails.user.roles[0].name =="ROLE_STUDENT"){
-                  navigate(commingFrom,{replace:true})
+              if (res === ActionTypes.LOGIN_SUCCESS) {
+                toast({
+                  title: "You are logged in successfully",
+                  description: "You are logged in successfully",
+                  status: "success",
+                  position: "top",
+                  duration: 2000,
+                  isClosable: true,
+                });
+                const userDetails = JSON.parse(
+                  localStorage.getItem("userDetails") || "{}"
+                );
+                if (userDetails.user.roles[0].name == "ROLE_STUDENT") {
+                  navigate(commingFrom, { replace: true });
+                } else if (userDetails.user.roles[0].name == "ROLE_ADMIN") {
+                  navigate("/admin/dashboard");
                 }
-                else if(userDetails.user.roles[0].name =="ROLE_ADMIN"){
-                    navigate("/admin/dashboard")
-                }
-                
-                
+              } else if (res === undefined) {
+                toast({
+                  title: "Something Went Wrong",
+                  description: "Please check your credentials!",
+                  status: "error",
+                  position: "top",
+                  duration: 2000,
+                  isClosable: true,
+                });
               }
             })
             .catch((err) => {
+              toast({
+                title: "Something Went Wrong",
+                description: "Something went wrong!",
+                status: "error",
+                position: "top",
+                duration: 2000,
+                isClosable: true,
+              });
               console.log(err);
             });
         }}
@@ -128,7 +167,7 @@ export const LoginUser = () => {
                       }}
                     />
                     {errors.username && touched.username ? (
-                      <div>{errors.username}</div>
+                      <Box style={{ color: "red" }}>{errors.username}</Box>
                     ) : null}
                   </Box>
                 </Box>
@@ -159,19 +198,18 @@ export const LoginUser = () => {
                       }}
                     />
                     {errors.password && touched.password ? (
-                      <div>{errors.password}</div>
+                      <Box style={{ color: "red" }}>{errors.password}</Box>
                     ) : null}
-                    
                   </Box>
-                  <Flex mt={"10px"}>
-                      <Checkbox
-                        w={"25px"}
-                        h={"25px"}
-                        color={"black"}
-                        colorScheme="green"
-                      />
-                      <Text>Remember me</Text>
-                    </Flex>
+                  <Flex mt={"18px"}>
+                    <Checkbox
+                      w={"25px"}
+                      h={"25px"}
+                      color={"black"}
+                      colorScheme="green"
+                    />
+                    <Text>Remember me</Text>
+                  </Flex>
                 </Box>
                 <Box>
                   <Button

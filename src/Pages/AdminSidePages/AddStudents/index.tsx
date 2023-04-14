@@ -92,7 +92,7 @@ const AddStudents = () => {
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
         p="5%"
