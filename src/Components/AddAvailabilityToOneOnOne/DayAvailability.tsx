@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { convertTo24Hour } from "../../utils/AddToAm";
 import {
   Box,
@@ -16,7 +16,7 @@ import "../../Pages/AdminSidePages/OneOnOneSlotsEdit/index.css";
 
 //this component is for schedule slots based on availability setting of days
 const DayAvailability = ({ days, setDays }: any) => {
-  const DayboxWidth = useBreakpointValue({ base: "70px", md: "70px" });
+  const DayboxWidth = useBreakpointValue({ base: "170px", md: "170px" });
   const [isSmallerThan1100] = useMediaQuery("(max-width: 1100px)");
   
   // handle checkbox value change on checked
@@ -111,15 +111,15 @@ const DayAvailability = ({ days, setDays }: any) => {
     <div>
       {days.map((day: any, dayIndex: any) => (
         <Box key={day.name}>
-          <Box display={displayMode} justifyContent="space-between" w="100%">
-            <Flex w="60%" flexDirection="row" flexWrap="wrap">
+          <Box pr="50px" display={displayMode} justifyContent="space-between" w="100%">
+            <Flex flexDirection="row" >
               <Box mt="12px">
                 <Checkbox
                   isChecked={day.isChecked}
                   onChange={() => handleCheckboxChange(dayIndex)}
                 />
               </Box>
-              <Box w={DayboxWidth} className="checkbox-label">
+              <Box w={DayboxWidth}  className="checkbox-label">
                 <FormLabel mt="8px" ml="10px">
                   {day.name}
                 </FormLabel>
@@ -127,7 +127,7 @@ const DayAvailability = ({ days, setDays }: any) => {
             </Flex>
             {day.isChecked ? (
               <Box className="input-group">
-                {day.inputs.map((input: any, inputIndex: any) => (
+                {day.inputs?.map((input: any, inputIndex: any) => (
                   <Flex
                     key={inputIndex}
                     flexDirection={isSmallerThan1100 ? "column" : "row"}

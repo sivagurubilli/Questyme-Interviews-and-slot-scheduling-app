@@ -20,21 +20,18 @@ import { useLocation } from "react-router-dom";
 import OneOnOneCreateNav from "../AdminOneOnOneCreate/OneOnOneCreateNav";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Calendar from "../../../Components/Calender/Calendar";
-
+import { token,id} from "../../../Assets/Assets";
 
 const OneOnOneSlotsView = () => {
   const [events, setEvents] = useState<ISlotsValues[]>([]);
   const [dates, setDates] = useState([]);
   const [selectedDay, setSelectedDay] = useState<string >("");
   const location = useLocation();
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
   const toast = useToast();
   const [isSmallerThan600] = useMediaQuery("(max-width: 800px)");
 
 
-
+//get events for date setting on calender
   const GetEvents = useCallback(async () => {
     try {
       const response = await GetDateOneOffService(id);
@@ -50,19 +47,19 @@ const OneOnOneSlotsView = () => {
         isClosable: true,
       });
     }
-  }, [id, toast]);
+  }, [toast]);
 
   useEffect(() => {
     GetEvents();
   }, [GetEvents]);
 
+  //getting slots informaion for particular date
   const GetEventByDate = useCallback(
     async (date: string) => {
       try {
-        const response = await GetSlotsForDateService(id, date, token);
+        const response = await GetSlotsForDateService(id, date, token)
 
         if (response.length) {
-          console.log(response)
           setEvents(response);
         } else {
           setEvents([]);
@@ -77,9 +74,10 @@ const OneOnOneSlotsView = () => {
         });
       }
     },
-    [toast, token, id]
+    [toast]
   );
 
+  //Delete slot sevice
   const DeleteSlot =async(slotId:any)=>{
     try {
       const response = await DeleteSlotsService(slotId, token);
@@ -152,7 +150,7 @@ const istDate = istTime.toISOString().slice(0, 10);
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         h="auto"
         ml="5%"
-        mt="50px"
+        mt="30px"
         bg="white"
         w="90%"
         p="2%"
@@ -180,7 +178,7 @@ const istDate = istTime.toISOString().slice(0, 10);
             w={{ base: "100%", sm: "100%", md: "40%" }}
             p="20px"
           >
-            <FormLabel>All Slots On Particular Date</FormLabel>
+            <FormLabel>All Slots on Particular Date</FormLabel>
 
             <Divider />
             {events?.length < 1 ? (
@@ -197,8 +195,8 @@ const istDate = istTime.toISOString().slice(0, 10);
                   key={event?.slotId}
                 >
                   <Box>
-                    <Text> {event?.title}</Text>
-                    <Text mb="10px">
+                    <Text fontWeight="medium"> {event?.title}</Text>
+                    <Text  fontWeight="medium" mb="10px">
                       {" "}
                       <>{event?.date}</>
                     </Text>
@@ -209,9 +207,9 @@ const istDate = istTime.toISOString().slice(0, 10);
                       <Text>Start - {event.startTime}</Text>
                       <Text>End - {event?.endTime}</Text>
                       {event?.status === "U" ? (
-                        <Text color="orange">Not Booked</Text>
+                        <Text  fontWeight="medium" color="orange">Unreserved</Text>
                       ) : (
-                        <Text color="green"> Booked</Text>
+                        <Text  fontWeight="medium" color="green">Reserved</Text>
                       )}
                       <Box onClick={()=>DeleteSlot(event.slotId)} cursor={"pointer"}>
                         <i className="fa-solid fa-trash-can"></i>{" "}

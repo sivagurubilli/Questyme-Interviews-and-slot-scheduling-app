@@ -8,7 +8,6 @@ import {
   Flex,
   FormLabel,
   Input,
-  Select,
   Stack,
   Text,
   useMediaQuery,
@@ -17,9 +16,10 @@ import {
 import BulkStudentsUpload from "./BulkStudentsUpload";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { Batch } from "../../../Assets/Assets";
 import { IAddStdents } from "../../../Services/AdminSideServices/GetEventsInterface";
 import { AddStudentService } from "../../../Services/AdminSideServices/GetEventsService";
+import { token} from "../../../Assets/Assets";
+
 
 const validationSchema = yup.object().shape({
   name: yup
@@ -34,9 +34,6 @@ const validationSchema = yup.object().shape({
 const AddStudents = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
   const toast = useToast();
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
   const [studentDetails, setStudentDetails] = useState<IAddStdents>({
     name: "",
     password: "",
@@ -95,7 +92,7 @@ const AddStudents = () => {
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
         p="5%"

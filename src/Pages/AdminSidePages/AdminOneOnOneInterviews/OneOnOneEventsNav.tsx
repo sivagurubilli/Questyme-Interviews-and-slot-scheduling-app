@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Divider, Flex, Text } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa";
-import { unstable_HistoryRouter, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { Popover, PopoverTrigger, PopoverContent, PopoverBody } from '@chakra-ui/react';
 
@@ -44,6 +44,8 @@ const navigate = useNavigate()
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="30px"
+
+                size={{ base: "sm", md: "md" }} 
               >
                Back
               </Button>
@@ -53,6 +55,7 @@ const navigate = useNavigate()
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="30px"
+  size={{ base: "sm", md: "md" }} 
               >
                 View Slots
               </Button>
@@ -62,6 +65,7 @@ const navigate = useNavigate()
                 colorScheme="blue"
                 _hover={{ cursor: "pointer" }}
                 mr="110px"
+                size={{ base: "sm", md: "md" }} 
               >
                <Popover>
       <PopoverTrigger>

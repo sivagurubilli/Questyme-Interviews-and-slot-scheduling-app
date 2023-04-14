@@ -1,7 +1,7 @@
 import Navbar from "../../../Components/Navbar/Navbar";
 import React, { useCallback, useEffect, useState } from "react";
 import DashboardNavbar from "./DashboardNavbar";
-import { Box, Flex, FormLabel, Text, useToast } from "@chakra-ui/react";
+import { Box, Flex, FormLabel,  SkeletonCircle,  SkeletonText,  useToast } from "@chakra-ui/react";
 import SearchByBatch from "../../../Components/AdminDashboard/SearchByBatch";
 import SearchByPendingStauts from "../../../Components/AdminDashboard/SearchByPendingStauts";
 import { CountByMeetingStatusService } from "../../../Services/AdminSideServices/GetEventsService";
@@ -9,6 +9,8 @@ import { useSearch } from "../../../utils/SetParams";
 import { useLocation, useNavigate } from "react-router-dom";
 import { interviewsStatus } from "../../../Assets/Assets";
 import TableForStats from "../../../Components/AdminDashboard/TableForStats";
+import { token,id} from "../../../Assets/Assets";
+
 
 const AdminDashBoard = () => {
   const [totalInterviews, setTotalInterviews] = useState(interviewsStatus);
@@ -18,10 +20,17 @@ const AdminDashBoard = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const name = params.get("batch");
-  const userDetails = JSON.parse(localStorage.getItem("userDetails") || "{}");
-  const id = userDetails?.user?.id;
-  const token = userDetails?.token;
   const toast = useToast();
+  const [isLoading,setIsLoading] = useState(false)
+
+ 
+
+  useEffect(()=>{
+   setIsLoading(true)
+   setTimeout(()=>{
+    setIsLoading(false)
+   },2000)
+  },[])
 
   useEffect(() => {
     setBatchName(name);
@@ -42,7 +51,7 @@ const AdminDashBoard = () => {
         isClosable: true,
       });
     }
-  }, [toast, token, id]);
+  }, [toast]);
 
   useEffect(() => {
     GetEvents();
@@ -70,15 +79,23 @@ const AdminDashBoard = () => {
       >
         <Box w="60%" ml="20%">
           <Flex justifyItems="center" mb="20px">
-            <FormLabel fontSize="16px" style={{ margin: "0 auto" }}>
+            <FormLabel fontSize="18px" style={{ margin: "0 auto" }}>
               The Status of All Interviews
             </FormLabel>
           </Flex>
 
-          <TableForStats totalInterviews={totalInterviews} />
+        {isLoading ?
+        <Box>
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      </Box>
+        :
+        <TableForStats totalInterviews={totalInterviews} />}
         </Box>
       </Box>
       {/* search by batch name component */}
+
+      
       <SearchByBatch batchName={batchName} setBatchName={setBatchName} />
       {/* search by batch name and  pendingstaus component */}
       <SearchByPendingStauts
