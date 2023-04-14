@@ -99,7 +99,7 @@ const OneOnOneSlots = () => {
   borderRadius="10px"
   boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"
 >
-  <Box w={{ base: "100%", md: "80%" }} ml={{ base: "0", md: "20%" }}> 
+  <Box w={{ base: "100%", md: "80%" }} ml={{ base: "0", md: "10%" }}> 
     <TableForRecurringDetails recurringEventDetails={recurringEventDetails} />
   </Box>
 </Box>

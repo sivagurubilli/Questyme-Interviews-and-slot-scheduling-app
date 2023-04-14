@@ -13,10 +13,10 @@ const SingleRecurringEventDetails = () => {
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
-        p="5%"
+        p="2%"
         bg="white"
         borderRadius="10px"
         boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)"

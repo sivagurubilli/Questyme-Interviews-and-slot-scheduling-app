@@ -19,6 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({
   setPage,
   interviewsData,
   setPaginatedData,
+ 
   perPage,
 }) => {
   const [pages, setPages] = useState<number[]>([]);
@@ -56,6 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({
   }, [currentPage, totalPages]);
 
   const handlePageChange = (page: any) => {
+
     const startIndex = (currentPage - 1) * perPage;
     const endIndex = startIndex + perPage;
 
@@ -63,6 +65,7 @@ const Pagination: React.FC<PaginationProps> = ({
       const lecturdata = interviewsData.slice(startIndex, endIndex);
       setPaginatedData(lecturdata);
       setPage(page);
+     
       onChange(page);
     }
   };
@@ -106,7 +109,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
 
         {totalPages > 3 && pages[pages.length - 1] < totalPages && (
-          <>
+        
             <li>
               <Button
                 w="auto"
@@ -115,12 +118,12 @@ const Pagination: React.FC<PaginationProps> = ({
                 bg="white"
                 color="rgb(107,114,128)"
                 border="1px solid rgb(209,213,219)"
-            onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => handlePageChange(Number(currentPage) + 1)}
           >
             <i className="fa-solid fa-chevron-right"></i>
           </Button>
         </li>
-</>
+
      )}
      </ul>
       

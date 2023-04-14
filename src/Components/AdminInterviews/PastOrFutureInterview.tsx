@@ -156,7 +156,7 @@ if(searchName || batchName){
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="30px"
         minH="200px"
         h="auto"
         p="5%"
@@ -211,8 +211,9 @@ if(searchName || batchName){
             currentPage={currentPage}
               totalPages={totalPages}
             onChange={handlePageChange}
-            setPage={setCurrentPage}
+           
             interviewsData={futureInterviews}
+            setPage={setCurrentPage}
             setPaginatedData={setPaginatedInterviewsData}
             perPage={itemsPerPage}
           />
