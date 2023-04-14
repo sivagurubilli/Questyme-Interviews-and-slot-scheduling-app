@@ -72,7 +72,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <nav>
-      <ul className="pagination">
+      <ul className="pagination" >
         <li>
           <Button
             isDisabled={currentPage === 1}
