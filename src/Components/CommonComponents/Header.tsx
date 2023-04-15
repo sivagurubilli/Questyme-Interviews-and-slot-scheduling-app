@@ -6,15 +6,18 @@ const Header = ({title,buttonName}:any) => {
   return (
     <div>
       <header>
-                <Box bg={"white"}>
-                    <Box w={"75%"} h={"auto"} m={"auto"}>
+                <Box  w="100%" bg={"white"}>
+                    <Box bg="white" h={"auto"} w="100%" mt={"62px"} position="fixed">
                         <Box
-                            w={"100%"}
-                            h={"70px"}
+                           
+                            h={"60px"}
                             m={"auto"}
                             display={"flex"}
                             justifyContent={"space-between"}
                             alignItems={"center"}
+                            w="80%"
+                            ml="10%"
+                           
                         >
                             <Text
                                 fontSize={"1.7rem"}

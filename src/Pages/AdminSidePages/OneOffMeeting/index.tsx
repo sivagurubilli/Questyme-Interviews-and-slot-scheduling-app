@@ -55,7 +55,7 @@ const GotoOneOffMeet = () => {
   return (
     <div className="container">
       <Navbar/>
-      <Box boxShadow="0 5px 15px rgba(0,0,0,0.06)" h="60px" w="100%" bg="white">
+      <Box position="fixed" mt="62px" boxShadow="0 5px 15px rgba(0,0,0,0.06)" h="60px" w="100%" bg="white">
         <Flex justifyContent="space-around">
         <Button colorScheme="blue" mt="10px" onClick={() => navigate(-1)}>
             Back
@@ -66,11 +66,11 @@ const GotoOneOffMeet = () => {
             
         </Flex>
       </Box>
-
+<br/>
       <Box
         w="80%"
         ml="10%"
-        mt="30px"
+        mt="130px"
         minH="200px"
         h="auto"
         p="5%"

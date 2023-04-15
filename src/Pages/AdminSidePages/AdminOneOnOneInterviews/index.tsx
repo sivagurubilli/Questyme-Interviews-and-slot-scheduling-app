@@ -15,6 +15,7 @@ const OneonOneEvents= () => {
     <div className='container'>
         <Navbar />
   <OneOnOneEventsNav />
+  <br/>
   <SlotsDashboard />
       {InterviewsValue ==="one-on-one-interviews" ? <OneOnOnOneSearch />:""}
     </div>

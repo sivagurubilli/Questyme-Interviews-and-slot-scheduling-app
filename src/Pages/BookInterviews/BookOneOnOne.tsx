@@ -64,10 +64,12 @@ const BookOneOnOne = () => {
     <div>
       <Navbar />
       <Header title={"Availabilities"} buttonName={"Back"} />
+      <br/>
       <main>
         <Box
           w={"100%"}
           h={"100vh"}
+          mt="130px"
           bg={"#f1f5f9"}
           border={"1px solid #f1f1f1 "}
         >

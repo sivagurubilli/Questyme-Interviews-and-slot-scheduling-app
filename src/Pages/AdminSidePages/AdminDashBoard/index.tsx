@@ -66,10 +66,11 @@ const AdminDashBoard = () => {
     <div className="container">
       <Navbar />
       <DashboardNavbar />
+      <br/>
       <Box
         w="80%"
         ml="10%"
-        mt="30px"
+        mt="130px"
         minH="120px"
         h="auto"
         p="3%"

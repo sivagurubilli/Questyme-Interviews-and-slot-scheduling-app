@@ -23,11 +23,12 @@ const navigate = useNavigate()
   return (
     <div>
       <Box
-        position="relative"
+        position="fixed"
         h="auto"
-        marginTop="2px"
+        marginTop="62px"
         bg="whiteAlpha.900"
         w="100%"
+        zIndex={"1"}
       >
         <Box boxShadow="sm">
           <Flex

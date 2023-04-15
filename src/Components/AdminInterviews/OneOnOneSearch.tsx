@@ -42,7 +42,17 @@ const OneOnOnOneSearch = ( ) => {
   const path = window.location.pathname;
   const segments = path.split('/');
   const InterviewsValueUrl= segments[segments.length - 1];
- 
+  const [isLoading,setIsLoading] = useState(false)
+
+  useEffect(()=>{
+  setIsLoading(true)
+  setTimeout(()=>{
+    setIsLoading(false)
+  },2000)
+  },[])
+
+  
+  
     const GetPagination =useCallback(()=>{
   if (futureInterviews) {
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -179,21 +189,27 @@ if(searchName || category){
        <BatchSearch  value={category} search={search} updateSearch={updateSearch} name="category" />
        </Box>
        </Flex>
-        {PaginatedInterviewsData?.length <= 0 ? (
-          <Box>
-          <Image
-            w="40%"
-            h="200px"
-            ml="30%"
-            src={
-              "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
-            }
-          />
-          <Text fontSize="20px" mt="20px" ml="40%">
-            No Events were Found
-          </Text>
-        </Box>
-        ) : (
+       {
+  isLoading ? (
+    <Box>
+      <SkeletonCircle size="10" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+    </Box>
+  ) : PaginatedInterviewsData?.length <= 0 ? (
+    <Box>
+      <Image
+        w="40%"
+        h="200px"
+        ml="30%"
+        src={
+          "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
+        }
+      />
+      <Text fontSize="20px" mt="20px" ml="40%">
+        No Events were Found
+      </Text>
+    </Box>
+  ) :(
           <Grid
             mt={4}
             templateColumns={{

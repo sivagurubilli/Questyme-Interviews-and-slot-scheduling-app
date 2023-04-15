@@ -4,6 +4,8 @@ import {
   Divider,
   Flex,
   FormLabel,
+  SkeletonCircle,
+  SkeletonText,
   Stack,
   Text,
   useMediaQuery,
@@ -29,7 +31,15 @@ const OneOnOneSlotsView = () => {
   const location = useLocation();
   const toast = useToast();
   const [isSmallerThan600] = useMediaQuery("(max-width: 800px)");
+  const [isLoading,setIsLoading] = useState(false)
 
+  useEffect(()=>{
+  setIsLoading(true)
+  setTimeout(()=>{
+    setIsLoading(false)
+  },2000)
+  },[selectedDay])
+  
 
 //get events for date setting on calender
   const GetEvents = useCallback(async () => {
@@ -146,11 +156,12 @@ const istDate = istTime.toISOString().slice(0, 10);
     <div className="container">
       <Navbar />
       <OneOnOneCreateNav NavText=" All  Available Slots" />
+      <br/>
       <Box
         boxShadow="0 5px 15px rgba(0,0,0,0.06)"
         h="auto"
         ml="5%"
-        mt="30px"
+        mt="130px"
         bg="white"
         w="90%"
         p="2%"
@@ -181,7 +192,14 @@ const istDate = istTime.toISOString().slice(0, 10);
             <FormLabel>All Slots on Particular Date</FormLabel>
 
             <Divider />
-            {events?.length < 1 ? (
+            
+            {
+              isLoading ? (
+                <Box>
+                  <SkeletonCircle size="10" />
+                  <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+                </Box>
+              )  : events?.length < 1 ? (
               <Text p="20px">
                 No slots are available for <>{selectedDay}</>{" "}
               </Text>

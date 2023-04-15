@@ -154,12 +154,13 @@ const UserDashboard = () => {
   };
   
   return (
-    <div>
+    <div className="container">
       <Navbar />
       <Header title={"Upcoming Events"} buttonName={"+ Book 1-1"} />
+      <br/>
       <main>
         <Box bg={"#f1f5f9"}>
-          <Box h={"auto"} w={"75%"} margin={"auto"} pt={"20px"}>
+          <Box h={"auto"} w={"75%"} margin={"130px"} pt={"20px"}>
             <Box mt="10px" mb="10px">
               <InputGroup   border={"none"}>
                 <InputLeftElement

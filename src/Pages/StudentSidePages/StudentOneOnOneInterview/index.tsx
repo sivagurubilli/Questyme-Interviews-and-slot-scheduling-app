@@ -14,7 +14,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useBreakpointValue } from "@chakra-ui/react";
 import "./calendar.css";
 import Navbar from "./../../../Components/Navbar/Navbar";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 const StudentBooking = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,6 +32,7 @@ const StudentBooking = () => {
   const userDetails2: any = userDetails ? JSON.parse(userDetails) : null;
   const userId = userDetails2.user.id;
   const token = userDetails2.token;
+  const navigate = useNavigate()
 
   async function fetchSlotsDays(id: any) {
     try {
@@ -115,7 +116,7 @@ const StudentBooking = () => {
           isClosable: true,
         });
         e.target.textContent = "booked";
-        window.location.href = "/dashboard";
+        navigate("/dashboard")
       } else {
         toast({
           title: "Something Went Wrong",
@@ -148,15 +149,17 @@ const StudentBooking = () => {
   };
 
   return (
-    <Box bg="#f1f5f9">
+    <Box bg="#f1f5f9" pb="10%">
       <Navbar />
+      <br/>
       <Box
         boxShadow="base"
         p={["4", "6"]}
         rounded="md"
+        mt="130px"
         bg="white"
         mx={["4", "100px"]}
-        my="4"
+     
       >
         <Flex
           flexWrap={["wrap", "nowrap"]}

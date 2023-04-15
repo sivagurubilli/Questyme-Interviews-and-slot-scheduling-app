@@ -49,7 +49,7 @@ const DetailPageNav = ({ interview, id, updateCancelButtonStatus }: InterviewPro
     }
     return (
         <div>
-            <Box position="relative" h="auto" marginTop="2px" bg="whiteAlpha.900" w="100%">
+            <Box position="fixed" h="auto" marginTop="62px" bg="whiteAlpha.900" w="100%">
                 <Box boxShadow="sm">
                     <Flex position={"relative"} w={"97%"} align="center" m="auto" h={"60px"} justifyContent={"space-around"} color={"gray.600"}>
                         <Button colorScheme="blue" onClick={() => navigate(-1)}>

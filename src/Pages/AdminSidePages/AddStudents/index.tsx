@@ -7,7 +7,10 @@ import {
   Divider,
   Flex,
   FormLabel,
+  IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Stack,
   Text,
   useMediaQuery,
@@ -19,6 +22,8 @@ import * as yup from "yup";
 import { IAddStdents } from "../../../Services/AdminSideServices/GetEventsInterface";
 import { AddStudentService } from "../../../Services/AdminSideServices/GetEventsService";
 import { token} from "../../../Assets/Assets";
+import { FaEyeSlash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 
 
 const validationSchema = yup.object().shape({
@@ -34,6 +39,11 @@ const validationSchema = yup.object().shape({
 const AddStudents = () => {
   const [isSmallerThan600] = useMediaQuery("(max-width: 600px)");
   const toast = useToast();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
   const [studentDetails, setStudentDetails] = useState<IAddStdents>({
     name: "",
     password: "",
@@ -71,6 +81,13 @@ const AddStudents = () => {
         isClosable: true,
       });
     }
+
+    setStudentDetails({
+      name: "",
+      password: "",
+      email: "",
+      batch: "",
+    })
   };
 
   //using formik we can set values onSubmit and onChange
@@ -89,10 +106,11 @@ const AddStudents = () => {
     <div className="container">
       <Navbar />
       <DashboardNavbar />
+      <br/>
       <Box
         w="80%"
         ml="10%"
-        mt="30px"
+        mt="130px"
         minH="200px"
         h="auto"
         p="5%"
@@ -144,15 +162,27 @@ const AddStudents = () => {
                 <FormLabel mt="10px" color="rgb(75 85 99)">
                   Password{" "}
                 </FormLabel>
-
+                <InputGroup>
                 <Input
                   width="100%"
                   name="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="password"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
+                <InputRightElement width="4.5rem"> {/* Width should match padding-right of Input */}
+        <IconButton
+          h="1.75rem"
+          size="sm"
+          variant="ghost"
+          onClick={handleTogglePassword}
+          icon={showPassword ? <FaEyeSlash /> : <FaEye />}
+          aria-label={showPassword ? 'Hide password' : 'Show password'}
+        />
+      </InputRightElement>
+    </InputGroup>
               </Box>
               <Box>
                 <FormLabel mt="10px" color="rgb(75 85 99)">

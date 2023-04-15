@@ -7,6 +7,8 @@ import {
   FormLabel,
   Grid,
   Image,
+  SkeletonCircle,
+  SkeletonText,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -36,6 +38,14 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
   const meeting = params.get("meeting-status");
   const batch = params.get("batch");
   const [activeButton, setActiveButton] = useState<number | null>(null);
+const [isLoading,setIsLoading] = useState(false)
+
+ useEffect(()=>{
+  setIsLoading(true)
+  setTimeout(()=>{
+    setIsLoading(false)
+  },2000)
+ },[meeting])
 
   // set color to buttons even after refreshing
   const setColor = useCallback(() => {
@@ -198,21 +208,27 @@ const SearchByPendingStauts = ({ clearUrl, search, updateSearch }: any) => {
         </Flex>
 
         <Divider mt="10px" mb="10px" />
-        {PaginatedInterviewsData?.length <= 0 ? (
-          <Box>
-            <Image
-              w="40%"
-              h="200px"
-              ml="30%"
-              src={
-                "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
-              }
-            />
-            <Text fontSize="20px" mt="20px" ml="40%">
-              No Events were Found
-            </Text>
-          </Box>
-        ) : (
+        {
+  isLoading ? (
+    <Box>
+      <SkeletonCircle size="10" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+    </Box>
+  ) : PaginatedInterviewsData?.length <= 0 ? (
+    <Box>
+      <Image
+        w="40%"
+        h="200px"
+        ml="30%"
+        src={
+          "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
+        }
+      />
+      <Text fontSize="20px" mt="20px" ml="40%">
+        No Events were Found
+      </Text>
+    </Box>
+  ) : (
           <Grid
             mt={4}
             templateColumns={{

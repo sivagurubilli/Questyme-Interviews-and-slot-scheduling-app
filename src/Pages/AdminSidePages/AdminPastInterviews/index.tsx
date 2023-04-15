@@ -14,6 +14,7 @@ const PastInterviews = () => {
     <div className='container'>
         <Navbar />
       <DashboardNavbar />
+      <br/>
       {InterviewsValue ==="past-interviews" ? <FutureOrPastInterviewsComponent />:""}
     </div>
   )

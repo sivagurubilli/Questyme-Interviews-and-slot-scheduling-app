@@ -57,7 +57,7 @@ const SlotsDashboard = () => {
       <Box
         w="80%"
         ml="10%"
-        mt="20px"
+        mt="130px"
         minH="120px"
         h="auto"
         p="2%"

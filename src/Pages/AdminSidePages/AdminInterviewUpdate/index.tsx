@@ -171,7 +171,8 @@ export const UpdateSingleInterview = () => {
         <div className="container">
             <Navbar />
             <InterviewUpdateNav />
-            <Box w="80%" ml="10%" mt="60px" minH="200px" h="auto" p="5%" bg="white" borderRadius="10px" boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)">
+            <br/>
+            <Box w="80%" ml="10%" mt="130px" minH="200px" h="auto" p="5%" bg="white" borderRadius="10px" boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)">
                 <Box borderRadius={"10px"} justifyContent={'center'} boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" width={"100%"} p="20px">
                     <form onSubmit={handleSubmit}>
                         <div className='formMainDiv'>

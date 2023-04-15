@@ -12,6 +12,7 @@ const FutureInterviews = () => {
     <div className="container">
         <Navbar />
       <DashboardNavbar />
+      <br/>
       {futureInterviewsValue === "upcoming-interviews" ? (
         <FutureOrPastInterviewsComponent />
       ) : (

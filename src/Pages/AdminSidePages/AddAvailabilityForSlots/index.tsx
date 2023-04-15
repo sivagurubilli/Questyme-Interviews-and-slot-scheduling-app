@@ -11,10 +11,11 @@ const AddDaysAvailability = () => {
     <div className="container">
       <Navbar />
       <OneOnOneCreateNav NavText="Add  Availability For One-On-One Event" />
+      <br/>
       <Box
         w="80%"
         ml="10%"
-        mt="60px"
+        mt="130px"
         minH="200px"
         h="auto"
         p="5%"

@@ -1,8 +1,9 @@
 
-import { Box,  Flex, Image, Button, Popover, PopoverTrigger, PopoverContent, PopoverBody, Divider, Text } from '@chakra-ui/react'
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Box,  Flex, Image, Button  ,Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Text} from '@chakra-ui/react'
+import React, {useState } from 'react'
+import { Link, useNavigate} from 'react-router-dom'
 import { QuesTymes, masaiImage } from '../../Assets/Assets'
+import AdminProfileComponent from './AdminProfileComponent'
 
 
 const Navbar = () => {
@@ -16,12 +17,13 @@ const Navbar = () => {
 
     localStorage.clear();
      sessionStorage.clear()
-
     navigate("/login");
   };
+
+ 
   return (
     <div>
-       <Box position="relative" h="auto" top="0" bg="whiteAlpha.900" w="100%">
+       <Box position="fixed" h="auto" top="0" bg="whiteAlpha.900" w="100%" zIndex={1}>
       <Box boxShadow="sm">
         <Flex
           position={"relative"}
@@ -43,48 +45,38 @@ const Navbar = () => {
           <Link to={linkTo}>
               {" "}
 
-              <Image h="50px" w="100px" objectFit="contain" src={QuesTymes} alt="Masai logo" />
+              <Image h="50px" w="200px" objectFit="cover" src={QuesTymes} alt="quesTymes logo" />
             </Link>
       </Flex>
 
-      <Box ml={"50px"}>
-                {" "}
-                <Button variant={"link"} _hover={{ cursor: "pointer" }}>
-                <Popover>
-      <PopoverTrigger>
-        <button>{userDetails?.user?.name}</button>
-      </PopoverTrigger>
-      <PopoverContent mt="10px">
-        <PopoverBody>
-        <Box cursor="pointer">
-          <Text color="black" fontSize="18px">
-           Share Your Link
-          </Text>
-        
-        </Box>
-        <Divider mt="5px" />
-        <Box cursor="pointer" onClick={Logout}>
-          <Text color="black" fontSize="18px">
-           Logout
-          </Text>
-         
-        </Box>
-    
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
-                </Button>
-                <i
-                  style={{ marginLeft: "10px" }}
+           <Box>
+      <Popover  placement="top" isLazy>
+        <PopoverTrigger>
+          <Flex cursor="pointer">
+          <Text >{userDetails?.user?.name}</Text>
+          <i
+                  style={{ marginLeft: "10px" ,marginTop:"4px"}}
                   className="fa-solid fa-caret-down"
                 ></i>
-                </Box>
-              
-      </Flex>
-      
+                </Flex>
+        </PopoverTrigger>
+        <PopoverContent style={{ zIndex: 9999 }} marginTop="80px" marginRight="10px">
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <PopoverHeader>{userDetails?.user?.name}</PopoverHeader>
+          <PopoverBody  >
+            {/* Popover content */}
+            <Text cursor="pointer" onClick={Logout}>Logout</Text>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
       </Box>
-    
+      </Flex>
+      </Box>
+   
    </Box>
+    
+ 
 
     </div>
   )

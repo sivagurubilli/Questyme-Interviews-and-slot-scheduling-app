@@ -6,7 +6,7 @@ const InterviewCreateNav = () => {
     const navigate = useNavigate();
     return (
         <div>
-            <Box position="relative" h="auto" marginTop="2px" bg="whiteAlpha.900" w="100%">
+            <Box position="fixed" h="auto" marginTop="62px" bg="whiteAlpha.900" w="100%" zIndex={"1"}>
                 <Box boxShadow="sm">
                     <Flex position={"relative"} w={"100%"} align="center" m="auto" h={"60px"} justifyContent={"space-around"} color={"gray.600"}>
                         <Button colorScheme="blue" onClick={() => navigate(-1)}>

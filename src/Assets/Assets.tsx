@@ -1,5 +1,5 @@
 export const masaiImage: string = 'https://masaischool.com/img/navbar/logo.svg';
-export const    QuesTymes = "https://github.com/masai-builds/team-4-client-questymes/blob/master/src/Assets/Ques.png"
+export const    QuesTymes = "https://raw.githubusercontent.com/masai-builds/team-4-client-questymes/master/src/Assets/Ques.png"
 
 
 export const EventTypesNavbarArray = ["DashBoard","Past-Interviews","Upcoming-Interviews","Add-Students"]

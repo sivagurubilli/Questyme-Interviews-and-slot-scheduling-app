@@ -22,6 +22,7 @@ import OneonOneEventComponent from "../OneonOneEventComponent";
 import { GetRecurringListService } from "../../Services/AdminSideServices/GetEventsService";
 import BatchSearch from "../SearchComponents/BatchSearch";
 import { itemsPerPage ,token,id} from "../../Assets/Assets";
+import { setLocale } from "yup";
 
 const FutureOrPastInterviewsComponent = ( ) => {
   const [futureInterviews, setfutureInterviews] = useState<Iinterviews[]>([]);
@@ -36,6 +37,15 @@ const FutureOrPastInterviewsComponent = ( ) => {
   const [totalPages,setTotalPages] = useState(0)
   const toast = useToast();
   const location = useLocation();
+const [isLoading,setIsLoading] = useState(false)
+
+useEffect(()=>{
+setIsLoading(true)
+setTimeout(()=>{
+  setIsLoading(false)
+},2000)
+},[])
+
 
   const path = window.location.pathname;
   const segments = path.split('/');
@@ -157,7 +167,7 @@ if(searchName || batchName){
       <Box
         w="80%"
         ml="10%"
-        mt="30px"
+        mt="130px"
         minH="200px"
         h="auto"
         p="5%"
@@ -176,40 +186,49 @@ if(searchName || batchName){
        <BatchSearch  value={batchName} search={search} updateSearch={updateSearch} name="batch" />
        </Box>
        </Flex>
-        {PaginatedInterviewsData?.length <= 0 ? (
-           <Box>
-           <Image
-             w="40%"
-             h="200px"
-             ml="30%"
-             src={
-               "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
-             }
-           />
-           <Text fontSize="20px" mt="20px" ml="40%">
-             No Events were Found
-           </Text>
-         </Box>
-        ) : (
-          <Grid
-            mt={4}
-            templateColumns={{
-              base: "1fr",
-              md: "1fr 1fr 1fr",
-              lg: "1fr 1fr 1fr",
-            }}
-            gap={4}
-          >
-            {PaginatedInterviewsData?.map((el) => (
-              <Box key={el.interviewId}>
-                {InterviewsValueUrl ==="one-on-one-interviews" ? 
-                (<OneonOneEventComponent event={el} GetEvents={GetEvents} />)
-                :(
-                <AdminInterviewBox event={el} GetEvents={GetEvents} />)}
-              </Box>
-            ))}
-          </Grid>
-        )}
+       {
+  isLoading ? (
+    <Box>
+      <SkeletonCircle size="10" />
+      <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+    </Box>
+  ) : PaginatedInterviewsData?.length <= 0 ? (
+    <Box>
+      <Image
+        w="40%"
+        h="200px"
+        ml="30%"
+        src={
+          "https://img.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg?w=2000"
+        }
+      />
+      <Text fontSize="20px" mt="20px" ml="40%">
+        No Events were Found
+      </Text>
+    </Box>
+  ) : (
+    <Grid
+      mt={4}
+      templateColumns={{
+        base: "1fr",
+        md: "1fr 1fr 1fr",
+        lg: "1fr 1fr 1fr",
+      }}
+      gap={4}
+    >
+      {PaginatedInterviewsData?.map((el) => (
+        <Box key={el.interviewId}>
+          {InterviewsValueUrl === "one-on-one-interviews" ? (
+            <OneonOneEventComponent event={el} GetEvents={GetEvents} />
+          ) : (
+            <AdminInterviewBox event={el} GetEvents={GetEvents} />
+          )}
+        </Box>
+      ))}
+    </Grid>
+  )
+}
+
       </Box>
 
       <Box w="80%" ml="10%" mt="30px">

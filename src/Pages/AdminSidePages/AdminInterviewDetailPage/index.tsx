@@ -225,13 +225,14 @@ const AdminInterviewDetailPage = () => {
         <div>
             <Navbar />
             <DetailPageNav interview={interview} id={id} updateCancelButtonStatus={updateCancelButtonStatus} />
+            <br/>
             <main>
                 <Box bgColor={"#fafafa"} p={"20px"}>
                     <Box
                         w={"75%"}
                         m={"auto"}
                         bg={"white"}
-                        mt={"20px"}
+                        mt={"130px"}
                         p={"50px"}
                         borderRadius={"10px"}
                         bgColor={"white"}

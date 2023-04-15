@@ -97,7 +97,8 @@ const CreateBulkEvent = () => {
     <div className="container">
       <Navbar />
       <BulkEventNav />
-      <Box w="80%" ml="10%" mt="60px" minH="200px" h="auto" p="5%" bg="white" borderRadius="10px" boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)">
+      <br/>
+      <Box w="80%" ml="10%" mt="130px" minH="200px" h="auto" p="5%" bg="white" borderRadius="10px" boxShadow="2px 4px 6px rgba(0, 0, 0, 0.1)">
         <Box margin={"auto"} borderRadius={"10px"} boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px" width={"50%"} p="20px">
           <FormLabel mt="10px" color="rgb(75 85 99)">Select CSV File</FormLabel>
           <input

@@ -1,6 +1,6 @@
 import { EventTypesNavbarArray } from "../../../Assets/Assets";
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./index.css";
 
@@ -10,12 +10,16 @@ const DashboardNavbar = () => {
   const route = segments[segments.length - 1];
   const navigate = useNavigate();
 
+
+
+
   return (
     <div>
       <Box
-        position="relative"
+        position="fixed"
         h="auto"
-        marginTop="2px"
+        zIndex={10}
+        marginTop="62px"
         bg="whiteAlpha.900"
         w="100%"
       >
