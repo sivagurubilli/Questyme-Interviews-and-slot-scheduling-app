@@ -14,9 +14,10 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { useBreakpointValue } from "@chakra-ui/react";
 import "./calendar.css";
 import Navbar from "./../../../Components/Navbar/Navbar";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 const StudentBooking = () => {
+  const Navigate=useNavigate();
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [isName, setIsName] = useState([]);
@@ -115,7 +116,7 @@ const StudentBooking = () => {
           isClosable: true,
         });
         e.target.textContent = "booked";
-        window.location.href = "/dashboard";
+        Navigate("/dashboard")
       } else {
         toast({
           title: "Something Went Wrong",
