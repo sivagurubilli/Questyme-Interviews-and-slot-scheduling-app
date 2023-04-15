@@ -23,6 +23,7 @@ import { UpdateSingleInterview } from './Pages/AdminSidePages/AdminInterviewUpda
 import SingleRecurringEventDetails from './Pages/AdminSidePages/SingleRecurringEventDetails';
 import AdminAuthenticated from './Components/ProtectedRoute/AdminAuthenticated';
 import StudentAuthenticated from './Components/ProtectedRoute/StudentAuthenticate';
+import LandingPage from './Components/ProtectedRoute/LandingPage';
 
 
 const AllRoutes = () => {
@@ -31,7 +32,7 @@ const AllRoutes = () => {
       <Routes>
        
         <Route path="/login" element={<LoginUser />} />
-
+        <Route path="/" element={<LandingPage />} />
         <Route element = {<AdminAuthenticated/>}>
             <Route path ="/admin/one-on-one-interviews" element={<OneonOneEvents/>}/>
             <Route path ="/admin/slots/view" element={<OneOnOneSlotsView/>}/>

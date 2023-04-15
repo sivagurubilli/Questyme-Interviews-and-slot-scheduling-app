@@ -4,6 +4,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { masaiImage } from '../../Assets/Assets'
 
+
 const Navbar = () => {
   const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
   const userType = userDetails?.user?.roles[0]?.name
@@ -34,6 +35,7 @@ const Navbar = () => {
           <Flex align="center" flex={"2"}>
           <Link to={linkTo}>
               {" "}
+
               <Image objectFit="contain" src={masaiImage} alt="Masai logo" />
             </Link>
       </Flex>
