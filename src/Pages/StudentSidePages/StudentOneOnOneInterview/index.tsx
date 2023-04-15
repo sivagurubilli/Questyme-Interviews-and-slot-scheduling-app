@@ -17,6 +17,7 @@ import Navbar from "./../../../Components/Navbar/Navbar";
 import { useParams,useNavigate } from "react-router-dom";
 
 const StudentBooking = () => {
+  const Navigate=useNavigate();
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [isName, setIsName] = useState([]);
