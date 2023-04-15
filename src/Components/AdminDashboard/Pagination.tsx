@@ -2,7 +2,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { useParams } from "react-router-dom";
+
 
 interface PaginationProps {
   currentPage: number;

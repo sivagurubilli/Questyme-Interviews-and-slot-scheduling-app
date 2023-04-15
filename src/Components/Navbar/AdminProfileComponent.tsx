@@ -28,7 +28,7 @@ const AdminProfileComponent = ({ setshow1 }: ProfilecomponentProps) => {
       width="200px"
       height="auto"
       marginTop="-10px"
-      marginLeft="82%"
+      marginLeft="72%"
       border="1px solid #778087"
       borderRadius="5px"
       boxShadow="0 5px 15px rgba(0,0,0,0.06)"

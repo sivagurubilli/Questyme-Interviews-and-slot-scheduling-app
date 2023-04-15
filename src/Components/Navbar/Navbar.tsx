@@ -1,16 +1,23 @@
 
-import { Box,  Flex, Image, Button } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import AdminProfileComponent from './AdminProfileComponent'
+import { Box,  Flex, Image, Button, Popover, PopoverTrigger, PopoverContent, PopoverBody, Divider, Text } from '@chakra-ui/react'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { masaiImage } from '../../Assets/Assets'
 
 const Navbar = () => {
   const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}');
   const userType = userDetails?.user?.roles[0]?.name
-  const linkTo = userType === "ROLE_ADMIN" ? "/admin/dashboard" : "/user/dashboard";
-  const [show1, setshow1] = useState(false);
+  const linkTo = userType === "ROLE_ADMIN" ? "/admin/dashboard" : "/dashboard";
 
+  const navigate = useNavigate();
+
+  const Logout = () => {
+
+    localStorage.clear();
+     sessionStorage.clear()
+
+    navigate("/login");
+  };
   return (
     <div>
        <Box position="relative" h="auto" top="0" bg="whiteAlpha.900" w="100%">
@@ -31,19 +38,43 @@ const Navbar = () => {
             </Link>
       </Flex>
 
-      <Box ml={"50px"} onClick={() => setshow1(!show1)}>
+      <Box ml={"50px"}>
                 {" "}
                 <Button variant={"link"} _hover={{ cursor: "pointer" }}>
-                  {userDetails?.user?.name}
+                <Popover>
+      <PopoverTrigger>
+        <button>{userDetails?.user?.name}</button>
+      </PopoverTrigger>
+      <PopoverContent mt="10px">
+        <PopoverBody>
+        <Box cursor="pointer">
+          <Text color="black" fontSize="18px">
+           Share Your Link
+          </Text>
+        
+        </Box>
+        <Divider mt="5px" />
+        <Box cursor="pointer" onClick={Logout}>
+          <Text color="black" fontSize="18px">
+           Logout
+          </Text>
+         
+        </Box>
+    
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
                 </Button>
                 <i
                   style={{ marginLeft: "10px" }}
                   className="fa-solid fa-caret-down"
                 ></i>
-              </Box>
+                </Box>
+              
       </Flex>
+      
       </Box>
-      {show1 && <AdminProfileComponent setshow1={setshow1} />}
+    
    </Box>
 
     </div>

@@ -10,7 +10,6 @@ import InterviewDetails from './Pages/UserInterviewDetails/InterviewDetails'
 import OneOnOneSlotsView from './Pages/AdminSidePages/OneOnOneSlotsView'
 import CreateBulkEvent from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminBulkEventCreate'
 import { CreateSingleInterview } from './Pages/AdminSidePages/AdminBulkEventSchedule/AdminInterviewCreate'
-import RequireAuth from './Components/ProtectedRoute/RequireAuth'
 import { LoginUser } from './Pages/Login/LoginUser'
 import AdminDashBoard from './Pages/AdminSidePages/AdminDashBoard'
 import AddStudents from './Pages/AdminSidePages/AddStudents'
@@ -22,41 +21,45 @@ import OneonOneSlotsEdit from './Pages/AdminSidePages/OneOnOneSlotsEdit';
 import AdminInterviewDetailPage from './Pages/AdminSidePages/AdminInterviewDetailPage';
 import { UpdateSingleInterview } from './Pages/AdminSidePages/AdminInterviewUpdate';
 import SingleRecurringEventDetails from './Pages/AdminSidePages/SingleRecurringEventDetails';
+import AdminAuthenticated from './Components/ProtectedRoute/AdminAuthenticated';
+import StudentAuthenticated from './Components/ProtectedRoute/StudentAuthenticate';
 
 
 const AllRoutes = () => {
   return (
     <div>
       <Routes>
-        <Route path="" element={<LoginUser />} />
+       
         <Route path="/login" element={<LoginUser />} />
 
-            {/* <Route path ="/login" element ={<Login/>} /> */}
+        <Route element = {<AdminAuthenticated/>}>
             <Route path ="/admin/one-on-one-interviews" element={<OneonOneEvents/>}/>
             <Route path ="/admin/slots/view" element={<OneOnOneSlotsView/>}/>
             <Route path ="/admin/one-on-one-interviews/create" element={<OneonOneEventsCreate/>}/>
             <Route path ="/admin/one-on-one-interviews/:id/edit" element={<OneonOneSlotsEdit/>}/>
-
-        
-            <Route path ="/admin/slots/view" element ={<OneOnOneSlotsView/>} />
-
-            <Route path ="/book-one-on-one/admin/:id" element={<StudentBooking />}/>
-            <Route path ="/admin/:id/recurring-event-details" element={<SingleRecurringEventDetails />}/>
-
+            <Route path ="/admin/:id/recurring-event-details" element={<SingleRecurringEventDetails />}/> 
             <Route path ="/admin/dashboard" element={<AdminDashBoard />} />
             <Route path ="/admin/upcoming-interviews" element={<FutureInterviews/>}/>
             <Route path ="/admin/add-availability" element={<AddDaysAvailability/>}/>
             <Route path ="/admin/past-interviews" element ={<PastInterviews />} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
-            <Route path ="/book-one-on-one/:id"  element ={<StudentBooking/>} />
-            <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />
-            <Route path='/dashboard' element={<RequireAuth><UserDashboard /></RequireAuth>} />
-            <Route path={"/dashboard/book-one-on-One"}  element={<BookOneOnOne />} />
-            <Route path={"/dashboard/interview/:id"}  element={<InterviewDetails />} />
+            <Route path ="/admin/slots/view" element ={<OneOnOneSlotsView/>} />
+            <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />   
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
             <Route path='/admin/dashboard/interview/:id' element={<AdminInterviewDetailPage />}/>
-            <Route path='/dashboard/past-events' element={<RequireAuth><PastEvents /></RequireAuth>} />
+            <Route path='/admin/single-interview/edit/:id' element={<UpdateSingleInterview />}/>
+        
+</Route>
+
+<Route element = {<StudentAuthenticated/>}>
+            <Route path ="/book-one-on-one/admin/:id" element={<StudentBooking />}/>
+            <Route path ="/book-one-on-one/:id"  element ={<StudentBooking/>} />
+            <Route path='/dashboard' element={<UserDashboard />} />
+            <Route path={"/dashboard/book-one-on-One"}  element={<BookOneOnOne />} />
+            <Route path={"/dashboard/interview/:id"}  element={<InterviewDetails />} />
+            <Route path='/dashboard/past-events' element={<PastEvents />} />
+            </Route>
             </Routes>
     </div>
   )
