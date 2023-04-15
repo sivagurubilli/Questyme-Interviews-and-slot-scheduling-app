@@ -1,4 +1,5 @@
-export const masaiImage: string = 'https://github.com/masai-builds/team-4-client-questymes/blob/master/src/Assets/Schedule%20Interview.png';
+export const masaiImage: string = 'https://masaischool.com/img/navbar/logo.svg';
+export const    QuesTymes = "https://github.com/masai-builds/team-4-client-questymes/blob/master/src/Assets/Ques.png"
 
 
 export const EventTypesNavbarArray = ["DashBoard","Past-Interviews","Upcoming-Interviews","Add-Students"]

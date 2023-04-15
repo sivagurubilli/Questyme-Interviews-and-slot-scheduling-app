@@ -2,7 +2,7 @@
 import { Box,  Flex, Image, Button, Popover, PopoverTrigger, PopoverContent, PopoverBody, Divider, Text } from '@chakra-ui/react'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { masaiImage } from '../../Assets/Assets'
+import { QuesTymes, masaiImage } from '../../Assets/Assets'
 
 
 const Navbar = () => {
@@ -36,7 +36,14 @@ const Navbar = () => {
           <Link to={linkTo}>
               {" "}
 
-              <Image objectFit="contain" src={masaiImage} alt="Masai logo" />
+              <Image h="50px" w="100px" objectFit="contain" src={masaiImage} alt="Masai logo" />
+            </Link>
+      </Flex>
+      <Flex align="center" flex={"2"}>
+          <Link to={linkTo}>
+              {" "}
+
+              <Image h="50px" w="100px" objectFit="contain" src={QuesTymes} alt="Masai logo" />
             </Link>
       </Flex>
 
