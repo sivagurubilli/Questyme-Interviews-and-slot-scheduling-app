@@ -37,14 +37,8 @@ const FutureOrPastInterviewsComponent = ( ) => {
   const [totalPages,setTotalPages] = useState(0)
   const toast = useToast();
   const location = useLocation();
-const [isLoading,setIsLoading] = useState(false)
+const [isLoading,setIsLoading] = useState(true)
 
-useEffect(()=>{
-setIsLoading(true)
-setTimeout(()=>{
-  setIsLoading(false)
-},2000)
-},[])
 
 
   const path = window.location.pathname;
@@ -104,6 +98,7 @@ if(searchName || batchName){
      }
 
      if(response.length){
+      setIsLoading(false)
       setTotalPages(Math.ceil(response?.length/itemsPerPage));
         setAllData(response);
         setfutureInterviews(response)

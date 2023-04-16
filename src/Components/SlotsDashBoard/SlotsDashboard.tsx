@@ -13,28 +13,39 @@ const SlotsDashboard = () => {
   const [adminSlots, setAdminSlots] = useState(SlotsStatus);
 
   const toast = useToast();
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading,setIsLoading] = useState(true)
 
-  useEffect(()=>{
-   setIsLoading(true)
-   setTimeout(()=>{
-    setIsLoading(false)
-   },2000)
-  },[])
 
 
 
   const GetEvents = useCallback(async () => {
     try {
       const response = await CountBySlotsStatusService(token);
-      const adminSlotsResponse = await CountByAdminSlotsStatusService(
-        id,
-        token
-      );
+    
       if (response.results) {
+        setIsLoading(false)
         setTotalSlots(response);
       }
+      
+    } catch (error) {
+      toast({
+        title: "Something Went Wrong",
+        status: "error",
+        position: "top",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }, [toast]);
+
+  const GetAdminSlots = useCallback(async () => {
+    try {
+         const adminSlotsResponse = await CountByAdminSlotsStatusService(
+        id,
+        token
+      )
       if (adminSlotsResponse.results) {
+        setIsLoading(false)
         setAdminSlots(adminSlotsResponse);
       }
     } catch (error) {
@@ -50,7 +61,8 @@ const SlotsDashboard = () => {
 
   useEffect(() => {
     GetEvents();
-  }, [GetEvents]);
+    GetAdminSlots();
+  }, [GetEvents,GetAdminSlots]);
 
   return (
     <div>

@@ -19,7 +19,7 @@ import Pagination from "../AdminDashboard/Pagination";
 import { Iinterviews } from "../../Services/AdminSideServices/GetEventsInterface";
 import { GetFutureInterviewService, GetPastInterviewService } from "../../Services/UserSideServices/GetInterviewsServices";
 import OneonOneEventComponent from "../OneonOneEventComponent";
-import { GetRecurringListService } from "../../Services/AdminSideServices/GetEventsService";
+import { DeleteRecurringService, GetRecurringListService } from "../../Services/AdminSideServices/GetEventsService";
 import BatchSearch from "../SearchComponents/BatchSearch";
 import { token,id,itemsPerPage} from "../../Assets/Assets";
 
@@ -51,7 +51,7 @@ const OneOnOnOneSearch = ( ) => {
   },2000)
   },[])
 
-  
+  console.log(futureInterviews)
   
     const GetPagination =useCallback(()=>{
   if (futureInterviews) {
@@ -124,7 +124,6 @@ if(searchName || category){
     }
   }, [toast,InterviewsValueUrl]);
 
-  
  
   useEffect(() => {
     GetEvents();
@@ -222,9 +221,9 @@ if(searchName || category){
             {PaginatedInterviewsData?.map((el) => (
               <Box key={el.interviewId}>
                 {InterviewsValueUrl ==="one-on-one-interviews" ? 
-                (<OneonOneEventComponent event={el} GetEvents={GetEvents} />)
+                (<OneonOneEventComponent event={el} GetEvents={GetEvents}/>)
                 :(
-                <AdminInterviewBox event={el} GetEvents={GetEvents} />)}
+                <AdminInterviewBox event={el} GetEvents={GetEvents}  />)}
               </Box>
             ))}
           </Grid>

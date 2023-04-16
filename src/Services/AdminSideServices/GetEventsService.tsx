@@ -119,20 +119,30 @@ const {adminId,category,instruction,meetingLink,title,availabilities,duration} =
 }
 
 
-//Delete Event service
-export async function DeleteEventSevice(id: any) {
-  try {
-    const response = await axios.delete(`/one-on-one-events/${id}`);
-    console.log(response);
-    return response.data;
-  } catch (error: any) {
-    return error.response;
+
+// adding events recurring manner
+export async function DeleteRecurringService(id:string,token:string) {
+  
+    try { 
+   
+      const response = await axios.delete(`/recurring/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+     );
+     
+      return response.data;
+    } catch (error: any) {
+      return error.response;
+    }
   }
-}
+  
 
 //adding single student service
 export async function AddStudentService(data: IAddStdents, token: string) {
-  const { name, email, password, batch } = data;
+  const { name, email, password} = data;
   try {
     const response = await axios.post(
       "/auth/users/add/student",
@@ -140,7 +150,7 @@ export async function AddStudentService(data: IAddStdents, token: string) {
         name,
         email,
         password,
-        batch,
+       
       },
       {
         headers: {
@@ -177,7 +187,7 @@ export async function AddBulkStudentService(data: any, token: string) {
 }
 
 //service for getting slots for particular date
-export async function GetSlotsForDateService(id:string,date: string,token:string) {
+export async function GetSlotsForDateService(id:string,date: any,token:string) {
   try {
     const response = await axios.get(
       `/slot/get-all-slot/${id}/${date}`,

@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Text, Flex,  useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { DeleteEventSevice } from "../../Services/AdminSideServices/GetEventsService";
+import {  DeleteRecurringService } from "../../Services/AdminSideServices/GetEventsService";
 import { IEventValues } from "../../Pages/AdminSidePages/Interfacces";
+import { token } from "../../Assets/Assets";
 
 interface ProfilecomponentProps {
   event: IEventValues;
@@ -21,7 +22,7 @@ const SettingsComponent = ({ event, setshow1 ,GetEvents}: ProfilecomponentProps)
   
   const DeleteEvent = async (id: any) => {
     try {
-      const response = await DeleteEventSevice(id);
+      const response = await DeleteRecurringService(id,token);
 
       if (response.message) {
         toast({

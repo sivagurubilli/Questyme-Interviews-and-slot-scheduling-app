@@ -72,7 +72,7 @@ const BulkStudentsUpload = () => {
 
   // creating csv file
   const createCsvData = (students: any): string => {
-    const headers = [ "name", "email", "password","batch"];
+    const headers = ["id", "name", "email", "password"];
     const rows = students.map(({ name, email, password,batch }: any) => [
       name,
       email,
@@ -83,10 +83,11 @@ const BulkStudentsUpload = () => {
   };
   const students = [
     {
+      id:1,
       name: "ravi",
       email: "john.doe@example.com",
       password: "1453673",
-      batch:"rct201"
+  
     },
   ];
 

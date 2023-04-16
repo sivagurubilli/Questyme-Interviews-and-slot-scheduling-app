@@ -21,16 +21,11 @@ const AdminDashBoard = () => {
   const params = new URLSearchParams(location.search);
   const name = params.get("batch");
   const toast = useToast();
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading,setIsLoading] = useState(true)
 
  
 
-  useEffect(()=>{
-   setIsLoading(true)
-   setTimeout(()=>{
-    setIsLoading(false)
-   },2000)
-  },[])
+  
 
   useEffect(() => {
     setBatchName(name);
@@ -40,6 +35,7 @@ const AdminDashBoard = () => {
     try {
       const response = await CountByMeetingStatusService(id, token);
       if (response.results) {
+        setIsLoading(false)
         setTotalInterviews(response);
       }
     } catch (error) {

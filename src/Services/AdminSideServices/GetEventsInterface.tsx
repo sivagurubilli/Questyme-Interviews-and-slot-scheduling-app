@@ -2,8 +2,7 @@
 export interface IAddStdents {
     name:"",
     email:"",
-    password:"",
-    batch:""
+    password:""
 }
 
 export interface Iinterviews{

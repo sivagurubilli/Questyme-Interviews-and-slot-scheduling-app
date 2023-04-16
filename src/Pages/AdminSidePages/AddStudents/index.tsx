@@ -33,7 +33,6 @@ const validationSchema = yup.object().shape({
     .min(3, "Name must be 3 character"),
   email: yup.string().required("This feild is required"),
   password: yup.string().required("This feild is required"),
-  batch: yup.string().required("This feild is required"),
 });
 
 const AddStudents = () => {
@@ -47,23 +46,29 @@ const AddStudents = () => {
   const [studentDetails, setStudentDetails] = useState<IAddStdents>({
     name: "",
     password: "",
-    email: "",
-    batch: "",
+    email: ""
+   
   });
 
   //setting initial values for formik and yup
   const initialValues = {
     name: studentDetails.name,
     email: studentDetails.email,
-    batch: studentDetails.batch,
     password: studentDetails.password,
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (values:any,{ resetForm }:any) => {
     try {
       const response = await AddStudentService(studentDetails, token);
 
-      if (response) {
+      if (response.id) {
+        setStudentDetails({
+          name: "",
+          password: "",
+          email: "",
+          
+        })
+        resetForm()
         toast({
           title: "Student details added successfully",
           status: "success",
@@ -82,13 +87,11 @@ const AddStudents = () => {
       });
     }
 
-    setStudentDetails({
-      name: "",
-      password: "",
-      email: "",
-      batch: "",
-    })
+   
+    
   };
+
+
 
   //using formik we can set values onSubmit and onChange
   const { handleSubmit, handleBlur, touched, handleChange, values, errors } =
@@ -97,6 +100,8 @@ const AddStudents = () => {
       initialValues,
       validationSchema,
     });
+
+    
 
   useEffect(() => {
     setStudentDetails({ ...values });
@@ -142,7 +147,11 @@ const AddStudents = () => {
                   onBlur={handleBlur}
                 />
               </Box>
-
+              {touched.name && errors.name && (
+                  <Text color="red">
+                    {JSON.stringify(errors.name).replace(/"/g, "")}
+                  </Text>
+                )}
               <Box>
                 <FormLabel mt="10px" color="rgb(75 85 99)">
                   Email{" "}
@@ -157,7 +166,11 @@ const AddStudents = () => {
                   onBlur={handleBlur}
                 />
               </Box>
-
+              {touched.email && errors.email && (
+                  <Text color="red">
+                    {JSON.stringify(errors.email).replace(/"/g, "")}
+                  </Text>
+                )}
               <Box>
                 <FormLabel mt="10px" color="rgb(75 85 99)">
                   Password{" "}
@@ -184,23 +197,7 @@ const AddStudents = () => {
       </InputRightElement>
     </InputGroup>
               </Box>
-              <Box>
-                <FormLabel mt="10px" color="rgb(75 85 99)">
-                  Batch
-                </FormLabel>
-                <Input
-                  width="100%"
-                  value={values.batch}
-                  onChange={handleChange}
-                  name="batch"
-                  placeholder="Batch"
-                />
-                {touched.batch && errors.batch && (
-                  <Text color="red">
-                    {JSON.stringify(errors.batch).replace(/"/g, "")}
-                  </Text>
-                )}
-              </Box>
+           
 
               <Flex mt="20px" justifyContent="flex-end">
                 <Button

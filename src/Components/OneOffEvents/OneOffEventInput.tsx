@@ -50,6 +50,23 @@ import { token} from "../../Assets/Assets";
       }
     };
 
+    let currDateTime = new Date();
+    let dateString = currDateTime.toLocaleDateString();
+    let dateArray = dateString.split('/').map(Number);
+
+    const setDateTime = (value: any) => {
+      if (value < 10) {
+          return `0${value}`
+      } else {
+          return value;
+      }
+  }
+
+
+    let month = setDateTime(dateArray[0]);
+    let date = setDateTime(dateArray[1]);
+    let year = setDateTime(dateArray[2]);
+
 
     const GetCategory =useCallback(async()=>{
       try {
@@ -192,6 +209,7 @@ import { token} from "../../Assets/Assets";
                  minW="40%"
                 name="date"
                 type="date"
+                min={`${year}-${month}-${date}`}
                 value={values.date}
                 onChange={handleChange}
                 onBlur={handleBlur}

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Divider,
   Flex,
   FormLabel,
@@ -18,7 +19,7 @@ import {
   GetSlotsForDateService,
 } from "../../../Services/AdminSideServices/GetEventsService";
 import {  ISlotsValues } from "../Interfacces";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import OneOnOneCreateNav from "../AdminOneOnOneCreate/OneOnOneCreateNav";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Calendar from "../../../Components/Calender/Calendar";
@@ -31,14 +32,10 @@ const OneOnOneSlotsView = () => {
   const location = useLocation();
   const toast = useToast();
   const [isSmallerThan600] = useMediaQuery("(max-width: 800px)");
-  const [isLoading,setIsLoading] = useState(false)
+  const [isLoading,setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
-  useEffect(()=>{
-  setIsLoading(true)
-  setTimeout(()=>{
-    setIsLoading(false)
-  },2000)
-  },[selectedDay])
+  
   
 
 //get events for date setting on calender
@@ -46,6 +43,7 @@ const OneOnOneSlotsView = () => {
     try {
       const response = await GetDateOneOffService(id);
       if (response.dates) {
+        setIsLoading(false)
         setDates(response.dates);
       }
     } catch (err) {
@@ -70,6 +68,7 @@ const OneOnOneSlotsView = () => {
         const response = await GetSlotsForDateService(id, date, token)
 
         if (response.length) {
+          setIsLoading(false)
           setEvents(response);
         } else {
           setEvents([]);
@@ -128,6 +127,7 @@ const OneOnOneSlotsView = () => {
   const setEventByDate = useCallback(() => {
     const searchParams = new URLSearchParams(location.search);
     const dateStr = searchParams.get("date");
+
     if (dateStr) {
       GetEventByDate(dateStr);
     }
@@ -150,6 +150,14 @@ const istDate = istTime.toISOString().slice(0, 10);
     GetEventByDate( istDate);
     setSelectedDay( istDate);
   }, [GetEventByDate]);
+
+
+
+const GotoViewSlotDetails =(id:any,date:any)=>{
+localStorage.setItem("slotDate",date)
+      navigate(`/admin/slots/view/${id}`)
+}
+
 
 
   return (
@@ -180,7 +188,11 @@ const istDate = istTime.toISOString().slice(0, 10);
               handleSelect={handleSelect}
               dates={dates}
             />
+
+
           </Box>
+
+
           <Box
             boxShadow="0 5px 15px rgba(0,0,0,0.06)"
             h="auto"
@@ -212,6 +224,7 @@ const istDate = istTime.toISOString().slice(0, 10);
                   mt="30px"
                   key={event?.slotId}
                 >
+                  <Flex justifyContent="space-around">
                   <Box>
                     <Text fontWeight="medium"> {event?.title}</Text>
                     <Text  fontWeight="medium" mb="10px">
@@ -219,13 +232,14 @@ const istDate = istTime.toISOString().slice(0, 10);
                       <>{event?.date}</>
                     </Text>
                   </Box>
-
+                  <Button fontSize="12px" colorScheme="blue" onClick={()=>GotoViewSlotDetails(event.slotId,event.date)}>View Slot Details</Button>
+                  </Flex>
                   <Box>
                     <Flex mt="10px" justifyContent="space-between">
                       <Text>Start - {event.startTime}</Text>
                       <Text>End - {event?.endTime}</Text>
                       {event?.status === "U" ? (
-                        <Text  fontWeight="medium" color="orange">Unreserved</Text>
+                        <Text  fontWeight="medium" color="blue">Unreserved</Text>
                       ) : (
                         <Text  fontWeight="medium" color="green">Reserved</Text>
                       )}

@@ -28,7 +28,7 @@ const navigate = useNavigate()
         marginTop="62px"
         bg="whiteAlpha.900"
         w="100%"
-        zIndex={"1"}
+        zIndex={1}
       >
         <Box boxShadow="sm">
           <Flex

@@ -24,6 +24,7 @@ import SingleRecurringEventDetails from './Pages/AdminSidePages/SingleRecurringE
 import AdminAuthenticated from './Components/ProtectedRoute/AdminAuthenticated';
 import StudentAuthenticated from './Components/ProtectedRoute/StudentAuthenticate';
 import LandingPage from './Components/ProtectedRoute/LandingPage';
+import SlotDetails from './Pages/AdminSidePages/OneOnOneSlotsView/SlotDetails';
 
 
 const AllRoutes = () => {
@@ -45,6 +46,7 @@ const AllRoutes = () => {
             <Route path ="/admin/past-interviews" element ={<PastInterviews />} />
             <Route path ="/admin/add-students"  element ={<AddStudents/>} />
             <Route path ="/admin/slots/view" element ={<OneOnOneSlotsView/>} />
+            <Route path ="/admin/slots/view/:id" element ={<SlotDetails/>} />
             <Route path ="/admin/one-on-one-interviews/create/on-off-meet" element={<GotoOneOffMeet /> } />   
             <Route path="/admin/bulk-interview/create" element={<CreateBulkEvent />} />
             <Route path='/admin/single-interview/create' element={<CreateSingleInterview />} />
