@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 const CreateBulkEvent = () => {
   const [file, setFile] = useState('');
   const dispatch = useDispatch();
-  const toast=useToast();
-  const navigate=useNavigate();
-  const token=useSelector((state:any)=>state.AuthReducer.token)
+  const toast = useToast();
+  const navigate = useNavigate();
+  const token = useSelector((state: any) => state.AuthReducer.token)
 
   const handleOnchange = (e: any) => {
     const fileList = e.target.files;
@@ -24,25 +24,27 @@ const CreateBulkEvent = () => {
   const handleCreateSchedule = () => {
     const formData = new FormData();
     formData.append("file", file);
-    createBulkInterview(formData,token)(dispatch).then((res:any)=>{
-      if(res.status==201){
+    createBulkInterview(formData, token)(dispatch).then((res: any) => {
+      if (res) {
         toast({
-            title: "Interview Schduled success",
-            status: "success",
-            position: "top",
-            duration: 2000,
-            isClosable: true,
-          });
-          navigate("/admin/dashboard");
-    }else{
+          title: "Interview Schduled success",
+          status: "success",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+        navigate("/admin/dashboard");
+      }
+    }).catch((err)=>{
+      if(err){
         toast({
-            title: "Something Went Wrong",
-            status: "error",
-            position: "top",
-            duration: 2000,
-            isClosable: true,
-          });
-    }
+          title: "Something Went Wrong",
+          status: "error",
+          position: "top",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     })
   }
 
@@ -61,7 +63,7 @@ const CreateBulkEvent = () => {
 
   // creating csv file
   const createCsvData = (interview: any): string => {
-    const headers = ["Interviewer's email", "Interviewee's email", "startTime", "endTime", "date", "category", "instructions", "title", "zoomLink", "MeetingStatus", "batch"];
+    const headers = ["Interviewer's email", "Interviewee's email", "startTime", "endTime", "date(DD-MM-YYY)", "category", "instructions", "title", "zoomLink", "MeetingStatus", "batch"];
     const rows = interview.map(({ interviewerEmail, IntervieweeEmail, startTime, endTime, date, category, instructions, title, zoomLink, MeetingStatus, batch }: any) => [
       interviewerEmail,
       IntervieweeEmail,
