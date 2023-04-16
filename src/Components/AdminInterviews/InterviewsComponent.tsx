@@ -115,8 +115,8 @@ const AdminInterviewBox = ({ event, GetEvents }: ProfilecomponentProps) => {
 
           <Text color="#474747">{event.title}</Text>
           <Flex mt="10px" justifyContent="space-between">
+            <Text color="#778087">{event.date} </Text>{" "}
             <Text color="#778087">{event.startTime} </Text>{" "}
-            <Text color="#778087">{event.endTime} </Text>{" "}
           </Flex>
           <Flex mt="10px" justifyContent="space-between">
             <Text color="#778087">{event.batch}</Text>{" "}
