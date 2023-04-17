@@ -21,6 +21,30 @@ This is the Masai Build and Earn collaborative Project.The application provides 
 <p><a href="https://github.com/shivamyadav07">Shivam Yadav</a> -FrontEnd Developer</p>
 
 
+## Admin Dashboard
+1) after login as admin he is redirected to admin page 
+2) where he is see the analytics stats of all interview status 
+
+![Screenshot (346)](https://user-images.githubusercontent.com/92457968/232373394-2c2fd2e8-1652-4b6b-8db0-79fd147adbe2.png)
+
+## Future Or Past Interviews
+1)  Future Or Past Interviews page all intrviews will be dispalyd on status
+![Screenshot (347)](https://user-images.githubusercontent.com/92457968/232373527-84e36a1e-cb13-4a17-ab64-353380625240.png)
+
+## Add Interviews
+1) Admin can add interview for particular date
+![Screenshot (349)](https://user-images.githubusercontent.com/92457968/232377954-eb4e9e78-fea5-4f70-ab79-c5581c3f12ca.png)
+
+## Add recurring Events
+1) we can add the recurring events with availabilitites of time
+2) based on availability user can book slots 
+![Screenshot (350)](https://user-images.githubusercontent.com/92457968/232378361-488ec4c1-cb1c-47bc-8953-b3a2a1062922.png)
+
+## View Slots
+1) admin can see all slots based on details 
+2) how many sloats booked and how many unbooked
+![Screenshot (351)](https://user-images.githubusercontent.com/92457968/232378495-8cd2e346-bbaf-4ccb-b578-8609e2a0d55a.png)
+
 
 ### Installation
 - Open Project In Vs Code or Another ide
