@@ -53,7 +53,7 @@ export const LoginUser = () => {
   const commingFrom = location?.state?.from?.pathname || "/dashboard";
 
   return (
-    <Box bg={"#fafafa"} w={"full"} h={"100vh"} mt={"-50px"} p={"100px"}>
+    <Box bg={"#fafafa"} w={"full"} h={"100vh"} mt={"-50px"} p={"100px"} border={"1px solid red"}>
       <Formik
         initialValues={{
           username: "",
@@ -114,14 +114,16 @@ export const LoginUser = () => {
       >
         {({ errors, touched }) => (
           <Form>
-            <Box
+           <Box w={"450px"}  m={"auto"}>
+           <Box
               display={"flex"}
               justifyContent={"space-between"}
               flexDirection={"column"}
               m={"auto"}
-              w={"450px"}
+              w={"auto"}
               h={"300px"}
               mt={"50px"}
+              border={"1px solid black"}
             >
               <Box m={"auto"} mt={"-1px"} mb={"-1px"}>
                 <Image
@@ -152,7 +154,7 @@ export const LoginUser = () => {
                   <Box
                     border={"1px solid black"}
                     borderRadius={"10px"}
-                    w={"100%"}
+                    w={"auto"}
                     h={"40px"}
                   >
                     <Field
@@ -225,6 +227,7 @@ export const LoginUser = () => {
                 </Box>
               </Box>
             </Box>
+           </Box>
           </Form>
         )}
       </Formik>

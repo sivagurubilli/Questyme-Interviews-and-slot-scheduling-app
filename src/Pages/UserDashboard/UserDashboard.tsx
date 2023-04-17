@@ -75,7 +75,7 @@ const UserDashboard = () => {
   const userId: number = userDetails?.user?.id;
   const token: string = userDetails?.token;
   const itemsPerPage = 9;
-
+ 
   useEffect(() => {
     if (interviews?.length === 0) {
       GetAllScheduledInterView(userId, token)(dispatch);
@@ -159,7 +159,7 @@ const UserDashboard = () => {
       <Header title={"Upcoming Events"} buttonName={"+ Book 1-1"} />
       <main>
         <Box bg={"#f1f5f9"}>
-          <Box h={"auto"} w={"75%"} margin={"auto"} pt={"20px"}>
+          <Box h={"auto"} w={"75%"} margin={"auto"} pt={"20px"} border={"1px solid red"}>
             <Box mt="10px" mb="10px">
               <InputGroup   border={"none"}>
                 <InputLeftElement
@@ -192,7 +192,7 @@ const UserDashboard = () => {
               borderRadius={"10px"}
             >
               {/* grid layout of scheduled interview */}
-              <Grid templateColumns={"repeat(3,1fr)"} gap={6}>
+              <Grid templateColumns={"repeat(3,1fr)"} gap={6} >
                 {PaginatedInterviewsData.length != 0 &&
                   PaginatedInterviewsData.map((item) => {
                     return (
@@ -206,18 +206,18 @@ const UserDashboard = () => {
                         borderRadius={"10px"}
                         cursor={"pointer"}
                       >
-                        <Box>
+                        <Box border={"1px solid black"}>
                           <Flex
                             justifyContent={"space-between"}
                             alignItems={"center"}
                           >
-                            <Box w={"100%"}>
+                            <Box w={"auto"}>
                               <Text
                                 fontSize={"18px"}
                                 fontWeight={"500"}
                                 ml={"15px"}
                                 mt={"10px"}
-                                maxW={"200px"}
+                                maxW={"100px"}
                                 isTruncated
                               >
                                 {item.title}
